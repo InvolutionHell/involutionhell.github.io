@@ -22,11 +22,11 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Contributing
 
-- **请先阅读 `CONTRIBUTE.md`**：包含本项目的本地开发环境、分支策略、代码规范、提交信息格式、PR 流程与评审标准等。
-- **文档位置**：`packages/involutionhell.github.io/CONTRIBUTE.md`（或直接点击仓库根目录下的同名文件）。
+- **请先阅读 `CONTRIBUTING.md`（仓库根）**：包含本项目的本地开发环境、分支策略、代码规范、提交信息格式、PR 流程与评审标准等。
+- **完整贡献文档**：`CONTRIBUTING.md`
 - **快速开始贡献**：
   - Fork 并创建特性分支（示例：`feat/your-feature`）。
-  - 遵循 `CONTRIBUTE.md` 的规范完成开发与自测。
+  - 遵循贡献文档完成开发与自测。
   - 提交 PR，并在描述中关联 Issue、填写变更说明与测试要点。
 
-更多细节、注意事项与最佳实践，请务必查阅 [`CONTRIBUTE.md`](./CONTRIBUTE.md)。
+更多细节、注意事项与最佳实践，请务必查阅仓库根的 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
