@@ -33,7 +33,10 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run export    # 生成静态站，输出到 ./out
+      - run: pnpm run build                 # ← 只需要 build，静态站会输出到 ./out
+
+      # （可选）避免被 Jekyll 处理
+      - run: touch ./out/.nojekyll
 
       - uses: actions/upload-pages-artifact@v3
         with:
