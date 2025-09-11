@@ -20,17 +20,13 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+- **请先阅读 `CONTRIBUTE.md`**：包含本项目的本地开发环境、分支策略、代码规范、提交信息格式、PR 流程与评审标准等。
+- **文档位置**：`packages/involutionhell.github.io/CONTRIBUTE.md`（或直接点击仓库根目录下的同名文件）。
+- **快速开始贡献**：
+  - Fork 并创建特性分支（示例：`feat/your-feature`）。
+  - 遵循 `CONTRIBUTE.md` 的规范完成开发与自测。
+  - 提交 PR，并在描述中关联 Issue、填写变更说明与测试要点。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+更多细节、注意事项与最佳实践，请务必查阅 [`CONTRIBUTE.md`](./CONTRIBUTE.md)。
