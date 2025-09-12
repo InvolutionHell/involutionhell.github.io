@@ -39,7 +39,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Param): Promise<Metadata> {
   const { slug } = await params;
   const page = source.getPage(slug);
-  if (page == null) notFound();
+  if (page == null) {
+    notFound();
+    return;
+  }
   
   return {
     title: page.data.title,
