@@ -5,7 +5,10 @@ on:
     paths:
       - '**/*.md'
       - '**/*.mdx'
-      - 'contentlayer.config.ts'
+      - 'source.config.ts'
+      - 'app/docs/**'
+      - 'lib/source.ts'
+      - 'mdx-components.tsx'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'next.config.mjs'
@@ -32,5 +35,5 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run check:content
-
+      # Build the site to validate MDX and docs using Fumadocs
+      - run: pnpm build
