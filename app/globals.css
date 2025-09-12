@@ -25,3 +25,73 @@ body {
     text-wrap: balance;
   }
 }
+
+/* globals.css */
+
+:root {
+  --max-width: 800px;
+  --page-padding: 16px;
+  --heading-font-size: 28px;
+  --heading-font-weight: 700;
+  --heading-margin-bottom: 16px;
+  --card-border: 1px solid #eee;
+  --card-radius: 8px;
+  --card-padding: 16px;
+  --list-gap: 12px;
+}
+
+/* 全局 main 容器 */
+.main-container {
+  max-width: var(--max-width);
+  margin: 40px auto;
+  padding: var(--page-padding);
+}
+
+/* 标题 */
+.page-title {
+  font-size: var(--heading-font-size);
+  font-weight: var(--heading-font-weight);
+  margin-bottom: var(--heading-margin-bottom);
+}
+
+/* 列表 */
+.doc-list {
+  display: grid;
+  gap: var(--list-gap);
+  list-style: none;
+  padding: 0;
+}
+
+/* 卡片 */
+.doc-card {
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+}
+
+/* 链接 */
+.doc-link {
+  font-weight: 600;
+  text-decoration: none;
+}
+.doc-link:hover {
+  text-decoration: underline;
+}
+
+input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #eee;
+}

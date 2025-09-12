@@ -7,12 +7,12 @@ export default function DocsIndex() {
   )
 
   return (
-    <main style={{ maxWidth: 800, margin: '40px auto', padding: 16 }}>
-      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 16 }}>Docs</h1>
-      <ul style={{ display: 'grid', gap: 12 }}>
+    <main className="main-container">
+      <h1 className="page-title">Docs</h1>
+      <ul className="doc-list">
         {docs.map((d) => (
-          <li key={d._id} style={{ border: '1px solid #eee', borderRadius: 8, padding: 16 }}>
-            <Link href={`/docs/${d.slug}`} style={{ fontWeight: 600 }}>
+          <li key={d._id} className="doc-card">
+            <Link href={`/docs/${d.slug}`} className="doc-link">
               {d.title}
             </Link>
             {d.description && <p style={{ opacity: 0.8 }}>{d.description}</p>}
