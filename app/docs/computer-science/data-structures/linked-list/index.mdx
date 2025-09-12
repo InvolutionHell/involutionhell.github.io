@@ -15,6 +15,7 @@ A linked list is a linear data structure where elements are not stored in contig
 ## Basic Concepts
 
 ### Node Structure
+
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
 │ data | next │───▶│ data | next │───▶│ data | null │
@@ -23,98 +24,107 @@ A linked list is a linear data structure where elements are not stored in contig
 ```
 
 Each node contains:
+
 - **Data field (data)**: Stores the actual data
 - **Pointer field (next)**: Points to the next node
 
 ### Linked List vs Array
 
-| Feature | Array | Linked List |
-|---------|-------|-------------|
-| Memory Layout | Contiguous | Scattered |
-| Access Method | Random access O(1) | Sequential access O(n) |
-| Insert/Delete | O(n) | O(1) |
-| Memory Overhead | Low | High (extra pointers) |
-| Cache Friendliness | Good | Poor |
+| Feature            | Array              | Linked List            |
+| ------------------ | ------------------ | ---------------------- |
+| Memory Layout      | Contiguous         | Scattered              |
+| Access Method      | Random access O(1) | Sequential access O(n) |
+| Insert/Delete      | O(n)               | O(1)                   |
+| Memory Overhead    | Low                | High (extra pointers)  |
+| Cache Friendliness | Good               | Poor                   |
 
 ## Linked List Types
 
 ### Singly Linked List
+
 - [Singly Linked List Details](/computer-science/data-structures/linked-list/singly-linked-list)
 - Each node has only one pointer to the next node
 - Can only traverse from head to tail in one direction
 
 ### Doubly Linked List
+
 - [Doubly Linked List Details](/computer-science/data-structures/linked-list/doubly-linked-list)
 - Each node has two pointers: prev and next
 - Can traverse in both directions
 
 ### Circular Linked List
+
 - The last node points to the first node
 - Forms a circular structure
 
 ## Basic Operations
 
 ### Create Node
+
 ```javascript
 class ListNode {
-    constructor(data) {
-        this.data = data;
-        this.next = null;
-    }
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
 }
 ```
 
 ### Traverse Linked List
+
 ```javascript
 function traverse(head) {
-    let current = head;
-    while (current !== null) {
-        console.log(current.data);
-        current = current.next;
-    }
+  let current = head;
+  while (current !== null) {
+    console.log(current.data);
+    current = current.next;
+  }
 }
 ```
 
 ### Search Element
+
 ```javascript
 function search(head, target) {
-    let current = head;
-    let index = 0;
+  let current = head;
+  let index = 0;
 
-    while (current !== null) {
-        if (current.data === target) {
-            return index;
-        }
-        current = current.next;
-        index++;
+  while (current !== null) {
+    if (current.data === target) {
+      return index;
     }
+    current = current.next;
+    index++;
+  }
 
-    return -1; // Not found
+  return -1; // Not found
 }
 ```
 
 ## Time Complexity Analysis
 
-| Operation | Time Complexity | Description |
-|-----------|----------------|-------------|
-| Access | O(n) | Need to traverse from head |
-| Search | O(n) | Need to traverse and search |
-| Insert (head) | O(1) | Directly modify head pointer |
-| Insert (tail) | O(n) | Need to find tail node |
-| Insert (known position) | O(1) | Directly modify pointers |
-| Delete (head) | O(1) | Directly modify head pointer |
-| Delete (known node) | O(1) | Directly modify pointers |
-| Delete (by value) | O(n) | Need to search first |
+| Operation               | Time Complexity | Description                  |
+| ----------------------- | --------------- | ---------------------------- |
+| Access                  | O(n)            | Need to traverse from head   |
+| Search                  | O(n)            | Need to traverse and search  |
+| Insert (head)           | O(1)            | Directly modify head pointer |
+| Insert (tail)           | O(n)            | Need to find tail node       |
+| Insert (known position) | O(1)            | Directly modify pointers     |
+| Delete (head)           | O(1)            | Directly modify head pointer |
+| Delete (known node)     | O(1)            | Directly modify pointers     |
+| Delete (by value)       | O(n)            | Need to search first         |
 
 ## Advantages and Disadvantages
 
 ### Advantages
+
 1. **Dynamic Size**: Can dynamically grow and shrink at runtime
 2. **Efficient Insert/Delete**: Insert/delete at known position is O(1)
 3. **Memory Efficiency**: Only allocate memory when needed
 4. **Flexibility**: Can implement complex data structures
 
 ### Disadvantages
+
 1. **Extra Memory Overhead**: Each node needs to store pointers
 2. **No Random Access**: Cannot directly access the i-th element
 3. **Poor Cache Performance**: Nodes are not contiguous in memory
@@ -123,12 +133,14 @@ function search(head, target) {
 ## Application Scenarios
 
 ### Suitable Cases
+
 - **Frequent Insert/Delete**: Especially in the middle of the list
 - **Unknown Size**: Data volume changes greatly at runtime
 - **Implement Other Structures**: Such as stacks, queues, adjacency lists for graphs
 - **Undo Operations**: Editor's undo functionality
 
 ### Unsuitable Cases
+
 - **Need Random Access**: Frequently access elements by index
 - **Memory Sensitive**: Strict memory usage requirements
 - **Cache Sensitive**: Need high-performance sequential access
@@ -136,86 +148,88 @@ function search(head, target) {
 ## Practical Application Examples
 
 ### 1. Music Playlist
+
 ```javascript
 class Song {
-    constructor(title, artist) {
-        this.title = title;
-        this.artist = artist;
-        this.next = null;
-    }
+  constructor(title, artist) {
+    this.title = title;
+    this.artist = artist;
+    this.next = null;
+  }
 }
 
 class Playlist {
-    constructor() {
-        this.head = null;
-        this.current = null;
-    }
+  constructor() {
+    this.head = null;
+    this.current = null;
+  }
 
-    addSong(title, artist) {
-        const newSong = new Song(title, artist);
-        if (!this.head) {
-            this.head = newSong;
-            this.current = newSong;
-        } else {
-            let last = this.head;
-            while (last.next) {
-                last = last.next;
-            }
-            last.next = newSong;
-        }
+  addSong(title, artist) {
+    const newSong = new Song(title, artist);
+    if (!this.head) {
+      this.head = newSong;
+      this.current = newSong;
+    } else {
+      let last = this.head;
+      while (last.next) {
+        last = last.next;
+      }
+      last.next = newSong;
     }
+  }
 
-    nextSong() {
-        if (this.current && this.current.next) {
-            this.current = this.current.next;
-            return this.current;
-        }
-        return null;
+  nextSong() {
+    if (this.current && this.current.next) {
+      this.current = this.current.next;
+      return this.current;
     }
+    return null;
+  }
 }
 ```
 
 ### 2. Browser History
+
 ```javascript
 class HistoryEntry {
-    constructor(url, title) {
-        this.url = url;
-        this.title = title;
-        this.next = null;
-    }
+  constructor(url, title) {
+    this.url = url;
+    this.title = title;
+    this.next = null;
+  }
 }
 
 class BrowserHistory {
-    constructor() {
-        this.head = null;
-        this.maxSize = 100;
-        this.size = 0;
-    }
+  constructor() {
+    this.head = null;
+    this.maxSize = 100;
+    this.size = 0;
+  }
 
-    visit(url, title) {
-        const entry = new HistoryEntry(url, title);
-        entry.next = this.head;
-        this.head = entry;
-        this.size++;
+  visit(url, title) {
+    const entry = new HistoryEntry(url, title);
+    entry.next = this.head;
+    this.head = entry;
+    this.size++;
 
-        // Limit history size
-        if (this.size > this.maxSize) {
-            this.removeLast();
-        }
+    // Limit history size
+    if (this.size > this.maxSize) {
+      this.removeLast();
     }
+  }
 
-    getHistory() {
-        const history = [];
-        let current = this.head;
-        while (current) {
-            history.push({
-                url: current.url,
-                title: current.title
-            });
-            current = current.next;
-        }
-        return history;
+  getHistory() {
+    const history = [];
+    let current = this.head;
+    while (current) {
+      history.push({
+        url: current.url,
+        title: current.title,
+      });
+      current = current.next;
     }
+    return history;
+  }
 }
 ```
 
