@@ -36,7 +36,7 @@ Size:     [1 2 3 4 _ _ _ _]  (size = 4)
 ```javascript
 // Doubling growth example
 function resize(oldCapacity) {
-    return oldCapacity * 2; // or oldCapacity + oldCapacity
+  return oldCapacity * 2; // or oldCapacity + oldCapacity
 }
 ```
 
@@ -59,139 +59,139 @@ Adding element 5:
 
 ```javascript
 class DynamicArray {
-    constructor() {
-        this.capacity = 2;
-        this.size = 0;
-        this.data = new Array(this.capacity);
+  constructor() {
+    this.capacity = 2;
+    this.size = 0;
+    this.data = new Array(this.capacity);
+  }
+
+  // Get element
+  get(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+    return this.data[index];
+  }
+
+  // Set element
+  set(index, value) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+    this.data[index] = value;
+  }
+
+  // Add element to end
+  push(value) {
+    // Check if resize is needed
+    if (this.size >= this.capacity) {
+      this.resize();
     }
 
-    // Get element
-    get(index) {
-        if (index < 0 || index >= this.size) {
-            throw new Error("Index out of bounds");
-        }
-        return this.data[index];
+    this.data[this.size] = value;
+    this.size++;
+  }
+
+  // Remove last element
+  pop() {
+    if (this.size === 0) {
+      throw new Error("Array is empty");
     }
 
-    // Set element
-    set(index, value) {
-        if (index < 0 || index >= this.size) {
-            throw new Error("Index out of bounds");
-        }
-        this.data[index] = value;
+    const value = this.data[this.size - 1];
+    this.size--;
+
+    // Optional: shrink to save memory
+    if (this.size < this.capacity / 4) {
+      this.shrink();
     }
 
-    // Add element to end
-    push(value) {
-        // Check if resize is needed
-        if (this.size >= this.capacity) {
-            this.resize();
-        }
+    return value;
+  }
 
-        this.data[this.size] = value;
-        this.size++;
+  // Resize (expand)
+  resize() {
+    const oldCapacity = this.capacity;
+    this.capacity *= 2;
+    const newData = new Array(this.capacity);
+
+    // Copy old data
+    for (let i = 0; i < this.size; i++) {
+      newData[i] = this.data[i];
     }
 
-    // Remove last element
-    pop() {
-        if (this.size === 0) {
-            throw new Error("Array is empty");
-        }
+    this.data = newData;
+    console.log(`Expanded: ${oldCapacity} -> ${this.capacity}`);
+  }
 
-        const value = this.data[this.size - 1];
-        this.size--;
+  // Shrink (reduce capacity)
+  shrink() {
+    if (this.capacity <= 2) return;
 
-        // Optional: shrink to save memory
-        if (this.size < this.capacity / 4) {
-            this.shrink();
-        }
+    const oldCapacity = this.capacity;
+    this.capacity = Math.floor(this.capacity / 2);
+    const newData = new Array(this.capacity);
 
-        return value;
-    }
-    
-    // Resize (expand)
-    resize() {
-        const oldCapacity = this.capacity;
-        this.capacity *= 2;
-        const newData = new Array(this.capacity);
-
-        // Copy old data
-        for (let i = 0; i < this.size; i++) {
-            newData[i] = this.data[i];
-        }
-
-        this.data = newData;
-        console.log(`Expanded: ${oldCapacity} -> ${this.capacity}`);
+    for (let i = 0; i < this.size; i++) {
+      newData[i] = this.data[i];
     }
 
-    // Shrink (reduce capacity)
-    shrink() {
-        if (this.capacity <= 2) return;
+    this.data = newData;
+    console.log(`Shrunk: ${oldCapacity} -> ${this.capacity}`);
+  }
 
-        const oldCapacity = this.capacity;
-        this.capacity = Math.floor(this.capacity / 2);
-        const newData = new Array(this.capacity);
-
-        for (let i = 0; i < this.size; i++) {
-            newData[i] = this.data[i];
-        }
-
-        this.data = newData;
-        console.log(`Shrunk: ${oldCapacity} -> ${this.capacity}`);
+  // Insert element at specified position
+  insert(index, value) {
+    if (index < 0 || index > this.size) {
+      throw new Error("Index out of bounds");
     }
 
-    // Insert element at specified position
-    insert(index, value) {
-        if (index < 0 || index > this.size) {
-            throw new Error("Index out of bounds");
-        }
+    if (this.size >= this.capacity) {
+      this.resize();
+    }
 
-        if (this.size >= this.capacity) {
-            this.resize();
-        }
+    // Shift elements to the right
+    for (let i = this.size; i > index; i--) {
+      this.data[i] = this.data[i - 1];
+    }
 
-        // Shift elements to the right
-        for (let i = this.size; i > index; i--) {
-            this.data[i] = this.data[i - 1];
-        }
+    this.data[index] = value;
+    this.size++;
+  }
 
-        this.data[index] = value;
-        this.size++;
+  // 删除指定位置的元素
+  remove(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
     }
-    
-    // 删除指定位置的元素
-    remove(index) {
-        if (index < 0 || index >= this.size) {
-            throw new Error("Index out of bounds");
-        }
-        
-        const value = this.data[index];
-        
-        // 向左移动元素
-        for (let i = index; i < this.size - 1; i++) {
-            this.data[i] = this.data[i + 1];
-        }
-        
-        this.size--;
-        
-        if (this.size < this.capacity / 4) {
-            this.shrink();
-        }
-        
-        return value;
+
+    const value = this.data[index];
+
+    // 向左移动元素
+    for (let i = index; i < this.size - 1; i++) {
+      this.data[i] = this.data[i + 1];
     }
-    
-    length() {
-        return this.size;
+
+    this.size--;
+
+    if (this.size < this.capacity / 4) {
+      this.shrink();
     }
-    
-    toString() {
-        const elements = [];
-        for (let i = 0; i < this.size; i++) {
-            elements.push(this.data[i]);
-        }
-        return `[${elements.join(', ')}] (size: ${this.size}, capacity: ${this.capacity})`;
+
+    return value;
+  }
+
+  length() {
+    return this.size;
+  }
+
+  toString() {
+    const elements = [];
+    for (let i = 0; i < this.size; i++) {
+      elements.push(this.data[i]);
     }
+    return `[${elements.join(", ")}] (size: ${this.size}, capacity: ${this.capacity})`;
+  }
 }
 ```
 
@@ -219,16 +219,16 @@ console.log(arr.toString()); // [10, 2, 3] (size: 3, capacity: 4)
 
 ### 时间复杂度
 
-| 操作 | 平均情况 | 最坏情况 | 说明 |
-|------|----------|----------|------|
-| 访问 | O(1) | O(1) | 直接索引访问 |
-| 搜索 | O(n) | O(n) | 需要遍历 |
-| 插入(末尾) | O(1)* | O(n) | 摊还O(1)，偶尔需要扩容 |
-| 插入(任意位置) | O(n) | O(n) | 需要移动元素 |
-| 删除(末尾) | O(1)* | O(1) | 摊还O(1) |
-| 删除(任意位置) | O(n) | O(n) | 需要移动元素 |
+| 操作           | 平均情况 | 最坏情况 | 说明                   |
+| -------------- | -------- | -------- | ---------------------- |
+| 访问           | O(1)     | O(1)     | 直接索引访问           |
+| 搜索           | O(n)     | O(n)     | 需要遍历               |
+| 插入(末尾)     | O(1)\*   | O(n)     | 摊还O(1)，偶尔需要扩容 |
+| 插入(任意位置) | O(n)     | O(n)     | 需要移动元素           |
+| 删除(末尾)     | O(1)\*   | O(1)     | 摊还O(1)               |
+| 删除(任意位置) | O(n)     | O(n)     | 需要移动元素           |
 
-*摊还时间复杂度
+\*摊还时间复杂度
 
 ### 摊还分析
 
@@ -238,6 +238,7 @@ console.log(arr.toString()); // [10, 2, 3] (size: 3, capacity: 4)
 - 因此单次 `push` 操作的摊还时间复杂度为 O(1)
 
 **证明思路**：
+
 - 假设从空数组开始，进行 n 次 push 操作
 - 扩容发生在大小为 1, 2, 4, 8, ..., 2^k 时
 - 总的复制操作次数为：1 + 2 + 4 + ... + 2^k < 2n
@@ -250,9 +251,9 @@ console.log(arr.toString()); // [10, 2, 3] (size: 3, capacity: 4)
 ```javascript
 // 不同的增长策略
 const GROWTH_STRATEGIES = {
-    DOUBLE: (capacity) => capacity * 2,           // 快速增长，可能浪费内存
-    GOLDEN_RATIO: (capacity) => Math.floor(capacity * 1.5), // 平衡增长
-    FIBONACCI: (capacity) => capacity + previousCapacity,     // 渐进增长
+  DOUBLE: (capacity) => capacity * 2, // 快速增长，可能浪费内存
+  GOLDEN_RATIO: (capacity) => Math.floor(capacity * 1.5), // 平衡增长
+  FIBONACCI: (capacity) => capacity + previousCapacity, // 渐进增长
 };
 ```
 
@@ -261,19 +262,19 @@ const GROWTH_STRATEGIES = {
 ```javascript
 // 如果知道大概的数据量，可以预分配容量
 class DynamicArray {
-    constructor(initialCapacity = 2) {
-        this.capacity = initialCapacity;
-        this.size = 0;
-        this.data = new Array(this.capacity);
+  constructor(initialCapacity = 2) {
+    this.capacity = initialCapacity;
+    this.size = 0;
+    this.data = new Array(this.capacity);
+  }
+
+  // 预留容量
+  reserve(minCapacity) {
+    if (minCapacity > this.capacity) {
+      this.capacity = minCapacity;
+      this.resize();
     }
-    
-    // 预留容量
-    reserve(minCapacity) {
-        if (minCapacity > this.capacity) {
-            this.capacity = minCapacity;
-            this.resize();
-        }
-    }
+  }
 }
 ```
 
@@ -287,7 +288,7 @@ private:
     T* data;
     size_t size;
     size_t capacity;
-    
+
     // 确保容量是 2 的幂次，有利于内存对齐
     size_t nextPowerOfTwo(size_t n) {
         size_t power = 1;

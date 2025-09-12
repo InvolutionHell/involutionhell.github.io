@@ -1,0 +1,16 @@
+# Dependencies
+node_modules
+
+# Build outputs
+build
+dist
+.next
+out
+
+# Test coverage
+coverage
+
+# Misc
+*.log
+.cache
+.turbo
