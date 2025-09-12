@@ -1,0 +1,159 @@
+---
+title: "Static Array"
+description: "Implementation principles, characteristics, and use cases of static arrays"
+date: "2024-01-04"
+tags:
+  - static-array
+  - memory-management
+---
+
+# Static Array
+
+Static arrays are the most basic form of arrays. Their size is determined at compile time and cannot be changed during program execution.
+
+## Memory Layout
+
+Static arrays are stored contiguously in memory:
+
+```
+Memory addresses:  1000  1004  1008  1012  1016
+Array:             [10]  [20]  [30]  [40]  [50]
+Indices:           0     1     2     3     4
+```
+
+Assuming each integer occupies 4 bytes, the memory address of array element `arr[i]` is:
+```
+address = base_address + i * element_size
+```
+
+## Characteristics Analysis
+
+### Time Complexity
+- **Access**: O(1) - Direct memory address calculation through indexing
+- **Search**: O(n) - Need to traverse the entire array
+- **Insert**: O(n) - Need to move subsequent elements
+- **Delete**: O(n) - Need to move subsequent elements
+
+### Space Complexity
+- **Storage**: O(n) - n elements
+- **Extra Space**: O(1) - No additional pointers or metadata needed
+
+## Code Implementation
+
+### C++ Implementation
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    // Declare static array
+    int arr[5] = {10, 20, 30, 40, 50};
+
+    // Access element
+    cout << "First element: " << arr[0] << endl;
+
+    // Modify element
+    arr[2] = 35;
+
+    // Traverse array
+    for (int i = 0; i < 5; i++) {
+        cout << arr[i] << " ";
+    }
+    
+    return 0;
+}
+```
+
+### JavaScript Implementation
+```javascript
+// Arrays in JavaScript are actually dynamic, but we can simulate static array behavior
+class StaticArray {
+    constructor(size) {
+        this.size = size;
+        this.data = new Array(size);
+    }
+
+    get(index) {
+        if (index < 0 || index >= this.size) {
+            throw new Error("Index out of bounds");
+        }
+        return this.data[index];
+    }
+
+    set(index, value) {
+        if (index < 0 || index >= this.size) {
+            throw new Error("Index out of bounds");
+        }
+        this.data[index] = value;
+    }
+
+    length() {
+        return this.size;
+    }
+}
+
+// Usage example
+const arr = new StaticArray(5);
+arr.set(0, 10);
+arr.set(1, 20);
+console.log(arr.get(0)); // 10
+```
+
+## Advantages and Limitations
+
+### Advantages
+1. **High Memory Efficiency**: No additional metadata overhead
+2. **Cache Friendly**: Contiguous memory layout improves access efficiency
+3. **Simple and Direct**: Easy to implement and use
+4. **Compile-time Optimization**: Compiler can perform more optimizations
+
+### Limitations
+1. **Fixed Size**: Cannot change size at runtime
+2. **Memory Waste**: If not all space can be utilized fully
+3. **Inefficient Insertion/Deletion**: Need to move many elements
+
+## Application Scenarios
+
+Static arrays are particularly suitable for:
+
+- **Embedded Systems**: Memory constrained, need precise memory control
+- **High-performance Computing**: Need to maximize memory access efficiency
+- **Systems Programming**: Low-level system code, need predictable memory layout
+- **Fixed-size Datasets**: Such as pixel arrays, audio samples, etc.
+
+## Practical Examples
+
+### Image Processing
+```cpp
+// Process a 640x480 grayscale image
+unsigned char image[640 * 480];
+
+// Access pixel (x, y)
+int getPixel(int x, int y) {
+    return image[y * 640 + x];
+}
+
+// Set pixel value
+void setPixel(int x, int y, unsigned char value) {
+    image[y * 640 + x] = value;
+}
+```
+
+### Lookup Table
+```cpp
+// Pre-computed lookup table
+const int SQUARE_TABLE[101] = {
+    0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100,
+    // ... Pre-computed squares for 0-100
+};
+
+int getSquare(int n) {
+    return SQUARE_TABLE[n]; // O(1) lookup
+}
+```
+
+## Summary
+
+Static arrays are the foundation for understanding all array types. Although they have the limitation of fixed size, their efficiency and simplicity make them irreplaceable in specific scenarios.
+
+In the next section, we will learn how dynamic arrays solve the problem of static array's fixed size.

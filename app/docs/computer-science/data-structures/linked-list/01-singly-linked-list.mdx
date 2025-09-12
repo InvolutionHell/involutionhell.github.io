@@ -1,0 +1,565 @@
+---
+title: "Singly Linked List"
+description: "Implementation, operations, and applications of singly linked lists"
+date: "2024-01-07"
+tags:
+  - singly-linked-list
+  - pointer-operations
+  - basic-data-structure
+---
+
+# Singly Linked List
+
+A singly linked list is the most basic form of linked list, where each node contains data and a pointer to the next node. It provides dynamic memory allocation and efficient insertion and deletion operations.
+
+## Node Structure
+
+```javascript
+class ListNode {
+    constructor(data) {
+        this.data = data;    // Data field
+        this.next = null;    // Pointer field, points to next node
+    }
+}
+```
+
+## Complete Implementation
+
+```javascript
+class SinglyLinkedList {
+    constructor() {
+        this.head = null;    // Head pointer
+        this.size = 0;       // List length
+    }
+
+    // Insert node at head
+    prepend(data) {
+        const newNode = new ListNode(data);
+        newNode.next = this.head;
+        this.head = newNode;
+        this.size++;
+    }
+
+    // Insert node at tail
+    append(data) {
+        const newNode = new ListNode(data);
+
+        // If list is empty, new node becomes head node
+        if (!this.head) {
+            this.head = newNode;
+            this.size++;
+            return;
+        }
+        
+        // Find the last node
+        let current = this.head;
+        while (current.next) {
+            current = current.next;
+        }
+
+        // Link the new node
+        current.next = newNode;
+        this.size++;
+    }
+    
+    // Insert node at specified position
+    insert(index, data) {
+        if (index < 0 || index > this.size) {
+            throw new Error("Index out of bounds");
+        }
+
+        // Insert at head
+        if (index === 0) {
+            this.prepend(data);
+            return;
+        }
+
+        const newNode = new ListNode(data);
+        let current = this.head;
+
+        // Find the node before the insertion position
+        for (let i = 0; i < index - 1; i++) {
+            current = current.next;
+        }
+
+        // Insert new node
+        newNode.next = current.next;
+        current.next = newNode;
+        this.size++;
+    }
+    
+    // Remove head node
+    removeFirst() {
+        if (!this.head) {
+            return null;
+        }
+
+        const removedData = this.head.data;
+        this.head = this.head.next;
+        this.size--;
+        return removedData;
+    }
+
+    // Remove tail node
+    removeLast() {
+        if (!this.head) {
+            return null;
+        }
+
+        // Only one node
+        if (!this.head.next) {
+            const removedData = this.head.data;
+            this.head = null;
+            this.size--;
+            return removedData;
+        }
+
+        // Find the second-to-last node
+        let current = this.head;
+        while (current.next.next) {
+            current = current.next;
+        }
+
+        const removedData = current.next.data;
+        current.next = null;
+        this.size--;
+        return removedData;
+    }
+    
+    // Remove node at specified position
+    remove(index) {
+        if (index < 0 || index >= this.size) {
+            throw new Error("Index out of bounds");
+        }
+
+        // Remove head node
+        if (index === 0) {
+            return this.removeFirst();
+        }
+
+        let current = this.head;
+
+        // Find the node before the one to be removed
+        for (let i = 0; i < index - 1; i++) {
+            current = current.next;
+        }
+
+        const removedData = current.next.data;
+        current.next = current.next.next;
+        this.size--;
+        return removedData;
+    }
+    
+    // 删除指定值的第一个节点
+    removeByValue(data) {
+        if (!this.head) {
+            return false;
+        }
+        
+        // 如果头节点就是要删除的节点
+        if (this.head.data === data) {
+            this.head = this.head.next;
+            this.size--;
+            return true;
+        }
+        
+        let current = this.head;
+        while (current.next && current.next.data !== data) {
+            current = current.next;
+        }
+        
+        // 找到了要删除的节点
+        if (current.next) {
+            current.next = current.next.next;
+            this.size--;
+            return true;
+        }
+        
+        return false; // 未找到
+    }
+    
+    // 查找元素
+    indexOf(data) {
+        let current = this.head;
+        let index = 0;
+        
+        while (current) {
+            if (current.data === data) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        
+        return -1; // 未找到
+    }
+    
+    // 获取指定位置的元素
+    get(index) {
+        if (index < 0 || index >= this.size) {
+            throw new Error("Index out of bounds");
+        }
+        
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+            current = current.next;
+        }
+        
+        return current.data;
+    }
+    
+    // 检查链表是否包含指定元素
+    contains(data) {
+        return this.indexOf(data) !== -1;
+    }
+    
+    // 获取链表长度
+    length() {
+        return this.size;
+    }
+    
+    // 检查链表是否为空
+    isEmpty() {
+        return this.size === 0;
+    }
+    
+    // 清空链表
+    clear() {
+        this.head = null;
+        this.size = 0;
+    }
+    
+    // 转换为数组
+    toArray() {
+        const result = [];
+        let current = this.head;
+        
+        while (current) {
+            result.push(current.data);
+            current = current.next;
+        }
+        
+        return result;
+    }
+    
+    // 遍历链表
+    forEach(callback) {
+        let current = this.head;
+        let index = 0;
+        
+        while (current) {
+            callback(current.data, index);
+            current = current.next;
+            index++;
+        }
+    }
+    
+    // 反转链表
+    reverse() {
+        let prev = null;
+        let current = this.head;
+        let next = null;
+        
+        while (current) {
+            next = current.next;  // 保存下一个节点
+            current.next = prev;  // 反转指针
+            prev = current;       // 移动 prev
+            current = next;       // 移动 current
+        }
+        
+        this.head = prev;
+    }
+    
+    // 打印链表
+    toString() {
+        if (!this.head) {
+            return "Empty list";
+        }
+        
+        const elements = [];
+        let current = this.head;
+        
+        while (current) {
+            elements.push(current.data);
+            current = current.next;
+        }
+        
+        return elements.join(" -> ");
+    }
+}
+```
+
+## 使用示例
+
+```javascript
+// 创建链表
+const list = new SinglyLinkedList();
+
+// 添加元素
+list.append(1);
+list.append(2);
+list.append(3);
+list.prepend(0);
+console.log(list.toString()); // "0 -> 1 -> 2 -> 3"
+
+// 插入元素
+list.insert(2, 1.5);
+console.log(list.toString()); // "0 -> 1 -> 1.5 -> 2 -> 3"
+
+// 查找元素
+console.log(list.indexOf(2));    // 3
+console.log(list.get(1));        // 1
+console.log(list.contains(3));   // true
+
+// 删除元素
+list.remove(0);                  // 删除索引 0 的元素
+list.removeByValue(1.5);         // 删除值为 1.5 的元素
+console.log(list.toString());    // "1 -> 2 -> 3"
+
+// 反转链表
+list.reverse();
+console.log(list.toString());    // "3 -> 2 -> 1"
+
+// 遍历链表
+list.forEach((data, index) => {
+    console.log(`Index ${index}: ${data}`);
+});
+```
+
+## Key Algorithm Details
+
+### 1. Pointer Changes in Insert Operation
+
+```
+Before insertion: A -> B -> C
+Insert X between A and B:
+
+Step 1: newNode.next = A.next
+        A -> B -> C
+        X ----↗
+
+Step 2: A.next = newNode
+        A -> X -> B -> C
+```
+
+### 2. Pointer Changes in Delete Operation
+
+```
+Before deletion: A -> B -> C -> D
+Delete B:
+
+Step 1: Find B's predecessor node A
+Step 2: A.next = B.next
+        A -----> C -> D
+        (B is skipped, waiting for garbage collection)
+```
+
+### 3. Reverse Algorithm Details
+
+```javascript
+// Reverse process illustration
+// Initial: 1 -> 2 -> 3 -> null
+// Target: null <- 1 <- 2 <- 3
+
+function reverse(head) {
+    let prev = null;
+    let current = head;
+    
+    while (current !== null) {
+        let next = current.next;    // Save next node
+        current.next = prev;        // Reverse current node's pointer
+        prev = current;             // prev moves forward
+        current = next;             // current moves forward
+    }
+    
+    return prev; // prev now points to the new head node
+}
+```
+
+## Common Interview Questions
+
+### 1. 检测链表中的环
+
+```javascript
+function hasCycle(head) {
+    if (!head || !head.next) return false;
+    
+    let slow = head;
+    let fast = head;
+    
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+        
+        if (slow === fast) {
+            return true; // 发现环
+        }
+    }
+    
+    return false;
+}
+```
+
+### 2. 找到链表的中点
+
+```javascript
+function findMiddle(head) {
+    if (!head) return null;
+    
+    let slow = head;
+    let fast = head;
+    
+    while (fast.next && fast.next.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    
+    return slow;
+}
+```
+
+### 3. 合并两个有序链表
+
+```javascript
+function mergeTwoLists(l1, l2) {
+    const dummy = new ListNode(0);
+    let current = dummy;
+    
+    while (l1 && l2) {
+        if (l1.data <= l2.data) {
+            current.next = l1;
+            l1 = l1.next;
+        } else {
+            current.next = l2;
+            l2 = l2.next;
+        }
+        current = current.next;
+    }
+    
+    // 连接剩余的节点
+    current.next = l1 || l2;
+    
+    return dummy.next;
+}
+```
+
+## Performance Optimization Tips
+
+### 1. Tail Pointer Optimization
+
+```javascript
+class OptimizedSinglyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;  // 维护尾指针
+        this.size = 0;
+    }
+    
+    append(data) {
+        const newNode = new ListNode(data);
+        
+        if (!this.head) {
+            this.head = this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+        
+        this.size++;
+    }
+    
+    // 现在 append 操作是 O(1) 而不是 O(n)
+}
+```
+
+### 2. Sentinel Node Optimization
+
+```javascript
+class SentinelLinkedList {
+    constructor() {
+        this.sentinel = new ListNode(null); // Sentinel node
+        this.sentinel.next = null;
+        this.size = 0;
+    }
+    
+    // With sentinel node, many operation edge case handling becomes simpler
+    prepend(data) {
+        const newNode = new ListNode(data);
+        newNode.next = this.sentinel.next;
+        this.sentinel.next = newNode;
+        this.size++;
+    }
+}
+```
+
+## Practical Application Scenarios
+
+### 1. Implement Stack
+
+```javascript
+class Stack {
+    constructor() {
+        this.list = new SinglyLinkedList();
+    }
+    
+    push(item) {
+        this.list.prepend(item);
+    }
+    
+    pop() {
+        return this.list.removeFirst();
+    }
+    
+    peek() {
+        return this.list.isEmpty() ? null : this.list.get(0);
+    }
+    
+    isEmpty() {
+        return this.list.isEmpty();
+    }
+}
+```
+
+### 2. Implement Queue
+
+```javascript
+class Queue {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+    
+    enqueue(item) {
+        const newNode = new ListNode(item);
+        if (!this.tail) {
+            this.head = this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+    }
+    
+    dequeue() {
+        if (!this.head) return null;
+        
+        const item = this.head.data;
+        this.head = this.head.next;
+        if (!this.head) this.tail = null;
+        
+        return item;
+    }
+}
+```
+
+## Important Notes
+
+1. **Null Pointer Checks**: Always check if nodes are null
+2. **Edge Cases**: Pay special attention to empty lists and single-node situations
+3. **Memory Management**: In languages with manual memory management, remember to free deleted nodes
+4. **Pointer Operation Order**: Pay attention to the order of pointer modifications during insertion and deletion
+
+## Summary
+
+Singly linked lists are the foundation for understanding linked list data structures. Although they are not as efficient as arrays for random access, they excel in dynamic insertion and deletion operations. Mastering the implementation and operations of singly linked lists is essential for learning more complex data structures.
+
+In the next section, we will learn about doubly linked lists and see how they provide more flexibility by adding reverse pointers.

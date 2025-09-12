@@ -1,0 +1,74 @@
+---
+title: "Array"
+description: "Basic concepts, characteristics, and applications of arrays"
+date: "2024-01-03"
+tags:
+  - array
+  - linear-data-structure
+---
+
+# Array
+
+Arrays are one of the most basic and important data structures. They are an ordered collection that stores elements of the same type, with these elements stored contiguously in memory.
+
+## Array Characteristics
+
+### Advantages
+- **Random Access**: Can access any element in O(1) time through indexing
+- **Memory Efficiency**: Elements are stored contiguously with high memory utilization
+- **Cache Friendly**: Contiguous memory access pattern is CPU cache friendly
+
+### Disadvantages
+- **Fixed Size**: Static array size is determined at creation time and cannot be dynamically adjusted
+- **Insertion/Deletion Overhead**: Inserting or deleting elements in the middle requires moving other elements
+
+## Array Types
+
+### Static Array
+- [Static Array Details](/computer-science/data-structures/array/static-array)
+- Size determined at compile time
+- Usually allocated on the stack
+
+### Dynamic Array
+- [Dynamic Array Details](/computer-science/data-structures/array/dynamic-array)
+- Size can be adjusted at runtime
+- Usually allocated on the heap
+
+## Basic Operations
+
+```javascript
+// Create array
+const arr = [1, 2, 3, 4, 5];
+
+// Access element - O(1)
+const element = arr[2]; // 3
+
+// Modify element - O(1)
+arr[1] = 10;
+
+// Traverse array - O(n)
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+}
+```
+
+## Time Complexity
+
+| Operation | Time Complexity |
+|-----------|----------------|
+| Access   | O(1)          |
+| Search   | O(n)          |
+| Insert   | O(n)          |
+| Delete   | O(n)          |
+
+## Application Scenarios
+
+Arrays are suitable for:
+- Scenarios requiring frequent random access to elements
+- Situations where data size is relatively fixed
+- Algorithms requiring efficient traversal
+- Serving as the foundation for other data structures
+
+---
+
+Continue learning about specific implementations and advanced applications of arrays!

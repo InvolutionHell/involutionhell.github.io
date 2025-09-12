@@ -1,0 +1,321 @@
+---
+title: "Dynamic Array"
+description: "Implementation principles, resizing mechanisms, and performance analysis of dynamic arrays"
+date: "2024-01-05"
+tags:
+  - dynamic-array
+  - resizing
+  - amortized-analysis
+---
+
+# Dynamic Array
+
+Dynamic arrays solve the problem of static arrays having fixed sizes. They can be dynamically resized at runtime and form the foundation for many advanced data structures and algorithms.
+
+## Core Concepts
+
+Dynamic arrays achieve dynamic expansion through the following mechanisms:
+
+1. **Capacity**: The number of elements that can be stored in the currently allocated memory
+2. **Size**: The number of elements currently actually stored
+3. **Resizing Strategy**: When size exceeds capacity, reallocate larger memory space
+
+```
+Capacity: [_ _ _ _ _ _ _ _]  (capacity = 8)
+Size:     [1 2 3 4 _ _ _ _]  (size = 4)
+```
+
+## Resizing Mechanism
+
+### Common Resizing Strategies
+
+1. **Doubling Growth**: Double the capacity each time
+2. **Golden Ratio Growth**: Growth factor of 1.5 or 1.618
+3. **Fixed Growth**: Add a fixed amount of space each time
+
+```javascript
+// Doubling growth example
+function resize(oldCapacity) {
+    return oldCapacity * 2; // or oldCapacity + oldCapacity
+}
+```
+
+### Resizing Process
+
+```
+Initial state: [1 2 3 4] capacity=4, size=4
+
+Adding element 5:
+1. Detect that size == capacity
+2. Allocate new memory: capacity = 4 * 2 = 8
+3. Copy old data: [1 2 3 4 _ _ _ _]
+4. Add new element: [1 2 3 4 5 _ _ _]
+5. Release old memory
+```
+
+## Code Implementation
+
+### JavaScript Implementation
+
+```javascript
+class DynamicArray {
+    constructor() {
+        this.capacity = 2;
+        this.size = 0;
+        this.data = new Array(this.capacity);
+    }
+
+    // Get element
+    get(index) {
+        if (index < 0 || index >= this.size) {
+            throw new Error("Index out of bounds");
+        }
+        return this.data[index];
+    }
+
+    // Set element
+    set(index, value) {
+        if (index < 0 || index >= this.size) {
+            throw new Error("Index out of bounds");
+        }
+        this.data[index] = value;
+    }
+
+    // Add element to end
+    push(value) {
+        // Check if resize is needed
+        if (this.size >= this.capacity) {
+            this.resize();
+        }
+
+        this.data[this.size] = value;
+        this.size++;
+    }
+
+    // Remove last element
+    pop() {
+        if (this.size === 0) {
+            throw new Error("Array is empty");
+        }
+
+        const value = this.data[this.size - 1];
+        this.size--;
+
+        // Optional: shrink to save memory
+        if (this.size < this.capacity / 4) {
+            this.shrink();
+        }
+
+        return value;
+    }
+    
+    // Resize (expand)
+    resize() {
+        const oldCapacity = this.capacity;
+        this.capacity *= 2;
+        const newData = new Array(this.capacity);
+
+        // Copy old data
+        for (let i = 0; i < this.size; i++) {
+            newData[i] = this.data[i];
+        }
+
+        this.data = newData;
+        console.log(`Expanded: ${oldCapacity} -> ${this.capacity}`);
+    }
+
+    // Shrink (reduce capacity)
+    shrink() {
+        if (this.capacity <= 2) return;
+
+        const oldCapacity = this.capacity;
+        this.capacity = Math.floor(this.capacity / 2);
+        const newData = new Array(this.capacity);
+
+        for (let i = 0; i < this.size; i++) {
+            newData[i] = this.data[i];
+        }
+
+        this.data = newData;
+        console.log(`Shrunk: ${oldCapacity} -> ${this.capacity}`);
+    }
+
+    // Insert element at specified position
+    insert(index, value) {
+        if (index < 0 || index > this.size) {
+            throw new Error("Index out of bounds");
+        }
+
+        if (this.size >= this.capacity) {
+            this.resize();
+        }
+
+        // Shift elements to the right
+        for (let i = this.size; i > index; i--) {
+            this.data[i] = this.data[i - 1];
+        }
+
+        this.data[index] = value;
+        this.size++;
+    }
+    
+    // 删除指定位置的元素
+    remove(index) {
+        if (index < 0 || index >= this.size) {
+            throw new Error("Index out of bounds");
+        }
+        
+        const value = this.data[index];
+        
+        // 向左移动元素
+        for (let i = index; i < this.size - 1; i++) {
+            this.data[i] = this.data[i + 1];
+        }
+        
+        this.size--;
+        
+        if (this.size < this.capacity / 4) {
+            this.shrink();
+        }
+        
+        return value;
+    }
+    
+    length() {
+        return this.size;
+    }
+    
+    toString() {
+        const elements = [];
+        for (let i = 0; i < this.size; i++) {
+            elements.push(this.data[i]);
+        }
+        return `[${elements.join(', ')}] (size: ${this.size}, capacity: ${this.capacity})`;
+    }
+}
+```
+
+### 使用示例
+
+```javascript
+const arr = new DynamicArray();
+
+// 添加元素
+arr.push(1);
+arr.push(2);
+arr.push(3); // 触发扩容
+console.log(arr.toString()); // [1, 2, 3] (size: 3, capacity: 4)
+
+// 插入元素
+arr.insert(1, 10);
+console.log(arr.toString()); // [1, 10, 2, 3] (size: 4, capacity: 4)
+
+// 删除元素
+arr.remove(0);
+console.log(arr.toString()); // [10, 2, 3] (size: 3, capacity: 4)
+```
+
+## 性能分析
+
+### 时间复杂度
+
+| 操作 | 平均情况 | 最坏情况 | 说明 |
+|------|----------|----------|------|
+| 访问 | O(1) | O(1) | 直接索引访问 |
+| 搜索 | O(n) | O(n) | 需要遍历 |
+| 插入(末尾) | O(1)* | O(n) | 摊还O(1)，偶尔需要扩容 |
+| 插入(任意位置) | O(n) | O(n) | 需要移动元素 |
+| 删除(末尾) | O(1)* | O(1) | 摊还O(1) |
+| 删除(任意位置) | O(n) | O(n) | 需要移动元素 |
+
+*摊还时间复杂度
+
+### 摊还分析
+
+虽然单次扩容操作需要 O(n) 时间，但通过摊还分析可以证明：
+
+- 连续进行 n 次 `push` 操作的总时间复杂度为 O(n)
+- 因此单次 `push` 操作的摊还时间复杂度为 O(1)
+
+**证明思路**：
+- 假设从空数组开始，进行 n 次 push 操作
+- 扩容发生在大小为 1, 2, 4, 8, ..., 2^k 时
+- 总的复制操作次数为：1 + 2 + 4 + ... + 2^k < 2n
+- 所以平均每次 push 的成本为 (n + 2n) / n = 3 = O(1)
+
+## 优化策略
+
+### 1. 选择合适的增长因子
+
+```javascript
+// 不同的增长策略
+const GROWTH_STRATEGIES = {
+    DOUBLE: (capacity) => capacity * 2,           // 快速增长，可能浪费内存
+    GOLDEN_RATIO: (capacity) => Math.floor(capacity * 1.5), // 平衡增长
+    FIBONACCI: (capacity) => capacity + previousCapacity,     // 渐进增长
+};
+```
+
+### 2. 预分配容量
+
+```javascript
+// 如果知道大概的数据量，可以预分配容量
+class DynamicArray {
+    constructor(initialCapacity = 2) {
+        this.capacity = initialCapacity;
+        this.size = 0;
+        this.data = new Array(this.capacity);
+    }
+    
+    // 预留容量
+    reserve(minCapacity) {
+        if (minCapacity > this.capacity) {
+            this.capacity = minCapacity;
+            this.resize();
+        }
+    }
+}
+```
+
+### 3. 内存对齐优化
+
+```cpp
+// C++ 中考虑内存对齐
+template<typename T>
+class DynamicArray {
+private:
+    T* data;
+    size_t size;
+    size_t capacity;
+    
+    // 确保容量是 2 的幂次，有利于内存对齐
+    size_t nextPowerOfTwo(size_t n) {
+        size_t power = 1;
+        while (power < n) power <<= 1;
+        return power;
+    }
+};
+```
+
+## Practical Applications
+
+### 1. Dynamic Arrays in Programming Languages
+
+- **JavaScript**: `Array`
+- **Python**: `list`
+- **Java**: `ArrayList`
+- **C++**: `std::vector`
+- **C#**: `List<T>`
+
+### 2. Application Scenarios
+
+- **Buffers**: Network packet buffering, file reading buffers
+- **Collections**: Implementing stacks, queues, and other data structures
+- **Graphics Programming**: Vertex arrays, pixel buffers
+- **Data Processing**: Dynamically adding and processing data items
+
+## Summary
+
+Dynamic arrays are one of the most important data structures in modern programming. They combine the efficient access characteristics of arrays with flexible size adjustment capabilities. Understanding their resizing mechanisms and amortized analysis is crucial for writing efficient code.
+
+Although dynamic arrays solve the size limitation problem of static arrays, in certain scenarios, other data structures like linked lists may be more suitable. In the next section, we will learn about linked list knowledge.
