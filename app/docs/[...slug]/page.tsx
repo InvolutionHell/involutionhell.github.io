@@ -1,8 +1,8 @@
-import { source } from '@/lib/source';
-import { DocsPage, DocsBody } from 'fumadocs-ui/page';
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
-import { getMDXComponents } from '@/mdx-components';
+import { source } from "@/lib/source";
+import { DocsPage, DocsBody } from "fumadocs-ui/page";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getMDXComponents } from "@/mdx-components";
 
 interface Param {
   params: Promise<{
@@ -41,9 +41,8 @@ export async function generateMetadata({ params }: Param): Promise<Metadata> {
   const page = source.getPage(slug);
   if (page == null) {
     notFound();
-    return;
   }
-  
+
   return {
     title: page.data.title,
     description: page.data.description,
