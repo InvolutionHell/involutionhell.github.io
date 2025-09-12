@@ -173,10 +173,10 @@ function example() {
 
 ### 步骤4：测试修改
 
-使用 Contentlayer 验证内容：
+使用 Fumadocs 验证内容：
 
 ```bash
-pnpm check:content
+pnpm build
 ```
 
 此命令将：
@@ -366,11 +366,11 @@ Students need better resources for understanding dynamic programming concepts.
 
 ## How
 - Created new MDX file with comprehensive examples
-- Tested content generation with `pnpm check:content`
+- Tested content generation with `pnpm build`
 - Verified rendering on local development server
 
 ## Testing
-- Contentlayer validation passed
+- Fumadocs validation passed
 - No linting errors
 - Previewed locally at `/computer-science/algorithms/dynamic-programming`
 ```
@@ -381,7 +381,7 @@ Students need better resources for understanding dynamic programming concepts.
 
 1. **自动检查**
    - GitHub Actions 将运行自动化测试
-   - Contentlayer 将验证你的内容
+   - Fumadocs 将验证你的内容
    - Linting 将检查代码质量
 
 2. **同行评审**
@@ -427,7 +427,7 @@ Students need better resources for understanding dynamic programming concepts.
 # Contributing Guide
 
 Thank you for your interest in **Involution Hell Docs**!
-This is an open-source documentation site built with **Next.js + Contentlayer**, with content stored in the `docs/` folder.
+This is an open-source documentation site built with **Next.js + Fumadocs**, with content stored in the `app/docs/` folder.
 We welcome Pull Requests and Issues!
 
 ---
@@ -605,10 +605,10 @@ Summary of your article...
 
 ### Step 4: Test Your Changes
 
-Validate your content with Contentlayer:
+Validate your content with Fumadocs:
 
 ```bash
-pnpm check:content
+pnpm build
 ```
 
 This command will:
@@ -798,11 +798,11 @@ Students need better resources for understanding dynamic programming concepts.
 
 ## How
 - Created new MDX file with comprehensive examples
-- Tested content generation with `pnpm check:content`
+- Tested content generation with `pnpm build`
 - Verified rendering on local development server
 
 ## Testing
-- Contentlayer validation passed
+- Fumadocs validation passed
 - No linting errors
 - Previewed locally at `/computer-science/algorithms/dynamic-programming`
 ```
@@ -813,7 +813,7 @@ Students need better resources for understanding dynamic programming concepts.
 
 1. **Automated Checks**
    - GitHub Actions will run automated tests
-   - Contentlayer validation will check your content
+   - Fumadocs validation will check your content
    - Linting will check code quality
 
 2. **Peer Review**
