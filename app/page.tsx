@@ -1,23 +1,28 @@
 import Link from 'next/link'
-import { allDocs } from 'contentlayer/generated'
+import { source } from '@/lib/source'
 
 export default function DocsIndex() {
-  const docs = [...allDocs].sort((a, b) =>
-    (b.date ?? '').localeCompare(a.date ?? '')
-  )
+  const pages = source
+    .getPages()
+    .sort((a, b) => (a.data.title ?? '').localeCompare(b.data.title ?? ''))
 
   return (
     <main style={{ maxWidth: 800, margin: '40px auto', padding: 16 }}>
       <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 16 }}>Docs</h1>
       <ul style={{ display: 'grid', gap: 12 }}>
-        {docs.map((d) => (
-          <li key={d._id} style={{ border: '1px solid #eee', borderRadius: 8, padding: 16 }}>
-            <Link href={`/docs/${d.slug}`} style={{ fontWeight: 600 }}>
-              {d.title}
-            </Link>
-            {d.description && <p style={{ opacity: 0.8 }}>{d.description}</p>}
-          </li>
-        ))}
+        {pages.map((p) => {
+          const href = `/docs/${p.slugs.join('/')}`
+          return (
+            <li key={href} style={{ border: '1px solid #eee', borderRadius: 8, padding: 16 }}>
+              <Link href={href} style={{ fontWeight: 600 }}>
+                {p.data.title}
+              </Link>
+              {p.data.description && (
+                <p style={{ opacity: 0.8 }}>{p.data.description}</p>
+              )}
+            </li>
+          )
+        })}
       </ul>
     </main>
   )

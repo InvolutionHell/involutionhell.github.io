@@ -6,7 +6,7 @@
 
 ## ✨ 特性
 
-- 🚀 **现代化技术栈**：Next.js 15 + Contentlayer + MDX
+- 🚀 **现代化技术栈**：Next.js 15 + Fumadocs + MDX
 - 🎨 **美观界面**：基于 Tailwind CSS 和 shadcn/ui 构建
 - 🌍 **双语支持**：中英文内容
 - 📱 **响应式设计**：完美适配所有设备
@@ -46,7 +46,7 @@ pnpm dev
 │   │   └── 📂 computer-science/     # 计算机科学知识库
 │   ├── 📄 layout.tsx               # 根布局
 │   └── 📄 page.tsx                 # 主页
-├── 📂 contentlayer.config.ts        # Contentlayer 配置
+├── 📂 source.config.ts              # Fumadocs 配置
 ├── 📂 tailwind.config.ts           # Tailwind CSS 配置
 └── 📄 package.json                 # 依赖和脚本
 ```
@@ -99,7 +99,7 @@ pnpm build            # 构建生产版本
 pnpm start            # 启动生产服务器
 
 # 内容
-pnpm check:content    # 使用 Contentlayer 验证内容
+ 
 
 # 导出
 pnpm export           # 导出静态站点到 /out 目录
@@ -112,7 +112,7 @@ pnpm export           # 导出静态站点到 /out 目录
 ## 🙏 致谢
 
 - 使用 [Next.js](https://nextjs.org/) 构建
-- 由 [Contentlayer](https://contentlayer.dev/) 驱动
+- 由 [Fumadocs](https://fumadocs.vercel.app/) 驱动
 - 使用 [Tailwind CSS](https://tailwindcss.com/) 样式
 - UI 组件来自 [shadcn/ui](https://ui.shadcn.com/)
 
@@ -141,7 +141,7 @@ This is a collaborative documentation platform built with modern web technologie
 
 ## ✨ Features
 
-- 🚀 **Modern Tech Stack**: Next.js 15 + Contentlayer + MDX
+- 🚀 **Modern Tech Stack**: Next.js 15 + Fumadocs + MDX
 - 🎨 **Beautiful UI**: Built with Tailwind CSS and shadcn/ui
 - 🌍 **Bilingual Support**: Chinese & English content
 - 📱 **Responsive Design**: Works perfectly on all devices
@@ -181,7 +181,7 @@ Open [http://localhost:3000](http://localhost:3000) to see the site.
 │   │   └── 📂 computer-science/     # CS Knowledge Base
 │   ├── 📄 layout.tsx               # Root Layout
 │   └── 📄 page.tsx                 # Homepage
-├── 📂 contentlayer.config.ts        # Contentlayer Configuration
+├── 📂 source.config.ts              # Fumadocs Configuration
 ├── 📂 tailwind.config.ts           # Tailwind CSS Config
 └── 📄 package.json                 # Dependencies & Scripts
 ```
@@ -234,7 +234,7 @@ pnpm build            # Build for production
 pnpm start            # Start production server
 
 # Content
-pnpm check:content    # Validate content with Contentlayer
+ 
 
 # Export
 pnpm export           # Export static site to /out
@@ -247,7 +247,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Built with [Next.js](https://nextjs.org/)
-- Powered by [Contentlayer](https://contentlayer.dev/)
+- Powered by [Fumadocs](https://fumadocs.vercel.app/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
 - UI components from [shadcn/ui](https://ui.shadcn.com/)
 
@@ -258,4 +258,3 @@ Special thanks to all our contributors! 🎉
 - 📧 Issues: [GitHub Issues](https://github.com/involutionhell/involutionhell.github.io/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/involutionhell/involutionhell.github.io/discussions)
 - 🌟 Stars: Show your support with a ⭐
-

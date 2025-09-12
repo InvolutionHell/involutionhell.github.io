@@ -26,11 +26,8 @@
       "@/*": [
         "./*"
       ],
-      "contentlayer/generated": [
-        "./.contentlayer/generated"
-      ],
-      "contentlayer/generated/*": [
-        "./.contentlayer/generated/*"
+      "@/.source": [
+        "./.source"
       ]
     },
     "target": "ES2017"

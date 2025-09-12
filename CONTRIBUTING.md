@@ -173,10 +173,10 @@ function example() {
 
 ### 步骤4：测试修改
 
-使用 Contentlayer 验证内容：
+使用 Fumadocs 验证内容：
 
 ```bash
-pnpm check:content
+pnpm build
 ```
 
 此命令将：
@@ -292,6 +292,33 @@ pnpm export
 
 ---
 
+## 📋 开发流程
+
+### 🔄 功能开发前请先提 Issue
+
+**重要提醒**：在开始任何功能开发之前，请先在 [GitHub Issues](../../issues) 中创建或查找相关 issue。这有助于：
+
+- **避免重复开发**：确保不会与他人正在进行的开发冲突
+- **统一开发方向**：通过讨论确定功能的具体需求和实现方案
+- **透明开发进度**：让社区了解项目当前开发状态
+- **便于协作**：其他贡献者可以参与讨论和提供建议
+
+#### 创建 Issue 的最佳实践
+
+1. **检查现有 Issue**：先搜索是否已有相关 issue，避免重复创建
+2. **清晰描述**：详细说明功能需求、预期效果和使用场景
+3. **添加标签**：使用合适的标签（如 `enhancement`, `feature`, `discussion`）
+4. **关联开发分支**：如果开始开发，请在 issue 中链接你的开发分支
+
+#### Issue 类型建议
+
+- **功能请求** (`feature`): 新功能需求
+- **改进建议** (`enhancement`): 现有功能的改进
+- **问题反馈** (`bug`): 发现的bug或问题
+- **讨论话题** (`discussion`): 需要社区讨论的话题
+
+---
+
 ## 🤝 如何贡献
 
 ### 基本工作流程
@@ -323,6 +350,32 @@ pnpm export
 - 增强用户交互
 - 改进移动端响应性
 - 为 UI 添加新功能
+
+#### 💡 UI 开发建议
+
+**优先使用 Fumadocs UI 组件库**：
+
+本项目已迁移到 **Fumadocs UI** 作为主要 UI 框架。请在进行 UI 相关开发时优先考虑：
+
+1. **使用 Fumadocs UI 组件**：
+   - 查看 [Fumadocs UI 文档](https://fumadocs.dev/docs/ui) 了解可用组件
+   - 优先使用内置组件而不是自定义实现
+   - 遵循 Fumadocs UI 的设计规范和样式指南
+
+2. **保持设计一致性**：
+   - 使用统一的颜色方案和字体
+   - 遵循现有的组件样式和交互模式
+   - 保持响应式设计的兼容性
+
+3. **新功能开发**：
+   - 在提 issue 讨论新功能需求时，请明确 UI 方面的具体要求
+   - 优先考虑使用 Fumadocs UI 的扩展功能
+   - 如需自定义组件，请与团队讨论以保持一致性
+
+4. **测试要求**：
+   - 确保新 UI 功能在不同设备和屏幕尺寸下正常工作
+   - 测试主题切换（浅色/深色模式）兼容性
+   - 验证无障碍访问功能
 
 **🛠️ 技术改进**
 - 改进构建过程
@@ -366,11 +419,11 @@ Students need better resources for understanding dynamic programming concepts.
 
 ## How
 - Created new MDX file with comprehensive examples
-- Tested content generation with `pnpm check:content`
+- Tested content generation with `pnpm build`
 - Verified rendering on local development server
 
 ## Testing
-- Contentlayer validation passed
+- Fumadocs validation passed
 - No linting errors
 - Previewed locally at `/computer-science/algorithms/dynamic-programming`
 ```
@@ -381,7 +434,7 @@ Students need better resources for understanding dynamic programming concepts.
 
 1. **自动检查**
    - GitHub Actions 将运行自动化测试
-   - Contentlayer 将验证你的内容
+   - Fumadocs 将验证你的内容
    - Linting 将检查代码质量
 
 2. **同行评审**
@@ -427,7 +480,7 @@ Students need better resources for understanding dynamic programming concepts.
 # Contributing Guide
 
 Thank you for your interest in **Involution Hell Docs**!
-This is an open-source documentation site built with **Next.js + Contentlayer**, with content stored in the `docs/` folder.
+This is an open-source documentation site built with **Next.js + Fumadocs**, with content stored in the `app/docs/` folder.
 We welcome Pull Requests and Issues!
 
 ---
@@ -605,10 +658,10 @@ Summary of your article...
 
 ### Step 4: Test Your Changes
 
-Validate your content with Contentlayer:
+Validate your content with Fumadocs:
 
 ```bash
-pnpm check:content
+pnpm build
 ```
 
 This command will:
@@ -724,6 +777,33 @@ No manual operation required!
 
 ---
 
+## 📋 Development Workflow
+
+### 🔄 Create an Issue Before Starting Development
+
+**Important Reminder**: Before starting any feature development, please first create or find a related issue in [GitHub Issues](../../issues). This helps to:
+
+- **Avoid Duplicate Work**: Ensure no conflicts with others' ongoing development
+- **Align Development Direction**: Determine specific requirements and implementation plans through discussion
+- **Transparent Progress**: Keep the community informed about project development status
+- **Facilitate Collaboration**: Allow other contributors to participate in discussions and provide suggestions
+
+#### Best Practices for Creating Issues
+
+1. **Check Existing Issues**: First search for related issues to avoid duplication
+2. **Clear Description**: Detail the feature requirements, expected outcomes, and use cases
+3. **Add Labels**: Use appropriate labels (e.g., `enhancement`, `feature`, `discussion`)
+4. **Link Development Branch**: If development begins, link your development branch in the issue
+
+#### Recommended Issue Types
+
+- **Feature Request** (`feature`): New feature requirements
+- **Enhancement** (`enhancement`): Improvements to existing features
+- **Bug Report** (`bug`): Bugs or issues found
+- **Discussion** (`discussion`): Topics requiring community discussion
+
+---
+
 ## 🤝 How to Contribute
 
 ### Basic Workflow
@@ -755,6 +835,32 @@ We welcome the following types of contributions:
 - Enhance user interactions
 - Improve mobile responsiveness
 - Add new features to the UI
+
+#### 💡 UI Development Recommendations
+
+**Prioritize Fumadocs UI Component Library**:
+
+This project has migrated to **Fumadocs UI** as the primary UI framework. Please prioritize the following when developing UI-related features:
+
+1. **Use Fumadocs UI Components**:
+   - Check [Fumadocs UI documentation](https://fumadocs.dev/docs/ui) for available components
+   - Prefer built-in components over custom implementations
+   - Follow Fumadocs UI design standards and style guidelines
+
+2. **Maintain Design Consistency**:
+   - Use unified color schemes and fonts
+   - Follow existing component styles and interaction patterns
+   - Maintain responsive design compatibility
+
+3. **New Feature Development**:
+   - When creating issues for new features, clearly specify UI requirements
+   - Prioritize Fumadocs UI's extension features
+   - Discuss custom components with the team to maintain consistency
+
+4. **Testing Requirements**:
+   - Ensure new UI features work across different devices and screen sizes
+   - Test theme switching (light/dark mode) compatibility
+   - Verify accessibility features
 
 **🛠️ Technical Improvements**
 - Improve build process
@@ -798,11 +904,11 @@ Students need better resources for understanding dynamic programming concepts.
 
 ## How
 - Created new MDX file with comprehensive examples
-- Tested content generation with `pnpm check:content`
+- Tested content generation with `pnpm build`
 - Verified rendering on local development server
 
 ## Testing
-- Contentlayer validation passed
+- Fumadocs validation passed
 - No linting errors
 - Previewed locally at `/computer-science/algorithms/dynamic-programming`
 ```
@@ -813,7 +919,7 @@ Students need better resources for understanding dynamic programming concepts.
 
 1. **Automated Checks**
    - GitHub Actions will run automated tests
-   - Contentlayer validation will check your content
+   - Fumadocs validation will check your content
    - Linting will check code quality
 
 2. **Peer Review**

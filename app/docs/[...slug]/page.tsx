@@ -1,22 +1,51 @@
-import { allDocs } from 'contentlayer/generated'
-import { notFound } from 'next/navigation'
-import MDXContent from '@/app/components/MDXContent'
+import { source } from '@/lib/source';
+import { DocsPage, DocsBody } from 'fumadocs-ui/page';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import { getMDXComponents } from '@/mdx-components';
 
-// Pre-generate all nested doc paths, split into segments for catch-all route
-export function generateStaticParams() {
-  return allDocs.map((d) => ({ slug: d.slug.split('/') }))
+interface Param {
+  params: Promise<{
+    slug?: string[];
+  }>;
 }
 
-export default async function DocPage({ params }: { params: Promise<{ slug: string[] }> }) {
-  const { slug } = await params
-  const slugPath = slug.join('/')
-  const doc = allDocs.find((d) => d.slug === slugPath)
-  if (!doc) return notFound()
+export default async function DocPage({ params }: Param) {
+  const { slug } = await params;
+  const page = source.getPage(slug);
+
+  if (page == null) {
+    notFound();
+  }
+
+  const Mdx = page.data.body;
 
   return (
-    <article style={{ maxWidth: 820, margin: '40px auto', padding: 16 }}>
-      <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 16 }}>{doc.title}</h1>
-      <MDXContent code={doc.body.code} />
-    </article>
-  )
+    <DocsPage toc={page.data.toc}>
+      <DocsBody>
+        <h1>{page.data.title}</h1>
+        <Mdx components={getMDXComponents()} />
+      </DocsBody>
+    </DocsPage>
+  );
+}
+
+export async function generateStaticParams() {
+  return source.getPages().map((page) => ({
+    slug: page.slugs,
+  }));
+}
+
+export async function generateMetadata({ params }: Param): Promise<Metadata> {
+  const { slug } = await params;
+  const page = source.getPage(slug);
+  if (page == null) {
+    notFound();
+    return;
+  }
+  
+  return {
+    title: page.data.title,
+    description: page.data.description,
+  };
 }
