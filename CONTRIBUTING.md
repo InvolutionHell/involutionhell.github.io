@@ -138,7 +138,7 @@ docsA.assets/
 imgA
 ```
 
-![img](public\readme_docs_structure.png)
+![img](public/readme_docs_structure.png)
 
 每个文档都需要一个 Frontmatter，例如：
 
