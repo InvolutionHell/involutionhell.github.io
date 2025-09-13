@@ -1,0 +1,149 @@
+﻿---
+title: "强化学习"
+description: "强化学习基础理论、思维链COT、GRPO等在大模型中的应用"
+date: "2025-01-27"
+tags:
+  - reinforcement-learning
+  - rlhf
+  - cot
+  - grpo
+  - ppo
+---
+
+强化学习在大模型时代发挥着重要作用，特别是在推理和对齐方面。从RLHF到思维链推理，强化学习为大模型的能力提升提供了关键技术支撑。
+
+## 推荐学习资料
+
+### 西湖大学赵世钰强化学习课程
+
+**课程特色**: 强化学习的数学原理，从零开始到透彻理解
+
+**学习资源**:
+
+- **书籍与PPT**: [GitHub仓库](https://github.com/MathFoundationRL/Book-Mathmatical-Foundation-of-Reinforcement-Learning)
+- **视频课程**: [B站完整课程](https://www.bilibili.com/video/BV1sd4y167NS/)
+- **特色**: 数学推导严谨，理论基础扎实
+
+### RethinkFun强化学习系列
+
+**推荐UP主**: [@RethinkFun](https://space.bilibili.com/18235884/)
+
+**核心视频**:
+
+- [强化学习RL基本原理](https://www.bilibili.com/video/BV1rooaYVEk8/) - 大白话解释，原理图解+公式推导
+- [PPO和GRPO算法流程](https://www.bilibili.com/video/BV15cZYYvEhz/) - 算法原理图解
+
+### 入门教程
+
+- **强化学习极简入门** - 通俗理解MDP、DP MC TD和Q学习、策略梯度、PPO
+
+## 强化学习项目论文（待筛选）
+
+> 📊 **论文筛选表格**: 点击查看完整的强化学习论文待筛选列表
+>
+> 状态分类：未开始、评估中、已完成、不推荐、未开源
+
+## GRPO复现参考
+
+### TRL框架
+
+- **项目**: [TRL (Transformer Reinforcement Learning)](https://github.com/huggingface/trl)
+- **特色**: HuggingFace官方强化学习框架
+- **支持**: GRPO、PPO、DPO等多种算法
+
+## 思维链COT
+
+### 核心概念
+
+思维链推理是让大模型展示推理过程的重要技术，提高了模型的可解释性和推理能力。
+
+### 重要论文与项目
+
+#### CoT-Valve: Length-Compressible Chain-of-Thought Tuning
+
+- **特色**: 可压缩长度的思维链调优技术
+- **来源**: [HuggingFace Daily Papers](https://huggingface.co/papers/date/2025-07-25)
+
+#### MCOT (Multi-Chain-of-Thought)
+
+- **项目**: [Awesome-MCoT](https://github.com/yaotingwangofficial/Awesome-MCoT)
+- **特色**: 多思维链推理，提升复杂推理任务性能
+
+#### Latent CoT (潜在思维链)
+
+- **项目**: [Awesome-Latent-CoT](https://github.com/awesome-latent-cot)
+- **核心理念**: 将推理过程从语言符号转移到潜在空间中，捕捉更丰富和复杂的思维过程
+
+### 多模态COT
+
+结合视觉和文本信息的思维链推理，在多模态任务中展现强大能力。
+
+### 潜空间推理综述
+
+- **重要综述**: [哈工大首篇潜空间推理综述](https://zhuanlan.zhihu.com/p/1930639357087298531)
+- **核心观点**: 重构大模型推理能力边界，探索潜在空间中的推理机制
+
+## DEEPSEEK-R1解读
+
+DeepSeek-R1作为推理能力突出的大模型，其技术细节值得深入研究：
+
+- 推理机制设计
+- 训练策略分析
+- 性能评估方法
+
+## 学习路径建议
+
+### 基础阶段
+
+1. **数学基础**: 概率论、动态规划、优化理论
+2. **基本概念**: MDP、值函数、策略、回报
+3. **经典算法**: Q-learning、策略梯度、Actor-Critic
+
+### 进阶阶段
+
+1. **现代算法**: PPO、TRPO、SAC、TD3
+2. **大模型应用**: RLHF、Constitutional AI
+3. **思维链技术**: CoT、MCOT、Latent CoT
+
+### 实践阶段
+
+1. **框架使用**: OpenAI Gym、Stable Baselines3、TRL
+2. **项目实战**: 游戏AI、对话系统优化
+3. **论文复现**: 关键算法的复现与改进
+
+## 应用领域
+
+### 大模型对齐
+
+- **RLHF**: 从人类反馈中学习，提升模型输出质量
+- **Constitutional AI**: 基于原则的AI对齐方法
+- **DPO**: 直接偏好优化，简化RLHF流程
+
+### 推理能力提升
+
+- **思维链推理**: 提升复杂推理任务性能
+- **工具使用**: 训练模型使用外部工具
+- **代码生成**: 提升编程能力
+
+### 多智能体系统
+
+- **协作学习**: 多个智能体协同解决问题
+- **竞争学习**: 通过竞争提升个体能力
+- **社会学习**: 从其他智能体行为中学习
+
+## 前沿趋势
+
+1. **离线强化学习**: 从静态数据集中学习策略
+2. **元学习**: 快速适应新任务的学习算法
+3. **安全强化学习**: 确保学习过程和结果的安全性
+4. **可解释强化学习**: 提升决策过程的可解释性
+
+## 来自 UNSW IT-AI内卷地狱 文档摘录
+
+- 思维链 COT / Multi-step COT（MCOT）/ Latent CoT
+
+- GRPO 学习资料：
+  - B站合集：https://space.bilibili.com/18235884/search?keyword=GRPO
+  - PPO/GRPO 算法讲解：https://www.bilibili.com/video/BV15cZYYvEhz/
+  - 论文与资料汇总：https://github.com/yaotingwangofficial/Awesome-MCoT
+- 强化学习数学基础书籍：GitHub https://github.com/MathFoundationRL/Book-Mathmatical-Foundation-of-Reinforcement-Learning
