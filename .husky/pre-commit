@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # 1) 将 /images/* 文章图片就近复制并更新引用
 pnpm migrate:images || exit 1
 

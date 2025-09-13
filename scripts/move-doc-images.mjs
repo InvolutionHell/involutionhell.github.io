@@ -106,7 +106,8 @@ function moveForFile(file, refs) {
   if (urls.size === 0) return { moved: 0, updated: false };
   let moved = 0;
   const dir = path.dirname(file);
-  const destDir = path.join(dir, "images");
+  const baseName = path.basename(file, path.extname(file));
+  const destDir = path.join(dir, `${baseName}.assets`);
 
   for (const url of urls) {
     // 仅处理以 /images/ 开头的绝对路径
@@ -168,11 +169,53 @@ function moveForFile(file, refs) {
     }
 
     // 将文中的绝对路径替换为相对路径 ./images/<文件名>
-    const rel = `./images/${base}`;
+    const rel = `./${baseName}.assets/${base}`;
     // 转义正则中的特殊字符，确保全量替换
     const escaped = url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const re = new RegExp(escaped, "g");
     content = content.replace(re, rel);
+  }
+
+  // 额外处理：将历史相对路径 ./images/* 迁移至 ./<basename>.assets/* 并更新引用
+  for (const url of urls) {
+    if (!url.startsWith("./images/")) continue;
+    const absSrc = path.resolve(dir, url);
+    if (!fs.existsSync(absSrc)) continue;
+    const base = path.basename(absSrc);
+    ensureDir(destDir);
+    const dest = path.join(destDir, base);
+    if (fs.existsSync(dest)) {
+      try {
+        if (sha1(absSrc) === sha1(dest)) {
+          fs.unlinkSync(absSrc);
+        } else {
+          console.warn(
+            `Conflict: ${path.relative(ROOT, dest)} already exists with different content.`,
+          );
+          continue;
+        }
+      } catch (e) {
+        console.warn(`Compare failed for ${absSrc} vs ${dest}: ${e.message}`);
+        continue;
+      }
+    } else {
+      try {
+        fs.renameSync(absSrc, dest);
+      } catch (e) {
+        try {
+          fs.copyFileSync(absSrc, dest);
+          fs.unlinkSync(absSrc);
+        } catch (e2) {
+          console.warn(`Move failed for ${absSrc} -> ${dest}: ${e2.message}`);
+          continue;
+        }
+      }
+    }
+    moved++;
+    const newRel = `./${baseName}.assets/${base}`;
+    const escapedRel = url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const reRel = new RegExp(escapedRel, "g");
+    content = content.replace(reRel, newRel);
   }
 
   if (content !== raw) fs.writeFileSync(file, content);

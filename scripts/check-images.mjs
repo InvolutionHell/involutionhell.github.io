@@ -1,6 +1,6 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 /**
- * MDX 图片路径校验脚本（中文注释）
+ * MDX 图片路径校验脚本
  *
  * 功能
  * - 扫描 `app/docs/??/?.mdx`（含 .md）
@@ -26,10 +26,10 @@ import path from "path";
 
 const ROOT = process.cwd();
 const DOCS_DIR = path.join(ROOT, "app", "docs");
-// 允许保留的绝对路径前缀（站点通用/组件演示）
+// 允许的绝对路径前缀（站点级 & 组件演示级别）
 const ALLOWED_ABSOLUTE_PREFIXES = ["/images/site/", "/images/components/"];
 
-// 认定为“图片”的后缀名（忽略大小写）
+// 图片文件扩展名
 const IMAGE_FILE_EXTS = new Set([
   ".png",
   ".jpg",
@@ -54,7 +54,7 @@ function* walk(dir) {
 }
 
 /**
- * 推断文档的“路由路径”（仅用于参考/信息）
+ * 将文件路径转换为路由路径
  */
 function toRoutePath(file) {
   const rel = path.relative(DOCS_DIR, file).split(path.sep).join("/");
@@ -110,23 +110,25 @@ function checkFile(file, refs) {
   const content = fs.readFileSync(file, "utf8");
   const routePath = toRoutePath(file);
   const baseDir = path.dirname(file);
+  const baseName = path.basename(file, path.extname(file));
+  const expectedRelPrefix = `./${baseName}.assets/`;
   // Markdown 图片语法：![alt](src)
   const re = /!\[[^\]]*\]\(([^)]+)\)/g;
-  // HTML 图片语法：<img src="...">
+  // HTML 图片语法：<img src="..." />
   const inlineRe = /<img[^>]*src=["']([^"']+)["'][^>]*>/gi;
   const problems = [];
 
   function checkUrl(url, loc) {
     const urlNorm = url.replace(/\\/g, "/");
     if (/^https?:\/\//i.test(urlNorm)) return; // 外链忽略
-    // 绝对路径：仅允许站点级前缀；或“确认为被多个文档共享”的图片
+    // 绝对路径
     if (urlNorm.startsWith("/images/")) {
       const okAbs =
         ALLOWED_ABSOLUTE_PREFIXES.some((p) => urlNorm.startsWith(p)) ||
         (refs.get(urlNorm)?.size || 0) > 1;
       if (!okAbs) {
         problems.push(
-          `${loc}: prefer co-located images; use relative path like ./images/<file> (avoid ${urlNorm})`,
+          `${loc}: prefer co-located images; use ${expectedRelPrefix}<file> (avoid ${urlNorm})`,
         );
       }
       const fname = urlNorm.split("/").pop() || "";
@@ -144,7 +146,7 @@ function checkFile(file, refs) {
         );
       }
       const ext = path.extname(abs).toLowerCase();
-      if (!IMAGE_FILE_EXTS.has(ext)) return; // 非图片链接跳过
+      if (!IMAGE_FILE_EXTS.has(ext)) return; // 非图片文件忽略
       if (!fs.existsSync(abs)) {
         problems.push(`${loc}: image file not found -> ${urlNorm}`);
       }
