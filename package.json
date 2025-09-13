@@ -9,7 +9,7 @@
     "postinstall": "fumadocs-mdx",
     "prepare": "husky",
     "lint:images": "node scripts/check-images.mjs",
-    "migrate:images": "node scripts/move-doc-images.mjs && node scripts/check-images.mjs"
+    "migrate:images": "node scripts/move-doc-images.mjs"
   },
   "dependencies": {
     "@types/mdx": "^2.0.13",
