@@ -1,1 +1,14 @@
+#!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# 1) 将 /images/* 文章图片就近复制并更新引用
+pnpm migrate:images || exit 1
+
+# 将迁移后的变更加入暂存，确保本次提交包含更新
+git add -A
+
+# 2) 校验图片路径与命名（不合规则阻止提交）
+pnpm lint:images || exit 1
+
+# 3) 其余按 lint-staged 处理（如 Prettier）
 pnpm exec lint-staged
