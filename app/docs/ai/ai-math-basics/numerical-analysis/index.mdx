@@ -1,8 +1,35 @@
----
+﻿---
 title: "数值分析 (Numerical Analysis)"
-description: "数值分析基础与资料。"
+description: "数值分析核心概念及其在大模型中的应用"
+date: "2024-01-14"
+tags:
+  - numerical-analysis
+  - floating-point
+  - stability
+  - gradient-clipping
+  - learning-rate
+  - bfloat16
+  - fp16
+  - optimizer
 ---
 
-# 数值分析（Numerical Analysis）
+## 核心
 
-占位页，待补充内容。
+- 浮点数精度
+- 数值稳定性
+- 梯度裁剪（Gradient Clipping）
+- 学习率调度
+
+## 大模型应用
+
+### 防止梯度爆炸 / 消失
+
+- 大模型层数深，计算量大，数值稳定性问题尤为突出。
+
+### BFloat16 / FP16 训练
+
+- 理解不同精度浮点数对模型训练的影响。
+
+### 优化器选择
+
+- 某些优化器在数值上更稳定。

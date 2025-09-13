@@ -1,8 +1,42 @@
----
+﻿---
 title: "信息论 (Information Theory)"
-description: "信息论基础与资料。"
+description: "信息论核心概念及其在大模型中的应用"
+date: "2024-01-13"
+tags:
+  - information-theory
+  - entropy
+  - cross-entropy
+  - kl-divergence
+  - mutual-information
+  - rl
+  - model-compression
 ---
 
-# 信息论（Information Theory）
+## 核心
 
-占位页，待补充内容。
+- 信息量
+- 熵（Entropy）
+- 联合熵
+- 条件熵
+- 互信息
+- 交叉熵（Cross-Entropy）
+- KL散度（Kullback-Leibler Divergence）
+
+## 大模型应用
+
+### 损失函数
+
+- 交叉熵损失是衡量预测分布与真实分布之间差异的度量。
+
+### 注意力机制
+
+- 计算注意力权重时，softmax 操作与概率分布和熵的关联。
+
+### 强化学习
+
+- 策略梯度的优化目标中可能包含熵正则项，以鼓励探索。
+- TRPO / PPO 算法的核心是 KL 散度约束。
+
+### 模型压缩与量化
+
+- 量化信息损失的评估。

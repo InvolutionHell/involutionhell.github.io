@@ -1,8 +1,53 @@
----
+﻿---
 title: "概率论与数理统计 (Probability & Statistics)"
-description: "概率与统计基础与资料。"
+description: "概率论与数理统计核心概念及其在大模型中的应用"
+date: "2024-01-11"
+tags:
+  - probability
+  - statistics
+  - random-variable
+  - distribution
+  - bayes
+  - mle
+  - map
+  - hypothesis-testing
+  - confidence-interval
+  - cross-entropy
+  - rlhf
 ---
 
-# 概率论与数理统计（Probability & Statistics）
+## 核心
 
-占位页，待补充内容。
+- 随机变量
+- 概率分布（高斯、伯努利、多项式）
+- 期望
+- 方差
+- 协方差
+- 条件概率
+- 贝叶斯定理
+- 最大似然估计（MLE）
+- 最大后验估计（MAP）
+- 假设检验
+- 置信区间
+
+## 大模型应用
+
+### 语言建模
+
+- P(下一个词 | 上下文) 就是条件概率。
+
+### 损失函数
+
+- 交叉熵损失（Cross-Entropy Loss）来源于信息论和概率分布的差异度量。
+
+### 采样与生成
+
+- Top-k, Top-p (nucleus) sampling 都基于概率分布。
+
+### 不确定性量化
+
+- 对模型预测结果的置信度评估。
+
+### 强化学习 (RLHF)
+
+- 基于概率策略的优化。
