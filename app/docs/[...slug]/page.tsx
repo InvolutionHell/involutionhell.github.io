@@ -23,10 +23,8 @@ export default async function DocPage({ params }: Param) {
   return (
     <DocsPage toc={page.data.toc}>
       <DocsBody>
-        <h1 className="hover-darken-text">{page.data.title}</h1>
-        <div className="hover-darken">
-          <Mdx components={getMDXComponents()} />
-        </div>
+        <h1>{page.data.title}</h1>
+        <Mdx components={getMDXComponents()} />
       </DocsBody>
     </DocsPage>
   );
