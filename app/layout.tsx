@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { RootProvider } from "fumadocs-ui/provider";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -30,6 +31,19 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <RootProvider>{children}</RootProvider>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ED4GVN8YVW"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-ED4GVN8YVW');
+          `}
+        </Script>
       </body>
     </html>
   );
