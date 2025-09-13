@@ -10,7 +10,8 @@
 
 - Node.js 18+
 - pnpm（推荐）
-- 如果您是`Windows` + `VSCode(Cursor)`, 您可能会触发`Husky`的BUG, 请使用命令行(`git commit`)的方式来进行代码提交
+
+### ❗️如果您是`Windows` + `VSCode(Cursor)`, 您可能会触发`Husky`的BUG, 请使用命令行(`git commit`)的方式来进行代码提交❗️
 
 ### 安装
 
