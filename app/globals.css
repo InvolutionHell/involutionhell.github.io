@@ -291,10 +291,11 @@
   /* 针对不同颜色类型的 hover 变深效果 */
   .hover-darken-bg {
     transition: all 0.2s ease-in-out;
+    --hover-darken-bg-color: #f0f0f0;
   }
 
   .hover-darken-bg:hover {
-    background-color: #f0f0f0 !important;
+    background-color: var(--hover-darken-bg-color);
     transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
