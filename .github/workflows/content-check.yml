@@ -3,22 +3,25 @@ name: Content Check
 on:
   pull_request:
     paths:
-      - '**/*.md'
-      - '**/*.mdx'
-      - 'contentlayer.config.ts'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'next.config.mjs'
-      - 'postcss.config.mjs'
-      - 'tailwind.config.ts'
-      - 'tsconfig.json'
+      - "**/*.md"
+      - "**/*.mdx"
+      - "source.config.ts"
+      - "app/docs/**"
+      - "lib/source.ts"
+      - "mdx-components.tsx"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "next.config.mjs"
+      - "postcss.config.mjs"
+      - "tailwind.config.ts"
+      - "tsconfig.json"
 
 jobs:
   check-content:
     runs-on: ubuntu-latest
     env:
-      NEXT_TELEMETRY_DISABLED: '1'
-      CI: 'true'
+      NEXT_TELEMETRY_DISABLED: "1"
+      CI: "true"
     steps:
       - uses: actions/checkout@v4
 
@@ -29,8 +32,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run check:content
-
+      # Build the site to validate MDX and docs using Fumadocs
+      - run: pnpm build

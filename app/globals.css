@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
 @import "tw-animate-css";
 /*
   ---break---
@@ -175,15 +177,20 @@
   --spacing: 0.25rem;
   --shadow-2xs: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.05);
   --shadow-xs: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-sm:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-md:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 2px 4px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-lg:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 4px 6px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-xl:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 8px 10px -2px hsl(0 0% 10.1961% / 0.1);
   --shadow-2xl: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.25);
   --tracking-normal: 0em;
@@ -240,15 +247,20 @@
   --spacing: 0.25rem;
   --shadow-2xs: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.05);
   --shadow-xs: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-sm:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-md:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 2px 4px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-lg:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 4px 6px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
+  --shadow-xl:
+    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
     0px 8px 10px -2px hsl(0 0% 10.1961% / 0.1);
   --shadow-2xl: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.25);
 }
@@ -297,7 +309,9 @@
 
   /* 使用 CSS 变量实现更精确的颜色控制 */
   .hover-darken-custom {
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition:
+      background-color 0.2s ease-in-out,
+      color 0.2s ease-in-out;
   }
 
   .hover-darken-custom:hover {

@@ -16,10 +16,10 @@ A singly linked list is the most basic form of linked list, where each node cont
 
 ```javascript
 class ListNode {
-    constructor(data) {
-        this.data = data;    // Data field
-        this.next = null;    // Pointer field, points to next node
-    }
+  constructor(data) {
+    this.data = data; // Data field
+    this.next = null; // Pointer field, points to next node
+  }
 }
 ```
 
@@ -27,265 +27,265 @@ class ListNode {
 
 ```javascript
 class SinglyLinkedList {
-    constructor() {
-        this.head = null;    // Head pointer
-        this.size = 0;       // List length
+  constructor() {
+    this.head = null; // Head pointer
+    this.size = 0; // List length
+  }
+
+  // Insert node at head
+  prepend(data) {
+    const newNode = new ListNode(data);
+    newNode.next = this.head;
+    this.head = newNode;
+    this.size++;
+  }
+
+  // Insert node at tail
+  append(data) {
+    const newNode = new ListNode(data);
+
+    // If list is empty, new node becomes head node
+    if (!this.head) {
+      this.head = newNode;
+      this.size++;
+      return;
     }
 
-    // Insert node at head
-    prepend(data) {
-        const newNode = new ListNode(data);
-        newNode.next = this.head;
-        this.head = newNode;
-        this.size++;
+    // Find the last node
+    let current = this.head;
+    while (current.next) {
+      current = current.next;
     }
 
-    // Insert node at tail
-    append(data) {
-        const newNode = new ListNode(data);
+    // Link the new node
+    current.next = newNode;
+    this.size++;
+  }
 
-        // If list is empty, new node becomes head node
-        if (!this.head) {
-            this.head = newNode;
-            this.size++;
-            return;
-        }
-        
-        // Find the last node
-        let current = this.head;
-        while (current.next) {
-            current = current.next;
-        }
-
-        // Link the new node
-        current.next = newNode;
-        this.size++;
+  // Insert node at specified position
+  insert(index, data) {
+    if (index < 0 || index > this.size) {
+      throw new Error("Index out of bounds");
     }
-    
-    // Insert node at specified position
-    insert(index, data) {
-        if (index < 0 || index > this.size) {
-            throw new Error("Index out of bounds");
-        }
 
-        // Insert at head
-        if (index === 0) {
-            this.prepend(data);
-            return;
-        }
-
-        const newNode = new ListNode(data);
-        let current = this.head;
-
-        // Find the node before the insertion position
-        for (let i = 0; i < index - 1; i++) {
-            current = current.next;
-        }
-
-        // Insert new node
-        newNode.next = current.next;
-        current.next = newNode;
-        this.size++;
+    // Insert at head
+    if (index === 0) {
+      this.prepend(data);
+      return;
     }
-    
+
+    const newNode = new ListNode(data);
+    let current = this.head;
+
+    // Find the node before the insertion position
+    for (let i = 0; i < index - 1; i++) {
+      current = current.next;
+    }
+
+    // Insert new node
+    newNode.next = current.next;
+    current.next = newNode;
+    this.size++;
+  }
+
+  // Remove head node
+  removeFirst() {
+    if (!this.head) {
+      return null;
+    }
+
+    const removedData = this.head.data;
+    this.head = this.head.next;
+    this.size--;
+    return removedData;
+  }
+
+  // Remove tail node
+  removeLast() {
+    if (!this.head) {
+      return null;
+    }
+
+    // Only one node
+    if (!this.head.next) {
+      const removedData = this.head.data;
+      this.head = null;
+      this.size--;
+      return removedData;
+    }
+
+    // Find the second-to-last node
+    let current = this.head;
+    while (current.next.next) {
+      current = current.next;
+    }
+
+    const removedData = current.next.data;
+    current.next = null;
+    this.size--;
+    return removedData;
+  }
+
+  // Remove node at specified position
+  remove(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+
     // Remove head node
-    removeFirst() {
-        if (!this.head) {
-            return null;
-        }
-
-        const removedData = this.head.data;
-        this.head = this.head.next;
-        this.size--;
-        return removedData;
+    if (index === 0) {
+      return this.removeFirst();
     }
 
-    // Remove tail node
-    removeLast() {
-        if (!this.head) {
-            return null;
-        }
+    let current = this.head;
 
-        // Only one node
-        if (!this.head.next) {
-            const removedData = this.head.data;
-            this.head = null;
-            this.size--;
-            return removedData;
-        }
+    // Find the node before the one to be removed
+    for (let i = 0; i < index - 1; i++) {
+      current = current.next;
+    }
 
-        // Find the second-to-last node
-        let current = this.head;
-        while (current.next.next) {
-            current = current.next;
-        }
+    const removedData = current.next.data;
+    current.next = current.next.next;
+    this.size--;
+    return removedData;
+  }
 
-        const removedData = current.next.data;
-        current.next = null;
-        this.size--;
-        return removedData;
+  // 删除指定值的第一个节点
+  removeByValue(data) {
+    if (!this.head) {
+      return false;
     }
-    
-    // Remove node at specified position
-    remove(index) {
-        if (index < 0 || index >= this.size) {
-            throw new Error("Index out of bounds");
-        }
 
-        // Remove head node
-        if (index === 0) {
-            return this.removeFirst();
-        }
+    // 如果头节点就是要删除的节点
+    if (this.head.data === data) {
+      this.head = this.head.next;
+      this.size--;
+      return true;
+    }
 
-        let current = this.head;
+    let current = this.head;
+    while (current.next && current.next.data !== data) {
+      current = current.next;
+    }
 
-        // Find the node before the one to be removed
-        for (let i = 0; i < index - 1; i++) {
-            current = current.next;
-        }
+    // 找到了要删除的节点
+    if (current.next) {
+      current.next = current.next.next;
+      this.size--;
+      return true;
+    }
 
-        const removedData = current.next.data;
-        current.next = current.next.next;
-        this.size--;
-        return removedData;
+    return false; // 未找到
+  }
+
+  // 查找元素
+  indexOf(data) {
+    let current = this.head;
+    let index = 0;
+
+    while (current) {
+      if (current.data === data) {
+        return index;
+      }
+      current = current.next;
+      index++;
     }
-    
-    // 删除指定值的第一个节点
-    removeByValue(data) {
-        if (!this.head) {
-            return false;
-        }
-        
-        // 如果头节点就是要删除的节点
-        if (this.head.data === data) {
-            this.head = this.head.next;
-            this.size--;
-            return true;
-        }
-        
-        let current = this.head;
-        while (current.next && current.next.data !== data) {
-            current = current.next;
-        }
-        
-        // 找到了要删除的节点
-        if (current.next) {
-            current.next = current.next.next;
-            this.size--;
-            return true;
-        }
-        
-        return false; // 未找到
+
+    return -1; // 未找到
+  }
+
+  // 获取指定位置的元素
+  get(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
     }
-    
-    // 查找元素
-    indexOf(data) {
-        let current = this.head;
-        let index = 0;
-        
-        while (current) {
-            if (current.data === data) {
-                return index;
-            }
-            current = current.next;
-            index++;
-        }
-        
-        return -1; // 未找到
+
+    let current = this.head;
+    for (let i = 0; i < index; i++) {
+      current = current.next;
     }
-    
-    // 获取指定位置的元素
-    get(index) {
-        if (index < 0 || index >= this.size) {
-            throw new Error("Index out of bounds");
-        }
-        
-        let current = this.head;
-        for (let i = 0; i < index; i++) {
-            current = current.next;
-        }
-        
-        return current.data;
+
+    return current.data;
+  }
+
+  // 检查链表是否包含指定元素
+  contains(data) {
+    return this.indexOf(data) !== -1;
+  }
+
+  // 获取链表长度
+  length() {
+    return this.size;
+  }
+
+  // 检查链表是否为空
+  isEmpty() {
+    return this.size === 0;
+  }
+
+  // 清空链表
+  clear() {
+    this.head = null;
+    this.size = 0;
+  }
+
+  // 转换为数组
+  toArray() {
+    const result = [];
+    let current = this.head;
+
+    while (current) {
+      result.push(current.data);
+      current = current.next;
     }
-    
-    // 检查链表是否包含指定元素
-    contains(data) {
-        return this.indexOf(data) !== -1;
+
+    return result;
+  }
+
+  // 遍历链表
+  forEach(callback) {
+    let current = this.head;
+    let index = 0;
+
+    while (current) {
+      callback(current.data, index);
+      current = current.next;
+      index++;
     }
-    
-    // 获取链表长度
-    length() {
-        return this.size;
+  }
+
+  // 反转链表
+  reverse() {
+    let prev = null;
+    let current = this.head;
+    let next = null;
+
+    while (current) {
+      next = current.next; // 保存下一个节点
+      current.next = prev; // 反转指针
+      prev = current; // 移动 prev
+      current = next; // 移动 current
     }
-    
-    // 检查链表是否为空
-    isEmpty() {
-        return this.size === 0;
+
+    this.head = prev;
+  }
+
+  // 打印链表
+  toString() {
+    if (!this.head) {
+      return "Empty list";
     }
-    
-    // 清空链表
-    clear() {
-        this.head = null;
-        this.size = 0;
+
+    const elements = [];
+    let current = this.head;
+
+    while (current) {
+      elements.push(current.data);
+      current = current.next;
     }
-    
-    // 转换为数组
-    toArray() {
-        const result = [];
-        let current = this.head;
-        
-        while (current) {
-            result.push(current.data);
-            current = current.next;
-        }
-        
-        return result;
-    }
-    
-    // 遍历链表
-    forEach(callback) {
-        let current = this.head;
-        let index = 0;
-        
-        while (current) {
-            callback(current.data, index);
-            current = current.next;
-            index++;
-        }
-    }
-    
-    // 反转链表
-    reverse() {
-        let prev = null;
-        let current = this.head;
-        let next = null;
-        
-        while (current) {
-            next = current.next;  // 保存下一个节点
-            current.next = prev;  // 反转指针
-            prev = current;       // 移动 prev
-            current = next;       // 移动 current
-        }
-        
-        this.head = prev;
-    }
-    
-    // 打印链表
-    toString() {
-        if (!this.head) {
-            return "Empty list";
-        }
-        
-        const elements = [];
-        let current = this.head;
-        
-        while (current) {
-            elements.push(current.data);
-            current = current.next;
-        }
-        
-        return elements.join(" -> ");
-    }
+
+    return elements.join(" -> ");
+  }
 }
 ```
 
@@ -307,22 +307,22 @@ list.insert(2, 1.5);
 console.log(list.toString()); // "0 -> 1 -> 1.5 -> 2 -> 3"
 
 // 查找元素
-console.log(list.indexOf(2));    // 3
-console.log(list.get(1));        // 1
-console.log(list.contains(3));   // true
+console.log(list.indexOf(2)); // 3
+console.log(list.get(1)); // 1
+console.log(list.contains(3)); // true
 
 // 删除元素
-list.remove(0);                  // 删除索引 0 的元素
-list.removeByValue(1.5);         // 删除值为 1.5 的元素
-console.log(list.toString());    // "1 -> 2 -> 3"
+list.remove(0); // 删除索引 0 的元素
+list.removeByValue(1.5); // 删除值为 1.5 的元素
+console.log(list.toString()); // "1 -> 2 -> 3"
 
 // 反转链表
 list.reverse();
-console.log(list.toString());    // "3 -> 2 -> 1"
+console.log(list.toString()); // "3 -> 2 -> 1"
 
 // 遍历链表
 list.forEach((data, index) => {
-    console.log(`Index ${index}: ${data}`);
+  console.log(`Index ${index}: ${data}`);
 });
 ```
 
@@ -362,17 +362,17 @@ Step 2: A.next = B.next
 // Target: null <- 1 <- 2 <- 3
 
 function reverse(head) {
-    let prev = null;
-    let current = head;
-    
-    while (current !== null) {
-        let next = current.next;    // Save next node
-        current.next = prev;        // Reverse current node's pointer
-        prev = current;             // prev moves forward
-        current = next;             // current moves forward
-    }
-    
-    return prev; // prev now points to the new head node
+  let prev = null;
+  let current = head;
+
+  while (current !== null) {
+    let next = current.next; // Save next node
+    current.next = prev; // Reverse current node's pointer
+    prev = current; // prev moves forward
+    current = next; // current moves forward
+  }
+
+  return prev; // prev now points to the new head node
 }
 ```
 
@@ -382,21 +382,21 @@ function reverse(head) {
 
 ```javascript
 function hasCycle(head) {
-    if (!head || !head.next) return false;
-    
-    let slow = head;
-    let fast = head;
-    
-    while (fast && fast.next) {
-        slow = slow.next;
-        fast = fast.next.next;
-        
-        if (slow === fast) {
-            return true; // 发现环
-        }
+  if (!head || !head.next) return false;
+
+  let slow = head;
+  let fast = head;
+
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      return true; // 发现环
     }
-    
-    return false;
+  }
+
+  return false;
 }
 ```
 
@@ -404,17 +404,17 @@ function hasCycle(head) {
 
 ```javascript
 function findMiddle(head) {
-    if (!head) return null;
-    
-    let slow = head;
-    let fast = head;
-    
-    while (fast.next && fast.next.next) {
-        slow = slow.next;
-        fast = fast.next.next;
-    }
-    
-    return slow;
+  if (!head) return null;
+
+  let slow = head;
+  let fast = head;
+
+  while (fast.next && fast.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  return slow;
 }
 ```
 
@@ -422,24 +422,24 @@ function findMiddle(head) {
 
 ```javascript
 function mergeTwoLists(l1, l2) {
-    const dummy = new ListNode(0);
-    let current = dummy;
-    
-    while (l1 && l2) {
-        if (l1.data <= l2.data) {
-            current.next = l1;
-            l1 = l1.next;
-        } else {
-            current.next = l2;
-            l2 = l2.next;
-        }
-        current = current.next;
+  const dummy = new ListNode(0);
+  let current = dummy;
+
+  while (l1 && l2) {
+    if (l1.data <= l2.data) {
+      current.next = l1;
+      l1 = l1.next;
+    } else {
+      current.next = l2;
+      l2 = l2.next;
     }
-    
-    // 连接剩余的节点
-    current.next = l1 || l2;
-    
-    return dummy.next;
+    current = current.next;
+  }
+
+  // 连接剩余的节点
+  current.next = l1 || l2;
+
+  return dummy.next;
 }
 ```
 
@@ -449,26 +449,26 @@ function mergeTwoLists(l1, l2) {
 
 ```javascript
 class OptimizedSinglyLinkedList {
-    constructor() {
-        this.head = null;
-        this.tail = null;  // 维护尾指针
-        this.size = 0;
+  constructor() {
+    this.head = null;
+    this.tail = null; // 维护尾指针
+    this.size = 0;
+  }
+
+  append(data) {
+    const newNode = new ListNode(data);
+
+    if (!this.head) {
+      this.head = this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
-    
-    append(data) {
-        const newNode = new ListNode(data);
-        
-        if (!this.head) {
-            this.head = this.tail = newNode;
-        } else {
-            this.tail.next = newNode;
-            this.tail = newNode;
-        }
-        
-        this.size++;
-    }
-    
-    // 现在 append 操作是 O(1) 而不是 O(n)
+
+    this.size++;
+  }
+
+  // 现在 append 操作是 O(1) 而不是 O(n)
 }
 ```
 
@@ -476,19 +476,19 @@ class OptimizedSinglyLinkedList {
 
 ```javascript
 class SentinelLinkedList {
-    constructor() {
-        this.sentinel = new ListNode(null); // Sentinel node
-        this.sentinel.next = null;
-        this.size = 0;
-    }
-    
-    // With sentinel node, many operation edge case handling becomes simpler
-    prepend(data) {
-        const newNode = new ListNode(data);
-        newNode.next = this.sentinel.next;
-        this.sentinel.next = newNode;
-        this.size++;
-    }
+  constructor() {
+    this.sentinel = new ListNode(null); // Sentinel node
+    this.sentinel.next = null;
+    this.size = 0;
+  }
+
+  // With sentinel node, many operation edge case handling becomes simpler
+  prepend(data) {
+    const newNode = new ListNode(data);
+    newNode.next = this.sentinel.next;
+    this.sentinel.next = newNode;
+    this.size++;
+  }
 }
 ```
 
@@ -498,25 +498,25 @@ class SentinelLinkedList {
 
 ```javascript
 class Stack {
-    constructor() {
-        this.list = new SinglyLinkedList();
-    }
-    
-    push(item) {
-        this.list.prepend(item);
-    }
-    
-    pop() {
-        return this.list.removeFirst();
-    }
-    
-    peek() {
-        return this.list.isEmpty() ? null : this.list.get(0);
-    }
-    
-    isEmpty() {
-        return this.list.isEmpty();
-    }
+  constructor() {
+    this.list = new SinglyLinkedList();
+  }
+
+  push(item) {
+    this.list.prepend(item);
+  }
+
+  pop() {
+    return this.list.removeFirst();
+  }
+
+  peek() {
+    return this.list.isEmpty() ? null : this.list.get(0);
+  }
+
+  isEmpty() {
+    return this.list.isEmpty();
+  }
 }
 ```
 
@@ -524,30 +524,30 @@ class Stack {
 
 ```javascript
 class Queue {
-    constructor() {
-        this.head = null;
-        this.tail = null;
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  enqueue(item) {
+    const newNode = new ListNode(item);
+    if (!this.tail) {
+      this.head = this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
-    
-    enqueue(item) {
-        const newNode = new ListNode(item);
-        if (!this.tail) {
-            this.head = this.tail = newNode;
-        } else {
-            this.tail.next = newNode;
-            this.tail = newNode;
-        }
-    }
-    
-    dequeue() {
-        if (!this.head) return null;
-        
-        const item = this.head.data;
-        this.head = this.head.next;
-        if (!this.head) this.tail = null;
-        
-        return item;
-    }
+  }
+
+  dequeue() {
+    if (!this.head) return null;
+
+    const item = this.head.data;
+    this.head = this.head.next;
+    if (!this.head) this.tail = null;
+
+    return item;
+  }
 }
 ```
 

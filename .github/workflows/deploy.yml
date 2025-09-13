@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -18,8 +18,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NEXT_TELEMETRY_DISABLED: '1'
-      CI: 'true'
+      NEXT_TELEMETRY_DISABLED: "1"
+      CI: "true"
     steps:
       - uses: actions/checkout@v4
 
@@ -30,10 +30,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run build                 # ← 只需要 build，静态站会输出到 ./out
+      - run: pnpm run build # ← 只需要 build，静态站会输出到 ./out
 
       # （可选）避免被 Jekyll 处理
       - run: touch ./out/.nojekyll
