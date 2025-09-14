@@ -4,6 +4,8 @@ import { RootProvider } from "fumadocs-ui/provider";
 import Script from "next/script";
 import "./globals.css";
 
+import DarkModeToggle from "@/app/components/DarkModeToggle";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <DarkModeToggle />
         <RootProvider>{children}</RootProvider>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ED4GVN8YVW"
