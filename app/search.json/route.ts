@@ -11,8 +11,8 @@ const api = createFromSource(source, {
     tokenizer: createTokenizer(),
   },
   search: {
-    threshold: 0,
-    tolerance: 0,
+    threshold: 0.3,
+    tolerance: 1,
   },
 });
 export const GET = api.staticGET;
