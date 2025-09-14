@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { RootProvider } from "fumadocs-ui/provider";
 import Script from "next/script";
 import "./globals.css";
+import { ThemeProvider } from "@/app/components/ThemeProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Global animated backgrounds (sky / stars) */}
+        <div className="site-bg site-bg--sky" aria-hidden />
+        <div className="site-bg site-bg--stars" aria-hidden />
         <RootProvider
           search={{
             // Use static index so it works in `next export` and dev.
@@ -40,6 +44,9 @@ export default function RootLayout({
           }}
         >
           {children}
+          <ThemeProvider defaultTheme="system" storageKey="ih-theme">
+            <div className="relative z-10">{children}</div>
+          </ThemeProvider>
         </RootProvider>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ED4GVN8YVW"

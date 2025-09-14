@@ -20,6 +20,11 @@
 git clone https://github.com/involutionhell/involutionhell.github.io.git
 cd involutionhell.github.io
 
+如果你的电脑还没有安装 pnpm，可以先运行：
+
+# 全局安装 pnpm
+npm install -g pnpm
+
 # 安装依赖
 pnpm install
 
