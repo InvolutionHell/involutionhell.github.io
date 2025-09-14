@@ -18,8 +18,8 @@ export function Hero() {
       href: "/docs/computer-science",
     },
     {
-      title: "Guide",
-      desc: "使用指引与贡献流程（即将上线）",
+      title: "群友分享",
+      desc: "群友写的捏",
       href: "/docs/guide",
     },
   ];
