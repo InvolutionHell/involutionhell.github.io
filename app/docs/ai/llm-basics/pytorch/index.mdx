@@ -15,66 +15,53 @@ PyTorch是现代深度学习最重要的框架之一，特别在研究和大模�
 
 ### 小土堆PyTorch教程
 
-- **视频地址**: [PyTorch深度学习快速入门教程](https://www.bilibili.com/video/BV1hE411t7RN/)
-- **特色**: 绝对通俗易懂，适合零基础学习者
+- **视频**: [PyTorch深度学习快速入门教程](https://www.bilibili.com/video/BV1hE411t7RN/?spm_id_from=333.337.search-card.all.click&vd_source=14245d272f6606a31fe299db9e47ca84)
+- **特色**: 通俗易懂，适合零基础学习者
 - **内容覆盖**:
-  - PyTorch基础概念
+  - 基础概念
   - 张量操作
   - 神经网络构建
   - 训练循环设计
   - 实际项目案例
 
-### 官方资源
+### 官方与社区资源
 
-- **PyTorch官方中文教程**: [https://pytorch.ac.cn/tutorials/](https://pytorch.ac.cn/tutorials/)
-- **菜鸟教程**: [https://www.runoob.com/pytorch/pytorch-tensor.html](https://www.runoob.com/pytorch/pytorch-tensor.html)
-- **特色**: 权威性强，内容全面，持续更新
+- **PyTorch官方中文教程**: [pytorch.ac.cn/tutorials](https://pytorch.ac.cn/tutorials/)
+- **菜鸟教程**: [runoob.com/pytorch](https://www.runoob.com/pytorch/pytorch-tensor.html)
+- **PyTorch面试精华**: [mstx.cn](https://www.mstx.cn/pytorch.html)
 
-### PyTorch面试精华
-
-- **资源链接**: [https://www.mstx.cn/pytorch.html](https://www.mstx.cn/pytorch.html)
-- **覆盖内容**:
-  - PyTorch基础概念
-  - 常见面试问题
-  - 代码实现要点
-  - 性能优化技巧
-
-## 张量操作进阶
-
-### einops库
-
-- **GitHub**: [https://github.com/arogozhnikov/einops](https://github.com/arogozhnikov/einops)
-- **特色**: 优雅的张量操作，代码可读性强
-- **核心功能**: `rearrange`, `reduce`, `repeat`
-
-### The Tensor Cookbook
-
-- **网站**: [https://tensorcookbook.com/](https://tensorcookbook.com/)
-- **GitHub**: [https://github.com/thomasahle/tensorgrad](https://github.com/thomasahle/tensorgrad)
-- **特色**: 可视化张量操作指南
-- **知乎讨论**: [张量食谱相关讨论](https://www.zhihu.com/search?type=content&q=%E5%BC%A0%E9%87%8F%E9%A3%9F%E8%B0%B1)
-
-## 经典教材
-
-### Deep Learning with PyTorch Step-by-Step
-
-- **特色**: 从基础到高级的完整路径，逐步深入的PyTorch学习
-- **适用**: 有一定基础的学习者
-- **内容**: 包含完整的项目实战案例
+---
 
 ## 核心概念
 
-### 张量 (Tensor)
+- **张量 (Tensor)**：PyTorch 的核心数据结构，支持 GPU 加速的多维数组
+  ![](/images/word/word-img-01.png)
+  ![](/images/word/word-img-02.png)
+- **自动梯度 (Autograd)**：动态计算图与自动微分系统
+- **神经网络模块 (nn.Module)**：模块化构建神经网络
+- **训练循环**：优化器、损失函数、学习率调度等
 
-PyTorch的核心数据结构，支持GPU加速的多维数组。
+---
 
-### 自动梯度 (Autograd)
+## 张量操作进阶
 
-动态计算图和自动微分系统，深度学习训练的核心。
+### 工具与库
 
-### 神经网络模块 (nn.Module)
+- **einops**: [GitHub](https://github.com/arogozhnikov/einops) — 优雅的张量操作（`rearrange`, `reduce`, `repeat`）
+- **The Tensor Cookbook**:
+  - [官网](https://tensorcookbook.com/)
+  - [知乎讨论](https://www.zhihu.com/search?type=content&q=%E5%BC%A0%E9%87%8F%E9%A3%9F%E8%B0%B1)
+  - [tensorgrad (GitHub)](https://github.com/thomasahle/tensorgrad)
+  - [Cookbook PDF]
 
-构建神经网络的基础类，支持模块化设计。
+---
+
+## 经典教材
+
+- **Deep Learning with PyTorch Step-by-Step: A Beginner’s Guide** (Daniel Voigt Godoy)
+  - [PDF (Z-Library)]
+
+---
 
 ## 实践建议
 
@@ -90,36 +77,19 @@ PyTorch的核心数据结构，支持GPU加速的多维数组。
 
 1. **多动手**: 每个概念都要亲自实现
 2. **读源码**: 理解底层实现原理
-3. **做项目**: 通过项目巩固知识
+3. **做项目**: 通过实战巩固知识
 4. **参与社区**: 贡献开源项目
 
-PyTorch作为深度学习的主流框架，掌握其核心概念和高级特性对于大模型开发至关重要。
+---
 
-1. [PyTorch 深度学习快速入门教程（绝对通俗易懂！）【小土堆】](https://www.bilibili.com/video/BV1hE411t7RN/?spm_id_from=333.337.search-card.all.click&vd_source=14245d272f6606a31fe299db9e47ca84)
-2. [PyTorch 面试精华](https://www.mstx.cn/pytorch.html)
-3. [菜鸟教程 - PyTorch](https://www.runoob.com/pytorch/pytorch-tensor.html)
-4. [PyTorch 官方中文教程](https://pytorch.ac.cn/tutorials/)
+## 附录：环境准备
 
-## 张量 (Tensor)
-
-### 张量工具与库
-
-- [einops (Github)](https://github.com/arogozhnikov/einops)
-
-### Tensor Cookbook 及相关资料
-
-- [The Tensor Cookbook（可视化张量）](https://tensorcookbook.com/)
-- [知乎 - 张量食谱相关讨论](https://www.zhihu.com/search?type=content&q=%E5%BC%A0%E9%87%8F%E9%A3%9F%E8%B0%B1)
-- [tensorgrad (Github)](https://github.com/thomasahle/tensorgrad)
-- [Cookbook PDF]
-- Deep Learning with PyTorch Step-by-Step: A Beginner’s Guide (Daniel Voigt Godoy) PDF (Z-Library)
-
-## Jupyter 内核注册（来自群文档摘录）
+### Jupyter 内核注册
 
 ```bash
 pip install ipykernel
 
-# 注册内核（示例）
+# 注册内核示例
 python -m ipykernel install --user --name myenv
 python -m ipykernel install --user --name yourname --display-name yourname
 ```
