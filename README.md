@@ -24,7 +24,7 @@ cd involutionhell.github.io
 pnpm install
 
 # 启动开发服务器
-pnpm dev
+npm dev
 ```
 
 打开浏览器访问 [http://localhost:3000](http://localhost:3000) 查看站点。
