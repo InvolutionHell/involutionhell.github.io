@@ -33,9 +33,10 @@ export function ZoteroFeed({
         const data: ZoteroItem[] = await r.json();
         setItems(data);
       })
-      .catch((e) => {
-        if ((e as any)?.name !== "AbortError")
+      .catch((e: unknown) => {
+        if ((e as { name?: string }).name !== "AbortError") {
           setError((e as Error).message || String(e));
+        }
       });
     return () => controller.abort();
   }, [groupId, limit]);

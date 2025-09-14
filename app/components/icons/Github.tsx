@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export interface GithubProps extends React.SVGProps<SVGSVGElement> {}
+export type GithubProps = React.SVGProps<SVGSVGElement>;
 
 // Simple Icons GitHub mark (CC0-1.0). Uses currentColor for fill.
 export const Github = React.forwardRef<SVGSVGElement, GithubProps>(
