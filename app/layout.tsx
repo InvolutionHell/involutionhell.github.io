@@ -29,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Global animated backgrounds (sky / stars) */}
@@ -43,7 +44,6 @@ export default function RootLayout({
             },
           }}
         >
-          {children}
           <ThemeProvider defaultTheme="system" storageKey="ih-theme">
             <div className="relative z-10">{children}</div>
           </ThemeProvider>
