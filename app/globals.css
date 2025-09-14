@@ -38,6 +38,21 @@
 }
 
 @layer utilities {
+  /* Subtle research-style gradients */
+  .bg-gradient-primary {
+    background-image: linear-gradient(90deg, #60a5fa 0%, #93c5fd 100%);
+  }
+  .bg-gradient-accent {
+    background-image: linear-gradient(90deg, #fca5a5 0%, #fecaca 100%);
+  }
+  .bg-gradient-secondary {
+    background-image: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+  .shadow-glow {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.06),
+      0 10px 20px rgba(0, 0, 0, 0.04);
+  }
   :root {
     --background: #ffffff;
     --foreground: #171717;
@@ -131,69 +146,76 @@
 */
 
 :root {
-  --radius: 1.25rem;
-  --background: oklch(0.967 0.0029 264.5419);
-  --foreground: oklch(0.2795 0.0368 260.031);
+  --radius: 0rem;
+  /* Neutral grayscale palette for research style */
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.25 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2795 0.0368 260.031);
+  --card-foreground: oklch(0.25 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2795 0.0368 260.031);
-  --primary: oklch(0.5854 0.2041 277.1173);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.9276 0.0058 264.5313);
-  --secondary-foreground: oklch(0.3729 0.0306 259.7328);
-  --muted: oklch(0.967 0.0029 264.5419);
-  --muted-foreground: oklch(0.551 0.0234 264.3637);
-  --accent: oklch(0.9299 0.0334 272.7879);
-  --accent-foreground: oklch(0.3729 0.0306 259.7328);
-  --destructive: oklch(0.6368 0.2078 25.3313);
-  --border: oklch(0.9851 0 0);
-  --input: oklch(0.8717 0.0093 258.3382);
-  --ring: oklch(0.5854 0.2041 277.1173);
-  --chart-1: oklch(0.5854 0.2041 277.1173);
-  --chart-2: oklch(0.5106 0.2301 276.9656);
-  --chart-3: oklch(0.4568 0.2146 277.0229);
-  --chart-4: oklch(0.3984 0.1773 277.3662);
-  --chart-5: oklch(0.3588 0.1354 278.6973);
-  --sidebar: oklch(0.967 0.0029 264.5419);
-  --sidebar-foreground: oklch(0.2795 0.0368 260.031);
-  --sidebar-primary: oklch(0.5854 0.2041 277.1173);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.9299 0.0334 272.7879);
-  --sidebar-accent-foreground: oklch(0.3729 0.0306 259.7328);
-  --sidebar-border: oklch(0.8717 0.0093 258.3382);
-  --sidebar-ring: oklch(0.5854 0.2041 277.1173);
-  --destructive-foreground: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0 0);
+  --primary: oklch(0.35 0 0);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.95 0 0);
+  --secondary-foreground: oklch(0.28 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.94 0 0);
+  --accent-foreground: oklch(0.28 0 0);
+  --destructive: oklch(0.4 0.03 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0.35 0 0);
+  /* Charts in subtle greys */
+  --chart-1: oklch(0.35 0 0);
+  --chart-2: oklch(0.5 0 0);
+  --chart-3: oklch(0.65 0 0);
+  --chart-4: oklch(0.8 0 0);
+  --chart-5: oklch(0.9 0 0);
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.25 0 0);
+  --sidebar-primary: oklch(0.35 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.94 0 0);
+  --sidebar-accent-foreground: oklch(0.28 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.35 0 0);
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Merriweather, serif;
   --font-mono: JetBrains Mono, monospace;
-  --shadow-color: #1a1a1a;
-  --shadow-opacity: 0.1;
-  --shadow-blur: 15px;
+  --shadow-color: #000000;
+  --shadow-opacity: 0.06;
+  --shadow-blur: 10px;
   --shadow-spread: -1px;
   --shadow-offset-x: 0px;
   --shadow-offset-y: 0px;
   --letter-spacing: 0em;
   --spacing: 0.25rem;
-  --shadow-2xs: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.05);
-  --shadow-xs: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm:
-    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
-    0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow:
-    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
-    0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md:
-    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
-    0px 2px 4px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg:
-    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
-    0px 4px 6px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl:
-    0px 0px 15px -1px hsl(0 0% 10.1961% / 0.1),
-    0px 8px 10px -2px hsl(0 0% 10.1961% / 0.1);
-  --shadow-2xl: 0px 0px 15px -1px hsl(0 0% 10.1961% / 0.25);
+  --shadow-2xs: 0 0 0 0 transparent;
+  --shadow-xs: 0 0 0 0 transparent;
+  --shadow-sm: 0 0 0 0 transparent;
+  --shadow: 0 0 0 0 transparent;
+  --shadow-md: 0 0 0 0 transparent;
+  --shadow-lg: 0 0 0 0 transparent;
+  --shadow-xl: 0 0 0 0 transparent;
+  --shadow-2xl: 0 0 0 0 transparent;
   --tracking-normal: 0em;
+}
+
+/* Force remove rounded corners globally for research style */
+@layer base {
+  .rounded,
+  .rounded-sm,
+  .rounded-md,
+  .rounded-lg,
+  .rounded-xl,
+  .rounded-2xl,
+  .rounded-3xl,
+  .rounded-full,
+  .rounded-none {
+    border-radius: 0 !important;
+  }
 }
 
 /*
@@ -275,5 +297,150 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Global animated site backgrounds (sky for light, stars for dark) */
+@layer utilities {
+  .site-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* Light mode sky */
+  .site-bg--sky {
+    display: block;
+    /* Stronger blue sky */
+    background: linear-gradient(
+      180deg,
+      #cfe8ff 0%,
+      #bfe1ff 40%,
+      #eaf6ff 70%,
+      #ffffff 100%
+    );
+  }
+  /* Cloud layers using images, subtle parallax */
+  .site-bg--sky::before,
+  .site-bg--sky::after {
+    content: "";
+    position: absolute;
+    left: -20vw;
+    right: -20vw;
+    pointer-events: none;
+    background-repeat: repeat-x;
+    background-position: 0 center;
+  }
+  .site-bg--sky::before {
+    top: 8vh;
+    height: 26vh;
+    opacity: 0.25;
+    background-image: url("/cloud_2.png");
+    background-size: 900px auto;
+    animation: clouds-drift 60s linear infinite;
+  }
+  .site-bg--sky::after {
+    top: 38vh;
+    height: 22vh;
+    opacity: 0.18;
+    background-image: url("/cloud_2.png");
+    background-size:
+      700px auto,
+      1100px auto;
+    background-position:
+      0 center,
+      200px center;
+    animation: clouds-drift-slow 180s linear infinite;
+  }
+
+  @keyframes clouds-drift {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes clouds-drift-slow {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-35%);
+    }
+  }
+
+  /* Dark mode stars */
+  .site-bg--stars {
+    display: none;
+    background-color: #000000;
+  }
+  .site-bg--stars::before,
+  .site-bg--stars::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-repeat: repeat;
+  }
+  .site-bg--stars::before {
+    opacity: 0.7;
+    background-image:
+      radial-gradient(
+        1px 1px at 10px 20px,
+        rgba(255, 255, 255, 0.9) 50%,
+        transparent 51%
+      ),
+      radial-gradient(
+        1px 1px at 130px 80px,
+        rgba(186, 214, 255, 0.9) 50%,
+        transparent 51%
+      ),
+      radial-gradient(
+        1px 1px at 60px 140px,
+        rgba(255, 210, 210, 0.9) 50%,
+        transparent 51%
+      );
+    background-size: 220px 220px;
+    animation: stars-drift 120s linear infinite;
+  }
+  .site-bg--stars::after {
+    opacity: 0.5;
+    background-image:
+      radial-gradient(
+        1.5px 1.5px at 50px 30px,
+        rgba(255, 255, 255, 0.8) 50%,
+        transparent 51%
+      ),
+      radial-gradient(
+        2px 2px at 120px 160px,
+        rgba(200, 220, 255, 0.8) 50%,
+        transparent 51%
+      ),
+      radial-gradient(
+        1.5px 1.5px at 180px 100px,
+        rgba(255, 220, 220, 0.8) 50%,
+        transparent 51%
+      );
+    background-size: 320px 320px;
+    animation: stars-drift 180s linear infinite reverse;
+  }
+
+  @keyframes stars-drift {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  /* Toggle by theme */
+  .dark .site-bg--stars {
+    display: block;
+  }
+  .dark .site-bg--sky {
+    display: none;
   }
 }

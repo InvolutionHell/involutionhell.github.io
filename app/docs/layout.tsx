@@ -5,7 +5,14 @@ import type { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <DocsLayout tree={source.pageTree} {...baseOptions()}>
+    <DocsLayout
+      tree={source.pageTree}
+      {...baseOptions()}
+      sidebar={{
+        // 第一屏仅显示目录，不展开子目录
+        defaultOpenLevel: 0,
+      }}
+    >
       {children}
     </DocsLayout>
   );
