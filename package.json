@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint:images": "node scripts/check-images.mjs",
+    "migrate:images": "node scripts/move-doc-images.mjs"
   },
   "dependencies": {
     "@types/mdx": "^2.0.13",

@@ -90,10 +90,17 @@ pnpm dev
 pnpm dev              # 启动开发服务器
 pnpm build            # 构建生产版本
 pnpm start            # 启动生产服务器
-
-# 内容
-
-
-# 导出
-pnpm export           # 导出静态站点到 /out 目录
+pnpm postinstall
+pnpm lint:images      # 检查图片符合规则
+pnpm migrate:images   # 迁移图片
 ```
+
+## 图片管理规范（简要）
+
+自动化脚本会移动您引用的图片到 MDX 同目录下, 遵循以下规则:
+
+- 存放：与 MDX 同目录的 `./<basename>.assets/` 中。
+  - 例：`foo.mdx` → `./foo.assets/<img>.png`；`index.mdx` → `./index.assets/<img>.png`。
+- 引用：相对路径 `![](./<basename>.assets/<img>.png)`。
+- 自动化：提交时自动迁移并改引用；图片 Lint 只提示不拦截提交。
+- 共享：站点级用 `/images/site/*`、组件演示用 `/images/components/<name>/*`；多文档共用的图片可保留 `/images/...`。

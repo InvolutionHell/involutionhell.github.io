@@ -30,7 +30,7 @@ touch docs/computer-science/data-structures/new-topic/index.mdx
 
 使用 Markdown/MDX 编写文章：
 
-````mdx
+```mdx
 ---
 title: "文章标题"
 description: "文章简短描述"
@@ -51,20 +51,7 @@ tags:
 更多内容...
 
 ## 代码示例
-
-```javascript
-// 你的代码
-function example() {
-  return "Hello World!";
-}
 ```
-````
-
-## 总结
-
-文章总结...
-
-````
 
 ### 步骤4：测试修改
 
@@ -72,7 +59,8 @@ function example() {
 
 ```bash
 pnpm build
-````
+pnpm migrate:images  # 迁移图片脚本
+```
 
 此命令将：
 
@@ -141,6 +129,17 @@ npm dev
 ## 📚 文档规范
 
 所有文档放在 `docs/` 目录。
+图片需要放在 被引用的文档的同名`assets`目录下(正常情况下您不应该关心这个, 该项目有自动脚本来移动图片), 例如:
+docxA 引用了 imgA 图片, 那么他们的文档结构应该是 `docxA.assets/imgA`:
+
+```md
+docsA.mdx
+docsA.assets/
+imgA
+```
+
+![img](public/readme_docs_structure.png)
+
 每个文档都需要一个 Frontmatter，例如：
 
 ```md
