@@ -27,8 +27,7 @@ export function Hero() {
   return (
     <section className="relative">
       <div className="container mx-auto px-6 pt-12 pb-0 text-center">
-        {/* Mascot with overlay title at 3/4 height */}
-        <div className="relative mx-auto max-w-5xl">
+        <div className="relative mx-auto max-w-5xl mt-12">
           <img
             src="/mascot.svg"
             alt="Mascot"
