@@ -7,6 +7,9 @@ settings:
 importers:
   .:
     dependencies:
+      "@radix-ui/react-slot":
+        specifier: ^1.2.3
+        version: 1.2.3(@types/react@19.1.12)(react@19.1.1)
       "@types/mdx":
         specifier: ^2.0.13
         version: 2.0.13
