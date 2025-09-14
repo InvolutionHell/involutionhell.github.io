@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { ExternalLink } from "lucide-react";
 import { Github as GithubIcon } from "./icons/Github";
 import { ZoteroFeed } from "@/app/components/ZoteroFeed";
-import { ExternalFrame } from "./ExternalFrame";
 
 export function Hero() {
   const categories: { title: string; desc: string; href: string }[] = [
@@ -28,11 +27,19 @@ export function Hero() {
     <section className="relative">
       <div className="container mx-auto px-6 pt-12 pb-0 text-center">
         <div className="relative mx-auto max-w-5xl mt-12">
-          <img
-            src="/mascot.svg"
-            alt="Mascot"
-            className="mx-auto h-[25vh] w-auto object-contain"
-          />
+          <picture>
+            <source srcSet="/mascot.webp" type="image/webp" />
+            <source srcSet="/mascot.png" type="image/png" />
+            <img
+              src="/mascot.webp"
+              alt="Mascot"
+              className="mx-auto h-[25vh] w-auto object-contain"
+              loading="eager"
+              fetchPriority="high"
+              width="420"
+              height="400"
+            />
+          </picture>
           <h1 className="pointer-events-none select-none text-4xl md:text-6xl font-semibold leading-tight bg-gradient-primary bg-clip-text text-transparent">
             内卷地狱
           </h1>
@@ -68,7 +75,7 @@ export function Hero() {
               <li key={c.title} className="h-full">
                 <Link
                   href={c.href}
-                  className="flex border border-border p-5 hover:bg-accent transition-colors h-full flex flex-col"
+                  className="flex border border-border p-5 hover:bg-accent transition-colors h-full flex-col"
                 >
                   <div className="text-lg font-semibold">{c.title}</div>
                   <p className="mt-1 text-sm text-muted-foreground flex-1">
