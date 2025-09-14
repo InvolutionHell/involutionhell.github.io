@@ -3,7 +3,7 @@
  * MDX 图片就近迁移脚本（中文注释）
  *
  * 目标
- * - 扫描 `app/docs/??/?.mdx`（含 .md）里的图片引用
+ * - 扫描 `app/[locale]/docs/??/?.mdx`（含 .md）里的图片引用
  * - 对于以 `/images/...` 绝对路径引用且仅被“单一文档”使用的图片：移动到对应 MDX 同目录下的 `images/` 子目录
  * - 同时将文中的绝对路径替换为相对路径 `./images/<文件名>`（站点级资源除外）
  *
@@ -27,7 +27,7 @@ import crypto from "crypto";
 
 // 仓库根目录、文档目录与 public 目录
 const ROOT = process.cwd();
-const DOCS_DIR = path.join(ROOT, "app", "docs");
+const DOCS_DIR = path.join(ROOT, "app", "[locale]", "docs");
 const PUBLIC_DIR = path.join(ROOT, "public");
 
 // 排除不迁移的绝对路径前缀（站点级 & 组件演示级别）

@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { RootProvider } from "fumadocs-ui/provider";
 import Script from "next/script";
-import "./globals.css";
-import { ThemeProvider } from "@/app/components/ThemeProvider";
+import "../globals.css";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { locales } from "@/i18n";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -21,13 +22,20 @@ export const metadata: Metadata = {
   description: "A modern documentation site built with Fumadocs",
 };
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="preload" href="/mascot.webp" as="image" type="image/webp" />
         <link rel="preload" href="/mascot.png" as="image" type="image/png" />
@@ -44,7 +52,7 @@ export default function RootLayout({
             // Use static index so it works in `next export` and dev.
             options: {
               type: "static",
-              api: "/search.json",
+              api: `/${locale}/search.json`,
             },
           }}
         >

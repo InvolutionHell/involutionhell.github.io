@@ -3,7 +3,7 @@
  * MDX 图片路径校验脚本
  *
  * 功能
- * - 扫描 `app/docs/??/?.mdx`（含 .md）
+ * - 扫描 `app/[locale]/docs/??/?.mdx`（含 .md）
  * - 识别 Markdown `![]()` 与内联 `<img src="…" />` 的图片引用
  * - 强制使用“就近图片”：推荐相对路径（如 `./images/…`）
  * - 仅对站点级共享资源允许绝对路径：`/images/site/*`、`/images/components/*`
@@ -25,7 +25,7 @@ import fs from "fs";
 import path from "path";
 
 const ROOT = process.cwd();
-const DOCS_DIR = path.join(ROOT, "app", "docs");
+const DOCS_DIR = path.join(ROOT, "app", "[locale]", "docs");
 // 允许的绝对路径前缀（站点级 & 组件演示级别）
 const ALLOWED_ABSOLUTE_PREFIXES = ["/images/site/", "/images/components/"];
 
