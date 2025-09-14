@@ -43,3 +43,6 @@ next-env.d.ts
 
 # source
 .source
+
+# package管理
+.package-lock.json
