@@ -7,6 +7,12 @@ settings:
 importers:
   .:
     dependencies:
+      "@orama/orama":
+        specifier: ^3.1.13
+        version: 3.1.13
+      "@orama/tokenizers":
+        specifier: ^3.1.13
+        version: 3.1.13
       "@radix-ui/react-slot":
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.1.12)(react@19.1.1)
@@ -843,6 +849,13 @@ packages:
     resolution:
       {
         integrity: sha512-O0hdKt4K31i8fpq8Bw5RfdPVAqm0EdduBUcluPo2MRcfCOwUEf5JlnvRhf/J0ezOYOD8jQ/LumYZxOVi/XK/BA==,
+      }
+    engines: { node: ">= 20.0.0" }
+
+  "@orama/tokenizers@3.1.13":
+    resolution:
+      {
+        integrity: sha512-xGMlS4JyFulH9gOOnT7xygyX/6mtITOfjPRH2pvDyJBcBIZMUdmJ4VQpb59dxloMRv8Tfj8bcKkzhspkrcJ9Sw==,
       }
     engines: { node: ">= 20.0.0" }
 
@@ -5665,6 +5678,10 @@ snapshots:
     optional: true
 
   "@orama/orama@3.1.13": {}
+
+  "@orama/tokenizers@3.1.13":
+    dependencies:
+      "@orama/orama": 3.1.13
 
   "@radix-ui/number@1.1.1": {}
 

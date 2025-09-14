@@ -34,7 +34,16 @@ export default function RootLayout({
         {/* Global animated backgrounds (sky / stars) */}
         <div className="site-bg site-bg--sky" aria-hidden />
         <div className="site-bg site-bg--stars" aria-hidden />
-        <RootProvider>
+        <RootProvider
+          search={{
+            // Use static index so it works in `next export` and dev.
+            options: {
+              type: "static",
+              api: "/search.json",
+            },
+          }}
+        >
+          {children}
           <ThemeProvider defaultTheme="system" storageKey="ih-theme">
             <div className="relative z-10">{children}</div>
           </ThemeProvider>
