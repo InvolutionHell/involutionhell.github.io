@@ -30,7 +30,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <RootProvider>{children}</RootProvider>
+        <RootProvider
+          search={{
+            // Use static index so it works in `next export` and dev.
+            options: {
+              type: "static",
+              api: "/search.json",
+            },
+          }}
+        >
+          {children}
+        </RootProvider>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ED4GVN8YVW"
           strategy="afterInteractive"
