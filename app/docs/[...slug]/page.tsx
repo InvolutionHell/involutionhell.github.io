@@ -23,7 +23,9 @@ export default async function DocPage({ params }: Param) {
   return (
     <DocsPage toc={page.data.toc}>
       <DocsBody>
-        <h1>{page.data.title}</h1>
+        <h1 className="mb-4 text-3xl font-extrabold tracking-tight md:text-4xl">
+          {page.data.title}
+        </h1>
         <Mdx components={getMDXComponents()} />
       </DocsBody>
     </DocsPage>
