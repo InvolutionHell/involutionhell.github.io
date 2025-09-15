@@ -443,4 +443,9 @@
   .dark .site-bg--sky {
     display: none;
   }
+
+  /* Docs: prefer solid background in light mode (hide sky) */
+  html.docs-route .site-bg.site-bg--sky {
+    display: none;
+  }
 }
