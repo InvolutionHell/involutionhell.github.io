@@ -4,6 +4,7 @@ import * as React from "react";
 type ZoteroItem = {
   key: string;
   data?: {
+    itemType?: string;
     title?: string;
     url?: string;
     date?: string;
@@ -26,11 +27,18 @@ export function ZoteroFeed({
 
   React.useEffect(() => {
     const controller = new AbortController();
-    const url = `https://api.zotero.org/groups/${groupId}/items?format=json&limit=${limit}`;
+    // Fetch only top-level items; exclude children implicitly. We will filter
+    // attachments/notes on the client for extra safety.
+    const url = `https://api.zotero.org/groups/${groupId}/items/top?format=json&limit=${limit}&sort=date&direction=desc`;
     fetch(url, { signal: controller.signal })
       .then(async (r) => {
         if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
         const data: ZoteroItem[] = await r.json();
+        // Debug: inspect fetched items in the browser console
+        if (typeof window !== "undefined") {
+          // Expose for manual inspection in DevTools: window.__zotero
+          (window as any).__zotero = data;
+        }
         setItems(data);
       })
       .catch((e: unknown) => {
@@ -83,6 +91,12 @@ export function ZoteroFeed({
         {items && (
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {items
+              // Guard against attachments/notes even if server-side filter changes
+              .filter(
+                (it) =>
+                  it.data?.itemType !== "attachment" &&
+                  it.data?.itemType !== "note",
+              )
               .filter((it) => it.data?.title && it.data.title.trim() !== "")
               .map((it) => {
                 const d = it.data ?? {};
