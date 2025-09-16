@@ -4,6 +4,7 @@ import { RootProvider } from "fumadocs-ui/provider";
 import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -51,6 +52,7 @@ export default function RootLayout({
             <div className="relative z-10">{children}</div>
           </ThemeProvider>
         </RootProvider>
+        {/* 谷歌分析 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ED4GVN8YVW"
           strategy="afterInteractive"
@@ -64,6 +66,8 @@ export default function RootLayout({
             gtag('config', 'G-ED4GVN8YVW');
           `}
         </Script>
+        {/* 性能分析 */}
+        <SpeedInsights />
       </body>
     </html>
   );
