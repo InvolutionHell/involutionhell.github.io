@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000",
     "postinstall": "fumadocs-mdx",
     "prepare": "husky",
     "lint:images": "node scripts/check-images.mjs",
@@ -14,10 +14,13 @@
   "dependencies": {
     "@orama/orama": "^3.1.13",
     "@orama/tokenizers": "^3.1.13",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.3",
     "@types/mdx": "^2.0.13",
+    "antd": "^5.27.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "fumadocs-core": "^15.7.11",
     "fumadocs-mdx": "^11.9.1",
     "fumadocs-ui": "^15.7.11",
