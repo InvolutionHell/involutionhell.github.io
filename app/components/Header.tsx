@@ -1,5 +1,5 @@
 import { ThemeToggle } from "./ThemeToggle";
-import { Button } from "../../components/ui/button";
+import { Button } from "./ui/button";
 import { MessageCircle } from "lucide-react";
 import { Github as GithubIcon } from "./icons/Github";
 
