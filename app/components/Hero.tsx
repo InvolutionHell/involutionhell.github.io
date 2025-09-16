@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../../components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { Github as GithubIcon } from "./icons/Github";
 import { ZoteroFeed } from "@/app/components/ZoteroFeed";
+import { Contribute } from "@/app/components/Contribute";
 
 export function Hero() {
   const categories: { title: string; desc: string; href: string }[] = [
@@ -15,6 +16,11 @@ export function Hero() {
       title: "Computer Science",
       desc: "数据结构、算法与基础计算机科学知识",
       href: "/docs/computer-science",
+    },
+    {
+      title: "笔试面经",
+      desc: "可以给我一份工作吗？我什么都可以做！",
+      href: "/docs/jobs",
     },
     {
       title: "群友分享",
@@ -67,6 +73,8 @@ export function Hero() {
             </Button>
           </div>
         </div>
+        {/* 投稿按钮 */}
+        <Contribute />
         {/* Top-level directories */}
         <div className="mt-14">
           <div className="mb-4  吗,klext-sm text-muted-foreground">目录</div>
