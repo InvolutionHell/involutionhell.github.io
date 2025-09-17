@@ -9,7 +9,9 @@
     "postinstall": "fumadocs-mdx",
     "prepare": "husky",
     "lint:images": "node scripts/check-images.mjs",
-    "migrate:images": "node scripts/move-doc-images.mjs"
+    "migrate:images": "node scripts/move-doc-images.mjs",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@giscus/react": "^3.1.0",
