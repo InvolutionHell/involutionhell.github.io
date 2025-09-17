@@ -77,7 +77,7 @@ export function Hero() {
         <Contribute />
         {/* Top-level directories */}
         <div className="mt-14">
-          <div className="mb-4  吗,klext-sm text-muted-foreground">目录</div>
+          <div className="mb-4 text-sm text-muted-foreground">目录</div>
           <ul className="grid gap-4 md:grid-cols-3">
             {categories.map((c) => (
               <li key={c.title} className="h-full">
