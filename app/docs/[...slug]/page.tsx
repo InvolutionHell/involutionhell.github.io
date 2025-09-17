@@ -3,6 +3,7 @@ import { DocsPage, DocsBody } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getMDXComponents } from "@/mdx-components";
+import { GiscusComments } from "@/app/components/GiscusComments";
 
 interface Param {
   params: Promise<{
@@ -27,6 +28,9 @@ export default async function DocPage({ params }: Param) {
           {page.data.title}
         </h1>
         <Mdx components={getMDXComponents()} />
+        <section className="mt-16">
+          <GiscusComments />
+        </section>
       </DocsBody>
     </DocsPage>
   );
