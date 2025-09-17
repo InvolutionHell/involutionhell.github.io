@@ -24,7 +24,13 @@ function pruneEmptyFolders(root: PageTree.Root): PageTree.Root {
 
       if (!index && transformedChildren.length === 1) {
         const [onlyChild] = transformedChildren;
-        return { ...onlyChild };
+
+        if (
+          onlyChild.type === "page" &&
+          onlyChild.url.startsWith("/docs/ai/")
+        ) {
+          return { ...onlyChild };
+        }
       }
 
       return {

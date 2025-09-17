@@ -20,7 +20,7 @@ export function Hero() {
     {
       title: "笔试面经",
       desc: "可以给我一份工作吗？我什么都可以做！",
-      href: "/docs/jobs",
+      href: "/docs/jobs/interview-prep/bq",
     },
     {
       title: "群友分享",
