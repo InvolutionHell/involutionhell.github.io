@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getMDXComponents } from "@/mdx-components";
 import { GiscusComments } from "@/app/components/GiscusComments";
+import { EditOnGithub } from "@/app/components/EditOnGithub";
 
 interface Param {
   params: Promise<{
@@ -19,18 +20,25 @@ export default async function DocPage({ params }: Param) {
     notFound();
   }
 
+  const encodedPath = page.path
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+  const editUrl = `https://github.com/InvolutionHell/involutionhell.github.io/edit/main/app/docs/${encodedPath}`;
+
   const Mdx = page.data.body;
 
   return (
     <DocsPage toc={page.data.toc}>
       <DocsBody>
-        <h1 className="mb-4 text-3xl font-extrabold tracking-tight md:text-4xl">
-          {page.data.title}
-        </h1>
+        <div className="mb-6 flex flex-col gap-3 border-b border-border pb-6 md:mb-8 md:flex-row md:items-center md:justify-between">
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">
+            {page.data.title}
+          </h1>
+          <EditOnGithub href={editUrl} />
+        </div>
         <Mdx components={getMDXComponents()} />
-        <section className="mt-16">
-          <GiscusComments />
-        </section>
+        <GiscusComments className="mt-16" />
       </DocsBody>
     </DocsPage>
   );
