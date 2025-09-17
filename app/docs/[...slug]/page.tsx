@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { getMDXComponents } from "@/mdx-components";
 import { GiscusComments } from "@/app/components/GiscusComments";
 import { EditOnGithub } from "@/app/components/EditOnGithub";
+import { buildDocsEditUrl } from "@/lib/github";
 
 interface Param {
   params: Promise<{
@@ -20,11 +21,8 @@ export default async function DocPage({ params }: Param) {
     notFound();
   }
 
-  const encodedPath = page.path
-    .split("/")
-    .map((segment) => encodeURIComponent(segment))
-    .join("/");
-  const editUrl = `https://github.com/InvolutionHell/involutionhell.github.io/edit/main/app/docs/${encodedPath}`;
+  // 统一通过工具函数生成 Edit 链接，内部已处理中文目录编码
+  const editUrl = buildDocsEditUrl(page.path);
 
   const Mdx = page.data.body;
 

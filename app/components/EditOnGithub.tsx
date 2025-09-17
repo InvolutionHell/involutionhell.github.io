@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+// 复用的编辑链接按钮，统一封装图标与样式
 interface EditOnGithubProps {
   href: string;
 }
