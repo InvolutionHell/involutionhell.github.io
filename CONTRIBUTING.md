@@ -1,102 +1,104 @@
 # 贡献指南/Contributing Guide
 
+## 投稿指南
 
+1. 在首页点击「我要投稿」，或在任意文档右上角使用「编辑」/「我要投稿」按钮
+   ![button](./public/git_assets/button.png)
 
+2. 浮窗中选择想贡献的章节，也可以先新建一个文件夹
+   ![setting](./public//git_assets/setting.png)
+   ![setting2](./public//git_assets/setting2.png)
+   选好后点击「下一步」
 
-## ✍️ 添加新文章
+3. 页面会跳转到 GitHub，新建文档时请保留顶部 Frontmatter 结构
+   ![file](./public//git_assets/file.png)
 
-### 步骤1：选择位置
+4. 点击 `Commit changes`，若是第一次投稿，GitHub 会提示先 Fork 仓库；按提示操作一次即可
+   ![fork](./public//git_assets/need_fork.png)
 
-确定你的文章在现有结构中的位置：
+5. Fork 完成后会自动返回原页面，然后一直“下一步”即可
+   ![after_fork](./public//git_assets/after_fork.png)
+   再点击一次 `Commit changes`
+   ![propose](./public//git_assets/propse_changes.png)
+   随后进入 PR 流程，按提示一路继续
+   ![pr1](./public//git_assets/pr.png)
+   ![pr2](./public//git_assets/pr2.png)
 
-```bash
-# 示例：添加新的数据结构主题
-docs/computer-science/data-structures/new-topic/
+6. 恭喜你完成了首次 Pull Request！ 🎉
+   ![success](./public//git_assets/succuess.png)
 
-# 示例：为现有主题添加文章
-docs/computer-science/data-structures/array/03-new-array-type.mdx
-```
+—— 以下是代码贡献流程，若只提交文档可在此结束 ——
 
-### 步骤2：创建文件
-
-创建新的 `.mdx` 文件，并包含正确的 Frontmatter：
-
-```bash
-# 如需要创建目录
-mkdir -p docs/computer-science/data-structures/new-topic
-
-# 创建文件
-touch docs/computer-science/data-structures/new-topic/index.mdx
-```
-
-### 步骤3：编写内容
-
-使用 Markdown/MDX 编写文章：
-
-```mdx
----
-title: "文章标题"
-description: "文章简短描述"
-date: "2024-01-15"
-tags:
-  - your-topic
-  - another-tag
 ---
 
-# 文章标题
+## Git 提交 Guide
 
-## 引言
+#### 1. 将本项目直接fork到自己的账号下，这样就可以直接在自己的账号下进行修改和提交。
 
-这里是内容...
+![fork1](./public//git_assets/fork1.jpg)
+![fork2](./public//git_assets/fork2.png)
 
-## 第一节
+_注意取消勾选仅克隆当前分支_
 
-更多内容...
+#### 2. 克隆项目
 
-## 代码示例
+```
+git clone https://github.com/你自己的仓库名/involutionhell.github.io.git
 ```
 
-### 步骤4：测试修改
+修改为自己fork的仓库，改为你的https仓库的git地址
 
-使用 Fumadocs 验证内容：
+#### 3. 创建自己的分支
 
-```bash
-pnpm build
-pnpm migrate:images  # 迁移图片脚本
+列出现有分支
+
+```
+git branch -a  #用于列出当前Git仓库中所有的分支,包括本地分支和远程分支。
 ```
 
-此命令将：
+![branch-all](./public//git_assets/branch-all.png)
 
-- 验证 Frontmatter 语法
-- 检查 MDX 错误
-- 生成预览内容
+##### 3.1 创建功能分支的约定命名
 
-### 步骤5：本地预览
+```
+git checkout -b feat/your-feature
 
-启动开发服务器并预览修改：
+# 它的作用是创建一个新的分支并立即切换到该分支上。
 
-```bash
-pnpm dev
+具体来说，这个命令相当于同时执行了两个操作：
+git branch feat/your-feature - 创建名为 feat/your-feature 的新分支
+git checkout feat/your-feature - 切换到这个新创建的分支
+
+其中 feat/your-feature 是分支名称，通常遵循约定式命名：
+
+feat/ 前缀表示这是一个功能（feature）分支
+后面的 your-feature 通常是对功能的简要描述
 ```
 
-访问 `http://localhost:3000` 查看新内容。
+##### 3.2 创建文档分支的约定命名
 
-### 步骤6：提交 PR
+```
+git checkout -b doc_raven   # 自定义一个新的分支
+#git checkout -b doc_id 分支名字改为你的uid分支名称
+```
 
-1. 提交修改：
+#### 4. 提交更改分支
 
-   ```bash
-   git add .
-   git commit -m "Add: New article about [topic]"
-   ```
+```
+git add .
+根据你的变动情况
+git commit -m "add xxx" # 添加信息记录
+or
+git commit -m "edit xxx" # 修改信息记录
+or
+git commit -m "delete xxx" #删除信息记录
+```
 
-2. 推送到你的 fork：
+#### 5. 推送分支到远程仓库
 
-   ```bash
-   git push origin feat/your-article
-   ```
-
-3. 创建 Pull Request
+```
+git push origin doc_raven
+```
 
 ---
 
