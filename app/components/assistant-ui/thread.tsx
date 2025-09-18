@@ -203,24 +203,24 @@ const ThreadWelcomeSuggestions: FC = () => {
     <div className="aui-thread-welcome-suggestions grid w-full gap-2 @md:grid-cols-2">
       {[
         {
-          title: "What's the weather",
-          label: "in San Francisco?",
-          action: "What's the weather in San Francisco?",
+          title: "总结本文",
+          label: "内容要点",
+          action: "请帮我总结一下当前页面的主要内容和要点",
         },
         {
-          title: "Explain React hooks",
-          label: "like useState and useEffect",
-          action: "Explain React hooks like useState and useEffect",
+          title: "什么是基座大模型",
+          label: "概念解释",
+          action: "什么是基座大模型？请详细解释一下",
         },
         {
-          title: "Write a SQL query",
-          label: "to find top customers",
-          action: "Write a SQL query to find top customers",
+          title: "解释技术概念",
+          label: "深入理解",
+          action: "请解释一下这个页面中提到的核心技术概念",
         },
         {
-          title: "Create a meal plan",
-          label: "for healthy weight loss",
-          action: "Create a meal plan for healthy weight loss",
+          title: "学习建议",
+          label: "如何入门",
+          action: "基于当前内容，你能给出一些学习建议和入门路径吗？",
         },
       ].map((suggestedAction, index) => (
         <m.div
