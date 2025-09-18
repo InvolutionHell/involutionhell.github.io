@@ -1,13 +1,41 @@
 "use client";
 
 import { AssistantRuntimeProvider } from "@assistant-ui/react";
-import { useChatRuntime } from "@assistant-ui/react-ai-sdk";
+import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import { AssistantModal } from "@/app/components/assistant-ui/assistant-modal";
 
-export function DocsAssistant() {
-  const runtime = useChatRuntime({
-    api: "/api/chat",
+interface PageContext {
+  title?: string;
+  description?: string;
+  content?: string;
+  slug?: string;
+}
+
+interface DocsAssistantProps {
+  pageContext: PageContext;
+}
+
+export function DocsAssistant({ pageContext }: DocsAssistantProps) {
+  console.log("DocsAssistant received pageContext (Client):", {
+    title: pageContext.title,
+    contentPreview: pageContext.content?.substring(0, 100) + "...",
+    slug: pageContext.slug,
   });
+
+  // Use DefaultChatTransport with request-level body configuration
+  const chat = useChat({
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+      // Use function to ensure dynamic values are captured at request time
+      body: () => ({
+        pageContext: pageContext,
+      }),
+    }),
+  });
+
+  const runtime = useAISDKRuntime(chat);
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>

@@ -1,7 +1,5 @@
 import { openai } from "@ai-sdk/openai";
-import { streamText, UIMessage, convertToModelMessages, tool } from "ai";
-import { frontendTools } from "@assistant-ui/react-ai-sdk";
-import { z } from "zod";
+import { streamText, UIMessage, convertToModelMessages } from "ai";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -10,48 +8,53 @@ export async function POST(req: Request) {
   const {
     messages,
     system,
-    tools,
+    pageContext,
   }: {
     messages: UIMessage[];
     system?: string; // System message forwarded from AssistantChatTransport
     tools?: any; // Frontend tools forwarded from AssistantChatTransport
+    pageContext?: {
+      title?: string;
+      description?: string;
+      content?: string;
+      slug?: string;
+    };
   } = await req.json();
 
+  console.log("Chat API received request. pageContext (API):", {
+    title: pageContext?.title,
+    contentPreview: pageContext?.content?.substring(0, 100) + "...",
+    slug: pageContext?.slug,
+  });
+
   try {
+    // Build system message with page context
+    let systemMessage =
+      system ||
+      `You are a helpful AI assistant for a documentation website. 
+    You can help users understand the documentation, answer questions about the content, 
+    and provide guidance on the topics covered in the docs. Be concise and helpful.`;
+
+    // Add current page context if available
+    if (pageContext?.content) {
+      systemMessage += `\n\n--- CURRENT PAGE CONTEXT ---\n`;
+      if (pageContext.title) {
+        systemMessage += `Page Title: ${pageContext.title}\n`;
+      }
+      if (pageContext.description) {
+        systemMessage += `Page Description: ${pageContext.description}\n`;
+      }
+      if (pageContext.slug) {
+        systemMessage += `Page URL: /docs/${pageContext.slug}\n`;
+      }
+      systemMessage += `Page Content:\n${pageContext.content}`;
+      systemMessage += `\n--- END OF CONTEXT ---\n\nWhen users ask about "this page", "current page", or refer to the content they're reading, use the above context to provide accurate answers. You can summarize, explain, or answer specific questions about the current page content.`;
+    }
+
     const result = streamText({
-      model: openai("gpt-4o-mini"), // Using more cost-effective model
-      system:
-        system ||
-        `You are a helpful AI assistant for a documentation website. 
-      You can help users understand the documentation, answer questions about the content, 
-      and provide guidance on the topics covered in the docs. Be concise and helpful.`,
+      model: openai("gpt-4.1-nano"), // Using more cost-effective model
+      system: systemMessage,
       messages: convertToModelMessages(messages),
-      tools: {
-        // Wrap frontend tools with frontendTools helper
-        ...frontendTools(tools),
-        // Backend tools
-        get_documentation_info: tool({
-          description:
-            "Get information about the current documentation page or topic",
-          inputSchema: z.object({
-            topic: z
-              .string()
-              .describe("The topic or page to get information about"),
-          }),
-          execute: async ({ topic }) => {
-            return `This is a documentation website covering topics like AI, computer science, and development guides. The current topic "${topic}" is part of our comprehensive documentation collection.`;
-          },
-        }),
-        search_docs: tool({
-          description: "Search through the documentation for specific topics",
-          inputSchema: z.object({
-            query: z.string().describe("The search query"),
-          }),
-          execute: async ({ query }) => {
-            return `Searching for "${query}" in the documentation. This site covers AI foundations, computer science fundamentals, and development guides.`;
-          },
-        }),
-      },
     });
 
     return result.toUIMessageStreamResponse();
