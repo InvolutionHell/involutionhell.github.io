@@ -14,7 +14,6 @@ interface Param {
 }
 
 export default async function DocPage({ params }: Param) {
-  console.log("[DocPage] Starting DocPage rendering");
   const { slug } = await params;
   const page = source.getPage(slug);
 
