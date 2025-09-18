@@ -53,7 +53,13 @@ function buildTree(root: string, maxDepth = 2, rel = ""): DirNode[] {
     if (e.name.startsWith(".") || e.name.startsWith("[")) continue;
     const abs = path.join(root, e.name);
     const nodeRel = rel ? `${rel}/${e.name}` : e.name;
-    const node: DirNode = { name: e.name, path: nodeRel };
+
+    let node: DirNode;
+    if (e.name !== "CommunityShare") {
+      node = { name: e.name, path: nodeRel };
+    } else {
+      node = { name: "群友分享", path: nodeRel };
+    }
     if (maxDepth > 1) node.children = buildTree(abs, maxDepth - 1, nodeRel);
     nodes.push(node);
   }
