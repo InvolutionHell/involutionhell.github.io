@@ -8,7 +8,17 @@ import { AssistantModalPrimitive } from "@assistant-ui/react";
 import { Thread } from "@/app/components/assistant-ui/thread";
 import { TooltipIconButton } from "@/app/components/assistant-ui/tooltip-icon-button";
 
-export const AssistantModal: FC = () => {
+interface AssistantModalProps {
+  errorMessage?: string;
+  showSettingsAction?: boolean;
+  onClearError?: () => void;
+}
+
+export const AssistantModal: FC<AssistantModalProps> = ({
+  errorMessage,
+  showSettingsAction = false,
+  onClearError,
+}) => {
   return (
     <AssistantModalPrimitive.Root>
       <AssistantModalPrimitive.Anchor className="aui-root aui-modal-anchor fixed right-4 bottom-4 size-11">
@@ -20,7 +30,11 @@ export const AssistantModal: FC = () => {
         sideOffset={16}
         className="aui-root aui-modal-content z-50 h-[500px] w-[400px] overflow-clip rounded-xl border bg-popover p-0 text-popover-foreground shadow-md outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-1/2 data-[state=closed]:slide-out-to-right-1/2 data-[state=closed]:zoom-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=open]:slide-in-from-right-1/2 data-[state=open]:zoom-in [&>.aui-thread-root]:bg-inherit"
       >
-        <Thread />
+        <Thread
+          errorMessage={errorMessage}
+          showSettingsAction={showSettingsAction}
+          onClearError={onClearError}
+        />
       </AssistantModalPrimitive.Content>
     </AssistantModalPrimitive.Root>
   );

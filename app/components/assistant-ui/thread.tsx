@@ -7,6 +7,7 @@ import {
   ThreadPrimitive,
 } from "@assistant-ui/react";
 import {
+  AlertCircleIcon,
   ArrowDownIcon,
   ArrowUpIcon,
   CheckIcon,
@@ -19,7 +20,7 @@ import {
   Square,
 } from "lucide-react";
 import type { FC } from "react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import {
   ComposerAttachments,
@@ -36,7 +37,33 @@ import { cn } from "@/lib/utils";
 import { LazyMotion, MotionConfig, domAnimation } from "motion/react";
 import * as m from "motion/react-m";
 
-export const Thread: FC = () => {
+interface ThreadProps {
+  errorMessage?: string;
+  showSettingsAction?: boolean;
+  onClearError?: () => void;
+}
+
+export const Thread: FC<ThreadProps> = ({
+  errorMessage,
+  showSettingsAction = false,
+  onClearError,
+}) => {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const handleSettingsChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        onClearError?.();
+      }
+      setIsSettingsOpen(open);
+    },
+    [onClearError],
+  );
+
+  const handleOpenSettings = useCallback(() => {
+    handleSettingsChange(true);
+  }, [handleSettingsChange]);
+
   return (
     <LazyMotion features={domAnimation}>
       <MotionConfig reducedMotion="user">
@@ -56,14 +83,74 @@ export const Thread: FC = () => {
                 AssistantMessage,
               }}
             />
+            {errorMessage ? (
+              <ThreadErrorNotice
+                message={errorMessage}
+                onDismiss={onClearError}
+                onOpenSettings={
+                  showSettingsAction ? handleOpenSettings : undefined
+                }
+              />
+            ) : null}
             <ThreadPrimitive.If empty={false}>
               <div className="aui-thread-viewport-spacer min-h-8 grow" />
             </ThreadPrimitive.If>
-            <Composer />
+            <Composer
+              isSettingsOpen={isSettingsOpen}
+              onOpenChange={handleSettingsChange}
+              onClearError={onClearError}
+            />
           </ThreadPrimitive.Viewport>
         </ThreadPrimitive.Root>
       </MotionConfig>
     </LazyMotion>
+  );
+};
+
+interface ThreadErrorNoticeProps {
+  message: string;
+  onDismiss?: () => void;
+  onOpenSettings?: () => void;
+}
+
+const ThreadErrorNotice: FC<ThreadErrorNoticeProps> = ({
+  message,
+  onDismiss,
+  onOpenSettings,
+}) => {
+  return (
+    <div className="aui-thread-error-notice-wrapper mx-auto mt-4 flex w-full max-w-[var(--thread-max-width)] justify-center">
+      <div className="aui-thread-error-notice flex w-full gap-3 rounded-2xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive dark:border-destructive/40 dark:bg-destructive/5">
+        <AlertCircleIcon className="aui-thread-error-icon mt-0.5 size-5 shrink-0" />
+        <div className="aui-thread-error-content flex flex-col gap-3">
+          <span className="aui-thread-error-message leading-relaxed">
+            {message}
+          </span>
+          <div className="aui-thread-error-actions flex flex-wrap items-center gap-2">
+            {onOpenSettings ? (
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-destructive text-destructive hover:bg-destructive/10"
+                onClick={onOpenSettings}
+              >
+                Open settings
+              </Button>
+            ) : null}
+            {onDismiss ? (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-destructive hover:bg-destructive/10"
+                onClick={onDismiss}
+              >
+                Dismiss
+              </Button>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -169,12 +256,26 @@ const ThreadWelcomeSuggestions: FC = () => {
   );
 };
 
-const Composer: FC = () => {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+interface ComposerProps {
+  isSettingsOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  onClearError?: () => void;
+}
+
+const Composer: FC<ComposerProps> = ({
+  isSettingsOpen,
+  onOpenChange,
+  onClearError,
+}) => {
   const { provider, openaiApiKey, geminiApiKey } = useAssistantSettings();
   const activeKey = provider === "openai" ? openaiApiKey : geminiApiKey;
   const hasActiveKey = activeKey.trim().length > 0;
   const providerLabel = provider === "gemini" ? "Google Gemini" : "OpenAI";
+
+  const handleOpenSettings = useCallback(() => {
+    onClearError?.();
+    onOpenChange(true);
+  }, [onClearError, onOpenChange]);
 
   return (
     <div className="aui-composer-wrapper sticky bottom-0 mx-auto flex w-full max-w-[var(--thread-max-width)] flex-col gap-4 overflow-visible rounded-t-3xl pb-4 md:pb-6">
@@ -192,11 +293,7 @@ const Composer: FC = () => {
             <p className="text-sm text-muted-foreground">
               Add your {providerLabel} API key in Settings to start chatting.
             </p>
-            <Button
-              type="button"
-              size="sm"
-              onClick={() => setIsSettingsOpen(true)}
-            >
+            <Button type="button" size="sm" onClick={handleOpenSettings}>
               Open settings
             </Button>
           </div>
@@ -213,7 +310,9 @@ const Composer: FC = () => {
         <ComposerAction
           canSend={hasActiveKey}
           isSettingsOpen={isSettingsOpen}
-          onOpenChange={setIsSettingsOpen}
+          onOpenChange={onOpenChange}
+          onOpenSettings={handleOpenSettings}
+          onClearError={onClearError}
         />
       </ComposerPrimitive.Root>
     </div>
@@ -224,17 +323,21 @@ interface ComposerActionProps {
   canSend: boolean;
   isSettingsOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  onOpenSettings: () => void;
+  onClearError?: () => void;
 }
 
 const ComposerAction: FC<ComposerActionProps> = ({
   canSend,
   isSettingsOpen,
   onOpenChange,
+  onOpenSettings,
+  onClearError,
 }) => {
   return (
     <>
       <div className="aui-composer-action-wrapper relative mx-1 mt-2 mb-2 flex items-center justify-between">
-        <SettingsButton onClick={() => onOpenChange(true)} />
+        <SettingsButton onClick={onOpenSettings} />
 
         <ThreadPrimitive.If running={false}>
           {canSend ? (
@@ -247,6 +350,7 @@ const ComposerAction: FC<ComposerActionProps> = ({
                 size="icon"
                 className="aui-composer-send size-[34px] rounded-full p-1"
                 aria-label="Send message"
+                onClick={onClearError}
               >
                 <ArrowUpIcon className="aui-composer-send-icon size-5" />
               </TooltipIconButton>
@@ -260,7 +364,7 @@ const ComposerAction: FC<ComposerActionProps> = ({
               size="icon"
               className="aui-composer-send size-[34px] rounded-full p-1"
               aria-label="Open assistant settings"
-              onClick={() => onOpenChange(true)}
+              onClick={onOpenSettings}
             >
               <LockIcon className="aui-composer-send-icon size-5" />
             </TooltipIconButton>
