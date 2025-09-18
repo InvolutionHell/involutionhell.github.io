@@ -39,7 +39,7 @@ export function ZoteroFeed({
     const controller = new AbortController();
     // Fetch only top-level items; exclude children implicitly. We will filter
     // attachments/notes on the client for extra safety.
-    const url = `https://api.zotero.org/groups/${groupId}/items/top?format=json&limit=${limit}&sort=date&direction=desc`;
+    const url = `https://api.zotero.org/groups/${groupId}/items/top?format=json&limit=${limit}&sort=dateAdded&direction=desc`;
     fetch(url, { signal: controller.signal })
       .then(async (r) => {
         if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
