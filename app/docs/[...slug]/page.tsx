@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getMDXComponents } from "@/mdx-components";
 import { GiscusComments } from "@/app/components/GiscusComments";
-import { getContributors } from "@/lib/github";
+import { EditOnGithub } from "@/app/components/EditOnGithub";
+import { buildDocsEditUrl, getContributors } from "@/lib/github";
 import { Contributors } from "@/app/components/Contributors";
 
 interface Param {
@@ -21,25 +22,26 @@ export default async function DocPage({ params }: Param) {
     notFound();
   }
 
+  // 统一通过工具函数生成 Edit 链接，内部已处理中文目录编码
+  const editUrl = buildDocsEditUrl(page.path);
   // Get file path for contributors
   const filePath = "app/docs/" + page.file.path;
-
   // Fetch contributors data on server side
   const contributors = await getContributors(filePath);
-
   const Mdx = page.data.body;
 
   return (
     <DocsPage toc={page.data.toc}>
       <DocsBody>
-        <h1 className="mb-4 text-3xl font-extrabold tracking-tight md:text-4xl">
-          {page.data.title}
-        </h1>
+        <div className="mb-6 flex flex-col gap-3 border-b border-border pb-6 md:mb-8 md:flex-row md:items-center md:justify-between">
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">
+            {page.data.title}
+          </h1>
+          <EditOnGithub href={editUrl} />
+        </div>
         <Mdx components={getMDXComponents()} />
+        <GiscusComments className="mt-16" />
         <Contributors contributors={contributors} />
-        <section className="mt-16">
-          <GiscusComments />
-        </section>
       </DocsBody>
     </DocsPage>
   );

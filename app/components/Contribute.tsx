@@ -19,17 +19,13 @@ import styles from "./Contribute.module.css";
 import { TreeSelect } from "antd";
 import type { DefaultOptionType } from "antd/es/select";
 import { DataNode } from "antd/es/tree";
-
-const REPO_OWNER = "InvolutionHell";
-const REPO_NAME = "involutionhell.github.io";
-const DEFAULT_BRANCH = "main";
-const DOCS_BASE = "app/docs";
+import { buildDocsNewUrl } from "@/lib/github";
 
 type DirNode = { name: string; path: string; children?: DirNode[] };
 
+// 统一调用工具函数生成 GitHub 新建链接，路径规则与 Edit 按钮一致
 function buildGithubNewUrl(dirPath: string, filename: string, title: string) {
   const file = filename.endsWith(".mdx") ? filename : `${filename}.mdx`;
-  const fullDir = `${DOCS_BASE}/${dirPath}`.replace(/\/+/g, "/");
   const frontMatter = `---
 title: ${title || "New Article"}
 description:
@@ -42,7 +38,7 @@ tags: []
 Write your content here.
 `;
   const params = new URLSearchParams({ filename: file, value: frontMatter });
-  return `https://github.com/${REPO_OWNER}/${REPO_NAME}/new/${DEFAULT_BRANCH}/${encodeURIComponent(fullDir)}?${params.toString()}`;
+  return buildDocsNewUrl(dirPath, params);
 }
 
 // ✅ 用纯文本 label + 一级节点 selectable:false
