@@ -19,7 +19,7 @@ export function Contributors({
   return (
     <section aria-labelledby="contributors-heading">
       <hr className="border-border/70 !mt-10 !mb-5" />
-      <h2 id="contributors-heading">{"\u8d21\u732e\u8005"}</h2>
+      <h2 id="contributors-heading">贡献者</h2>
       <ul className="mt-0 mb-0 flex flex-wrap items-center gap-x-6 gap-y-4 list-none p-0">
         {contributors.map((contributor) => (
           <li key={contributor.login}>
