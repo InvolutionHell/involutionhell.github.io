@@ -6,6 +6,7 @@ import { getMDXComponents } from "@/mdx-components";
 import { GiscusComments } from "@/app/components/GiscusComments";
 import { getContributors } from "@/lib/github";
 import { Contributors } from "@/app/components/Contributors";
+import { AssistantModal } from "@/app/components/assistant-ui/assistant-modal";
 
 interface Param {
   params: Promise<{
