@@ -24,7 +24,6 @@ export default async function DocPage({ params }: Param) {
 
   // Get file path for contributors
   const filePath = "app/docs/" + page.file.path;
-  console.log(`[DocPage] Document file path: ${filePath}`);
 
   // Fetch contributors data on server side
   const contributors = await getContributors(filePath);
