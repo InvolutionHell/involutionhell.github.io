@@ -25,7 +25,7 @@ export function Hero() {
     {
       title: "群友分享",
       desc: "群友写的捏",
-      href: "/docs/guide",
+      href: "/docs/CommunityShare",
     },
   ];
 
@@ -57,12 +57,12 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Button asChild>
+            <Button asChild className="rounded-none">
               <a href="/docs/ai" target="_blank" rel="noopener noreferrer">
                 访问知识库 <ExternalLink className="ml-2 h-4 w-4" />
               </a>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" asChild className="rounded-none">
               <a
                 href="https://github.com/involutionhell"
                 target="_blank"
