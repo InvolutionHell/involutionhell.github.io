@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Define contributor data structure
 interface Contributor {
   login: string;
   avatar_url: string;
@@ -14,32 +13,35 @@ export function Contributors({
   contributors: Contributor[];
 }) {
   if (contributors.length === 0) {
-    return null; // Don't render anything if no contributors
+    return null;
   }
 
   return (
-    <div className="mt-8 rounded-lg border bg-card p-6 text-card-foreground">
-      <h3 className="mb-4 text-lg font-bold">贡献者</h3>
-      <div className="flex flex-wrap gap-x-6 gap-y-4">
+    <section aria-labelledby="contributors-heading">
+      <hr className="border-border/70" />
+      <h2 id="contributors-heading">{"\u8d21\u732e\u8005"}</h2>
+      <ul className="mt-0 mb-0 flex flex-wrap items-center gap-x-6 gap-y-4 list-none p-0">
         {contributors.map((contributor) => (
-          <Link
-            key={contributor.login}
-            href={contributor.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm font-medium hover:underline"
-          >
-            <Image
-              src={contributor.avatar_url}
-              alt={contributor.login}
-              width={45}
-              height={45}
-              className="rounded-full"
-            />
-            {contributor.login}
-          </Link>
+          <li key={contributor.login}>
+            <Link
+              href={contributor.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 text-base font-medium text-primary transition-colors hover:text-primary/80"
+            >
+              <Image
+                src={contributor.avatar_url}
+                alt={contributor.login}
+                width={35}
+                height={35}
+                className="h-10 w-10 rounded-full border border-border/50 object-cover shadow-sm"
+              />
+              <span>{contributor.login}</span>
+            </Link>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+      <hr className="mt-2 border-border/70" />
+    </section>
   );
 }
