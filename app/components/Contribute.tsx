@@ -34,7 +34,8 @@ function buildGithubNewUrl(dirPath: string, filename: string, title: string) {
 title: ${title || "New Article"}
 description:
 date: ${new Date().toISOString().slice(0, 10)}
-tags: []
+tags:
+  - tag-one
 ---
 
 # ${title || "New Article"}
