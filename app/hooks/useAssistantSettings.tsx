@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 import type { ReactNode } from "react";
 
 type Provider = "openai" | "gemini";
@@ -15,6 +22,7 @@ interface AssistantSettingsContextValue extends AssistantSettingsState {
   setProvider: (provider: Provider) => void;
   setOpenaiApiKey: (key: string) => void;
   setGeminiApiKey: (key: string) => void;
+  refreshFromStorage: () => void;
 }
 
 const SETTINGS_KEY = "assistant-settings-storage";
@@ -99,6 +107,11 @@ export const AssistantSettingsProvider = ({
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
+  const refreshFromStorage = useCallback(() => {
+    const latestSettings = readStoredSettings();
+    setSettings(latestSettings);
+  }, []);
+
   const value = useMemo(
     (): AssistantSettingsContextValue => ({
       ...settings,
@@ -111,8 +124,9 @@ export const AssistantSettingsProvider = ({
       setGeminiApiKey: (key: string) => {
         setSettings((prev) => ({ ...prev, geminiApiKey: key }));
       },
+      refreshFromStorage,
     }),
-    [settings],
+    [settings, refreshFromStorage],
   );
 
   return (

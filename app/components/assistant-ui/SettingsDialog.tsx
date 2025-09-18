@@ -29,7 +29,14 @@ export const SettingsDialog = ({
     setOpenaiApiKey,
     geminiApiKey,
     setGeminiApiKey,
+    refreshFromStorage,
   } = useAssistantSettings();
+
+  const handleSave = () => {
+    // Force refresh from localStorage to ensure all components get the latest values
+    refreshFromStorage();
+    onOpenChange(false);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -86,7 +93,7 @@ export const SettingsDialog = ({
         </div>
 
         <DialogFooter>
-          <Button onClick={() => onOpenChange(false)}>Save & Close</Button>
+          <Button onClick={handleSave}>Save & Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

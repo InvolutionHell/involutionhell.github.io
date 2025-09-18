@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 
 import { AssistantRuntimeProvider } from "@assistant-ui/react";
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
@@ -34,15 +34,37 @@ export function DocsAssistant({ pageContext }: DocsAssistantProps) {
 function DocsAssistantInner({ pageContext }: DocsAssistantProps) {
   const { provider, openaiApiKey, geminiApiKey } = useAssistantSettings();
 
+  // Use refs to ensure we always get the latest values
+  const providerRef = useRef(provider);
+  const openaiApiKeyRef = useRef(openaiApiKey);
+  const geminiApiKeyRef = useRef(geminiApiKey);
+
+  // Update refs whenever the values change
+  providerRef.current = provider;
+  openaiApiKeyRef.current = openaiApiKey;
+  geminiApiKeyRef.current = geminiApiKey;
+
   const chat = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
       body: () => {
-        const apiKey = provider === "openai" ? openaiApiKey : geminiApiKey;
+        // Use refs to get the current values at request time
+        const currentProvider = providerRef.current;
+        const currentApiKey =
+          currentProvider === "openai"
+            ? openaiApiKeyRef.current
+            : geminiApiKeyRef.current;
+
+        console.log("[DocsAssistant] useChat body function called with:", {
+          provider: currentProvider,
+          apiKeyLength: currentApiKey.length,
+          hasApiKey: currentApiKey.trim().length > 0,
+        });
+
         return {
           pageContext,
-          provider,
-          apiKey,
+          provider: currentProvider,
+          apiKey: currentApiKey,
         };
       },
     }),
