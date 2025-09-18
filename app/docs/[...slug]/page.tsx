@@ -65,6 +65,7 @@ export default async function DocPage({ params }: Param) {
   }
 
   return (
+    <>
       <DocsPage toc={page.data.toc}>
         <DocsBody>
           <div className="mb-6 flex flex-col gap-3 border-b border-border pb-6 md:mb-8 md:flex-row md:items-center md:justify-between">
@@ -88,6 +89,7 @@ export default async function DocPage({ params }: Param) {
           slug: slug?.join("/"),
         }}
       />
+    </>
   );
 }
 
