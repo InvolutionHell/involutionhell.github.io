@@ -13,6 +13,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CopyIcon,
+  LockIcon,
   PencilIcon,
   RefreshCwIcon,
   Square,
@@ -29,6 +30,7 @@ import { SettingsDialog } from "@/app/components/assistant-ui/SettingsDialog";
 import { MarkdownText } from "@/app/components/assistant-ui/markdown-text";
 import { ToolFallback } from "@/app/components/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/app/components/assistant-ui/tooltip-icon-button";
+import { useAssistantSettings } from "@/app/hooks/useAssistantSettings";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { LazyMotion, MotionConfig, domAnimation } from "motion/react";
@@ -168,13 +170,37 @@ const ThreadWelcomeSuggestions: FC = () => {
 };
 
 const Composer: FC = () => {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { provider, openaiApiKey, geminiApiKey } = useAssistantSettings();
+  const activeKey = provider === "openai" ? openaiApiKey : geminiApiKey;
+  const hasActiveKey = activeKey.trim().length > 0;
+  const providerLabel = provider === "gemini" ? "Google Gemini" : "OpenAI";
+
   return (
     <div className="aui-composer-wrapper sticky bottom-0 mx-auto flex w-full max-w-[var(--thread-max-width)] flex-col gap-4 overflow-visible rounded-t-3xl pb-4 md:pb-6">
       <ThreadScrollToBottom />
       <ThreadPrimitive.Empty>
         <ThreadWelcomeSuggestions />
       </ThreadPrimitive.Empty>
-      <ComposerPrimitive.Root className="aui-composer-root relative flex w-full flex-col rounded-3xl border border-border bg-muted px-1 pt-2 shadow-[0_9px_9px_0px_rgba(0,0,0,0.01),0_2px_5px_0px_rgba(0,0,0,0.06)] dark:border-muted-foreground/15">
+      <ComposerPrimitive.Root
+        className="aui-composer-root relative flex w-full flex-col rounded-3xl border border-border bg-muted px-1 pt-2 shadow-[0_9px_9px_0px_rgba(0,0,0,0.01),0_2px_5px_0px_rgba(0,0,0,0.06)] dark:border-muted-foreground/15"
+        aria-disabled={!hasActiveKey}
+        data-key-required={!hasActiveKey}
+      >
+        {!hasActiveKey && (
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 rounded-3xl bg-background/90 px-6 text-center backdrop-blur-sm">
+            <p className="text-sm text-muted-foreground">
+              Add your {providerLabel} API key in Settings to start chatting.
+            </p>
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => setIsSettingsOpen(true)}
+            >
+              Open settings
+            </Button>
+          </div>
+        )}
         <ComposerAttachments />
         <ComposerPrimitive.Input
           placeholder="Send a message..."
@@ -182,35 +208,63 @@ const Composer: FC = () => {
           rows={1}
           autoFocus
           aria-label="Message input"
+          disabled={!hasActiveKey}
         />
-        <ComposerAction />
+        <ComposerAction
+          canSend={hasActiveKey}
+          isSettingsOpen={isSettingsOpen}
+          onOpenChange={setIsSettingsOpen}
+        />
       </ComposerPrimitive.Root>
     </div>
   );
 };
 
-const ComposerAction: FC = () => {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+interface ComposerActionProps {
+  canSend: boolean;
+  isSettingsOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
+const ComposerAction: FC<ComposerActionProps> = ({
+  canSend,
+  isSettingsOpen,
+  onOpenChange,
+}) => {
   return (
     <>
       <div className="aui-composer-action-wrapper relative mx-1 mt-2 mb-2 flex items-center justify-between">
-        <SettingsButton onClick={() => setIsSettingsOpen(true)} />
+        <SettingsButton onClick={() => onOpenChange(true)} />
 
         <ThreadPrimitive.If running={false}>
-          <ComposerPrimitive.Send asChild>
+          {canSend ? (
+            <ComposerPrimitive.Send asChild>
+              <TooltipIconButton
+                tooltip="Send message"
+                side="bottom"
+                type="submit"
+                variant="default"
+                size="icon"
+                className="aui-composer-send size-[34px] rounded-full p-1"
+                aria-label="Send message"
+              >
+                <ArrowUpIcon className="aui-composer-send-icon size-5" />
+              </TooltipIconButton>
+            </ComposerPrimitive.Send>
+          ) : (
             <TooltipIconButton
-              tooltip="Send message"
+              tooltip="Configure an API key to enable sending"
               side="bottom"
-              type="submit"
+              type="button"
               variant="default"
               size="icon"
               className="aui-composer-send size-[34px] rounded-full p-1"
-              aria-label="Send message"
+              aria-label="Open assistant settings"
+              onClick={() => onOpenChange(true)}
             >
-              <ArrowUpIcon className="aui-composer-send-icon size-5" />
+              <LockIcon className="aui-composer-send-icon size-5" />
             </TooltipIconButton>
-          </ComposerPrimitive.Send>
+          )}
         </ThreadPrimitive.If>
 
         <ThreadPrimitive.If running>
@@ -227,10 +281,7 @@ const ComposerAction: FC = () => {
           </ComposerPrimitive.Cancel>
         </ThreadPrimitive.If>
       </div>
-      <SettingsDialog
-        isOpen={isSettingsOpen}
-        onOpenChange={setIsSettingsOpen}
-      />
+      <SettingsDialog isOpen={isSettingsOpen} onOpenChange={onOpenChange} />
     </>
   );
 };
