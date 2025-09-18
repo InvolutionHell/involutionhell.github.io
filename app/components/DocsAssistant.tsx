@@ -18,12 +18,6 @@ interface DocsAssistantProps {
 }
 
 export function DocsAssistant({ pageContext }: DocsAssistantProps) {
-  console.log("DocsAssistant received pageContext (Client):", {
-    title: pageContext.title,
-    contentPreview: pageContext.content?.substring(0, 100) + "...",
-    slug: pageContext.slug,
-  });
-
   // Use DefaultChatTransport with request-level body configuration
   const chat = useChat({
     transport: new DefaultChatTransport({

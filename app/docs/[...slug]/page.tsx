@@ -55,24 +55,13 @@ export default async function DocPage({ params }: Param) {
     const fullFilePath = path.join(process.cwd(), "app/docs", page.file.path);
     const rawContent = await fs.readFile(fullFilePath, "utf-8");
     const extractedText = extractTextFromMDX(rawContent);
-    // Truncate content to avoid token limits (4000 chars ≈ 1000 tokens)
-    pageContentForAI = extractedText.substring(0, 4000);
-    console.log(
-      "Page Content for AI (Server):",
-      pageContentForAI.substring(0, 200) + "...",
-    ); // Log first 200 chars
+    // Use full extracted content without truncation
+    pageContentForAI = extractedText;
   } catch (error) {
     console.warn("Failed to read file content for AI assistant:", error);
     // Fallback to using page metadata
     pageContentForAI = `${page.data.title}\n${page.data.description || ""}`;
   }
-
-  console.log("Passing pageContext to DocsAssistant (Server):", {
-    title: page.data.title,
-    description: page.data.description,
-    contentPreview: pageContentForAI.substring(0, 100) + "...", // Log first 100 chars of content
-    slug: slug?.join("/"),
-  });
 
   return (
     <>

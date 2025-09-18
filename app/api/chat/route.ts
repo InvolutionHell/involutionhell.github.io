@@ -21,12 +21,6 @@ export async function POST(req: Request) {
     };
   } = await req.json();
 
-  console.log("Chat API received request. pageContext (API):", {
-    title: pageContext?.title,
-    contentPreview: pageContext?.content?.substring(0, 100) + "...",
-    slug: pageContext?.slug,
-  });
-
   try {
     // Build system message with page context
     let systemMessage =
