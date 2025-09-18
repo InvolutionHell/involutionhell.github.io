@@ -28,7 +28,6 @@ export default async function DocPage({ params }: Param) {
 
   // Fetch contributors data on server side
   const contributors = await getContributors(filePath);
-  console.log(`[DocPage] Fetched ${contributors.length} contributors`);
 
   const Mdx = page.data.body;
 
