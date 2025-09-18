@@ -1,4 +1,5 @@
-import { openai } from "@ai-sdk/openai";
+import { openai, createOpenAI } from "@ai-sdk/openai";
+import { google, createGoogleGenerativeAI } from "@ai-sdk/google";
 import { streamText, UIMessage, convertToModelMessages } from "ai";
 
 // Allow streaming responses up to 30 seconds
@@ -9,6 +10,8 @@ export async function POST(req: Request) {
     messages,
     system,
     pageContext,
+    provider,
+    apiKey,
   }: {
     messages: UIMessage[];
     system?: string; // System message forwarded from AssistantChatTransport
@@ -19,7 +22,20 @@ export async function POST(req: Request) {
       content?: string;
       slug?: string;
     };
+    provider?: "openai" | "gemini";
+    apiKey?: string;
   } = await req.json();
+
+  // Check if API key is provided
+  if (!apiKey || apiKey.trim() === "") {
+    return Response.json(
+      {
+        error:
+          "API key is required. Please configure your API key in the settings.",
+      },
+      { status: 400 },
+    );
+  }
 
   try {
     // Build system message with page context
@@ -45,8 +61,23 @@ export async function POST(req: Request) {
       systemMessage += `\n--- END OF CONTEXT ---\n\nWhen users ask about "this page", "current page", or refer to the content they're reading, use the above context to provide accurate answers. You can summarize, explain, or answer specific questions about the current page content.`;
     }
 
+    // Select model based on provider
+    let model;
+    if (provider === "gemini") {
+      const customGoogle = createGoogleGenerativeAI({
+        apiKey: apiKey,
+      });
+      model = customGoogle("models/gemini-1.5-pro-latest");
+    } else {
+      // Default to OpenAI
+      const customOpenAI = createOpenAI({
+        apiKey: apiKey,
+      });
+      model = customOpenAI("gpt-4o-mini");
+    }
+
     const result = streamText({
-      model: openai("gpt-4.1-nano"), // Using more cost-effective model
+      model: model,
       system: systemMessage,
       messages: convertToModelMessages(messages),
     });
