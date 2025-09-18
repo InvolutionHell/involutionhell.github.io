@@ -31,10 +31,11 @@ function buildGithubNewUrl(dirPath: string, filename: string, title: string) {
   const file = filename.endsWith(".mdx") ? filename : `${filename}.mdx`;
   const fullDir = `${DOCS_BASE}/${dirPath}`.replace(/\/+/g, "/");
   const frontMatter = `---
-title: ${title || "New Article"}
-description:
-date: ${new Date().toISOString().slice(0, 10)}
-tags: []
+title: "${title || "New Article"}"
+description: ""
+date: "${new Date().toISOString().slice(0, 10)}"
+tags:
+  - tag-one
 ---
 
 # ${title || "New Article"}
