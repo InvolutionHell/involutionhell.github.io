@@ -6,7 +6,7 @@ import { getMDXComponents } from "@/mdx-components";
 import { GiscusComments } from "@/app/components/GiscusComments";
 import { getContributors } from "@/lib/github";
 import { Contributors } from "@/app/components/Contributors";
-import { AssistantModal } from "@/app/components/assistant-ui/assistant-modal";
+import { DocsAssistant } from "@/app/components/DocsAssistant";
 
 interface Param {
   params: Promise<{
@@ -31,18 +31,21 @@ export default async function DocPage({ params }: Param) {
   const Mdx = page.data.body;
 
   return (
-    <DocsPage toc={page.data.toc}>
-      <DocsBody>
-        <h1 className="mb-4 text-3xl font-extrabold tracking-tight md:text-4xl">
-          {page.data.title}
-        </h1>
-        <Mdx components={getMDXComponents()} />
-        <Contributors contributors={contributors} />
-        <section className="mt-16">
-          <GiscusComments />
-        </section>
-      </DocsBody>
-    </DocsPage>
+    <>
+      <DocsPage toc={page.data.toc}>
+        <DocsBody>
+          <h1 className="mb-4 text-3xl font-extrabold tracking-tight md:text-4xl">
+            {page.data.title}
+          </h1>
+          <Mdx components={getMDXComponents()} />
+          <Contributors contributors={contributors} />
+          <section className="mt-16">
+            <GiscusComments />
+          </section>
+        </DocsBody>
+      </DocsPage>
+      <DocsAssistant />
+    </>
   );
 }
 
