@@ -1,5 +1,5 @@
-import { openai, createOpenAI } from "@ai-sdk/openai";
-import { google, createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { streamText, UIMessage, convertToModelMessages } from "ai";
 
 // Allow streaming responses up to 30 seconds
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   }: {
     messages: UIMessage[];
     system?: string; // System message forwarded from AssistantChatTransport
-    tools?: any; // Frontend tools forwarded from AssistantChatTransport
+    tools?: unknown; // Frontend tools forwarded from AssistantChatTransport
     pageContext?: {
       title?: string;
       description?: string;
@@ -67,13 +67,13 @@ export async function POST(req: Request) {
       const customGoogle = createGoogleGenerativeAI({
         apiKey: apiKey,
       });
-      model = customGoogle("models/gemini-1.5-pro-latest");
+      model = customGoogle("models/gemini-2.0-flash");
     } else {
       // Default to OpenAI
       const customOpenAI = createOpenAI({
         apiKey: apiKey,
       });
-      model = customOpenAI("gpt-4o-mini");
+      model = customOpenAI("gpt-4.1-nano");
     }
 
     const result = streamText({
