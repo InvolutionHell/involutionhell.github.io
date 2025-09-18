@@ -21,7 +21,6 @@ import type { FC } from "react";
 import { useState } from "react";
 
 import {
-  ComposerAddAttachment,
   ComposerAttachments,
   UserMessageAttachments,
 } from "@/app/components/assistant-ui/attachment";
