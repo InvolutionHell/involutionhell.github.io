@@ -1,10 +1,10 @@
 ---
 title: 用闲置树莓派搭建一个Minecraft服务器
-description: "记录一下从0开始搭建一个树莓派minecraft服务器，并且使用FRP内网穿透到公网"
-abbrlink: 52c73bb6
 date: 2025-08-05 18:53:40
 tags:
 ---
+
+记录一下从0开始搭建一个树莓派minecraft服务器，并且使用FRP内网穿透到公网
 
 # 硬件准备工作
 
