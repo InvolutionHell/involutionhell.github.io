@@ -14,19 +14,30 @@ function pruneEmptyFolders(root: PageTree.Root): PageTree.Root {
 
       const index = node.index ? { ...node.index } : undefined;
 
-      if (transformedChildren.length > 0) {
-        return {
-          ...node,
-          index,
-          children: transformedChildren,
-        };
+      if (transformedChildren.length === 0) {
+        if (index) {
+          return { ...index };
+        }
+
+        return null;
       }
 
-      if (index) {
-        return { ...index };
+      if (!index && transformedChildren.length === 1) {
+        const [onlyChild] = transformedChildren;
+
+        if (
+          onlyChild.type === "page" &&
+          onlyChild.url.startsWith("/docs/ai/")
+        ) {
+          return { ...onlyChild };
+        }
       }
 
-      return null;
+      return {
+        ...node,
+        index,
+        children: transformedChildren,
+      };
     }
 
     if (node.type === "separator") {

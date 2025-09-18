@@ -5,7 +5,8 @@ import type { Metadata } from "next";
 import { getMDXComponents } from "@/mdx-components";
 import { GiscusComments } from "@/app/components/GiscusComments";
 import { EditOnGithub } from "@/app/components/EditOnGithub";
-import { buildDocsEditUrl } from "@/lib/github";
+import { buildDocsEditUrl, getContributors } from "@/lib/github";
+import { Contributors } from "@/app/components/Contributors";
 
 interface Param {
   params: Promise<{
@@ -23,7 +24,10 @@ export default async function DocPage({ params }: Param) {
 
   // 统一通过工具函数生成 Edit 链接，内部已处理中文目录编码
   const editUrl = buildDocsEditUrl(page.path);
-
+  // Get file path for contributors
+  const filePath = "app/docs/" + page.file.path;
+  // Fetch contributors data on server side
+  const contributors = await getContributors(filePath);
   const Mdx = page.data.body;
 
   return (
@@ -37,6 +41,7 @@ export default async function DocPage({ params }: Param) {
         </div>
         <Mdx components={getMDXComponents()} />
         <GiscusComments className="mt-16" />
+        <Contributors contributors={contributors} />
       </DocsBody>
     </DocsPage>
   );

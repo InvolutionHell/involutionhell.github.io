@@ -203,25 +203,6 @@
   --tracking-normal: 0em;
 }
 
-/* Force remove rounded corners globally for research style */
-@layer base {
-  .rounded,
-  .rounded-sm,
-  .rounded-md,
-  .rounded-lg,
-  .rounded-xl,
-  .rounded-2xl,
-  .rounded-3xl,
-  .rounded-full,
-  .rounded-none {
-    border-radius: 0 !important;
-  }
-}
-
-/*
-  ---break---
-*/
-
 .dark {
   --background: oklch(0.2077 0.0398 265.7549);
   --foreground: oklch(0.9288 0.0126 255.5078);
