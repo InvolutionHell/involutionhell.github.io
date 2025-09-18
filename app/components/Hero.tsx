@@ -25,7 +25,7 @@ export function Hero() {
     {
       title: "群友分享",
       desc: "群友写的捏",
-      href: "/docs/guide",
+      href: "/docs/群友分享",
     },
   ];
 
