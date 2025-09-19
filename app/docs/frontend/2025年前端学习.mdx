@@ -1,0 +1,90 @@
+---
+title: "2025年应届生前端需要学习什么"
+description: ""
+date: "2025-09-19"
+tags:
+  - frontend
+---
+
+作者本人是在国内工作8个月的应届校招生，以下是我对于2025年面对秋招的前端学习的理解,如果有错误和遗漏请指正。
+
+#### 预备知识
+
+1. 善用 Google Search 检索和运用LLM大模型获取信息的能力。
+
+#### HTML：
+
+1.了解 Meta 标签的作用，比如 viewport、keyword 。
+
+2.Link、Script 标签的使用，rel、async、defer 等属性的用法。
+
+#### CSS：
+
+1.基础: 盒模型(box-sizing), Flexbox 布局， 定位（position: relative/absolute/fixed/sticky 这些的区别）。如何居中。
+
+2.rem/em 单位 
+
+3.tailwind必学
+
+4.了解css 预处理器(scss)
+
+个人想css动画这些之前的难点了解即可， 交给ai会方便很多. 以及tailwind在2025年我认为是必学的， 掌握了css基础知识，就可以尝试使用tailwind了
+
+#### javaScript
+
+1.基础: 函数、对象、数组、this、prototype、闭包、原型链、继承、模块化、Promise、async/await、ES6 新特性。
+基础通过js红宝书来学， 很多js的面试题都是在红宝书上的原题.
+
+2.Dom 操作. Dom和Bom的API
+
+3.网络请求：fetch， axios。 初学者可以花更多时间使用fetch， 掌握基础和原理. 但需要尝试不同的网络请求库，如axios, 这样可以对比不同方式的优缺点。
+
+#### 框架
+React:
+
+1.[读一遍官方文档](https://react.dev/)
+
+2.状态管理, 包括react内置的useContext和useReducer hooks, 主流管理库(Redux RTK、zustand、mobx)
+状态管理的学习可以不用那么细和专一， 因为工作的时候每一个项目用的方式都是不同的
+
+#### NodeJS:
+
+1.会使用 Express建立简单的服务器， 并与前端项目进行通信。
+2.数据库的使用: CRUD，借助 ORM、ODM 库（MongoDB,MySql.）
+3.了解RESTFul 接口标准。
+
+到这里为止, 做一两个拿得出手的项目， 刷刷面试题背背八股就可以找一个厂实习了, 问题应该不大。当然想要在秋招脱颖而出还是不够的。
+
+### 进阶部分:
+
+#### TS
+
+TypeScript对于应届生来说我认为也是必须学习和使用的， 尽管校招面试中可能不会直接考察 TypeScript 的语法细节
+
+TypeScript 提供的静态类型检查，在编码阶段就能捕获大量潜在错误（如字段拼写错误、类型不匹配等） 
+运用ts定义的 interface 或 type 也能帮助你vibe coding。大模型之所以能生成“可用”的代码，核心依赖之一就是类型信息。当你用 TypeScript 明确定义了接口字段、函数参数和返回值类型，AI 就能“理解”你的数据结构和上下文，从而生成更精准、更符合业务逻辑的代码。
+
+当然实际工作中， 项目也是ts写的， 你不会ts代码都写不了🐶
+
+**工具链：**
+
+1.理清工具链模块中每一个是干什么的， 比如(praser有babel, esbuild, swc。 bundler有webpack, rollup, esbuild。 每一个分类有什么区别， 同一个分类下不同的工具有啥区别)
+
+2.会使用至少一种打包工具，package.json 的定义。
+
+3.配置 ESLint、Prettier、StyleLint，统一代码风格。
+
+4.了解 npm、yarn、pnpm 等包管理工具，以及如何使用它们来管理项目依赖。
+
+5.了解CI/CD，自动化流程。
+
+6.了解husky
+
+#### 进阶框架(Next, Remix)
+
+首先要知道有了react框架之后， 为什么还需要进一步封装的进阶框架:
+
+React 本身是 UI 库，不直接解决路由、数据获取、以及SSR这些需求。所以进阶框架提供了更多功能。这里我更推荐Next，用的人更多， 并且vercel也提供了一键部署服务，更好了解工程化。
+
+
+到这里对于应届生对付秋招知识广度足够了,  然后简历上也要写用Next 做的项目, 并且部署在vecel云服务上 (技术选型推荐 Next tailwind pnpm TypeScript) 。 当然现版本有学历和实习经历也是很重要的。另外还要掌握的是计算机基础的八股(主要考计算机网络)以及算法题(LC hot100)， 前端对于算法的要求不高， 题目益刷精而不在多
