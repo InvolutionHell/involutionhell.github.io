@@ -23,6 +23,8 @@ import { buildDocsNewUrl } from "@/lib/github";
 
 type DirNode = { name: string; path: string; children?: DirNode[] };
 
+const FILENAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
+
 // 统一调用工具函数生成 GitHub 新建链接，路径规则与 Edit 按钮一致
 function buildGithubNewUrl(dirPath: string, filename: string, title: string) {
   const file = filename.endsWith(".mdx") ? filename : `${filename}.mdx`;
@@ -81,6 +83,24 @@ export function Contribute() {
   const [newSub, setNewSub] = useState("");
   const [articleTitle, setArticleTitle] = useState("");
   const [articleFile, setArticleFile] = useState("");
+  const [articleFileTouched, setArticleFileTouched] = useState(false);
+
+  const trimmedArticleFile = useMemo(() => articleFile.trim(), [articleFile]);
+  const { isFileNameValid, fileNameError } = useMemo(() => {
+    if (!trimmedArticleFile) {
+      return {
+        isFileNameValid: false,
+        fileNameError: "请填写文件名。",
+      };
+    }
+    if (!FILENAME_PATTERN.test(trimmedArticleFile)) {
+      return {
+        isFileNameValid: false,
+        fileNameError: "文件名仅支持英文、数字、连字符或下划线。",
+      };
+    }
+    return { isFileNameValid: true, fileNameError: "" };
+  }, [trimmedArticleFile]);
 
   useEffect(() => {
     let mounted = true;
@@ -115,14 +135,11 @@ export function Contribute() {
     return selectedKey;
   }, [selectedKey, newSub]);
 
-  const canProceed = !!finalDirPath && (articleTitle || articleFile);
+  const canProceed = !!finalDirPath && isFileNameValid;
 
   const handleOpenGithub = () => {
     if (!canProceed) return;
-    const filename = (articleFile || articleTitle || "new-article")
-      .trim()
-      .replace(/\s+/g, "-")
-      .toLowerCase();
+    const filename = trimmedArticleFile.toLowerCase();
     const title = articleTitle || filename;
     window.open(
       buildGithubNewUrl(finalDirPath, filename, title),
@@ -139,6 +156,9 @@ export function Contribute() {
         if (!v) {
           setSelectedKey("");
           setNewSub("");
+          setArticleTitle("");
+          setArticleFile("");
+          setArticleFileTouched(false);
         }
       }}
     >
@@ -278,12 +298,19 @@ export function Contribute() {
             value={articleTitle}
             onChange={(e) => setArticleTitle(e.target.value)}
           />
-          <label className="text-sm font-medium">文件名（可选）</label>
+          <label className="text-sm font-medium">文件名（必填）</label>
           <Input
             placeholder="e.g. intro-to-transformers"
             value={articleFile}
-            onChange={(e) => setArticleFile(e.target.value)}
+            onChange={(e) => {
+              setArticleFile(e.target.value);
+              if (!articleFileTouched) setArticleFileTouched(true);
+            }}
+            onBlur={() => setArticleFileTouched(true)}
           />
+          {articleFileTouched && fileNameError && (
+            <p className="text-xs text-destructive">{fileNameError}</p>
+          )}
         </div>
 
         <DialogFooter className="flex items-center justify-between">
