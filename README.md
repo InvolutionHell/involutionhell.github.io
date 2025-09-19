@@ -41,7 +41,7 @@ pnpm dev
 ├── 📂 app/                          # Next.js App Router
 │   ├── 📂 components/               # React 组件
 │   ├── 📂 docs/                     # 文档内容
-│   │   └── 📂 computer-science/     # 计算机科学知识库
+│   │   └── 📂 ai/     # ai知识库
 │   ├── 📄 layout.tsx               # 根布局
 │   └── 📄 page.tsx                 # 主页
 ├── 📂 source.config.ts              # Fumadocs 配置
