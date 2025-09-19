@@ -1,0 +1,41 @@
+---
+title: 'Git101'
+description: ""
+date: "2025-09-19"
+tags:
+  - tag-one
+---
+
+## GIT 最常用命令
+| Basic 基础 | Branch & Remote 协作 |
+|------------|----------------------|
+| `git init <dir>` → 初始化仓库 | `git branch` → 分支列表/新建分支 |
+| `git clone <repo>` → 克隆远程仓库 | `git checkout -b <branch>` → 新建并切换分支 |
+| `git add <file>` → 暂存文件 | `git merge <branch>` → 合并分支 |
+| `git commit -m "msg"` → 提交更改 | `git pull <remote>` → 拉取并合并远程 |
+| `git push <remote> <branch>` → 推送分支 | `git remote add <name> <url>` → 添加远程 |
+| `git status` → 查看文件状态 | `git fetch <remote> <branch>` → 获取远程分支 |
+| `git log --oneline` → 单行历史 | `git pull --rebase <remote>` → 拉取并 rebase |
+| `git diff` → 查看未暂存差异 | `git push <remote> --tags` → 推送所有标签 |
+
+
+
+## GIT其他命令
+| Undo / Reset / Log / Diff | Config / Advanced Push / Rebase |
+|---------------------------|---------------------------------|
+| `git commit --amend` → 修改上次提交 | `git config user.name <name>` → 设置仓库作者名 |
+| `git revert <commit>` → 撤销提交 | `git config --global user.name <name>` → 全局作者名 |
+| `git reset <file>` → 从暂存区移除文件 | `git config --global user.email <email>` → 全局邮箱 |
+| `git reset --soft <commit>` → 回退提交，保留暂存和工作区 | `git config --global alias.<alias> <cmd>` → 创建别名 |
+| `git reset --mixed <commit>` → 回退提交，保留工作区（默认） | `git config --system core.editor <editor>` → 设置编辑器 |
+| `git reset --hard <commit>` → 回退提交，丢弃修改 | `git config --global --edit` → 编辑全局配置 |
+| `git clean -n` → 预览删除未跟踪文件 | `git push <remote> --force` → 强制推送（危险） |
+| `git reflog` → 查看 HEAD 历史 | `git push <remote> --all` → 推送所有分支 |
+| `git log -<n>` → 限制提交数量 | `git rebase <base>` → 将分支变基 |
+| `git log --stat` → 文件修改统计 | `git rebase -i <base>` → 交互式变基 |
+| `git log -p` → 提交详细 diff | `git rebase --continue` → 继续变基（解决冲突后） |
+| `git log <since>..<until>` → 指定范围历史 | `git rebase --abort` → 中止变基 |
+| `git log -- <file>` → 某文件历史 | `git log --author="<pattern>"` → 按作者搜索 |
+| `git diff HEAD` → 工作区 vs 最近提交 | `git log --grep="<pattern>"` → 按说明搜索 |
+| `git diff --cached` → 暂存区 vs 最近提交 | `git log --graph --decorate` → 图形化历史 |
+
