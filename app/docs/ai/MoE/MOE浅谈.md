@@ -11,7 +11,7 @@ MoE 架构已经被广泛应用到大语言模型（LLMs）中，使这些模型
 
 自 MoE 最早被引入 Transformer 架构以来，MoE 主要作为 **前馈网络 (FFN)** 的替代模块使用。通常情况下，MoE 层中的每个专家都直接复制了其所替换的 FFN 结构。然后配备有一个 Router 来训练具体交给哪个专家处理。
 
-![[IMG-20250920112106486.png]]
+![[./MOE浅谈.assets/IMG-20250920112106486.png]]
 
 MoE 主要应用于 FFN 层，而不是自注意力层，原因在于：
 
@@ -20,13 +20,13 @@ MoE 主要应用于 FFN 层，而不是自注意力层，原因在于：
   其中DS-MoE 使用 Wikitext 作为任务时，发现：FFN 层的专家仅有 **20%** 被激活  
   而注意力层激活率高达 **80%** 。这种高利用率表明注意力层的核心通讯机制不适用于特异化的专家。 反之具有稀疏特性的FFN层，具有完整多专家特异化的潜力。
 
-![[IMG-20250920112106518.png]]
+![[./MOE浅谈.assets/IMG-20250920112106518.png]]
 
 ---
 
 ## Routing 机制：Dense MoE 与 Sparse MoE
 
-![[IMG-20250920112106554.png]]
+![[./MOE浅谈.assets/IMG-20250920112106554.png]]
 
 - **Dense MoE**
   - gate 对于输入 token 使用 **softmax** 路由机制，传递给每个专家一定权重。
@@ -55,7 +55,7 @@ Top-2 gating 能显著提升效果，相比单一专家更稳定。并且64 专�
 论文 [_Pushing Mixture of Experts to the Limit: Extremely Parameter Efficient MoE for Instruction Tuning_](https://arxiv.org/abs/2309.05444) 首次提出将 **LoRA 类型的 PEFT 方法和 MoE 框架结合**。  
 其主要理念为，不直接在整个大模型上加 LoRA，而是专门在 MoE 的 expert 模块里应用 LoRA。 因为MoE 的每个专家就是 FFN（MLP），它们是知识写入的关键位置。 这样每次只动一小部分lora experts。并且大大增强了这种架构的易扩展性。
 
-![[IMG-20250920112106588.png]]
+![[./MOE浅谈.assets/IMG-20250920112106588.png]]
 
 该方法的核心思想是利用 **低秩近似更新** 来避免高级算力的微调。
 
