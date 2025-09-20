@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { RootProvider } from "fumadocs-ui/provider";
 import Script from "next/script";
 import "./globals.css";
+import "katex/dist/katex.min.css";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
