@@ -1,0 +1,108 @@
+---
+title: 数学公式语法
+date: 2025-09-20 14:25:39
+---
+
+## 求和、求积、二项式
+
+|       样例        |      指令       |
+| :---------------: | :-------------: |
+| $$\sum_{i=1}^n$$  | `\sum_{i=1}^n`  |
+| $$\prod_{i=1}^n$$ | `\prod_{i=1}^n` |
+| $$\tbinom{a}{b}$$ | `\tbinom{a}{b}` |
+
+## 矩阵、行列式
+
+$$
+\left(\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right)
+$$
+
+```latex
+$$
+\left(\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right)
+$$
+```
+
+$$
+\left|\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right|
+$$
+
+```latex
+$$
+\left|\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right|
+$$
+```
+
+$$
+\left(\begin{matrix}
+1 & 2 & \cdots & n \\
+2 & 3 & \cdots & n+1 \\
+\vdots & \vdots & \ddots & n^2 - 1\\
+n & n+1 & \cdots & n^2
+\end{matrix}\right)
+$$
+
+```latex
+$$
+\left(\begin{matrix}
+1 & 2 & \cdots & n \\
+2 & 3 & \cdots & n+1 \\
+\vdots & \vdots & \ddots & n^2 - 1\\
+n & n+1 & \cdots & n^2
+\end{matrix}\right)
+$$
+```
+
+## 维持等号缩进
+
+$$
+\begin{aligned}
+    f(X|\theta) &= f(x_1,x_2,\cdots,x_n|\theta)\\
+    &= f(x_1|\theta) \cdot f(x_2|\theta) \cdots f(x_n|\theta)\\
+    &= \prod_{i=1}^n \frac{1}{x_i !} e^{-\theta}\theta^{x_i}\\
+    &= \left(\prod_{i=1}^n \frac{1}{x_i !}\right) e^{-n \theta}\theta^{\sum_{i=1}^n x_i}
+\end{aligned}
+$$
+
+```latex
+$$
+\begin{aligned}
+    f(X|\theta) &= f(x_1,x_2,\cdots,x_n|\theta)\\
+    &= f(x_1|\theta) \cdot f(x_2|\theta) \cdots f(x_n|\theta)\\
+    &= \prod_{i=1}^n \frac{1}{x_i !} e^{-\theta}\theta^{x_i}\\
+    &= \left(\prod_{i=1}^n \frac{1}{x_i !}\right) e^{-n \theta}\theta^{\sum_{i=1}^n x_i}
+\end{aligned}
+$$
+```
+
+## 分段函数的表示（与Latex有差异）
+
+因为不能用`\equation`和各种`\cases`，所以需要变通一下
+
+$$
+f(x,\theta) = \left\{ \begin{array}{ll}
+\dfrac{1}{x\sqrt{2\pi \theta}} e^{-\frac{1}{2\theta} [\log(x)]^2} &,\text{ $x>0$} \\
+0 &,\text{ otherwise}
+\end{array} \right.
+$$
+
+```latex
+$$
+f(x,\theta) = \left\{ \begin{array}{ll}
+\dfrac{1}{x\sqrt{2\pi \theta}} e^{-\frac{1}{2\theta} [\log(x)]^2} &,\text{ $x>0$} \\
+0 &,\text{ otherwise}
+\end{array} \right.
+$$
+```

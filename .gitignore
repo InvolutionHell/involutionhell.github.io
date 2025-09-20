@@ -52,3 +52,6 @@ Agents.md
 
 # Environment variables
 .env
+
+# VS code
+.vscode
