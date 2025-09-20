@@ -32,12 +32,12 @@ tags:
 
 1. **权重 W**
    - 存储方式：BF16 (2 Byte)
-   - 显存：$W = N × 2$ Byte
+   - 显存：$W = N \times 2$ Byte
    - 例：2B 参数 → ≈ 4 GB
 
 2. **梯度 G**
    - 存储方式：BF16 (2 Byte)
-   - 显存：$G = N × 2$ Byte
+   - 显存：$G = N \times 2$ Byte
    - 例：2B 参数 → ≈ 4 GB
 
 3. **优化器状态（Adam）**
