@@ -1,5 +1,5 @@
 ---
-title: "算力平台"
+title: "算力需求指南"
 description: "如何计算训练大模型所需显存大小"
 date: "2025-09-20"
 tags:
