@@ -48,7 +48,7 @@
     "@types/mdx": "^2.0.13",
     "@types/pg": "^8.16.0",
     "@vercel/speed-insights": "^1.2.0",
-    "ai": "^5.0.102",
+    "ai": "^5.0.103",
     "antd": "^5.27.4",
     "baseline-browser-mapping": "^2.9.4",
     "class-variance-authority": "^0.7.1",
