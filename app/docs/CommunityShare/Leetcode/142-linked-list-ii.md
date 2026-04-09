@@ -23,7 +23,7 @@ docId: ylpucy1rbbnfpe3t62u8kcfq
 [//]: #
 [//]: # "<p><strong>Exemplary example 1：</strong></p>"
 [//]: #
-[//]: # '<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" /></p>'
+[//]: # '<p>&lt;img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" /&gt;</p>'
 [//]: #
 [//]: # "<pre>"
 [//]: # "<strong>enter：</strong>head = [3,2,0,-4], pos = 1"
@@ -33,7 +33,7 @@ docId: ylpucy1rbbnfpe3t62u8kcfq
 [//]: #
 [//]: # "<p><strong>Exemplary example 2：</strong></p>"
 [//]: #
-[//]: # '<p><img alt="" src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png" /></p>'
+[//]: # '<p>&lt;img alt="" src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png" /&gt;</p>'
 [//]: #
 [//]: # "<pre>"
 [//]: # "<strong>enter：</strong>head = [1,2], pos = 0"
@@ -43,7 +43,7 @@ docId: ylpucy1rbbnfpe3t62u8kcfq
 [//]: #
 [//]: # "<p><strong>Exemplary example 3：</strong></p>"
 [//]: #
-[//]: # '<p><img alt="" src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png" /></p>'
+[//]: # '<p>&lt;img alt="" src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png" /&gt;</p>'
 [//]: #
 [//]: # "<pre>"
 [//]: # "<strong>enter：</strong>head = [1], pos = -1"
@@ -57,7 +57,7 @@ docId: ylpucy1rbbnfpe3t62u8kcfq
 [//]: #
 [//]: # "<ul> "
 [//]: # " <li>Linked中节点的数目范围在范围 <code>[0, 10<sup>4</sup>]</code> Inside</li> "
-[//]: # " <li><code>-10<sup>5</sup> <= Node.val <= 10<sup>5</sup></code></li> "
+[//]: # " <li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10&lt;sup&gt;5</sup></code></li> "
 [//]: # " <li><code>pos</code> Value <code>-1</code> 或者Linked中的一indivualhave效索引</li> "
 [//]: # "</ul>"
 

@@ -26,6 +26,7 @@ interface Param {
 export default async function DocPage({ params }: Param) {
   const { slug } = await params;
   const page = source.getPage(slug);
+  console.log("正在尝试访问的Slug数组是：",slug);
 
   if (page == null) {
     notFound();
@@ -54,8 +55,8 @@ export default async function DocPage({ params }: Param) {
             </h1>
             <EditOnGithub href={editUrl} />
           </div>
-          <Mdx components={getMDXComponents()} />
-          <Contributors entry={contributorsEntry} />
+          <Mdx components={getMDXComponents()} /> 
+          <Contributors entry={contributorsEntry} /> 
           <PageFeedback />
           <section className="mt-16">
             <GiscusComments docId={docIdFromPage ?? null} />
@@ -78,10 +79,12 @@ export async function generateStaticParams() {
   return source.getPages().map((page) => ({
     slug: page.slugs,
   }));
+  console.log("正在生成StaticParams的Slug数组是：",source.getPages().map((page) => page.slugs));
 }
 
 export async function generateMetadata({ params }: Param): Promise<Metadata> {
   const { slug } = await params;
+  console.log("正在生成Metadata的Slug数组是：",slug);
   const page = source.getPage(slug);
   if (page == null) {
     notFound();

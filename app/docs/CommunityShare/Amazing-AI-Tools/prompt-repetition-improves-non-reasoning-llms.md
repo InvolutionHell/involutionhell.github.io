@@ -9,7 +9,7 @@ tags:
 docId: l6eepr5ctjgrhdgupy3twr1t
 ---
 
-# <https://arxiv.org/pdf/2512.14982>
+# &lt;https://arxiv.org/pdf/2512.14982&gt;
 
 When not using reasoning, repeating the input prompt improves performance for popular models (Gemini, GPT, Claude, and Deepseek) without increasing the number of generated tokens or latency.
 
