@@ -1,12 +1,13 @@
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { ContributorRow } from "@/app/components/rank/ContributorRow";
+import { RankTabs } from "@/app/components/rank/RankTabs";
+import { Suspense } from "react";
 
 import leaderboardData from "@/generated/site-leaderboard.json";
 
 import { MAINTAINERS } from "@/lib/admins";
 
-// We use the generated JSON
 const rawRanks = leaderboardData as {
   id: string;
   name: string;
@@ -18,8 +19,17 @@ const rawRanks = leaderboardData as {
 
 const mockRanks = rawRanks.filter((user) => !MAINTAINERS.includes(user.name));
 
-export default function RankPage() {
+interface PageProps {
+  searchParams: Promise<{ tab?: string; window?: string }>;
+}
+
+export default async function RankPage({ searchParams }: PageProps) {
+  const { tab, window: win } = await searchParams;
   const maxPoints = mockRanks.length > 0 ? mockRanks[0].points : 100;
+
+  const initialTab = tab === "hot" ? "hot" : "contributors";
+  const initialWindow =
+    win === "7d" || win === "all" ? (win as "7d" | "all") : "30d";
 
   return (
     <>
@@ -31,20 +41,24 @@ export default function RankPage() {
               Leaderboard
             </h1>
             <p className="font-mono text-sm uppercase tracking-widest mt-4 text-neutral-500">
-              The Hall of Fame — Top Contributors
+              The Hall of Fame — Top Contributors & Hot Docs
             </p>
           </div>
 
-          <div className="flex flex-col gap-4">
-            {mockRanks.map((user, idx) => (
-              <ContributorRow
-                key={user.id}
-                user={user}
-                idx={idx}
-                maxPoints={maxPoints}
-              />
-            ))}
-          </div>
+          <Suspense>
+            <RankTabs initialTab={initialTab} initialWindow={initialWindow}>
+              <div className="flex flex-col gap-4">
+                {mockRanks.map((user, idx) => (
+                  <ContributorRow
+                    key={user.id}
+                    user={user}
+                    idx={idx}
+                    maxPoints={maxPoints}
+                  />
+                ))}
+              </div>
+            </RankTabs>
+          </Suspense>
         </div>
       </main>
       <Footer />
