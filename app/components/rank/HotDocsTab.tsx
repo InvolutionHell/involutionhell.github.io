@@ -27,8 +27,10 @@ function reducer(_: State, action: Action): State {
   return { status: "error" };
 }
 
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";
+// 默认走 Next.js rewrite 同源代理（见 next.config.mjs 的 /analytics/:path*），
+// 若需要跨域直连后端（比如本地 Next.js 未启动但要用 curl/别的客户端测接口），
+// 可设置 NEXT_PUBLIC_BACKEND_URL=http://localhost:8081 覆盖。
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
 
 export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
   const [windowParam, setWindowParam] = useReducer(
@@ -40,15 +42,17 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
   useEffect(() => {
     dispatch({ type: "fetch" });
     let cancelled = false;
-    fetch(
-      `${BACKEND_URL}/api/v1/analytics/top-docs?window=${windowParam}&limit=20`,
-    )
+    fetch(`${BACKEND_URL}/analytics/top-docs?window=${windowParam}&limit=20`)
       .then((r) => {
         if (!r.ok) throw new Error();
-        return r.json() as Promise<HotDoc[]>;
+        return r.json() as Promise<{
+          success: boolean;
+          data: HotDoc[];
+        }>;
       })
-      .then((docs) => {
-        if (!cancelled) dispatch({ type: "ok", docs });
+      .then((body) => {
+        if (!body.success) throw new Error();
+        if (!cancelled) dispatch({ type: "ok", docs: body.data ?? [] });
       })
       .catch(() => {
         if (!cancelled) dispatch({ type: "error" });

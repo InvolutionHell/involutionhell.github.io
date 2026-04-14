@@ -36,6 +36,10 @@ const config = {
         source: "/auth/:path*",
         destination: `${backendUrl}/auth/:path*`,
       },
+      {
+        source: "/analytics/:path*",
+        destination: `${backendUrl}/analytics/:path*`,
+      },
     ];
   },
   images: {
