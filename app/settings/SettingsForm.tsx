@@ -3,7 +3,7 @@
 // 用户偏好设置表单（Client Component）
 // 负责：拉取偏好数据、渲染编辑 UI、提交保存、同步 ThemeProvider
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/use-auth";
 import { useTheme } from "@/app/components/ThemeProvider";
@@ -49,6 +49,8 @@ export function SettingsForm() {
     type: "success" | "error";
     msg: string;
   } | null>(null);
+  // toast 定时器 ref：新 toast / 卸载时清掉旧 timer，避免 setState on unmounted
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 未登录时重定向
   useEffect(() => {
@@ -61,7 +63,13 @@ export function SettingsForm() {
   useEffect(() => {
     if (status !== "authenticated") return;
     const token = getToken();
-    if (!token) return;
+    // token 缺失时立刻结束 loading 并提示 + 跳转，否则页面会卡在骨架屏
+    if (!token) {
+      setLoading(false);
+      showToast("error", "登录态丢失，请重新登录");
+      router.replace("/login?redirect=/settings");
+      return;
+    }
 
     fetch("/api/user-center/preferences", {
       headers: { satoken: token },
@@ -72,23 +80,45 @@ export function SettingsForm() {
       })
       .then((body) => {
         if (body?.success && body?.data) {
-          setPrefs({ ...DEFAULT_PREFS, ...body.data });
+          const merged = { ...DEFAULT_PREFS, ...body.data };
+          setPrefs(merged);
+          // 加载出来的 theme 立即同步到 ThemeProvider，避免"已保存设置与当前主题不一致"
+          setTheme(merged.theme);
         }
       })
       .catch(() => {
         showToast("error", "无法加载偏好设置，已显示默认值");
       })
       .finally(() => setLoading(false));
+    // setTheme 是 ThemeProvider 提供的稳定引用，router 同理；这里依赖 status 变化触发
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
+  // 组件卸载时清掉残留 toast timer
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) {
+        clearTimeout(toastTimerRef.current);
+      }
+    };
+  }, []);
+
   function showToast(type: "success" | "error", msg: string) {
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+    }
     setToast({ type, msg });
-    setTimeout(() => setToast(null), 3000);
+    toastTimerRef.current = setTimeout(() => setToast(null), 3000);
   }
 
   async function handleSave() {
     const token = getToken();
-    if (!token) return;
+    // token 缺失时给明确反馈并跳转登录，而不是静默返回让用户摸不着头脑
+    if (!token) {
+      showToast("error", "登录态丢失，请重新登录后再保存");
+      router.replace("/login?redirect=/settings");
+      return;
+    }
     setSaving(true);
     try {
       const res = await fetch("/api/user-center/preferences", {
