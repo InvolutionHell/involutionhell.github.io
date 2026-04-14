@@ -40,6 +40,11 @@ const config = {
         source: "/analytics/:path*",
         destination: `${backendUrl}/analytics/:path*`,
       },
+      {
+        // 用户中心 API（偏好设置等）代理到后端，避免浏览器跨域
+        source: "/api/user-center/:path*",
+        destination: `${backendUrl}/api/user-center/:path*`,
+      },
     ];
   },
   images: {
