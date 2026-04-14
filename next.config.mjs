@@ -45,6 +45,12 @@ const config = {
         source: "/api/user-center/:path*",
         destination: `${backendUrl}/api/user-center/:path*`,
       },
+      {
+        // OAuth 跳转入口（/oauth/render/github），走 rewrite 让前端不感知后端端口
+        // 后端返回 302 到 GitHub 授权页，Next.js 透传 302 给浏览器完成跳转
+        source: "/oauth/:path*",
+        destination: `${backendUrl}/oauth/:path*`,
+      },
     ];
   },
   images: {
