@@ -64,7 +64,7 @@ export function SettingsForm() {
     if (!token) return;
 
     fetch("/api/user-center/preferences", {
-      headers: { "x-satoken": token },
+      headers: { satoken: token },
     })
       .then((res) => {
         if (!res.ok) throw new Error("获取偏好失败");
@@ -95,7 +95,7 @@ export function SettingsForm() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "x-satoken": token,
+          satoken: token,
         },
         body: JSON.stringify(prefs),
       });
