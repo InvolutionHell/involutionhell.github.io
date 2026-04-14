@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import type { HistoryItem } from "@/app/api/docs/history/route";
+import type { HistoryItem } from "@/app/types/docs-history";
+
+// author 缺失时用 1x1 透明占位图，避免 <Image> 收到空 src 报错
+const FALLBACK_AVATAR =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><rect width='24' height='24' fill='%23e5e7eb'/></svg>";
 
 interface DocHistoryPanelProps {
   path: string;
@@ -42,18 +46,26 @@ export function DocHistoryPanel({ path }: DocHistoryPanelProps) {
 
   useEffect(() => {
     let cancelled = false;
+    // path 变化触发重新 fetch 时先清空旧状态，避免"错误提示 + 旧列表"同时显示
+    setItems(null);
+    setError(null);
     fetch(`/api/docs/history?path=${encodeURIComponent(path)}`)
       .then((r) => r.json())
       .then((json) => {
         if (cancelled) return;
         if (json.success) {
           setItems(json.data);
+          setError(null);
         } else {
+          setItems(null);
           setError(json.error ?? "无法加载历史");
         }
       })
       .catch(() => {
-        if (!cancelled) setError("无法加载历史");
+        if (!cancelled) {
+          setItems(null);
+          setError("无法加载历史");
+        }
       });
     return () => {
       cancelled = true;
@@ -103,7 +115,7 @@ export function DocHistoryPanel({ path }: DocHistoryPanelProps) {
               >
                 {/* 头像 */}
                 <Image
-                  src={item.avatarUrl}
+                  src={item.avatarUrl || FALLBACK_AVATAR}
                   alt={item.authorLogin}
                   width={24}
                   height={24}
