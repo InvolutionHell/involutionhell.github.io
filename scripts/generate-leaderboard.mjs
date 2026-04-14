@@ -188,7 +188,7 @@ async function main() {
     const ghToken = process.env.GITHUB_TOKEN || process.env.GH_PAT || "";
     if (!ghToken) {
       console.warn(
-        "[generate-leaderboard] 未检测到 GITHUB_TOKEN，名字获取会因限流失败，榜单只会展示 id 占位符",
+        "[generate-leaderboard] 未检测到 GITHUB_TOKEN/GH_PAT（GitHub token），名字获取会因限流失败，榜单只会展示 id 占位符",
       );
     }
 
@@ -222,6 +222,13 @@ async function main() {
         }
       } catch (err) {
         failureCount++;
+        // 首次网络/DNS/SSL 等异常打印一次错误消息，便于排查；后续静默计数
+        if (failureCount === 1) {
+          console.warn(
+            "[generate-leaderboard] GitHub API 请求异常，后续失败将静默计数。示例错误：",
+            err instanceof Error ? err.message : err,
+          );
+        }
       }
     }
     console.log(
