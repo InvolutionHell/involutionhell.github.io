@@ -1,405 +1,400 @@
 [
   {
     "id": "114939201",
-    "name": "GitHub User 114939201",
-    "points": 2350,
-    "commits": 235,
+    "name": "longsizhuo",
+    "points": 2370,
+    "commits": 237,
     "avatarUrl": "https://avatars.githubusercontent.com/u/114939201",
     "contributedDocs": [
       {
         "id": "psc0xf6oa1m7g8s9wfwiojkf",
         "title": "PyTorch",
-        "url": "/docs/ai\\\\llm-basics\\\\pytorch\\\\index"
+        "url": "/docs/ai/llm-basics/pytorch"
       },
       {
         "id": "pffzdgytknyhaywar8uzyf2e",
         "title": "LLaVA",
-        "url": "/docs/ai\\\\multimodal\\\\llava\\\\index"
+        "url": "/docs/ai/multimodal/llava"
       },
       {
         "id": "c3a4nmid9plytif5ameigj7d",
         "title": "王树森推荐系统学习笔记_召回",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note\\\\wangshusen_recommend_note_retrieval"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note/wangshusen_recommend_note_retrieval"
       },
       {
         "id": "xqz5iiv3p52h6d9g3c0w2baf",
         "title": "常用Markdown语法",
-        "url": "/docs/CommunityShare\\\\Geek\\\\CommonUsedMarkdown"
+        "url": "/docs/CommunityShare/Geek/CommonUsedMarkdown"
       },
       {
         "id": "gmpls10e2dz0bbizotvhglc8",
         "title": "Static Array",
-        "url": "/docs/computer-science\\\\data-structures\\\\array\\\\01-static-array"
+        "url": "/docs/computer-science/data-structures/array/01-static-array"
       },
       {
         "id": "nuojcaq1s6r5nggul0uq3r3j",
         "title": "Dynamic Array",
-        "url": "/docs/computer-science\\\\data-structures\\\\array\\\\02-dynamic-array"
+        "url": "/docs/computer-science/data-structures/array/02-dynamic-array"
       },
       {
         "id": "ai7cmwf4irjaobqf7uokj3b4",
         "title": "Array",
-        "url": "/docs/computer-science\\\\data-structures\\\\array\\\\index"
+        "url": "/docs/computer-science/data-structures/array"
       },
       {
         "id": "vti0bt2qlnr681msbk6igznc",
         "title": "Data Structures Fundamentals",
-        "url": "/docs/computer-science\\\\data-structures\\\\index"
+        "url": "/docs/computer-science/data-structures"
       },
       {
         "id": "gkjk6stzpb44n9lv8u2ij7xx",
         "title": "Singly Linked List",
-        "url": "/docs/computer-science\\\\data-structures\\\\linked-list\\\\01-singly-linked-list"
+        "url": "/docs/computer-science/data-structures/linked-list/01-singly-linked-list"
       },
       {
         "id": "lt9yrqt0ksl2liabq9ocw0z4",
         "title": "Linked List",
-        "url": "/docs/computer-science\\\\data-structures\\\\linked-list\\\\index"
-      },
-      {
-        "id": "l5nes88zd54y6ao64ufkylz2",
-        "title": "模型微调",
-        "url": "/docs/ai\\\\foundation-models\\\\finetune\\\\index"
-      },
-      {
-        "id": "z157s85hnz1y37tr28y2a8h2",
-        "title": "部署与推理",
-        "url": "/docs/ai\\\\foundation-models\\\\deploy-infer\\\\index"
-      },
-      {
-        "id": "lndxpf7luoeqwwde4in23xr1",
-        "title": "模型评测",
-        "url": "/docs/ai\\\\foundation-models\\\\evaluation\\\\index"
+        "url": "/docs/computer-science/data-structures/linked-list"
       },
       {
         "id": "i88bna4sg5pr4ekhg32drv2i",
         "title": "基座大模型",
-        "url": "/docs/ai\\\\foundation-models\\\\foundation-models-lifecycle"
+        "url": "/docs/ai/foundation-models/foundation-models-lifecycle"
+      },
+      {
+        "id": "lndxpf7luoeqwwde4in23xr1",
+        "title": "模型评测",
+        "url": "/docs/ai/foundation-models/evaluation"
+      },
+      {
+        "id": "l5nes88zd54y6ao64ufkylz2",
+        "title": "模型微调",
+        "url": "/docs/ai/foundation-models/finetune"
       },
       {
         "id": "h7s6nm7h5oqnhhdq9m1mgwwo",
         "title": "经典面试QKV问题",
-        "url": "/docs/ai\\\\foundation-models\\\\qkv-interview\\\\index"
+        "url": "/docs/ai/foundation-models/qkv-interview"
       },
       {
         "id": "jgz0nl0cbd4frj2dg98mdv0x",
         "title": "模型训练",
-        "url": "/docs/ai\\\\foundation-models\\\\training\\\\index"
+        "url": "/docs/ai/foundation-models/training"
       },
       {
         "id": "nor5ktairygnt4dorqbddo9n",
         "title": "生成模型",
-        "url": "/docs/ai\\\\generative-todo\\\\generative-models-plan"
+        "url": "/docs/ai/generative-todo/generative-models-plan"
       },
       {
         "id": "ix9azldhgm46j4i1xzgnd26r",
         "title": "AI 知识库",
-        "url": "/docs/ai\\\\index"
-      },
-      {
-        "id": "nwt5322vw4q6sz8ho8qynv28",
-        "title": "CUDA",
-        "url": "/docs/ai\\\\llm-basics\\\\cuda\\\\index"
+        "url": "/docs/ai"
       },
       {
         "id": "xboc8qj2128aivvt0goo1wow",
         "title": "大模型入门课程",
-        "url": "/docs/ai\\\\llm-basics\\\\courses\\\\index"
+        "url": "/docs/ai/llm-basics/courses"
       },
       {
         "id": "dqg4iqz7hgyq38cqz3tg9tlf",
         "title": "李沐动手学深度学习",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\d2l\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning/d2l"
+      },
+      {
+        "id": "nwt5322vw4q6sz8ho8qynv28",
+        "title": "CUDA",
+        "url": "/docs/ai/llm-basics/cuda"
       },
       {
         "id": "vdclex41huib10ccsqw9u76k",
         "title": "深度学习基础",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning"
       },
       {
         "id": "nrelvvfzq0gma7pqfx9fkfxt",
         "title": "NLP",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\nlp\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning/nlp"
       },
       {
         "id": "xnl2yzrb4x748zhhfe26ragt",
         "title": "Embedding模型",
-        "url": "/docs/ai\\\\llm-basics\\\\embeddings\\\\index"
+        "url": "/docs/ai/llm-basics/embeddings"
       },
       {
         "id": "jq6323xynmyapm5vgncmyymh",
         "title": "Qwen3-embedding",
-        "url": "/docs/ai\\\\llm-basics\\\\embeddings\\\\qwen3-embedding\\\\index"
+        "url": "/docs/ai/llm-basics/embeddings/qwen3-embedding"
       },
       {
         "id": "h8awdow89uicdy4kx9iimlta",
         "title": "大模型基础",
-        "url": "/docs/ai\\\\llm-basics\\\\llm-foundations"
+        "url": "/docs/ai/llm-basics/llm-foundations"
       },
       {
         "id": "k1owc5kfw3vihc5hnmysqttl",
         "title": "AI by Hand：手搓 AI 模型",
-        "url": "/docs/ai\\\\llm-basics\\\\transformer\\\\ai-by-hand\\\\index"
+        "url": "/docs/ai/llm-basics/transformer/ai-by-hand"
       },
       {
         "id": "lsokl8ofmo7msxlqyvihbhz5",
         "title": "Transformer",
-        "url": "/docs/ai\\\\llm-basics\\\\transformer\\\\index"
+        "url": "/docs/ai/llm-basics/transformer"
       },
       {
         "id": "r68izu11bkrkk6st194kwk80",
         "title": "方法论学习",
-        "url": "/docs/ai\\\\methodology\\\\research-methodology"
+        "url": "/docs/ai/methodology/research-methodology"
       },
       {
         "id": "uguqyqpacxyj5irjickbt8n9",
         "title": "杂项工具",
-        "url": "/docs/ai\\\\misc-tools\\\\learning-toolkit"
+        "url": "/docs/ai/misc-tools/learning-toolkit"
       },
       {
         "id": "x3xs4hk0mc7lxlgbgskti5qk",
         "title": "模型数据集平台",
-        "url": "/docs/ai\\\\model-datasets-platforms\\\\platform-and-datasets"
+        "url": "/docs/ai/model-datasets-platforms/platform-and-datasets"
       },
       {
         "id": "qftv72k0kzwiz8ddksbcl2aw",
         "title": "MOE 浅谈",
-        "url": "/docs/ai\\\\MoE\\\\MOE-intro"
+        "url": "/docs/ai/MoE/MOE-intro"
       },
       {
         "id": "qaezsrj15sudk796r5otne36",
         "title": "Code translation入门推荐必读",
-        "url": "/docs/ai\\\\Multi-agents-system-on-Code-Translation\\\\code-translation-intro"
+        "url": "/docs/ai/Multi-agents-system-on-Code-Translation/code-translation-intro"
       },
       {
         "id": "pmrtokz6393ywte5zqeskpm0",
         "title": "多模态基础课程",
-        "url": "/docs/ai\\\\multimodal\\\\courses\\\\index"
+        "url": "/docs/ai/multimodal/courses"
       },
       {
         "id": "gc6tdzkkwxn5t90nw69fibl6",
         "title": "MLLM 多模态大模型",
-        "url": "/docs/ai\\\\multimodal\\\\mllm\\\\index"
+        "url": "/docs/ai/multimodal/mllm"
       },
       {
         "id": "zte4s8s8ls4cs25mfrzyepfl",
         "title": "多模态大模型",
-        "url": "/docs/ai\\\\multimodal\\\\multimodal-overview"
+        "url": "/docs/ai/multimodal/multimodal-overview"
       },
       {
         "id": "ybczrbgxo5t4pl0erce7qz6w",
         "title": "QwenVL",
-        "url": "/docs/ai\\\\multimodal\\\\qwenvl\\\\index"
+        "url": "/docs/ai/multimodal/qwenvl"
       },
       {
         "id": "ssrhm03fw9sbogk78dmy92ml",
         "title": "多模态视频大模型",
-        "url": "/docs/ai\\\\multimodal\\\\video-mm-todo\\\\index"
+        "url": "/docs/ai/multimodal/video-mm-todo"
       },
       {
         "id": "xd3q72ubqzlesz8x4gewhi5r",
         "title": "ViT 视觉编码器",
-        "url": "/docs/ai\\\\multimodal\\\\vit\\\\index"
+        "url": "/docs/ai/multimodal/vit"
       },
       {
         "id": "as876rdhtmpnyyeclxt226s1",
         "title": "推荐系统",
-        "url": "/docs/ai\\\\recommender-systems\\\\recommender-roadmap"
+        "url": "/docs/ai/recommender-systems/recommender-roadmap"
       },
       {
         "id": "s4fuhmdf6hj49jx1l7k87d4p",
         "title": "强化学习",
-        "url": "/docs/ai\\\\reinforcement-learning\\\\reinforcement-learning-overview"
+        "url": "/docs/ai/reinforcement-learning/reinforcement-learning-overview"
       },
       {
         "id": "tksz80mfqqyzwzzer5p3uxtg",
         "title": "Git入门操作指南-程序员必会的git小技巧",
-        "url": "/docs/CommunityShare\\\\Geek\\\\git101"
+        "url": "/docs/CommunityShare/Geek/git101"
       },
       {
         "id": "jee9yt8n8tmo8yclqujerw2x",
         "title": "技术分享",
-        "url": "/docs/CommunityShare\\\\Geek\\\\index"
+        "url": "/docs/CommunityShare/Geek"
       },
       {
         "id": "yxd2qpfl2li6092bjx8bz7vb",
         "title": "常用Katex语法",
-        "url": "/docs/CommunityShare\\\\Geek\\\\Katex\\\\index"
+        "url": "/docs/CommunityShare/Geek/Katex"
       },
       {
         "id": "r0inttjcby48tly602p410vo",
         "title": "个人常用字符",
-        "url": "/docs/CommunityShare\\\\Geek\\\\Katex\\\\Seb1"
+        "url": "/docs/CommunityShare/Geek/Katex/Seb1"
       },
       {
         "id": "khcrztruqdku9fntd3dwzvwe",
         "title": "数学公式语法",
-        "url": "/docs/CommunityShare\\\\Geek\\\\Katex\\\\Seb2"
+        "url": "/docs/CommunityShare/Geek/Katex/Seb2"
       },
       {
         "id": "i0xmpskau105p83vq35wnxls",
         "title": "用闲置树莓派搭建一个Minecraft服务器",
-        "url": "/docs/CommunityShare\\\\Geek\\\\raspberry-guide"
+        "url": "/docs/CommunityShare/Geek/raspberry-guide"
       },
       {
         "id": "ksjj9shalh6hqezx6t6am5vw",
         "title": "Computer Science",
-        "url": "/docs/computer-science\\\\index"
-      },
-      {
-        "id": "ue27z7z95yzw3lhhfj7nit1c",
-        "title": "Agent",
-        "url": "/docs/ai\\\\agents-todo\\\\agent-ecosystem"
-      },
-      {
-        "id": "eo5rwumxkh7twfdvlp5po9rc",
-        "title": "CS294/194-196 Large Language Model Agents",
-        "url": "/docs/ai\\\\agents-todo\\\\cs294-194-196\\\\index"
-      },
-      {
-        "id": "v8m8kdjzzx7uhiz69r5m3m9o",
-        "title": "微积分与优化 (Calculus & Optimization)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\calculus-optimization\\\\index"
-      },
-      {
-        "id": "l1kvojw2gvggxflrmzc7j7sm",
-        "title": "线性代数 (Linear Algebra)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\linear-algebra\\\\index"
-      },
-      {
-        "id": "ba5lqs2zg1jqc30qzw3osm9v",
-        "title": "参考资料",
-        "url": "/docs/ai\\\\ai-math-basics\\\\linear-algebra\\\\resources\\\\index"
+        "url": "/docs/computer-science"
       },
       {
         "id": "vcfer8dvlt80se4kmbnshx7x",
         "title": "AI 数学基础",
-        "url": "/docs/ai\\\\ai-math-basics\\\\math-foundations"
+        "url": "/docs/ai/ai-math-basics/math-foundations"
+      },
+      {
+        "id": "ue27z7z95yzw3lhhfj7nit1c",
+        "title": "Agent",
+        "url": "/docs/ai/agents-todo/agent-ecosystem"
+      },
+      {
+        "id": "eo5rwumxkh7twfdvlp5po9rc",
+        "title": "CS294/194-196 Large Language Model Agents",
+        "url": "/docs/ai/agents-todo/cs294-194-196"
+      },
+      {
+        "id": "v8m8kdjzzx7uhiz69r5m3m9o",
+        "title": "微积分与优化 (Calculus & Optimization)",
+        "url": "/docs/ai/ai-math-basics/calculus-optimization"
+      },
+      {
+        "id": "l1kvojw2gvggxflrmzc7j7sm",
+        "title": "线性代数 (Linear Algebra)",
+        "url": "/docs/ai/ai-math-basics/linear-algebra"
+      },
+      {
+        "id": "ba5lqs2zg1jqc30qzw3osm9v",
+        "title": "参考资料",
+        "url": "/docs/ai/ai-math-basics/linear-algebra/resources"
       },
       {
         "id": "ebgss2sa91drisxswsh6iu8x",
         "title": "数值分析 (Numerical Analysis)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\numerical-analysis\\\\index"
+        "url": "/docs/ai/ai-math-basics/numerical-analysis"
       },
       {
         "id": "d5fya0gd1w8vblv8qeqgnqtu",
         "title": "概率论与数理统计 (Probability & Statistics)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\probability-statistics\\\\index"
+        "url": "/docs/ai/ai-math-basics/probability-statistics"
       },
       {
         "id": "q7kagbrpnek7b89axvssn4bo",
         "title": "参考资料",
-        "url": "/docs/ai\\\\ai-math-basics\\\\probability-statistics\\\\resources\\\\index"
+        "url": "/docs/ai/ai-math-basics/probability-statistics/resources"
       },
       {
         "id": "d73h3kyjnzytk1y2nizulyr6",
         "title": "算力平台",
-        "url": "/docs/ai\\\\compute-platforms\\\\compute-platforms-handbook"
-      },
-      {
-        "id": "egpawb1yui58yprrsgxn9qj2",
-        "title": "数据集构建",
-        "url": "/docs/ai\\\\foundation-models\\\\datasets\\\\index"
+        "url": "/docs/ai/compute-platforms/compute-platforms-handbook"
       },
       {
         "id": "ns7q5ehuje6oiua7as6rtnyf",
         "title": "算力需求指南",
-        "url": "/docs/ai\\\\compute-platforms\\\\model-compuational-resource-demand"
+        "url": "/docs/ai/compute-platforms/model-compuational-resource-demand"
       },
       {
-        "id": "eyd32o3ebd5q69hfbb2enxqi",
-        "title": "嵌入模型微调入门知识",
-        "url": "/docs/CommunityShare\\\\RAG\\\\embedding"
+        "id": "z157s85hnz1y37tr28y2a8h2",
+        "title": "部署与推理",
+        "url": "/docs/ai/foundation-models/deploy-infer"
       },
       {
-        "id": "gtqamuq3tftmvzstbunkgbo5",
-        "title": "vcpkg包管理器",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\5_vcpkg"
-      },
-      {
-        "id": "pne40puz5alzsf0f5jb0frbm",
-        "title": "程序员学生时期求职与实习经验分享",
-        "url": "/docs/jobs\\\\interview-prep\\\\preparations-to-get-an-offer-as-a-student"
-      },
-      {
-        "id": "hajz43iblku13mmevia8zrhv",
-        "title": "王树森推荐系统学习笔记_特征交叉",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_crossing"
-      },
-      {
-        "id": "jgyg6bp0nceyrxirz5qw3zsv",
-        "title": "UNSW学费回收计划-那些你还不知道的隐藏福利",
-        "url": "/docs/CommunityShare\\\\Life\\\\unsw-student-benefit"
-      },
-      {
-        "id": "totx4pej5lhyt1nl4anwhakj",
-        "title": "linux/win上的c++库",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\1_cpp_libs"
-      },
-      {
-        "id": "uzoqs57kwc4tfut4wvgnbjhf",
-        "title": "2025年应届生前端需要学习什么",
-        "url": "/docs/computer-science\\\\frontend\\\\frontend-learning\\\\index"
-      },
-      {
-        "id": "h53uwefhlykt9ietsx9x0vtn",
-        "title": "Introduction of Multi-agents system(In any task you want)",
-        "url": "/docs/ai\\\\Introduction-of-Multi-agents-system\\\\introduction_of_multi-agents_system"
-      },
-      {
-        "id": "lodydcd211esraq1r55ze9ey",
-        "title": "其他资料",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\misc\\\\index"
-      },
-      {
-        "id": "zf8zk108oqbsg56xjyqb5txk",
-        "title": "PPO",
-        "url": "/docs/CommunityShare\\\\Personal-Study-Notes\\\\Reinforcement-Learning\\\\ppo"
-      },
-      {
-        "id": "bvccoatft6y7bph83oivdcfe",
-        "title": "王树森推荐系统学习笔记_冷启动",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_coldstart"
-      },
-      {
-        "id": "ol03smbujgwztho45ycj52ah",
-        "title": "王树森推荐系统学习笔记_重排",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_rerank"
-      },
-      {
-        "id": "ifwz8sqxqsgjrafa79pycrcm",
-        "title": "多模态强化学习项目（MVP 目标）",
-        "url": "/docs/all-projects\\\\multimodal-rl"
-      },
-      {
-        "id": "e6udpzrorhvgeeda6xpy1e0s",
-        "title": "如何部署你自己的Github图床-PictureCDN",
-        "url": "/docs/CommunityShare\\\\Geek\\\\picturecdn"
-      },
-      {
-        "id": "sfzt30mtx0jsuv6esnpm3w8y",
-        "title": "群友分享",
-        "url": "/docs/CommunityShare\\\\index"
-      },
-      {
-        "id": "wdqqrepoy43jiieyyjmaekk1",
-        "title": "context engineering 快速了解",
-        "url": "/docs/CommunityShare\\\\RAG\\\\context_engineering_intro"
+        "id": "egpawb1yui58yprrsgxn9qj2",
+        "title": "数据集构建",
+        "url": "/docs/ai/foundation-models/datasets"
       },
       {
         "id": "zywri1bs64awfi9utfjy14ll",
         "title": "RAG",
-        "url": "/docs/CommunityShare\\\\RAG\\\\rag"
+        "url": "/docs/CommunityShare/RAG/rag"
+      },
+      {
+        "id": "xk44lx4q1gpcm1uqk8nnbg7q",
+        "title": "CMake",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/4_CMake"
       },
       {
         "id": "xgxqqvglxyauoeh8eye7lzu6",
         "title": "手写定长内存池",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\Handwritten_pool_components\\\\2_Handwritten_mempool1"
+        "url": "/docs/computer-science/cpp_backend/Handwritten_pool_components/2_Handwritten_mempool1"
       },
       {
-        "id": "q8290wmhyofuiskzn1ph63ta",
-        "title": "手写内存池（简单定长）",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\mempool_simple"
+        "id": "bvccoatft6y7bph83oivdcfe",
+        "title": "王树森推荐系统学习笔记_冷启动",
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_coldstart"
+      },
+      {
+        "id": "lodydcd211esraq1r55ze9ey",
+        "title": "其他资料",
+        "url": "/docs/ai/llm-basics/deep-learning/misc"
+      },
+      {
+        "id": "db3qwg25h6l0bh8f2sdabdqc",
+        "title": "Theory of MoE",
+        "url": "/docs/ai/MoE/moe-update"
+      },
+      {
+        "id": "qmy3p4vc45ek61ce4n62fpxy",
+        "title": "王树森推荐系统学习笔记_涨指标",
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_improvement"
+      },
+      {
+        "id": "ol03smbujgwztho45ycj52ah",
+        "title": "王树森推荐系统学习笔记_重排",
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_rerank"
+      },
+      {
+        "id": "ifwz8sqxqsgjrafa79pycrcm",
+        "title": "多模态强化学习项目（MVP 目标）",
+        "url": "/docs/all-projects/multimodal-rl"
+      },
+      {
+        "id": "mgb41edhi9cz1kxzae074an0",
+        "title": "学生邮箱能免费领的AI提效工具系列",
+        "url": "/docs/CommunityShare/Amazing-AI-Tools"
+      },
+      {
+        "id": "mhyoknm6vj8jmp186oli5f5c",
+        "title": "swanlab快速上手指南",
+        "url": "/docs/CommunityShare/Geek/swanlab"
+      },
+      {
+        "id": "eyd32o3ebd5q69hfbb2enxqi",
+        "title": "嵌入模型微调入门知识",
+        "url": "/docs/CommunityShare/RAG/embedding"
+      },
+      {
+        "id": "totx4pej5lhyt1nl4anwhakj",
+        "title": "linux/win上的c++库",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/1_cpp_libs"
+      },
+      {
+        "id": "kyu85av71b4n07hbdycbhvj9",
+        "title": "基础gcc/g++",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/2_base_gcc"
+      },
+      {
+        "id": "g6wucmr69lamd9xyxm7uunnd",
+        "title": "Make编译",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/3_Make"
+      },
+      {
+        "id": "mnjkrtrs7xk3fq538eqreuge",
+        "title": "手写线程池",
+        "url": "/docs/computer-science/cpp_backend/Handwritten_pool_components/1_Handwritten_threadpool"
+      },
+      {
+        "id": "uzoqs57kwc4tfut4wvgnbjhf",
+        "title": "2025年应届生前端需要学习什么",
+        "url": "/docs/computer-science/frontend/frontend-learning"
+      },
+      {
+        "id": "gpoh50befguf7zgsetzkvbi3",
+        "title": "信息论 (Information Theory)",
+        "url": "/docs/ai/ai-math-basics/information-theory"
       },
       {
         "id": "fzieiqiepxw9yfo2id9eham3",
@@ -407,79 +402,79 @@
         "url": "/docs/fzieiqiepxw9yfo2id9eham3"
       },
       {
-        "id": "gpoh50befguf7zgsetzkvbi3",
-        "title": "信息论 (Information Theory)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\information-theory\\\\index"
-      },
-      {
         "id": "kzi6k1yg1sehlxidnxdsf59a",
         "title": "Recommended Books on Mathematics and Data Science",
-        "url": "/docs/ai\\\\ai-math-basics\\\\math_books"
+        "url": "/docs/ai/ai-math-basics/math_books"
       },
       {
-        "id": "qmy3p4vc45ek61ce4n62fpxy",
-        "title": "王树森推荐系统学习笔记_涨指标",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_improvement"
+        "id": "h53uwefhlykt9ietsx9x0vtn",
+        "title": "Introduction of Multi-agents system(In any task you want)",
+        "url": "/docs/ai/Introduction-of-Multi-agents-system/introduction_of_multi-agents_system"
       },
       {
-        "id": "mhyoknm6vj8jmp186oli5f5c",
-        "title": "swanlab快速上手指南",
-        "url": "/docs/CommunityShare\\\\Geek\\\\swanlab"
+        "id": "hajz43iblku13mmevia8zrhv",
+        "title": "王树森推荐系统学习笔记_特征交叉",
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_crossing"
+      },
+      {
+        "id": "vjwogf9afghpbvi71e4dfsgj",
+        "title": "王树森推荐系统学习笔记_排序",
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_rank"
+      },
+      {
+        "id": "sfzt30mtx0jsuv6esnpm3w8y",
+        "title": "群友分享",
+        "url": "/docs/CommunityShare"
       },
       {
         "id": "m37j6a24hb9mlrm0g6jfcxop",
         "title": "PTE-Academic题型与题量介绍",
-        "url": "/docs/CommunityShare\\\\Language\\\\pte-intro"
+        "url": "/docs/CommunityShare/Language/pte-intro"
       },
       {
-        "id": "q8d1j9bii2ve2p7pp4xtok79",
-        "title": "程序员 Burnout 自救指南",
-        "url": "/docs/CommunityShare\\\\MentalHealth\\\\burnout-guide"
-      },
-      {
-        "id": "kyu85av71b4n07hbdycbhvj9",
-        "title": "基础gcc/g++",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\2_base_gcc"
-      },
-      {
-        "id": "g6wucmr69lamd9xyxm7uunnd",
-        "title": "Make编译",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\3_Make"
-      },
-      {
-        "id": "xk44lx4q1gpcm1uqk8nnbg7q",
-        "title": "CMake",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\4_CMake"
-      },
-      {
-        "id": "y3xkz4kituc738jwsojo7cml",
-        "title": "frontend",
-        "url": "/docs/computer-science\\\\frontend\\\\index"
+        "id": "jgyg6bp0nceyrxirz5qw3zsv",
+        "title": "UNSW学费回收计划-那些你还不知道的隐藏福利",
+        "url": "/docs/CommunityShare/Life/unsw-student-benefit"
       },
       {
         "id": "rxyvvumcvfl2oh3hky8urkfn",
         "title": "心理健康",
-        "url": "/docs/CommunityShare\\\\MentalHealth\\\\index"
+        "url": "/docs/CommunityShare/MentalHealth"
       },
       {
-        "id": "mnjkrtrs7xk3fq538eqreuge",
-        "title": "手写线程池",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\Handwritten_pool_components\\\\1_Handwritten_threadpool"
+        "id": "q8d1j9bii2ve2p7pp4xtok79",
+        "title": "程序员 Burnout 自救指南",
+        "url": "/docs/CommunityShare/MentalHealth/burnout-guide"
       },
       {
-        "id": "fkk8ghklsr15a0s3vcxnswnj",
-        "title": "面试阶段逐关击破 | OA刷题血泪史 + VI分数偷看技巧 + 群面套路合集",
-        "url": "/docs/jobs\\\\interview-prep\\\\interview-tips"
+        "id": "gtqamuq3tftmvzstbunkgbo5",
+        "title": "vcpkg包管理器",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/5_vcpkg"
       },
       {
-        "id": "gj4bn01un0s0841berfvwrn5",
-        "title": "使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床",
-        "url": "/docs/CommunityShare\\\\Geek\\\\cloudflare-r2-sharex-free-image-hosting"
+        "id": "q8290wmhyofuiskzn1ph63ta",
+        "title": "手写内存池（简单定长）",
+        "url": "/docs/computer-science/cpp_backend/mempool_simple"
       },
       {
-        "id": "db3qwg25h6l0bh8f2sdabdqc",
-        "title": "Theory of MoE",
-        "url": "/docs/ai\\\\MoE\\\\moe-update"
+        "id": "zf8zk108oqbsg56xjyqb5txk",
+        "title": "PPO",
+        "url": "/docs/CommunityShare/Personal-Study-Notes/Reinforcement-Learning/ppo"
+      },
+      {
+        "id": "wdqqrepoy43jiieyyjmaekk1",
+        "title": "context engineering 快速了解",
+        "url": "/docs/CommunityShare/RAG/context_engineering_intro"
+      },
+      {
+        "id": "cgo4lweflk5jx1hsncr8hshk",
+        "title": "面试前必看：掌握这四个小技巧，你的成功率会大大增加",
+        "url": "/docs/jobs/interview-prep/pre-interview"
+      },
+      {
+        "id": "pne40puz5alzsf0f5jb0frbm",
+        "title": "程序员学生时期求职与实习经验分享",
+        "url": "/docs/jobs/interview-prep/preparations-to-get-an-offer-as-a-student"
       },
       {
         "id": "e7hcn9xwnicxj6smk2zijhyj",
@@ -487,29 +482,34 @@
         "url": "/docs/e7hcn9xwnicxj6smk2zijhyj"
       },
       {
-        "id": "cgo4lweflk5jx1hsncr8hshk",
-        "title": "面试前必看：掌握这四个小技巧，你的成功率会大大增加",
-        "url": "/docs/jobs\\\\interview-prep\\\\pre-interview"
+        "id": "gj4bn01un0s0841berfvwrn5",
+        "title": "使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床",
+        "url": "/docs/CommunityShare/Geek/cloudflare-r2-sharex-free-image-hosting"
+      },
+      {
+        "id": "e6udpzrorhvgeeda6xpy1e0s",
+        "title": "如何部署你自己的Github图床-PictureCDN",
+        "url": "/docs/CommunityShare/Geek/picturecdn"
       },
       {
         "id": "eej2awin6irhbdgcy8vvs3xb",
         "title": "Perplexity Comet 浏览器：能当私人管家的自动化浏览器",
-        "url": "/docs/CommunityShare\\\\Amazing-AI-Tools\\\\perplexity-comet"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/perplexity-comet"
       },
       {
-        "id": "mgb41edhi9cz1kxzae074an0",
-        "title": "学生邮箱能免费领的AI提效工具系列",
-        "url": "/docs/CommunityShare\\\\Amazing-AI-Tools\\\\index"
+        "id": "fkk8ghklsr15a0s3vcxnswnj",
+        "title": "面试阶段逐关击破 | OA刷题血泪史 + VI分数偷看技巧 + 群面套路合集",
+        "url": "/docs/jobs/interview-prep/interview-tips"
       },
       {
         "id": "u68pjetu592c9zvs3f5xa82j",
         "title": "行为面",
-        "url": "/docs/jobs\\\\interview-prep\\\\bq"
+        "url": "/docs/jobs/interview-prep/bq"
       },
       {
-        "id": "vjwogf9afghpbvi71e4dfsgj",
-        "title": "王树森推荐系统学习笔记_排序",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_rank"
+        "id": "y3xkz4kituc738jwsojo7cml",
+        "title": "frontend",
+        "url": "/docs/computer-science/frontend"
       },
       {
         "id": "oq51tbwpnbtow0ps5772fqx3",
@@ -517,9 +517,9 @@
         "url": "/docs/oq51tbwpnbtow0ps5772fqx3"
       },
       {
-        "id": "naxatag8x2nnvkhbwdfc1azc",
-        "title": "2562.Find the series of the array",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[2562]找出数组的串联值_translated"
+        "id": "p8igr19xfxnuyo2lpngnr6fg",
+        "title": "1234. Replace the sub -string to get a balanced string One question daily",
+        "url": "/docs/CommunityShare/Leetcode/1234. 替换子串得到平衡字符串_translated"
       },
       {
         "id": "vxbdpfd2w2dsb7cjpo2yfdiy",
@@ -532,9 +532,9 @@
         "url": "/docs/a747alkg4ye6udm40d978la5"
       },
       {
-        "id": "mc2rjsq7syibclikyhomsbft",
-        "title": ">-",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2309兼具大小写的最好英文字母_translated"
+        "id": "s3w19zdm6yhkhj4o0ba3kbal",
+        "title": "2341. How much can the array be formed  One question daily",
+        "url": "/docs/CommunityShare/Leetcode/2341. 数组能形成多少数对_translated"
       },
       {
         "id": "kfx1v64fqfayg8dbu83jxqbs",
@@ -542,49 +542,49 @@
         "url": "/docs/kfx1v64fqfayg8dbu83jxqbs"
       },
       {
+        "id": "zuoplhoodv7tzfgku0pwzi6w",
+        "title": "1545. 找出第 N 个二进制字符串中的第 K 位",
+        "url": "/docs/CommunityShare/Leetcode/[1545]找出第 N 个二进制字符串中的第 K 位"
+      },
+      {
+        "id": "l6eepr5ctjgrhdgupy3twr1t",
+        "title": "Prompt Repetition Improves Non-Reasoning LLMs",
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
+      },
+      {
+        "id": "rv6egbynttb4mt1n0412bue0",
+        "title": "213.Hiccup II",
+        "url": "/docs/CommunityShare/Leetcode/[213]打家劫舍 II_translated"
+      },
+      {
         "id": "qoieytihzsk9hz9pjj9i8zga",
         "title": "qoieytihzsk9hz9pjj9i8zga",
         "url": "/docs/qoieytihzsk9hz9pjj9i8zga"
       },
       {
-        "id": "w9ffo1wycpbz50051cb7lyo5",
-        "title": "121.The best time for buying and selling stocks",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[121]买卖股票的最佳时期_translated"
+        "id": "pe6o8l76945uo7aqv79ddhii",
+        "title": "2490Return ring sentence",
+        "url": "/docs/CommunityShare/Leetcode/[2490]回环句_translated"
       },
       {
-        "id": "p9gvb8klqv990cq88j4l76zy",
-        "title": "2582.Pillow",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[2582]递枕头_translated"
+        "id": "ylpucy1rbbnfpe3t62u8kcfq",
+        "title": "142.Ring linkedII.md",
+        "url": "/docs/CommunityShare/Leetcode/142.环形链表II_translated"
       },
       {
-        "id": "udm0daiek9dr22xq4doep5w4",
-        "title": "345. Voice letter in the reverse string.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\345. 反转字符串中的元音字母_translated"
+        "id": "jv8qj3ljyr2uomaehnv0l77k",
+        "title": "42.md",
+        "url": "/docs/CommunityShare/Leetcode/42"
       },
       {
-        "id": "d5evrnoglwjvmyginjq84bl0",
-        "title": "93. Restore IP Addresses",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\93复原Ip地址"
+        "id": "k4btd9x3l3xnnl4dnr64d8cq",
+        "title": "219.Existing duplicate elements II Hash table graphics",
+        "url": "/docs/CommunityShare/Leetcode/219_translated"
       },
       {
-        "id": "n38sohi8zlxesl82tgv854kj",
-        "title": "1825. Seek out MK average value",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\1825求出 MK 平均值_translated"
-      },
-      {
-        "id": "chb8ee5s38v8gh751n9e5znj",
-        "title": "1828. Statistics the number of a circle mid -point One question daily",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\1828统计一个圆中点的数目_translated"
-      },
-      {
-        "id": "axhoyzdtxoc82q58j1os57c8",
-        "title": "994.Rotten orange.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\994.腐烂的橘子_translated"
-      },
-      {
-        "id": "one7va4e0hvbq1eqhm6ww2kd",
-        "title": "brief_alternate Assignment",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\brief_alternate 作业帮忙_translated"
+        "id": "lzrh7ftq3kegsyx8gimonrfu",
+        "title": "2241. Design an ATM Machine.md",
+        "url": "/docs/CommunityShare/Leetcode/2241. Design an ATM Machine"
       },
       {
         "id": "ophdou1zfa1leum18ryhhnze",
@@ -592,29 +592,29 @@
         "url": "/docs/ophdou1zfa1leum18ryhhnze"
       },
       {
-        "id": "hiqhki2z4v6oy0jstrcs7im0",
-        "title": "2335. The shortest total time to be filled with a cup One question daily",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2335. 装满杯子需要的最短总时长_translated"
+        "id": "lnx1bszj5aqqqfa50sejjv7n",
+        "title": "2639. Query the width of each column in the grid diagram.md",
+        "url": "/docs/CommunityShare/Leetcode/2639. 查询网格图中每一列的宽度_translated"
       },
       {
-        "id": "jv8qj3ljyr2uomaehnv0l77k",
-        "title": "42.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\42"
+        "id": "d5evrnoglwjvmyginjq84bl0",
+        "title": "93. Restore IP Addresses",
+        "url": "/docs/CommunityShare/Leetcode/93复原Ip地址"
       },
       {
-        "id": "jcqhknk5z2xr3rfqn49me4j9",
-        "title": "1333.Restaurant filter",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[1333]餐厅过滤器_translated"
+        "id": "naxatag8x2nnvkhbwdfc1azc",
+        "title": "2562.Find the series of the array",
+        "url": "/docs/CommunityShare/Leetcode/[2562]找出数组的串联值_translated"
       },
       {
-        "id": "ytg2bds2dnhzw37nrb3vassy",
-        "title": "1004.Maximum continuity1Number III Maximum continuity1Number III",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\1004_translated"
+        "id": "bsf0yz1zrmlz7masrdmq8fq6",
+        "title": "1653. The minimum number of times to balance the string balance.md",
+        "url": "/docs/CommunityShare/Leetcode/1653. 使字符串平衡的最少删除次数_translated"
       },
       {
-        "id": "u0szm4sv8mr3on3ivbfo5r84",
-        "title": "146.LRU cache",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[146]LRU 缓存_translated"
+        "id": "p9gvb8klqv990cq88j4l76zy",
+        "title": "2582.Pillow",
+        "url": "/docs/CommunityShare/Leetcode/[2582]递枕头_translated"
       },
       {
         "id": "g7ixeso22x7fzu24nv536nli",
@@ -622,9 +622,9 @@
         "url": "/docs/g7ixeso22x7fzu24nv536nli"
       },
       {
-        "id": "ksw2vic4alf1tdnnueay81g8",
-        "title": "2131. 连接两字母单词得到的最长回文串.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2131. 连接两字母单词得到的最长回文串"
+        "id": "a6inw303oslb7i5tcqj5xxx4",
+        "title": "2270. Number of Ways to Split Array.md",
+        "url": "/docs/CommunityShare/Leetcode/2270. Number of Ways to Split Array"
       },
       {
         "id": "qf5ppbjhcw3h5znx5rdnfeeg",
@@ -632,19 +632,9 @@
         "url": "/docs/qf5ppbjhcw3h5znx5rdnfeeg"
       },
       {
-        "id": "mxt0ux1zpbzph4nuxz51eyg7",
-        "title": "46.permutations",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\46.全排列"
-      },
-      {
-        "id": "fostlzqqx6l10qz1egd8dw5m",
-        "title": "Counting Stars-Inter-Uni Programming Contest.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\Counting Stars-Inter-Uni Programming Contest"
-      },
-      {
-        "id": "aslw60tfyzxqga598pt4ociu",
-        "title": "Leetcode 题解汇总",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\index"
+        "id": "axhoyzdtxoc82q58j1os57c8",
+        "title": "994.Rotten orange.md",
+        "url": "/docs/CommunityShare/Leetcode/994.腐烂的橘子_translated"
       },
       {
         "id": "bqsh7d05pcadgkiatziwitqj",
@@ -652,24 +642,24 @@
         "url": "/docs/bqsh7d05pcadgkiatziwitqj"
       },
       {
-        "id": "s3w19zdm6yhkhj4o0ba3kbal",
-        "title": "2341. How much can the array be formed  One question daily",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2341. 数组能形成多少数对_translated"
-      },
-      {
-        "id": "lnx1bszj5aqqqfa50sejjv7n",
-        "title": "2639. Query the width of each column in the grid diagram.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2639. 查询网格图中每一列的宽度_translated"
+        "id": "mxt0ux1zpbzph4nuxz51eyg7",
+        "title": "46.permutations",
+        "url": "/docs/CommunityShare/Leetcode/46.全排列"
       },
       {
         "id": "wen0bbo8m93oih1mx6sva9sh",
         "title": "538.Convert the binary search tree to cumulative tree",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\538.把二叉搜索树转换为累加树_translated"
+        "url": "/docs/CommunityShare/Leetcode/538.把二叉搜索树转换为累加树_translated"
       },
       {
-        "id": "kw44if3s2zi4w2gs1gfhxvoz",
-        "title": "6323. Child that divides money the most.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\6323. 将钱分给最多的儿童_translated"
+        "id": "one7va4e0hvbq1eqhm6ww2kd",
+        "title": "brief_alternate Assignment",
+        "url": "/docs/CommunityShare/Leetcode/brief_alternate 作业帮忙_translated"
+      },
+      {
+        "id": "fostlzqqx6l10qz1egd8dw5m",
+        "title": "Counting Stars-Inter-Uni Programming Contest.md",
+        "url": "/docs/CommunityShare/Leetcode/Counting Stars-Inter-Uni Programming Contest"
       },
       {
         "id": "l4db26ijmpeivh78a21981ia",
@@ -677,19 +667,14 @@
         "url": "/docs/l4db26ijmpeivh78a21981ia"
       },
       {
-        "id": "qfvqmc1exp066falnsg97c5m",
-        "title": "Sword finger Offer II 021. Delete the countdown of the linked list n Node.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\剑指 Offer II 021. 删除链表的倒数第 n 个结点_translated"
+        "id": "clx9mmqqvxipdfamqciuo146",
+        "title": "2679.In the matrix and the harmony.md",
+        "url": "/docs/CommunityShare/Leetcode/2679.矩阵中的和_translated"
       },
       {
-        "id": "k4btd9x3l3xnnl4dnr64d8cq",
-        "title": "219.Existing duplicate elements II Hash table graphics",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\219_translated"
-      },
-      {
-        "id": "lzrh7ftq3kegsyx8gimonrfu",
-        "title": "2241. Design an ATM Machine.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2241. Design an ATM Machine"
+        "id": "y0ntwlksnvj7ymuapqvkvmwr",
+        "title": "2894. 分类求和并作差",
+        "url": "/docs/CommunityShare/Leetcode/2894. 分类求和并作差"
       },
       {
         "id": "qtjajlfj4fiu0t2r5diylce2",
@@ -702,29 +687,34 @@
         "url": "/docs/g8kfo5yie617dl5xd78wph26"
       },
       {
-        "id": "clx9mmqqvxipdfamqciuo146",
-        "title": "2679.In the matrix and the harmony.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2679.矩阵中的和_translated"
+        "id": "ska0npc89ja1r4pdt2qow79u",
+        "title": "1664. Number of schemes to generate balance numbers One question daily",
+        "url": "/docs/CommunityShare/Leetcode/1664生成平衡数组的方案数_translated"
       },
       {
-        "id": "y0ntwlksnvj7ymuapqvkvmwr",
-        "title": "2894. 分类求和并作差",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2894. 分类求和并作差"
-      },
-      {
-        "id": "r12u8o7j73oxhbvgphi939fb",
-        "title": "3072. Allocate elements into two arrays II.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\3072. 将元素分配到两个数组中 II_translated"
+        "id": "kw44if3s2zi4w2gs1gfhxvoz",
+        "title": "6323. Child that divides money the most.md",
+        "url": "/docs/CommunityShare/Leetcode/6323. 将钱分给最多的儿童_translated"
       },
       {
         "id": "l358imxaj1mmtth6dydvu54s",
         "title": "76Minimum cover string.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\76最小覆盖子串_translated"
+        "url": "/docs/CommunityShare/Leetcode/76最小覆盖子串_translated"
       },
       {
         "id": "ryp6s59uwc10w2dywgs6f66h",
         "title": "Python beat98.40% collectionsofCounter method！",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\80_translated"
+        "url": "/docs/CommunityShare/Leetcode/80_translated"
+      },
+      {
+        "id": "aslw60tfyzxqga598pt4ociu",
+        "title": "Leetcode 题解汇总",
+        "url": "/docs/CommunityShare/Leetcode"
+      },
+      {
+        "id": "qfvqmc1exp066falnsg97c5m",
+        "title": "Sword finger Offer II 021. Delete the countdown of the linked list n Node.md",
+        "url": "/docs/CommunityShare/Leetcode/剑指 Offer II 021. 删除链表的倒数第 n 个结点_translated"
       },
       {
         "id": "q8xu78dx8qo5bkd3dnbv8mzr",
@@ -732,313 +722,328 @@
         "url": "/docs/q8xu78dx8qo5bkd3dnbv8mzr"
       },
       {
-        "id": "ld59a8z1v84ig4rlr0p0n2a9",
-        "title": "资深科技大厂程序员Coffee Chat回顾",
-        "url": "/docs/jobs\\\\event-keynote\\\\coffee-chat"
+        "id": "w9ffo1wycpbz50051cb7lyo5",
+        "title": "121.The best time for buying and selling stocks",
+        "url": "/docs/CommunityShare/Leetcode/[121]买卖股票的最佳时期_translated"
       },
       {
-        "id": "zuoplhoodv7tzfgku0pwzi6w",
-        "title": "1545. 找出第 N 个二进制字符串中的第 K 位",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[1545]找出第 N 个二进制字符串中的第 K 位"
+        "id": "jcqhknk5z2xr3rfqn49me4j9",
+        "title": "1333.Restaurant filter",
+        "url": "/docs/CommunityShare/Leetcode/[1333]餐厅过滤器_translated"
       },
       {
-        "id": "a6inw303oslb7i5tcqj5xxx4",
-        "title": "2270. Number of Ways to Split Array.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2270. Number of Ways to Split Array"
+        "id": "n38sohi8zlxesl82tgv854kj",
+        "title": "1825. Seek out MK average value",
+        "url": "/docs/CommunityShare/Leetcode/1825求出 MK 平均值_translated"
       },
       {
-        "id": "mssz5wgh368yp55qcvs1op5e",
-        "title": "One question daily 2293. Great mini game",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2293_translated"
+        "id": "r12u8o7j73oxhbvgphi939fb",
+        "title": "3072. Allocate elements into two arrays II.md",
+        "url": "/docs/CommunityShare/Leetcode/3072. 将元素分配到两个数组中 II_translated"
       },
       {
         "id": "o3knuvbpnki6isfjv3g5ohau",
         "title": "3138. Minimum Length of Anagram Concatenation.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\3138. Minimum Length of Anagram Concatenation"
-      },
-      {
-        "id": "p8igr19xfxnuyo2lpngnr6fg",
-        "title": "1234. Replace the sub -string to get a balanced string One question daily",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\1234. 替换子串得到平衡字符串_translated"
+        "url": "/docs/CommunityShare/Leetcode/3138. Minimum Length of Anagram Concatenation"
       },
       {
         "id": "s0cadbu09dgu54q0zxttkx7z",
         "title": "9021_TUT_3_25T1.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\9021_TUT_3_25T1"
+        "url": "/docs/CommunityShare/Leetcode/9021_TUT_3_25T1"
       },
       {
-        "id": "rv6egbynttb4mt1n0412bue0",
-        "title": "213.Hiccup II",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[213]打家劫舍 II_translated"
+        "id": "mssz5wgh368yp55qcvs1op5e",
+        "title": "One question daily 2293. Great mini game",
+        "url": "/docs/CommunityShare/Leetcode/2293_translated"
       },
       {
-        "id": "ylpucy1rbbnfpe3t62u8kcfq",
-        "title": "142.Ring linkedII.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\142.环形链表II_translated"
+        "id": "ld59a8z1v84ig4rlr0p0n2a9",
+        "title": "资深科技大厂程序员Coffee Chat回顾",
+        "url": "/docs/jobs/event-keynote/coffee-chat"
       },
       {
-        "id": "pe6o8l76945uo7aqv79ddhii",
-        "title": "2490Return ring sentence",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\[2490]回环句_translated"
-      },
-      {
-        "id": "bsf0yz1zrmlz7masrdmq8fq6",
-        "title": "1653. The minimum number of times to balance the string balance.md",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\1653. 使字符串平衡的最少删除次数_translated"
+        "id": "chb8ee5s38v8gh751n9e5znj",
+        "title": "1828. Statistics the number of a circle mid -point One question daily",
+        "url": "/docs/CommunityShare/Leetcode/1828统计一个圆中点的数目_translated"
       },
       {
         "id": "fxn6bn619g3a9l98l9vggpg1",
         "title": "One question daily 2299. Code inspection device II",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\2299强密码检验器II_translated"
+        "url": "/docs/CommunityShare/Leetcode/2299强密码检验器II_translated"
       },
       {
-        "id": "ska0npc89ja1r4pdt2qow79u",
-        "title": "1664. Number of schemes to generate balance numbers One question daily",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\1664生成平衡数组的方案数_translated"
+        "id": "ksw2vic4alf1tdnnueay81g8",
+        "title": "2131. 连接两字母单词得到的最长回文串.md",
+        "url": "/docs/CommunityShare/Leetcode/2131. 连接两字母单词得到的最长回文串"
+      },
+      {
+        "id": "u0szm4sv8mr3on3ivbfo5r84",
+        "title": "146.LRU cache",
+        "url": "/docs/CommunityShare/Leetcode/[146]LRU 缓存_translated"
+      },
+      {
+        "id": "ytg2bds2dnhzw37nrb3vassy",
+        "title": "1004.Maximum continuity1Number III Maximum continuity1Number III",
+        "url": "/docs/CommunityShare/Leetcode/1004_translated"
+      },
+      {
+        "id": "mc2rjsq7syibclikyhomsbft",
+        "title": ">-",
+        "url": "/docs/CommunityShare/Leetcode/2309兼具大小写的最好英文字母_translated"
+      },
+      {
+        "id": "udm0daiek9dr22xq4doep5w4",
+        "title": "345. Voice letter in the reverse string.md",
+        "url": "/docs/CommunityShare/Leetcode/345. 反转字符串中的元音字母_translated"
+      },
+      {
+        "id": "hiqhki2z4v6oy0jstrcs7im0",
+        "title": "2335. The shortest total time to be filled with a cup One question daily",
+        "url": "/docs/CommunityShare/Leetcode/2335. 装满杯子需要的最短总时长_translated"
       }
     ]
   },
   {
     "id": "163523387",
-    "name": "GitHub User 163523387",
+    "name": "Mira190",
     "points": 1290,
     "commits": 129,
     "avatarUrl": "https://avatars.githubusercontent.com/u/163523387",
     "contributedDocs": [
       {
-        "id": "jq6323xynmyapm5vgncmyymh",
-        "title": "Qwen3-embedding",
-        "url": "/docs/ai\\\\llm-basics\\\\embeddings\\\\qwen3-embedding\\\\index"
-      },
-      {
         "id": "h8awdow89uicdy4kx9iimlta",
         "title": "大模型基础",
-        "url": "/docs/ai\\\\llm-basics\\\\llm-foundations"
+        "url": "/docs/ai/llm-basics/llm-foundations"
       },
       {
         "id": "psc0xf6oa1m7g8s9wfwiojkf",
         "title": "PyTorch",
-        "url": "/docs/ai\\\\llm-basics\\\\pytorch\\\\index"
+        "url": "/docs/ai/llm-basics/pytorch"
       },
       {
         "id": "k1owc5kfw3vihc5hnmysqttl",
         "title": "AI by Hand：手搓 AI 模型",
-        "url": "/docs/ai\\\\llm-basics\\\\transformer\\\\ai-by-hand\\\\index"
+        "url": "/docs/ai/llm-basics/transformer/ai-by-hand"
       },
       {
         "id": "lsokl8ofmo7msxlqyvihbhz5",
         "title": "Transformer",
-        "url": "/docs/ai\\\\llm-basics\\\\transformer\\\\index"
+        "url": "/docs/ai/llm-basics/transformer"
       },
       {
         "id": "r68izu11bkrkk6st194kwk80",
         "title": "方法论学习",
-        "url": "/docs/ai\\\\methodology\\\\research-methodology"
+        "url": "/docs/ai/methodology/research-methodology"
       },
       {
         "id": "uguqyqpacxyj5irjickbt8n9",
         "title": "杂项工具",
-        "url": "/docs/ai\\\\misc-tools\\\\learning-toolkit"
+        "url": "/docs/ai/misc-tools/learning-toolkit"
       },
       {
         "id": "x3xs4hk0mc7lxlgbgskti5qk",
         "title": "模型数据集平台",
-        "url": "/docs/ai\\\\model-datasets-platforms\\\\platform-and-datasets"
+        "url": "/docs/ai/model-datasets-platforms/platform-and-datasets"
       },
       {
         "id": "qaezsrj15sudk796r5otne36",
         "title": "Code translation入门推荐必读",
-        "url": "/docs/ai\\\\Multi-agents-system-on-Code-Translation\\\\code-translation-intro"
+        "url": "/docs/ai/Multi-agents-system-on-Code-Translation/code-translation-intro"
       },
       {
         "id": "pmrtokz6393ywte5zqeskpm0",
         "title": "多模态基础课程",
-        "url": "/docs/ai\\\\multimodal\\\\courses\\\\index"
+        "url": "/docs/ai/multimodal/courses"
       },
       {
         "id": "pffzdgytknyhaywar8uzyf2e",
         "title": "LLaVA",
-        "url": "/docs/ai\\\\multimodal\\\\llava\\\\index"
+        "url": "/docs/ai/multimodal/llava"
       },
       {
         "id": "gc6tdzkkwxn5t90nw69fibl6",
         "title": "MLLM 多模态大模型",
-        "url": "/docs/ai\\\\multimodal\\\\mllm\\\\index"
-      },
-      {
-        "id": "jgz0nl0cbd4frj2dg98mdv0x",
-        "title": "模型训练",
-        "url": "/docs/ai\\\\foundation-models\\\\training\\\\index"
+        "url": "/docs/ai/multimodal/mllm"
       },
       {
         "id": "zte4s8s8ls4cs25mfrzyepfl",
         "title": "多模态大模型",
-        "url": "/docs/ai\\\\multimodal\\\\multimodal-overview"
-      },
-      {
-        "id": "ssrhm03fw9sbogk78dmy92ml",
-        "title": "多模态视频大模型",
-        "url": "/docs/ai\\\\multimodal\\\\video-mm-todo\\\\index"
-      },
-      {
-        "id": "xd3q72ubqzlesz8x4gewhi5r",
-        "title": "ViT 视觉编码器",
-        "url": "/docs/ai\\\\multimodal\\\\vit\\\\index"
-      },
-      {
-        "id": "as876rdhtmpnyyeclxt226s1",
-        "title": "推荐系统",
-        "url": "/docs/ai\\\\recommender-systems\\\\recommender-roadmap"
-      },
-      {
-        "id": "c3a4nmid9plytif5ameigj7d",
-        "title": "王树森推荐系统学习笔记_召回",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note\\\\wangshusen_recommend_note_retrieval"
-      },
-      {
-        "id": "s4fuhmdf6hj49jx1l7k87d4p",
-        "title": "强化学习",
-        "url": "/docs/ai\\\\reinforcement-learning\\\\reinforcement-learning-overview"
-      },
-      {
-        "id": "tksz80mfqqyzwzzer5p3uxtg",
-        "title": "Git入门操作指南-程序员必会的git小技巧",
-        "url": "/docs/CommunityShare\\\\Geek\\\\git101"
-      },
-      {
-        "id": "mhyoknm6vj8jmp186oli5f5c",
-        "title": "swanlab快速上手指南",
-        "url": "/docs/CommunityShare\\\\Geek\\\\swanlab"
-      },
-      {
-        "id": "eyd32o3ebd5q69hfbb2enxqi",
-        "title": "嵌入模型微调入门知识",
-        "url": "/docs/CommunityShare\\\\RAG\\\\embedding"
-      },
-      {
-        "id": "l1kvojw2gvggxflrmzc7j7sm",
-        "title": "线性代数 (Linear Algebra)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\linear-algebra\\\\index"
-      },
-      {
-        "id": "zywri1bs64awfi9utfjy14ll",
-        "title": "RAG",
-        "url": "/docs/CommunityShare\\\\RAG\\\\rag"
-      },
-      {
-        "id": "eo5rwumxkh7twfdvlp5po9rc",
-        "title": "CS294/194-196 Large Language Model Agents",
-        "url": "/docs/ai\\\\agents-todo\\\\cs294-194-196\\\\index"
-      },
-      {
-        "id": "v8m8kdjzzx7uhiz69r5m3m9o",
-        "title": "微积分与优化 (Calculus & Optimization)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\calculus-optimization\\\\index"
-      },
-      {
-        "id": "gpoh50befguf7zgsetzkvbi3",
-        "title": "信息论 (Information Theory)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\information-theory\\\\index"
-      },
-      {
-        "id": "ba5lqs2zg1jqc30qzw3osm9v",
-        "title": "参考资料",
-        "url": "/docs/ai\\\\ai-math-basics\\\\linear-algebra\\\\resources\\\\index"
-      },
-      {
-        "id": "vcfer8dvlt80se4kmbnshx7x",
-        "title": "AI 数学基础",
-        "url": "/docs/ai\\\\ai-math-basics\\\\math-foundations"
-      },
-      {
-        "id": "ebgss2sa91drisxswsh6iu8x",
-        "title": "数值分析 (Numerical Analysis)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\numerical-analysis\\\\index"
-      },
-      {
-        "id": "d5fya0gd1w8vblv8qeqgnqtu",
-        "title": "概率论与数理统计 (Probability & Statistics)",
-        "url": "/docs/ai\\\\ai-math-basics\\\\probability-statistics\\\\index"
-      },
-      {
-        "id": "q7kagbrpnek7b89axvssn4bo",
-        "title": "参考资料",
-        "url": "/docs/ai\\\\ai-math-basics\\\\probability-statistics\\\\resources\\\\index"
-      },
-      {
-        "id": "d73h3kyjnzytk1y2nizulyr6",
-        "title": "算力平台",
-        "url": "/docs/ai\\\\compute-platforms\\\\compute-platforms-handbook"
-      },
-      {
-        "id": "egpawb1yui58yprrsgxn9qj2",
-        "title": "数据集构建",
-        "url": "/docs/ai\\\\foundation-models\\\\datasets\\\\index"
-      },
-      {
-        "id": "z157s85hnz1y37tr28y2a8h2",
-        "title": "部署与推理",
-        "url": "/docs/ai\\\\foundation-models\\\\deploy-infer\\\\index"
-      },
-      {
-        "id": "lndxpf7luoeqwwde4in23xr1",
-        "title": "模型评测",
-        "url": "/docs/ai\\\\foundation-models\\\\evaluation\\\\index"
-      },
-      {
-        "id": "l5nes88zd54y6ao64ufkylz2",
-        "title": "模型微调",
-        "url": "/docs/ai\\\\foundation-models\\\\finetune\\\\index"
-      },
-      {
-        "id": "i88bna4sg5pr4ekhg32drv2i",
-        "title": "基座大模型",
-        "url": "/docs/ai\\\\foundation-models\\\\foundation-models-lifecycle"
-      },
-      {
-        "id": "h7s6nm7h5oqnhhdq9m1mgwwo",
-        "title": "经典面试QKV问题",
-        "url": "/docs/ai\\\\foundation-models\\\\qkv-interview\\\\index"
+        "url": "/docs/ai/multimodal/multimodal-overview"
       },
       {
         "id": "ix9azldhgm46j4i1xzgnd26r",
         "title": "AI 知识库",
-        "url": "/docs/ai\\\\index"
+        "url": "/docs/ai"
+      },
+      {
+        "id": "ssrhm03fw9sbogk78dmy92ml",
+        "title": "多模态视频大模型",
+        "url": "/docs/ai/multimodal/video-mm-todo"
+      },
+      {
+        "id": "xd3q72ubqzlesz8x4gewhi5r",
+        "title": "ViT 视觉编码器",
+        "url": "/docs/ai/multimodal/vit"
+      },
+      {
+        "id": "as876rdhtmpnyyeclxt226s1",
+        "title": "推荐系统",
+        "url": "/docs/ai/recommender-systems/recommender-roadmap"
+      },
+      {
+        "id": "c3a4nmid9plytif5ameigj7d",
+        "title": "王树森推荐系统学习笔记_召回",
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note/wangshusen_recommend_note_retrieval"
+      },
+      {
+        "id": "s4fuhmdf6hj49jx1l7k87d4p",
+        "title": "强化学习",
+        "url": "/docs/ai/reinforcement-learning/reinforcement-learning-overview"
+      },
+      {
+        "id": "tksz80mfqqyzwzzer5p3uxtg",
+        "title": "Git入门操作指南-程序员必会的git小技巧",
+        "url": "/docs/CommunityShare/Geek/git101"
+      },
+      {
+        "id": "mhyoknm6vj8jmp186oli5f5c",
+        "title": "swanlab快速上手指南",
+        "url": "/docs/CommunityShare/Geek/swanlab"
+      },
+      {
+        "id": "eyd32o3ebd5q69hfbb2enxqi",
+        "title": "嵌入模型微调入门知识",
+        "url": "/docs/CommunityShare/RAG/embedding"
+      },
+      {
+        "id": "zywri1bs64awfi9utfjy14ll",
+        "title": "RAG",
+        "url": "/docs/CommunityShare/RAG/rag"
+      },
+      {
+        "id": "ba5lqs2zg1jqc30qzw3osm9v",
+        "title": "参考资料",
+        "url": "/docs/ai/ai-math-basics/linear-algebra/resources"
+      },
+      {
+        "id": "eo5rwumxkh7twfdvlp5po9rc",
+        "title": "CS294/194-196 Large Language Model Agents",
+        "url": "/docs/ai/agents-todo/cs294-194-196"
+      },
+      {
+        "id": "v8m8kdjzzx7uhiz69r5m3m9o",
+        "title": "微积分与优化 (Calculus & Optimization)",
+        "url": "/docs/ai/ai-math-basics/calculus-optimization"
+      },
+      {
+        "id": "gpoh50befguf7zgsetzkvbi3",
+        "title": "信息论 (Information Theory)",
+        "url": "/docs/ai/ai-math-basics/information-theory"
+      },
+      {
+        "id": "l1kvojw2gvggxflrmzc7j7sm",
+        "title": "线性代数 (Linear Algebra)",
+        "url": "/docs/ai/ai-math-basics/linear-algebra"
+      },
+      {
+        "id": "vcfer8dvlt80se4kmbnshx7x",
+        "title": "AI 数学基础",
+        "url": "/docs/ai/ai-math-basics/math-foundations"
+      },
+      {
+        "id": "ebgss2sa91drisxswsh6iu8x",
+        "title": "数值分析 (Numerical Analysis)",
+        "url": "/docs/ai/ai-math-basics/numerical-analysis"
+      },
+      {
+        "id": "d5fya0gd1w8vblv8qeqgnqtu",
+        "title": "概率论与数理统计 (Probability & Statistics)",
+        "url": "/docs/ai/ai-math-basics/probability-statistics"
+      },
+      {
+        "id": "q7kagbrpnek7b89axvssn4bo",
+        "title": "参考资料",
+        "url": "/docs/ai/ai-math-basics/probability-statistics/resources"
+      },
+      {
+        "id": "d73h3kyjnzytk1y2nizulyr6",
+        "title": "算力平台",
+        "url": "/docs/ai/compute-platforms/compute-platforms-handbook"
+      },
+      {
+        "id": "egpawb1yui58yprrsgxn9qj2",
+        "title": "数据集构建",
+        "url": "/docs/ai/foundation-models/datasets"
+      },
+      {
+        "id": "z157s85hnz1y37tr28y2a8h2",
+        "title": "部署与推理",
+        "url": "/docs/ai/foundation-models/deploy-infer"
+      },
+      {
+        "id": "lndxpf7luoeqwwde4in23xr1",
+        "title": "模型评测",
+        "url": "/docs/ai/foundation-models/evaluation"
+      },
+      {
+        "id": "l5nes88zd54y6ao64ufkylz2",
+        "title": "模型微调",
+        "url": "/docs/ai/foundation-models/finetune"
+      },
+      {
+        "id": "i88bna4sg5pr4ekhg32drv2i",
+        "title": "基座大模型",
+        "url": "/docs/ai/foundation-models/foundation-models-lifecycle"
+      },
+      {
+        "id": "h7s6nm7h5oqnhhdq9m1mgwwo",
+        "title": "经典面试QKV问题",
+        "url": "/docs/ai/foundation-models/qkv-interview"
+      },
+      {
+        "id": "jgz0nl0cbd4frj2dg98mdv0x",
+        "title": "模型训练",
+        "url": "/docs/ai/foundation-models/training"
       },
       {
         "id": "xboc8qj2128aivvt0goo1wow",
         "title": "大模型入门课程",
-        "url": "/docs/ai\\\\llm-basics\\\\courses\\\\index"
+        "url": "/docs/ai/llm-basics/courses"
       },
       {
         "id": "nwt5322vw4q6sz8ho8qynv28",
         "title": "CUDA",
-        "url": "/docs/ai\\\\llm-basics\\\\cuda\\\\index"
+        "url": "/docs/ai/llm-basics/cuda"
       },
       {
         "id": "dqg4iqz7hgyq38cqz3tg9tlf",
         "title": "李沐动手学深度学习",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\d2l\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning/d2l"
       },
       {
         "id": "vdclex41huib10ccsqw9u76k",
         "title": "深度学习基础",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning"
       },
       {
         "id": "lodydcd211esraq1r55ze9ey",
         "title": "其他资料",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\misc\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning/misc"
       },
       {
         "id": "nrelvvfzq0gma7pqfx9fkfxt",
         "title": "NLP",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\nlp\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning/nlp"
       },
       {
         "id": "xnl2yzrb4x748zhhfe26ragt",
         "title": "Embedding模型",
-        "url": "/docs/ai\\\\llm-basics\\\\embeddings\\\\index"
+        "url": "/docs/ai/llm-basics/embeddings"
+      },
+      {
+        "id": "jq6323xynmyapm5vgncmyymh",
+        "title": "Qwen3-embedding",
+        "url": "/docs/ai/llm-basics/embeddings/qwen3-embedding"
       },
       {
         "id": "e7hcn9xwnicxj6smk2zijhyj",
@@ -1048,7 +1053,7 @@
       {
         "id": "nor5ktairygnt4dorqbddo9n",
         "title": "生成模型",
-        "url": "/docs/ai\\\\generative-todo\\\\generative-models-plan"
+        "url": "/docs/ai/generative-todo/generative-models-plan"
       },
       {
         "id": "fzieiqiepxw9yfo2id9eham3",
@@ -1058,87 +1063,87 @@
       {
         "id": "ybczrbgxo5t4pl0erce7qz6w",
         "title": "QwenVL",
-        "url": "/docs/ai\\\\multimodal\\\\qwenvl\\\\index"
+        "url": "/docs/ai/multimodal/qwenvl"
       },
       {
         "id": "bvccoatft6y7bph83oivdcfe",
         "title": "王树森推荐系统学习笔记_冷启动",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_coldstart"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_coldstart"
       },
       {
         "id": "qmy3p4vc45ek61ce4n62fpxy",
         "title": "王树森推荐系统学习笔记_涨指标",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_improvement"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_improvement"
       },
       {
         "id": "vjwogf9afghpbvi71e4dfsgj",
         "title": "王树森推荐系统学习笔记_排序",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_rank"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_rank"
       },
       {
         "id": "m37j6a24hb9mlrm0g6jfcxop",
         "title": "PTE-Academic题型与题量介绍",
-        "url": "/docs/CommunityShare\\\\Language\\\\pte-intro"
+        "url": "/docs/CommunityShare/Language/pte-intro"
       },
       {
         "id": "u68pjetu592c9zvs3f5xa82j",
         "title": "行为面",
-        "url": "/docs/jobs\\\\interview-prep\\\\bq"
+        "url": "/docs/jobs/interview-prep/bq"
       },
       {
         "id": "fkk8ghklsr15a0s3vcxnswnj",
         "title": "面试阶段逐关击破 | OA刷题血泪史 + VI分数偷看技巧 + 群面套路合集",
-        "url": "/docs/jobs\\\\interview-prep\\\\interview-tips"
+        "url": "/docs/jobs/interview-prep/interview-tips"
       },
       {
         "id": "ue27z7z95yzw3lhhfj7nit1c",
         "title": "Agent",
-        "url": "/docs/ai\\\\agents-todo\\\\agent-ecosystem"
-      },
-      {
-        "id": "pqplmwaj5o5aszydqo1drzrj",
-        "title": "RQ-VAE学习笔记",
-        "url": "/docs/ai\\\\multimodal\\\\RQVAE\\\\index"
-      },
-      {
-        "id": "db3qwg25h6l0bh8f2sdabdqc",
-        "title": "Theory of MoE",
-        "url": "/docs/ai\\\\MoE\\\\moe-update"
-      },
-      {
-        "id": "ifwz8sqxqsgjrafa79pycrcm",
-        "title": "多模态强化学习项目（MVP 目标）",
-        "url": "/docs/all-projects\\\\multimodal-rl"
-      },
-      {
-        "id": "uzoqs57kwc4tfut4wvgnbjhf",
-        "title": "2025年应届生前端需要学习什么",
-        "url": "/docs/computer-science\\\\frontend\\\\frontend-learning\\\\index"
+        "url": "/docs/ai/agents-todo/agent-ecosystem"
       },
       {
         "id": "otfiks0uz3aue1bdvlyqmj3e",
         "title": "VQ-VAE学习笔记",
-        "url": "/docs/ai\\\\multimodal\\\\VQVAE\\\\index"
-      },
-      {
-        "id": "bkxwg1m9p9rnm8062wsm020w",
-        "title": "AI小镇策划",
-        "url": "/docs/all-projects\\\\ai-town"
+        "url": "/docs/ai/multimodal/VQVAE"
       },
       {
         "id": "jgyg6bp0nceyrxirz5qw3zsv",
         "title": "UNSW学费回收计划-那些你还不知道的隐藏福利",
-        "url": "/docs/CommunityShare\\\\Life\\\\unsw-student-benefit"
+        "url": "/docs/CommunityShare/Life/unsw-student-benefit"
+      },
+      {
+        "id": "y3xkz4kituc738jwsojo7cml",
+        "title": "frontend",
+        "url": "/docs/computer-science/frontend"
+      },
+      {
+        "id": "bkxwg1m9p9rnm8062wsm020w",
+        "title": "AI小镇策划",
+        "url": "/docs/all-projects/ai-town"
       },
       {
         "id": "k6cgwcc28l9iap5s5oyjbjwo",
         "title": "VAE学习笔记",
-        "url": "/docs/ai\\\\multimodal\\\\VAE\\\\index"
+        "url": "/docs/ai/multimodal/VAE"
       },
       {
-        "id": "cgo4lweflk5jx1hsncr8hshk",
-        "title": "面试前必看：掌握这四个小技巧，你的成功率会大大增加",
-        "url": "/docs/jobs\\\\interview-prep\\\\pre-interview"
+        "id": "uzoqs57kwc4tfut4wvgnbjhf",
+        "title": "2025年应届生前端需要学习什么",
+        "url": "/docs/computer-science/frontend/frontend-learning"
+      },
+      {
+        "id": "ifwz8sqxqsgjrafa79pycrcm",
+        "title": "多模态强化学习项目（MVP 目标）",
+        "url": "/docs/all-projects/multimodal-rl"
+      },
+      {
+        "id": "ld59a8z1v84ig4rlr0p0n2a9",
+        "title": "资深科技大厂程序员Coffee Chat回顾",
+        "url": "/docs/jobs/event-keynote/coffee-chat"
+      },
+      {
+        "id": "pqplmwaj5o5aszydqo1drzrj",
+        "title": "RQ-VAE学习笔记",
+        "url": "/docs/ai/multimodal/RQVAE"
       },
       {
         "id": "yrg9g9y6peb4ykbkxev5d1j7",
@@ -1146,30 +1151,30 @@
         "url": "/docs/yrg9g9y6peb4ykbkxev5d1j7"
       },
       {
-        "id": "ld59a8z1v84ig4rlr0p0n2a9",
-        "title": "资深科技大厂程序员Coffee Chat回顾",
-        "url": "/docs/jobs\\\\event-keynote\\\\coffee-chat"
+        "id": "db3qwg25h6l0bh8f2sdabdqc",
+        "title": "Theory of MoE",
+        "url": "/docs/ai/MoE/moe-update"
       },
       {
-        "id": "y3xkz4kituc738jwsojo7cml",
-        "title": "frontend",
-        "url": "/docs/computer-science\\\\frontend\\\\index"
+        "id": "cgo4lweflk5jx1hsncr8hshk",
+        "title": "面试前必看：掌握这四个小技巧，你的成功率会大大增加",
+        "url": "/docs/jobs/interview-prep/pre-interview"
       },
       {
         "id": "s8w3d2p5k9m4h7z1x0c2a8r6",
         "title": "求职活动回放站",
-        "url": "/docs/jobs\\\\event-keynote\\\\event-takeway"
+        "url": "/docs/jobs/event-keynote/event-takeway"
       },
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/docs/CommunityShare\\\\Amazing-AI-Tools\\\\prompt-repetition-improves-non-reasoning-llms"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
       }
     ]
   },
   {
     "id": "7187663",
-    "name": "GitHub User 7187663",
+    "name": "Crokily",
     "points": 190,
     "commits": 19,
     "avatarUrl": "https://avatars.githubusercontent.com/u/7187663",
@@ -1177,47 +1182,47 @@
       {
         "id": "gmpls10e2dz0bbizotvhglc8",
         "title": "Static Array",
-        "url": "/docs/computer-science\\\\data-structures\\\\array\\\\01-static-array"
+        "url": "/docs/computer-science/data-structures/array/01-static-array"
       },
       {
         "id": "nuojcaq1s6r5nggul0uq3r3j",
         "title": "Dynamic Array",
-        "url": "/docs/computer-science\\\\data-structures\\\\array\\\\02-dynamic-array"
+        "url": "/docs/computer-science/data-structures/array/02-dynamic-array"
       },
       {
         "id": "ai7cmwf4irjaobqf7uokj3b4",
         "title": "Array",
-        "url": "/docs/computer-science\\\\data-structures\\\\array\\\\index"
+        "url": "/docs/computer-science/data-structures/array"
       },
       {
         "id": "vti0bt2qlnr681msbk6igznc",
         "title": "Data Structures Fundamentals",
-        "url": "/docs/computer-science\\\\data-structures\\\\index"
+        "url": "/docs/computer-science/data-structures"
       },
       {
         "id": "gkjk6stzpb44n9lv8u2ij7xx",
         "title": "Singly Linked List",
-        "url": "/docs/computer-science\\\\data-structures\\\\linked-list\\\\01-singly-linked-list"
+        "url": "/docs/computer-science/data-structures/linked-list/01-singly-linked-list"
       },
       {
         "id": "lt9yrqt0ksl2liabq9ocw0z4",
         "title": "Linked List",
-        "url": "/docs/computer-science\\\\data-structures\\\\linked-list\\\\index"
-      },
-      {
-        "id": "mgb41edhi9cz1kxzae074an0",
-        "title": "学生邮箱能免费领的AI提效工具系列",
-        "url": "/docs/CommunityShare\\\\Amazing-AI-Tools\\\\index"
-      },
-      {
-        "id": "eej2awin6irhbdgcy8vvs3xb",
-        "title": "Perplexity Comet 浏览器：能当私人管家的自动化浏览器",
-        "url": "/docs/CommunityShare\\\\Amazing-AI-Tools\\\\perplexity-comet"
+        "url": "/docs/computer-science/data-structures/linked-list"
       },
       {
         "id": "ksjj9shalh6hqezx6t6am5vw",
         "title": "Computer Science",
-        "url": "/docs/computer-science\\\\index"
+        "url": "/docs/computer-science"
+      },
+      {
+        "id": "mgb41edhi9cz1kxzae074an0",
+        "title": "学生邮箱能免费领的AI提效工具系列",
+        "url": "/docs/CommunityShare/Amazing-AI-Tools"
+      },
+      {
+        "id": "eej2awin6irhbdgcy8vvs3xb",
+        "title": "Perplexity Comet 浏览器：能当私人管家的自动化浏览器",
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/perplexity-comet"
       },
       {
         "id": "fzieiqiepxw9yfo2id9eham3",
@@ -1232,12 +1237,12 @@
       {
         "id": "wdqqrepoy43jiieyyjmaekk1",
         "title": "context engineering 快速了解",
-        "url": "/docs/CommunityShare\\\\RAG\\\\context_engineering_intro"
+        "url": "/docs/CommunityShare/RAG/context_engineering_intro"
       },
       {
         "id": "g6wucmr69lamd9xyxm7uunnd",
         "title": "Make编译",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\3_Make"
+        "url": "/docs/computer-science/cpp_backend/easy_compile/3_Make"
       },
       {
         "id": "vesefhhnj2ebu2oafxa3qmcg",
@@ -1247,13 +1252,13 @@
       {
         "id": "p8igr19xfxnuyo2lpngnr6fg",
         "title": "1234. Replace the sub -string to get a balanced string One question daily",
-        "url": "/docs/CommunityShare\\\\Leetcode\\\\1234. 替换子串得到平衡字符串_translated"
+        "url": "/docs/CommunityShare/Leetcode/1234. 替换子串得到平衡字符串_translated"
       }
     ]
   },
   {
     "id": "73457237",
-    "name": "GitHub User 73457237",
+    "name": "TSK-Glofy",
     "points": 130,
     "commits": 13,
     "avatarUrl": "https://avatars.githubusercontent.com/u/73457237",
@@ -1261,58 +1266,58 @@
       {
         "id": "xqz5iiv3p52h6d9g3c0w2baf",
         "title": "常用Markdown语法",
-        "url": "/docs/CommunityShare\\\\Geek\\\\CommonUsedMarkdown"
+        "url": "/docs/CommunityShare/Geek/CommonUsedMarkdown"
       },
       {
         "id": "jee9yt8n8tmo8yclqujerw2x",
         "title": "技术分享",
-        "url": "/docs/CommunityShare\\\\Geek\\\\index"
+        "url": "/docs/CommunityShare/Geek"
       },
       {
         "id": "yxd2qpfl2li6092bjx8bz7vb",
         "title": "常用Katex语法",
-        "url": "/docs/CommunityShare\\\\Geek\\\\Katex\\\\index"
+        "url": "/docs/CommunityShare/Geek/Katex"
       },
       {
         "id": "r0inttjcby48tly602p410vo",
         "title": "个人常用字符",
-        "url": "/docs/CommunityShare\\\\Geek\\\\Katex\\\\Seb1"
+        "url": "/docs/CommunityShare/Geek/Katex/Seb1"
       },
       {
         "id": "khcrztruqdku9fntd3dwzvwe",
         "title": "数学公式语法",
-        "url": "/docs/CommunityShare\\\\Geek\\\\Katex\\\\Seb2"
+        "url": "/docs/CommunityShare/Geek/Katex/Seb2"
       },
       {
         "id": "i0xmpskau105p83vq35wnxls",
         "title": "用闲置树莓派搭建一个Minecraft服务器",
-        "url": "/docs/CommunityShare\\\\Geek\\\\raspberry-guide"
+        "url": "/docs/CommunityShare/Geek/raspberry-guide"
       },
       {
         "id": "q8d1j9bii2ve2p7pp4xtok79",
         "title": "程序员 Burnout 自救指南",
-        "url": "/docs/CommunityShare\\\\MentalHealth\\\\burnout-guide"
+        "url": "/docs/CommunityShare/MentalHealth/burnout-guide"
       },
       {
         "id": "rxyvvumcvfl2oh3hky8urkfn",
         "title": "心理健康",
-        "url": "/docs/CommunityShare\\\\MentalHealth\\\\index"
+        "url": "/docs/CommunityShare/MentalHealth"
       },
       {
         "id": "sfzt30mtx0jsuv6esnpm3w8y",
         "title": "群友分享",
-        "url": "/docs/CommunityShare\\\\index"
+        "url": "/docs/CommunityShare"
       },
       {
         "id": "s8w3d2p5k9m4h7z1x0c2a8r6",
         "title": "求职活动回放站",
-        "url": "/docs/jobs\\\\event-keynote\\\\event-takeway"
+        "url": "/docs/jobs/event-keynote/event-takeway"
       }
     ]
   },
   {
     "id": "188854497",
-    "name": "GitHub User 188854497",
+    "name": "0dysseus13",
     "points": 100,
     "commits": 10,
     "avatarUrl": "https://avatars.githubusercontent.com/u/188854497",
@@ -1320,102 +1325,102 @@
       {
         "id": "c3a4nmid9plytif5ameigj7d",
         "title": "王树森推荐系统学习笔记_召回",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note\\\\wangshusen_recommend_note_retrieval"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note/wangshusen_recommend_note_retrieval"
       },
       {
         "id": "hajz43iblku13mmevia8zrhv",
         "title": "王树森推荐系统学习笔记_特征交叉",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_crossing"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_crossing"
       },
       {
         "id": "bvccoatft6y7bph83oivdcfe",
         "title": "王树森推荐系统学习笔记_冷启动",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_coldstart"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_coldstart"
       },
       {
         "id": "qmy3p4vc45ek61ce4n62fpxy",
         "title": "王树森推荐系统学习笔记_涨指标",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_improvement"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_improvement"
       },
       {
         "id": "ol03smbujgwztho45ycj52ah",
         "title": "王树森推荐系统学习笔记_重排",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_rerank"
-      },
-      {
-        "id": "k6cgwcc28l9iap5s5oyjbjwo",
-        "title": "VAE学习笔记",
-        "url": "/docs/ai\\\\multimodal\\\\VAE\\\\index"
-      },
-      {
-        "id": "vjwogf9afghpbvi71e4dfsgj",
-        "title": "王树森推荐系统学习笔记_排序",
-        "url": "/docs/ai\\\\recommender-systems\\\\wangshusen_recommend_note_rank"
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_rerank"
       },
       {
         "id": "pqplmwaj5o5aszydqo1drzrj",
         "title": "RQ-VAE学习笔记",
-        "url": "/docs/ai\\\\multimodal\\\\RQVAE\\\\index"
+        "url": "/docs/ai/multimodal/RQVAE"
       },
       {
         "id": "otfiks0uz3aue1bdvlyqmj3e",
         "title": "VQ-VAE学习笔记",
-        "url": "/docs/ai\\\\multimodal\\\\VQVAE\\\\index"
+        "url": "/docs/ai/multimodal/VQVAE"
+      },
+      {
+        "id": "k6cgwcc28l9iap5s5oyjbjwo",
+        "title": "VAE学习笔记",
+        "url": "/docs/ai/multimodal/VAE"
+      },
+      {
+        "id": "vjwogf9afghpbvi71e4dfsgj",
+        "title": "王树森推荐系统学习笔记_排序",
+        "url": "/docs/ai/recommender-systems/wangshusen_recommend_note_rank"
       }
     ]
   },
   {
     "id": "100033202",
-    "name": "GitHub User 100033202",
+    "name": "duang3457",
     "points": 80,
     "commits": 8,
     "avatarUrl": "https://avatars.githubusercontent.com/u/100033202",
     "contributedDocs": [
       {
-        "id": "g6wucmr69lamd9xyxm7uunnd",
-        "title": "Make编译",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\3_Make"
-      },
-      {
-        "id": "mnjkrtrs7xk3fq538eqreuge",
-        "title": "手写线程池",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\Handwritten_pool_components\\\\1_Handwritten_threadpool"
+        "id": "gtqamuq3tftmvzstbunkgbo5",
+        "title": "vcpkg包管理器",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/5_vcpkg"
       },
       {
         "id": "totx4pej5lhyt1nl4anwhakj",
         "title": "linux/win上的c++库",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\1_cpp_libs"
-      },
-      {
-        "id": "kyu85av71b4n07hbdycbhvj9",
-        "title": "基础gcc/g++",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\2_base_gcc"
-      },
-      {
-        "id": "gtqamuq3tftmvzstbunkgbo5",
-        "title": "vcpkg包管理器",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\5_vcpkg"
-      },
-      {
-        "id": "q8290wmhyofuiskzn1ph63ta",
-        "title": "手写内存池（简单定长）",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\mempool_simple"
-      },
-      {
-        "id": "xk44lx4q1gpcm1uqk8nnbg7q",
-        "title": "CMake",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\easy_compile\\\\4_CMake"
+        "url": "/docs/computer-science/cpp_backend/easy_compile/1_cpp_libs"
       },
       {
         "id": "xgxqqvglxyauoeh8eye7lzu6",
         "title": "手写定长内存池",
-        "url": "/docs/computer-science\\\\cpp_backend\\\\Handwritten_pool_components\\\\2_Handwritten_mempool1"
+        "url": "/docs/computer-science/cpp_backend/Handwritten_pool_components/2_Handwritten_mempool1"
+      },
+      {
+        "id": "q8290wmhyofuiskzn1ph63ta",
+        "title": "手写内存池（简单定长）",
+        "url": "/docs/computer-science/cpp_backend/mempool_simple"
+      },
+      {
+        "id": "kyu85av71b4n07hbdycbhvj9",
+        "title": "基础gcc/g++",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/2_base_gcc"
+      },
+      {
+        "id": "xk44lx4q1gpcm1uqk8nnbg7q",
+        "title": "CMake",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/4_CMake"
+      },
+      {
+        "id": "g6wucmr69lamd9xyxm7uunnd",
+        "title": "Make编译",
+        "url": "/docs/computer-science/cpp_backend/easy_compile/3_Make"
+      },
+      {
+        "id": "mnjkrtrs7xk3fq538eqreuge",
+        "title": "手写线程池",
+        "url": "/docs/computer-science/cpp_backend/Handwritten_pool_components/1_Handwritten_threadpool"
       }
     ]
   },
   {
     "id": "166212872",
-    "name": "GitHub User 166212872",
+    "name": "yoyofancy",
     "points": 60,
     "commits": 6,
     "avatarUrl": "https://avatars.githubusercontent.com/u/166212872",
@@ -1423,28 +1428,28 @@
       {
         "id": "lodydcd211esraq1r55ze9ey",
         "title": "其他资料",
-        "url": "/docs/ai\\\\llm-basics\\\\deep-learning\\\\misc\\\\index"
+        "url": "/docs/ai/llm-basics/deep-learning/misc"
       },
       {
         "id": "h53uwefhlykt9ietsx9x0vtn",
         "title": "Introduction of Multi-agents system(In any task you want)",
-        "url": "/docs/ai\\\\Introduction-of-Multi-agents-system\\\\introduction_of_multi-agents_system"
+        "url": "/docs/ai/Introduction-of-Multi-agents-system/introduction_of_multi-agents_system"
       },
       {
         "id": "wdqqrepoy43jiieyyjmaekk1",
         "title": "context engineering 快速了解",
-        "url": "/docs/CommunityShare\\\\RAG\\\\context_engineering_intro"
+        "url": "/docs/CommunityShare/RAG/context_engineering_intro"
       },
       {
         "id": "zywri1bs64awfi9utfjy14ll",
         "title": "RAG",
-        "url": "/docs/CommunityShare\\\\RAG\\\\rag"
+        "url": "/docs/CommunityShare/RAG/rag"
       }
     ]
   },
   {
     "id": "206296353",
-    "name": "GitHub User 206296353",
+    "name": "codemanQAQ",
     "points": 40,
     "commits": 4,
     "avatarUrl": "https://avatars.githubusercontent.com/u/206296353",
@@ -1452,13 +1457,13 @@
       {
         "id": "zf8zk108oqbsg56xjyqb5txk",
         "title": "PPO",
-        "url": "/docs/CommunityShare\\\\Personal-Study-Notes\\\\Reinforcement-Learning\\\\ppo"
+        "url": "/docs/CommunityShare/Personal-Study-Notes/Reinforcement-Learning/ppo"
       }
     ]
   },
   {
     "id": "59130571",
-    "name": "GitHub User 59130571",
+    "name": "RavenCaffeine",
     "points": 30,
     "commits": 3,
     "avatarUrl": "https://avatars.githubusercontent.com/u/59130571",
@@ -1466,18 +1471,18 @@
       {
         "id": "zywri1bs64awfi9utfjy14ll",
         "title": "RAG",
-        "url": "/docs/CommunityShare\\\\RAG\\\\rag"
+        "url": "/docs/CommunityShare/RAG/rag"
       },
       {
         "id": "e6udpzrorhvgeeda6xpy1e0s",
         "title": "如何部署你自己的Github图床-PictureCDN",
-        "url": "/docs/CommunityShare\\\\Geek\\\\picturecdn"
+        "url": "/docs/CommunityShare/Geek/picturecdn"
       }
     ]
   },
   {
     "id": "84211946",
-    "name": "GitHub User 84211946",
+    "name": "AudreyYZY",
     "points": 30,
     "commits": 3,
     "avatarUrl": "https://avatars.githubusercontent.com/u/84211946",
@@ -1485,32 +1490,32 @@
       {
         "id": "kzi6k1yg1sehlxidnxdsf59a",
         "title": "Recommended Books on Mathematics and Data Science",
-        "url": "/docs/ai\\\\ai-math-basics\\\\math_books"
+        "url": "/docs/ai/ai-math-basics/math_books"
       }
     ]
   },
   {
     "id": "104760545",
-    "name": "GitHub User 104760545",
+    "name": "KAGA11",
     "points": 20,
     "commits": 2,
     "avatarUrl": "https://avatars.githubusercontent.com/u/104760545",
     "contributedDocs": [
       {
-        "id": "y3xkz4kituc738jwsojo7cml",
-        "title": "frontend",
-        "url": "/docs/computer-science\\\\frontend\\\\index"
-      },
-      {
         "id": "uzoqs57kwc4tfut4wvgnbjhf",
         "title": "2025年应届生前端需要学习什么",
-        "url": "/docs/computer-science\\\\frontend\\\\frontend-learning\\\\index"
+        "url": "/docs/computer-science/frontend/frontend-learning"
+      },
+      {
+        "id": "y3xkz4kituc738jwsojo7cml",
+        "title": "frontend",
+        "url": "/docs/computer-science/frontend"
       }
     ]
   },
   {
     "id": "123258594",
-    "name": "GitHub User 123258594",
+    "name": "PenghaoJiang",
     "points": 20,
     "commits": 2,
     "avatarUrl": "https://avatars.githubusercontent.com/u/123258594",
@@ -1518,13 +1523,13 @@
       {
         "id": "h53uwefhlykt9ietsx9x0vtn",
         "title": "Introduction of Multi-agents system(In any task you want)",
-        "url": "/docs/ai\\\\Introduction-of-Multi-agents-system\\\\introduction_of_multi-agents_system"
+        "url": "/docs/ai/Introduction-of-Multi-agents-system/introduction_of_multi-agents_system"
       }
     ]
   },
   {
     "id": "150361711",
-    "name": "GitHub User 150361711",
+    "name": "mojitote",
     "points": 20,
     "commits": 2,
     "avatarUrl": "https://avatars.githubusercontent.com/u/150361711",
@@ -1537,13 +1542,13 @@
       {
         "id": "ifwz8sqxqsgjrafa79pycrcm",
         "title": "多模态强化学习项目（MVP 目标）",
-        "url": "/docs/all-projects\\\\multimodal-rl"
+        "url": "/docs/all-projects/multimodal-rl"
       }
     ]
   },
   {
     "id": "194795025",
-    "name": "GitHub User 194795025",
+    "name": "LynPtl",
     "points": 20,
     "commits": 2,
     "avatarUrl": "https://avatars.githubusercontent.com/u/194795025",
@@ -1551,18 +1556,18 @@
       {
         "id": "sfzt30mtx0jsuv6esnpm3w8y",
         "title": "群友分享",
-        "url": "/docs/CommunityShare\\\\index"
+        "url": "/docs/CommunityShare"
       },
       {
         "id": "gj4bn01un0s0841berfvwrn5",
         "title": "使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床",
-        "url": "/docs/CommunityShare\\\\Geek\\\\cloudflare-r2-sharex-free-image-hosting"
+        "url": "/docs/CommunityShare/Geek/cloudflare-r2-sharex-free-image-hosting"
       }
     ]
   },
   {
     "id": "76551253",
-    "name": "GitHub User 76551253",
+    "name": "840691168",
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/76551253",
@@ -1570,13 +1575,13 @@
       {
         "id": "db3qwg25h6l0bh8f2sdabdqc",
         "title": "Theory of MoE",
-        "url": "/docs/ai\\\\MoE\\\\moe-update"
+        "url": "/docs/ai/MoE/moe-update"
       }
     ]
   },
   {
     "id": "88451018",
-    "name": "GitHub User 88451018",
+    "name": "richardkkk",
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/88451018",
@@ -1584,13 +1589,13 @@
       {
         "id": "tksz80mfqqyzwzzer5p3uxtg",
         "title": "Git入门操作指南-程序员必会的git小技巧",
-        "url": "/docs/CommunityShare\\\\Geek\\\\git101"
+        "url": "/docs/CommunityShare/Geek/git101"
       }
     ]
   },
   {
     "id": "90535573",
-    "name": "GitHub User 90535573",
+    "name": "SiYG",
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/90535573",
@@ -1598,13 +1603,13 @@
       {
         "id": "pne40puz5alzsf0f5jb0frbm",
         "title": "程序员学生时期求职与实习经验分享",
-        "url": "/docs/jobs\\\\interview-prep\\\\preparations-to-get-an-offer-as-a-student"
+        "url": "/docs/jobs/interview-prep/preparations-to-get-an-offer-as-a-student"
       }
     ]
   },
   {
     "id": "95595902",
-    "name": "GitHub User 95595902",
+    "name": "YBJ0000",
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/95595902",
@@ -1612,13 +1617,13 @@
       {
         "id": "q8d1j9bii2ve2p7pp4xtok79",
         "title": "程序员 Burnout 自救指南",
-        "url": "/docs/CommunityShare\\\\MentalHealth\\\\burnout-guide"
+        "url": "/docs/CommunityShare/MentalHealth/burnout-guide"
       }
     ]
   },
   {
     "id": "128119791",
-    "name": "GitHub User 128119791",
+    "name": "CeitherNSW",
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/128119791",
@@ -1626,13 +1631,13 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/docs/CommunityShare\\\\Amazing-AI-Tools\\\\prompt-repetition-improves-non-reasoning-llms"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
       }
     ]
   },
   {
     "id": "138507318",
-    "name": "GitHub User 138507318",
+    "name": "TinyAlmond",
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/138507318",
@@ -1640,13 +1645,13 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/docs/CommunityShare\\\\Amazing-AI-Tools\\\\prompt-repetition-improves-non-reasoning-llms"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
       }
     ]
   },
   {
     "id": "147322547",
-    "name": "GitHub User 147322547",
+    "name": "LunaHeluo",
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/147322547",
@@ -1654,7 +1659,7 @@
       {
         "id": "q8d1j9bii2ve2p7pp4xtok79",
         "title": "程序员 Burnout 自救指南",
-        "url": "/docs/CommunityShare\\\\MentalHealth\\\\burnout-guide"
+        "url": "/docs/CommunityShare/MentalHealth/burnout-guide"
       }
     ]
   }

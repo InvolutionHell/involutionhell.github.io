@@ -182,23 +182,51 @@ async function main() {
       `[generate-leaderboard] 已聚合 ${leaderboard.length} 名用户，正在通过 GitHub API 获取前 100 名的详细信息... | Aggregated ${leaderboard.length} users. Annotating top 100 with Github API...`,
     );
 
+    // 读取 GITHUB_TOKEN（由 workflow env 注入，见 .github/workflows/sync-uuid.yml）。
+    // 匿名调用 GitHub API 限流 60/hour，带 token 后 5000/hour。没有 token 依然能跑，
+    // 只是前 100 基本全部 403，fallback 回 "GitHub User <id>"。
+    const ghToken = process.env.GITHUB_TOKEN || process.env.GH_PAT || "";
+    if (!ghToken) {
+      console.warn(
+        "[generate-leaderboard] 未检测到 GITHUB_TOKEN，名字获取会因限流失败，榜单只会展示 id 占位符",
+      );
+    }
+
     // 我们在此取前 100 名抓取 Github Name 防止 Rate Limit
     const topUsers = leaderboard.slice(0, 100);
+    let successCount = 0;
+    let failureCount = 0;
     for (let user of topUsers) {
       try {
+        const headers = {
+          "User-Agent": "involutionhell-leaderboard-script",
+          Accept: "application/vnd.github+json",
+        };
+        if (ghToken) headers.Authorization = `Bearer ${ghToken}`;
         const ghRes = await fetch(`https://api.github.com/user/${user.id}`, {
-          headers: {
-            "User-Agent": "involutionhell-leaderboard-script",
-          },
+          headers,
         });
         if (ghRes.ok) {
           const data = await ghRes.json();
           user.name = data.login || data.name || user.name;
+          successCount++;
+        } else {
+          failureCount++;
+          // 首次失败时打印详情帮助定位（限流 / token 过期 / 被 revoke）
+          if (failureCount === 1) {
+            console.warn(
+              `[generate-leaderboard] GitHub API 返回 ${ghRes.status}，后续失败将静默计数。示例响应：`,
+              await ghRes.text().then((t) => t.slice(0, 200)),
+            );
+          }
         }
       } catch (err) {
-        // Ignore fetch errors
+        failureCount++;
       }
     }
+    console.log(
+      `[generate-leaderboard] GitHub 名字获取完成：成功 ${successCount} / 失败 ${failureCount}`,
+    );
 
     await ensureParentDir(outputAbs);
 
