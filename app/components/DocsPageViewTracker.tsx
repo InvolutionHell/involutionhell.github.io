@@ -20,15 +20,26 @@ export function DocsPageViewTracker() {
   useEffect(() => {
     if (!pathname) return;
 
-    // 同会话同 path 已上报则跳过，避免刷新/快速切换重复计数
+    // 同会话同 path 已上报则跳过，避免刷新/快速切换重复计数。
+    // sessionStorage / localStorage 在 Safari 隐私模式、存储禁用、配额超限时会抛错，
+    // 埋点组件要绝对静默，全部包 try/catch 后降级到"继续上报但不去重"即可。
     const key = `pv_reported:${pathname}`;
-    if (sessionStorage.getItem(key)) return;
-
-    sessionStorage.setItem(key, "1");
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch {
+      // storage 不可用，跳过去重继续上报
+    }
 
     // 如果用户登录了，带上 Sa-Token 让后端能把事件关联到 userId；匿名用户后端会写入 userId=null
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("satoken") : null;
+    let token: string | null = null;
+    if (typeof window !== "undefined") {
+      try {
+        token = localStorage.getItem("satoken");
+      } catch {
+        token = null;
+      }
+    }
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
