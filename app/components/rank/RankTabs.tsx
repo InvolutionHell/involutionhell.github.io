@@ -6,6 +6,18 @@ import { HotDocsTab } from "./HotDocsTab";
 type Tab = "contributors" | "hot";
 type Window = "7d" | "30d" | "all";
 
+// 合法取值白名单，用来校验 URL query 的任意字符串
+const VALID_TABS: readonly Tab[] = ["contributors", "hot"] as const;
+const VALID_WINDOWS: readonly Window[] = ["7d", "30d", "all"] as const;
+
+function isValidTab(value: string | null): value is Tab {
+  return value !== null && (VALID_TABS as readonly string[]).includes(value);
+}
+
+function isValidWindow(value: string | null): value is Window {
+  return value !== null && (VALID_WINDOWS as readonly string[]).includes(value);
+}
+
 interface RankTabsProps {
   /** Contributors tab 的静态内容，由 /rank/page.tsx SSR 渲染后以 children 传入 */
   children: React.ReactNode;
@@ -33,8 +45,14 @@ export function RankTabs({
 }: RankTabsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeTab = (searchParams.get("tab") as Tab) ?? initialTab;
-  const activeWindow = (searchParams.get("window") as Window) ?? initialWindow;
+  // 校验 query 值是否在白名单里，非法值（例如 ?tab=foo、?window=1d）回退到 initial*
+  // 防止下游 HotDocsTab 收到不支持的 window，或 tab 所有分支都不命中导致空白渲染
+  const rawTab = searchParams.get("tab");
+  const rawWindow = searchParams.get("window");
+  const activeTab: Tab = isValidTab(rawTab) ? rawTab : initialTab;
+  const activeWindow: Window = isValidWindow(rawWindow)
+    ? rawWindow
+    : initialWindow;
 
   const switchTab = (tab: Tab) => {
     const params = new URLSearchParams(searchParams.toString());
