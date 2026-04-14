@@ -15,6 +15,7 @@ import { DocsAssistant } from "@/app/components/DocsAssistant";
 import { LicenseNotice } from "@/app/components/LicenseNotice";
 import { PageFeedback } from "@/app/components/PageFeedback";
 import { DocHistoryPanel } from "@/app/components/DocHistoryPanel";
+import { DocShareButton } from "@/app/components/DocShareButton";
 // Extract clean text content from MDX - no longer used on client/page side
 // content fetching moved to API route for performance
 
@@ -53,7 +54,10 @@ export default async function DocPage({ params }: Param) {
             <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">
               {page.data.title}
             </h1>
-            <EditOnGithub href={editUrl} />
+            <div className="flex items-center gap-2">
+              <DocShareButton />
+              <EditOnGithub href={editUrl} />
+            </div>
           </div>
           <Mdx components={getMDXComponents()} />
           <Contributors entry={contributorsEntry} />

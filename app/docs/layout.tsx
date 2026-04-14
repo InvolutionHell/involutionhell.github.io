@@ -71,6 +71,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
     <>
       {/* Add a class on <html> while in docs to adjust global backgrounds */}
       <CopyTracking />
+      <DocsPageViewTracker />
       <DocsRouteFlag />
       <DocsPageViewTracker />
       <DocsLayout

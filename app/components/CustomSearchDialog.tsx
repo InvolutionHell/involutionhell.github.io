@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import { useI18n } from "fumadocs-ui/provider";
 import {
@@ -57,7 +58,16 @@ export function CustomSearchDialog({
   const [tag, setTag] = useState(defaultTag);
 
   // Extract onOpenChange to use in dependency array cleanly
-  const { onOpenChange, ...otherProps } = props;
+  const { onOpenChange, open, ...otherProps } = props;
+
+  // 记录上次 open 状态，只在从关闭→打开时触发埋点，避免渲染抖动多次上报
+  const prevOpenRef = useRef<boolean | undefined>(undefined);
+  useEffect(() => {
+    if (open === true && prevOpenRef.current !== true) {
+      trackEvent("search_open", { path: window.location.pathname });
+    }
+    prevOpenRef.current = open;
+  }, [open]);
 
   const { search, setSearch, query } = useDocsSearch(
     type === "fetch"
@@ -82,7 +92,7 @@ export function CustomSearchDialog({
     if (!search) return;
 
     const timer = setTimeout(() => {
-            // Umami 埋点: 搜索结果点击
+      // Umami 埋点: 搜索结果点击
       if (window.umami) {
         window.umami.track("search_query", { query: search });
       }
@@ -103,36 +113,37 @@ export function CustomSearchDialog({
 
   // 使用 useMemo 劫持 search items，注入埋点逻辑
   const trackedItems = useMemo(() => {
-    const data = query.data !== "empty" && query.data ? query.data : defaultItems;
+    const data =
+      query.data !== "empty" && query.data ? query.data : defaultItems;
     if (!data) return [];
 
     return data.map((item: unknown, index: number) => {
-        const searchItem = item as SearchItem;
-        return {
-          ...searchItem,
-          onSelect: (value: string) => {
-            // Umami 埋点: 搜索结果点击
-            if (window.umami) {
-              window.umami.track("search_result_click", {
-                query: search,
-                rank: index + 1,
-                url: searchItem.url,
-              });
-            }
+      const searchItem = item as SearchItem;
+      return {
+        ...searchItem,
+        onSelect: (value: string) => {
+          // Umami 埋点: 搜索结果点击
+          if (window.umami) {
+            window.umami.track("search_result_click", {
+              query: search,
+              rank: index + 1,
+              url: searchItem.url,
+            });
+          }
 
-            // Call original onSelect if it exists
-            if (searchItem.onSelect) searchItem.onSelect(value);
+          // Call original onSelect if it exists
+          if (searchItem.onSelect) searchItem.onSelect(value);
 
-            // Handle navigation if URL exists
-            if (searchItem.url) {
-                // 显式执行路由跳转和关闭弹窗，确保点击行为能够同时触发埋点和导航
-                router.push(searchItem.url);
-                if (onOpenChange) {
-                    onOpenChange(false);
-                }
+          // Handle navigation if URL exists
+          if (searchItem.url) {
+            // 显式执行路由跳转和关闭弹窗，确保点击行为能够同时触发埋点和导航
+            router.push(searchItem.url);
+            if (onOpenChange) {
+              onOpenChange(false);
             }
-          },
-        };
+          }
+        },
+      };
     });
   }, [query.data, defaultItems, search, router, onOpenChange]);
 
@@ -142,6 +153,7 @@ export function CustomSearchDialog({
       onSearchChange={setSearch}
       isLoading={query.isLoading}
       onOpenChange={onOpenChange}
+      open={open}
       {...otherProps}
     >
       <SearchDialogOverlay />
