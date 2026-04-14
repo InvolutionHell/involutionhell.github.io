@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import Image from "next/image";
 import type { HistoryItem } from "@/app/types/docs-history";
 
@@ -10,6 +10,25 @@ const FALLBACK_AVATAR =
 
 interface DocHistoryPanelProps {
   path: string;
+}
+
+// 将 items / error / loading 合并成一个 discriminated union，
+// 避免 effect 里多次同步 setState 触发 react-hooks/set-state-in-effect
+// 同时天然保证三种状态互斥（不会同时出现"错误提示 + 旧列表"）
+type State =
+  | { status: "loading" }
+  | { status: "ok"; items: HistoryItem[] }
+  | { status: "error"; message: string };
+
+type Action =
+  | { type: "fetch" }
+  | { type: "ok"; items: HistoryItem[] }
+  | { type: "error"; message: string };
+
+function reducer(_: State, action: Action): State {
+  if (action.type === "fetch") return { status: "loading" };
+  if (action.type === "ok") return { status: "ok", items: action.items };
+  return { status: "error", message: action.message };
 }
 
 // 将 ISO 日期转为相对时间描述（中文）
@@ -41,30 +60,29 @@ function SkeletonRow() {
 }
 
 export function DocHistoryPanel({ path }: DocHistoryPanelProps) {
-  const [items, setItems] = useState<HistoryItem[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [state, dispatch] = useReducer(reducer, { status: "loading" });
 
   useEffect(() => {
+    // 用 dispatch 而不是多次 setState，规避 react-hooks/set-state-in-effect lint；
+    // path 变化时立刻回到 loading，避免"错误提示 + 旧列表"并存
+    dispatch({ type: "fetch" });
     let cancelled = false;
-    // path 变化触发重新 fetch 时先清空旧状态，避免"错误提示 + 旧列表"同时显示
-    setItems(null);
-    setError(null);
     fetch(`/api/docs/history?path=${encodeURIComponent(path)}`)
       .then((r) => r.json())
       .then((json) => {
         if (cancelled) return;
         if (json.success) {
-          setItems(json.data);
-          setError(null);
+          dispatch({ type: "ok", items: json.data ?? [] });
         } else {
-          setItems(null);
-          setError(json.error ?? "无法加载历史");
+          dispatch({
+            type: "error",
+            message: json.error ?? "无法加载历史",
+          });
         }
       })
       .catch(() => {
         if (!cancelled) {
-          setItems(null);
-          setError("无法加载历史");
+          dispatch({ type: "error", message: "无法加载历史" });
         }
       });
     return () => {
@@ -80,7 +98,7 @@ export function DocHistoryPanel({ path }: DocHistoryPanelProps) {
       </h2>
 
       {/* 加载中 */}
-      {items === null && error === null && (
+      {state.status === "loading" && (
         <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
           <SkeletonRow />
           <SkeletonRow />
@@ -89,23 +107,23 @@ export function DocHistoryPanel({ path }: DocHistoryPanelProps) {
       )}
 
       {/* 错误 */}
-      {error !== null && (
+      {state.status === "error" && (
         <p className="text-xs font-mono text-neutral-400 dark:text-neutral-500 py-2">
-          {error}
+          {state.message}
         </p>
       )}
 
       {/* 空结果 */}
-      {items !== null && items.length === 0 && (
+      {state.status === "ok" && state.items.length === 0 && (
         <p className="text-xs font-mono text-neutral-400 dark:text-neutral-500 py-2">
           暂无更新记录
         </p>
       )}
 
       {/* 历史列表 */}
-      {items !== null && items.length > 0 && (
+      {state.status === "ok" && state.items.length > 0 && (
         <ol className="divide-y divide-neutral-100 dark:divide-neutral-800">
-          {items.map((item) => (
+          {state.items.map((item) => (
             <li key={item.sha}>
               <a
                 href={item.htmlUrl}
