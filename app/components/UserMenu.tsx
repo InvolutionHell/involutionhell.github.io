@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   Avatar,
   AvatarFallback,
@@ -47,6 +48,15 @@ export function UserMenu({ user, provider, logout }: UserMenuProps) {
             </p>
           ) : null}
         </div>
+
+        {/* 设置入口：登录用户均可见，指向 /settings 偏好页 */}
+        <Link
+          href="/settings"
+          className="block px-4 py-2 text-sm text-foreground transition hover:bg-muted"
+          data-umami-event="user_menu_settings_click"
+        >
+          设置
+        </Link>
 
         {provider === "github" ? (
           <a
