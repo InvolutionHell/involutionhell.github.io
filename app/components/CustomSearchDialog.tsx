@@ -92,7 +92,7 @@ export function CustomSearchDialog({
     if (!search) return;
 
     const timer = setTimeout(() => {
-      // Umami 埋点: 搜索结果点击
+      // Umami 埋点: 搜索词输入（debounce 1s，非搜索结果点击）
       if (window.umami) {
         window.umami.track("search_query", { query: search });
       }

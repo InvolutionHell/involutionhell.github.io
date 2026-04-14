@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 
 /**
@@ -9,14 +9,23 @@ import { trackEvent } from "@/lib/analytics";
  */
 export function DocShareButton() {
   const [copied, setCopied] = useState(false);
+  // timer ref：每次新点击 / 组件卸载时清掉旧 timer，避免 setState on unmounted
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+    };
+  }, []);
 
   const handleCopy = async () => {
     const url = window.location.href;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
-      // 2s 后恢复按钮文案
-      setTimeout(() => setCopied(false), 2000);
+      // 旧 timer 先清掉，避免连点两次后提前恢复文案
+      if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+      resetTimerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       // clipboard 不可用时静默失败
     }
@@ -27,6 +36,7 @@ export function DocShareButton() {
 
   return (
     <button
+      type="button"
       onClick={handleCopy}
       className="inline-flex items-center gap-2 rounded-md px-4 h-11 text-base font-medium hover:bg-muted/80 hover:text-foreground"
       aria-label="复制页面链接"
