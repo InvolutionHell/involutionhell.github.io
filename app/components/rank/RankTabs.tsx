@@ -7,11 +7,25 @@ type Tab = "contributors" | "hot";
 type Window = "7d" | "30d" | "all";
 
 interface RankTabsProps {
+  /** Contributors tab 的静态内容，由 /rank/page.tsx SSR 渲染后以 children 传入 */
   children: React.ReactNode;
+  /** SSR 决定的初始 tab，来自 URL query ?tab=；客户端挂载后以 searchParams 为准 */
   initialTab: Tab;
+  /** SSR 决定的初始窗口，Hot Docs tab 用 */
   initialWindow: Window;
 }
 
+/**
+ * /rank 页的 Tab 壳子：Contributors（贡献者榜，静态 JSON）/ Hot Docs（热门文档榜，后端 API）。
+ *
+ * Tab 和窗口状态都写进 URL query（?tab=&window=），而不是组件内 state，这样：
+ *   1. 分享链接能直接定位到具体视图
+ *   2. 浏览器前进/后退正常切换
+ *   3. 刷新不丢状态
+ *
+ * 用 router.push 而非 replaceState 是为了让返回键能回到上一个 tab；窗口切换在 HotDocsTab 内部用
+ * replaceState，避免每切一次就污染历史栈。
+ */
 export function RankTabs({
   children,
   initialTab,
@@ -25,6 +39,7 @@ export function RankTabs({
   const switchTab = (tab: Tab) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", tab);
+    // 首次切到 Hot Docs 还没选过窗口时默认 30d，避免 HotDocsTab 拿到 undefined
     if (tab === "hot" && !params.get("window")) {
       params.set("window", "30d");
     }
