@@ -1,36 +1,11 @@
 // 用户偏好设置页（Server Component）
-// 未登录时重定向到 /login?redirect=/settings
-import { cookies } from "next/headers";
+// 登录态由客户端 SettingsForm 内部的 useAuth 处理：token 存在 localStorage，服务端无法读取，
+// 所以这里不做服务端鉴权，仅负责渲染页面壳。未登录 → 客户端 router.replace 到 /login?redirect=/settings。
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { SettingsForm } from "./SettingsForm";
 
-async function getServerUser() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("satoken")?.value;
-  if (!token || !process.env.BACKEND_URL) return null;
-  try {
-    const res = await fetch(`${process.env.BACKEND_URL}/auth/me`, {
-      headers: { satoken: token },
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    const body = await res.json();
-    return body?.data ?? null;
-  } catch {
-    return null;
-  }
-}
-
-export default async function SettingsPage() {
-  const user = await getServerUser();
-
-  // satoken 存在于 localStorage 而非 cookie，服务端无法读取
-  // 因此此处 user 可能为 null；实际登录态由客户端 SettingsForm 内部处理
-  // 仅当能从服务端确认已登出时才重定向，避免误跳转
-  // （大多数情况下 user 为 null 是正常的，由客户端 useAuth 判断）
-  void user;
-
+export default function SettingsPage() {
   return (
     <>
       <Header />
