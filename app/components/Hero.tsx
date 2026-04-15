@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ActivityTicker } from "@/app/components/ActivityTicker";
 import { cn } from "@/lib/utils";
 import { AnimatedBar } from "@/app/components/rank/AnimatedBar";
+import { HotDocsPreview } from "@/app/components/HotDocsPreview";
 import leaderboardData from "@/generated/site-leaderboard.json";
 import { MAINTAINERS } from "@/lib/admins";
 
@@ -169,49 +170,52 @@ export function Hero() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(() => {
-              const rawData = leaderboardData as {
-                id: string;
-                name: string;
-                points: number;
-                avatarUrl: string;
-              }[];
-              const filteredData = rawData.filter(
-                (user) => !MAINTAINERS.includes(user.name),
-              );
-              const top3 = filteredData.slice(0, 3);
-              const maxPoints = top3.length > 0 ? top3[0].points : 100;
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+              {(() => {
+                const rawData = leaderboardData as {
+                  id: string;
+                  name: string;
+                  points: number;
+                  avatarUrl: string;
+                }[];
+                const filteredData = rawData.filter(
+                  (user) => !MAINTAINERS.includes(user.name),
+                );
+                const top3 = filteredData.slice(0, 3);
+                const maxPoints = top3.length > 0 ? top3[0].points : 100;
 
-              return top3.map((user, idx) => (
-                <div
-                  key={user.id}
-                  className="border border-[var(--foreground)] p-6 bg-[var(--background)] relative hard-shadow-hover transition-all group"
-                >
-                  <div className="absolute top-0 right-0 w-12 h-12 bg-[var(--foreground)] text-[var(--background)] flex items-center justify-center font-mono font-bold text-xl border-b border-l border-[var(--foreground)] z-10">
-                    #{idx + 1}
+                return top3.map((user, idx) => (
+                  <div
+                    key={user.id}
+                    className="border border-[var(--foreground)] p-6 bg-[var(--background)] relative hard-shadow-hover transition-all group"
+                  >
+                    <div className="absolute top-0 right-0 w-12 h-12 bg-[var(--foreground)] text-[var(--background)] flex items-center justify-center font-mono font-bold text-xl border-b border-l border-[var(--foreground)] z-10">
+                      #{idx + 1}
+                    </div>
+                    <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-800 border border-[var(--foreground)] mb-4 transition-transform group-hover:scale-110 overflow-hidden">
+                      <Image
+                        src={user.avatarUrl}
+                        alt={user.name}
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover transition-all duration-300"
+                      />
+                    </div>
+                    <div className="font-serif text-2xl font-bold uppercase text-[var(--foreground)] mb-1 truncate">
+                      {user.name}
+                    </div>
+                    <div className="font-mono text-xs text-neutral-500 uppercase tracking-widest mb-4">
+                      {user.points.toLocaleString()} PTS
+                    </div>
+                    <AnimatedBar value={user.points} max={maxPoints} />
                   </div>
-                  <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-800 border border-[var(--foreground)] mb-4 transition-transform group-hover:scale-110 overflow-hidden">
-                    <Image
-                      src={user.avatarUrl}
-                      alt={user.name}
-                      width={64}
-                      height={64}
-                      className="w-full h-full object-cover transition-all duration-300"
-                    />
-                  </div>
-                  <div className="font-serif text-2xl font-bold uppercase text-[var(--foreground)] mb-1 truncate">
-                    {user.name}
-                  </div>
-                  <div className="font-mono text-xs text-neutral-500 uppercase tracking-widest mb-4">
-                    {user.points.toLocaleString()} PTS
-                  </div>
-
-                  {/* Visual bar chart representing points using motion */}
-                  <AnimatedBar value={user.points} max={maxPoints} />
-                </div>
-              ));
-            })()}
+                ));
+              })()}
+            </div>
+            <div className="lg:col-span-4">
+              <HotDocsPreview />
+            </div>
           </div>
         </div>
       </div>
