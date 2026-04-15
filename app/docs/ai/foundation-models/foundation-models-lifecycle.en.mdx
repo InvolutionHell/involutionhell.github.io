@@ -1,0 +1,119 @@
+---
+title: Foundation Models
+description: "The full lifecycle of foundation models: dataset construction, training, fine-tuning, deployment, and evaluation"
+date: "2025-01-27"
+tags:
+  - foundation-models
+  - llm-lifecycle
+  - model-development
+docId: i88bna4sg5pr4ekhg32drv2i
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+Foundation models are the core of modern AI systems. This section covers the complete technology stack and lifecycle management from dataset construction to deployment and evaluation.
+
+## Core Components
+
+### Dataset Construction
+
+- See: [Dataset Construction](./datasets/)
+- Data sourcing and acquisition strategies
+- Data cleaning and quality control
+- Privacy protection and compliance
+- Multimodal data processing techniques
+
+### Model Training
+
+- See: [Model Training](./training/)
+- Distributed training techniques
+- MoE (Mixture of Experts) models
+- Model weight merging strategies
+- Training optimization and stability
+
+### Model Fine-Tuning
+
+- See: [Model Fine-Tuning](./finetune/)
+- LoRA (Low-Rank Adaptation)
+- PEFT (Parameter-Efficient Fine-Tuning)
+- Instruction tuning and alignment
+- Fine-tuning frameworks and tools
+
+### Deployment and Inference
+
+- See: [Deployment and Inference](./deploy-infer/)
+- KV Cache optimization
+- Flash Attention acceleration
+- Quantization and parallel inference
+- Inference framework comparison
+
+### Model Evaluation
+
+- See: [Model Evaluation](./evaluation/)
+- Benchmark evaluation systems
+- Chinese and English evaluation benchmarks
+- Evaluation methods and metrics
+- Result analysis and application
+
+### Classic QKV Interview Questions
+
+- See: [QKV Interview Questions](./qkv-interview/)
+- KV Cache working principles
+- Attention mechanism details
+- Classic interview question breakdowns
+- In-depth technical analysis
+
+## Learning Paths
+
+### Beginner Track
+
+1. Theory foundations: Transformer architecture and attention mechanism
+2. Data processing: understanding the dataset construction pipeline
+3. Fine-tuning practice: mastering LoRA and other parameter-efficient fine-tuning methods
+4. Evaluation understanding: familiarity with mainstream benchmarks and metrics
+
+### Advanced Development
+
+1. Training optimization: distributed training and MoE
+2. Inference acceleration: KV Cache, Flash Attention, etc.
+3. Deployment engineering: vLLM, TensorRT, and other inference frameworks
+4. Performance tuning: system-level performance analysis and optimization
+
+### Architecture Design
+
+1. Architecture trade-offs: pros and cons of different architectures and their scenarios
+2. System integration: end-to-end application system design
+3. Cost optimization: balancing performance, cost, and resources
+4. Technology selection: scenario-driven technical solutions
+
+## Key Concepts
+
+### Decoder-only Architecture Advantages
+
+- Attention fit: causal attention naturally suits generation tasks
+- Generation adaptation: natively suited for autoregressive language modeling
+- Unified framework: multiple tasks unified under text generation
+
+### KV Cache Core Principles
+
+- Reuse: reusing historical KV pairs reduces computation
+- Complexity reduction: O(n²) → O(n)
+- Memory trade-off: trading space for time
+
+## Technology Trends
+
+1. Model efficiency: parameter-efficient training and inference optimization
+2. Multimodal fusion: unified text/image/audio
+3. Long-context handling: support for longer contexts
+4. Edge deployment: compression for edge devices
+5. Green AI: compute techniques that reduce energy consumption
+
+## References
+
+- _Hands-on Large Models_ (Zhihu column)
+- _Attention is All You Need_
+- _Language Models are Few-Shot Learners_
+
+> Learning tip: The stack is broad and fast-moving — choose your path based on your role and goals; balance theory with practice, and keep up with the frontier.

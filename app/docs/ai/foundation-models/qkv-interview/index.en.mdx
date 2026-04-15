@@ -1,0 +1,110 @@
+---
+title: Classic QKV Interview Questions
+description: In-depth analysis of classic interview questions on the QKV mechanism and KV Cache in Transformers
+date: "2025-01-27"
+tags:
+  - interview-questions
+  - qkv
+  - kv-cache
+  - attention-mechanism
+  - transformer
+docId: h7s6nm7h5oqnhhdq9m1mgwwo
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Classic QKV Interview Questions
+
+The QKV mechanism in Transformers is a hot topic in large model interviews. This section provides an in-depth breakdown of the classic interview questions.
+
+## Core Interview Questions
+
+### 1. Why Can KV Be Cached During LLM Inference?
+
+**Core reason**: the autoregressive generation property means KV pairs can be reused.
+
+**Detailed breakdown**:
+
+1. **Eliminate redundant computation**: the Keys and Values of historical sequences would need to be recomputed on every generation step — caching avoids this
+2. **Speed up inference**: when generating a new token, only the current token's Query needs to be computed, then attended to the cached KV pairs
+3. **Reduce computational complexity**: from O(n²·d) down to O(n·d), where n is sequence length and d is vector dimension
+4. **Cross-request reuse**: multiple requests sharing the same prefix can share KV Cache, improving overall system throughput
+
+### 2. Why Can't Q Be Cached?
+
+**Key insight**: Q doesn't need to be cached — it's not that it can't be.
+
+**Reasoning**:
+
+1. **Dependency difference**: the output for each newly generated token only depends on that token's Q, and that Q is never needed again in subsequent inference steps
+2. **No efficiency gain**: caching Q brings no efficiency improvement; each Q is generated based on the preceding sequence and has temporal dependencies
+3. **Autoregressive property**: each token generation depends only on all previous tokens — computing Q is itself inherently based on the historical sequence
+
+### 3. Why Are Three Different Matrices WQ, WK, WV Needed?
+
+**Function separation**: decompose the attention mechanism into three distinct roles:
+
+- **Query generation (WQ)**: generates "what I'm looking for"
+- **Key generation (WK)**: generates "what I am"
+- **Value generation (WV)**: generates "what information I contain"
+
+**Mathematical principle**: different linear transformations learn different representation spaces, increasing the model's expressive power and flexibility.
+
+### 4. What Is the Purpose of Multi-Head Attention?
+
+**Core idea**: parallel specialization — different heads learn different types of attention patterns.
+
+**Specific roles**:
+
+1. **Information subspaces**: each head attends to different feature subspaces
+2. **Attention diversity**: simultaneously captures multiple types of attention patterns
+3. **Positional information**: different heads may focus on different positional relationships
+4. **Semantic levels**: different heads attend to different levels of semantic information
+
+### 5. How Is KV Cache Memory Usage Calculated?
+
+**Formula**:
+
+```
+KV Cache memory = 2 × sequence length × num layers × hidden dim × num heads × bytes per element
+```
+
+**Optimization strategies**:
+
+- Quantization: use INT8 or INT4 quantization for KV Cache
+- Paging: PagedAttention's paged storage
+- Compression: dynamically compress inactive cache entries
+- Sharing: KV Cache sharing across multiple requests
+
+## Advanced Technical Questions
+
+### Flash Attention Optimization Principle
+
+- **Memory access optimization**: tiled attention computation reduces data transfer between HBM and SRAM
+- **Algorithm improvement**: IO complexity reduced from O(N²) to O(N²d²/M), enabling support for longer sequences
+
+### Impact of Different Precisions on KV Cache
+
+| Precision | Memory Usage | Compute Speed | Precision Loss |
+| --------- | ------------ | ------------- | -------------- |
+| FP16      | 50%          | 1.5–2x        | Minimal        |
+| INT8      | 25%          | 2–3x          | Small          |
+| INT4      | 12.5%        | 3–4x          | Moderate       |
+
+## Interview Preparation Tips
+
+### Technical Depth
+
+1. **Understand the principles**: deeply understand the mathematical foundations of the attention mechanism
+2. **Implementation details**: understand the concrete implementation of KV Cache
+3. **Optimization techniques**: master related optimization techniques
+4. **Performance analysis**: be able to analyze memory and compute overhead
+
+### Communication Skills
+
+1. **Structured answers**: follow the order of principle → implementation → optimization
+2. **Use examples**: explain abstract concepts with concrete examples
+3. **Back with data**: support optimization claims with specific numbers
+4. **Comparative analysis**: compare the pros and cons of different approaches

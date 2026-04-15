@@ -1,0 +1,89 @@
+---
+title: Mathematical Foundations for AI
+description: "Core mathematics for AI: linear algebra, probability and statistics, calculus and optimization, information theory, numerical analysis"
+date: "2025-01-27"
+tags:
+  - mathematics
+  - linear-algebra
+  - probability
+  - calculus
+  - information-theory
+docId: vcfer8dvlt80se4kmbnshx7x
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+AI and large models require a solid mathematical foundation. This section covers the core mathematical concepts needed for deep learning and large model development.
+
+## Core Mathematical Areas
+
+### 1. Linear Algebra
+
+**Core concepts**: vectors, matrices, tensors, eigenvalues/eigenvectors, SVD (Singular Value Decomposition), PCA (Principal Component Analysis)
+
+**Applications in large models**:
+
+- **Embedding**: word vectors and Token embeddings are fundamentally high-dimensional vectors
+- **Attention Mechanism**: QKV matrix multiplication; core computation in self-attention (dot product)
+- **Transformer architecture**: various layers (Linear Layer), residual connections, Feed-Forward Network — all involve matrix operations
+- **Model parameters**: the entire model's parameter count can be represented using matrices and tensors
+- **Dimensionality reduction and visualization**: reducing embedding spaces (t-SNE, UMAP, PCA) for analysis
+
+**References**:
+
+- [Immersive Linear Algebra](https://textbooks.math.gatech.edu/ila/index2.html)
+- [3Blue1Brown - Essence of Linear Algebra](https://www.youtube.com/@3blue1brown) — exceptional visualization that helps build geometric intuition
+- _The Geometric Meaning of Linear Algebra_ (Ren Guangqian, Xie Cong, Hu Cuifang)
+
+### 2. Probability and Statistics
+
+**Core concepts**: random variables, probability distributions (Gaussian, Bernoulli, multinomial), expectation, variance, covariance, conditional probability, Bayes' theorem, Maximum Likelihood Estimation (MLE), Maximum A Posteriori (MAP)
+
+**Applications in large models**:
+
+- **Language modeling**: P(next token | context) is conditional probability
+- **Loss function**: cross-entropy loss originates from information theory and measures differences between probability distributions
+- **Sampling and generation**: Top-k and Top-p (nucleus) sampling are both based on probability distributions
+- **Uncertainty quantification**: confidence estimation for model predictions
+- **Reinforcement learning**: optimization based on probabilistic policies
+
+### 3. Calculus and Optimization
+
+**Core concepts**: derivative, partial derivative, gradient, chain rule, Taylor expansion, Lagrange multipliers, convex optimization
+
+**Applications in large models**:
+
+- **Backpropagation**: a perfect embodiment of gradient computation and the chain rule
+- **Model training**: the core of minimizing the loss function; all optimizers (SGD, Adam, RMSProp) are variants of gradient descent
+- **Activation functions**: their derivative properties are critical for gradient propagation
+- **Model convergence analysis**: involves convergence theory from calculus
+
+### 4. Information Theory
+
+**Core concepts**: information content, entropy, joint entropy, conditional entropy, mutual information, cross-entropy, KL divergence
+
+**Applications in large models**:
+
+- **Loss function**: cross-entropy loss measures the difference between predicted and true distributions
+- **Attention mechanism**: the softmax operation relates to probability distributions and entropy when computing attention weights
+- **Reinforcement learning**: entropy regularization terms in policy gradient objectives; KL divergence constraints in TRPO/PPO algorithms
+- **Model compression and quantization**: evaluating quantization information loss
+
+### 5. Numerical Analysis
+
+**Core concepts**: floating-point precision, numerical stability, gradient clipping, learning rate scheduling
+
+**Applications in large models**:
+
+- **Preventing gradient explosion/vanishing**: large models are deep and computationally intensive, making numerical stability particularly critical
+- **BFloat16/FP16 training**: understanding how different floating-point precisions affect model training
+- **Optimizer selection**: some optimizers are numerically more stable
+
+## Study Recommendations
+
+1. **Combine theory with practice**: don't just derive formulas — understand how these mathematical concepts apply concretely in AI
+2. **Build visual intuition**: use resources like 3Blue1Brown to develop geometric understanding
+3. **Implement in code**: try implementing basic mathematical operations yourself to deepen understanding
+4. **Build progressively**: start from foundational concepts and gradually move to advanced applications

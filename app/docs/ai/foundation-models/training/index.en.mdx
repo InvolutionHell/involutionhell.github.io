@@ -1,0 +1,293 @@
+---
+title: Model Training
+description: "Large model training techniques: MoE, distributed training, model weight merging, and more"
+date: "2025-01-27"
+tags:
+  - model-training
+  - distributed-training
+  - moe
+  - model-merging
+  - training-optimization
+docId: jgz0nl0cbd4frj2dg98mdv0x
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+Large model training is a complex engineering problem involving distributed computing, memory optimization, training stability, and more.
+
+## Training Fundamentals
+
+### Training Pipeline
+
+1. **Data preparation**: tokenization, batching, data loading
+2. **Model initialization**: weight initialization, architecture configuration
+3. **Forward pass**: compute the loss function
+4. **Backward pass**: gradient computation and updates
+5. **Model saving**: checkpoint saving and recovery
+
+### Key Techniques
+
+- **Gradient accumulation**: simulating large-batch training
+- **Mixed precision**: FP16/BF16 training acceleration
+- **Gradient clipping**: preventing gradient explosion
+- **Learning rate scheduling**: optimizing the convergence process
+
+## Distributed Training
+
+### Data Parallelism
+
+- **Principle**: different GPUs process different data batches
+- **Implementation**: PyTorch DDP, DeepSpeed
+- **Suited for**: scenarios with small models but large data volumes
+
+### Model Parallelism
+
+- **Tensor parallelism**: split model layers across different GPUs
+- **Pipeline parallelism**: assign model layers sequentially across GPUs
+- **Expert parallelism**: expert assignment for MoE models
+
+### Hybrid Parallelism
+
+- **3D parallelism**: data + tensor + pipeline parallelism
+- **Zero Redundancy Optimizer**: optimizer state sharding
+- **Activation recomputation**: trade compute for memory
+
+## MoE (Mixture of Experts)
+
+### Core Concepts
+
+**Sparse activation**: only a subset of expert networks is activated each time, achieving a balance between computational efficiency and model capacity.
+
+**Routing mechanism**: intelligently routes inputs to appropriate experts
+
+- Top-k routing: selects the k most relevant experts
+- Load balancing: ensures balanced expert utilization
+- Noise injection: improves routing robustness
+
+**Architecture design**:
+
+- Expert network structure
+- Gating network design
+- Residual connection strategies
+
+### Technical Challenges
+
+1. **Load balancing**: preventing uneven expert utilization
+2. **Communication overhead**: cross-device expert calls
+3. **Training stability**: routing learning convergence
+4. **Inference optimization**: sparse model inference acceleration
+
+## Model Weight Merging
+
+**Weight merging techniques**: see the full comparison table for weight merging methods
+
+### Merging Strategies
+
+**Linear interpolation merging**:
+
+```python
+merged_weight = alpha * weight_1 + (1 - alpha) * weight_2
+```
+
+**SLERP (Spherical Linear Interpolation)**:
+
+- Suited for normalized weights
+- Preserves the angular relationship of weight vectors
+- Particularly effective for embedding layers
+
+**Task Arithmetic**:
+
+- Merging based on task vectors
+- Supports combining capabilities from multiple tasks
+- Controllable capability transfer
+
+### Use Cases
+
+- **Multi-task model fusion**: combining capabilities from different tasks
+- **Different training stage integration**: merging weights from different training stages
+- **Capability combination optimization**: balancing different capability dimensions
+
+## Training Optimization Techniques
+
+### Memory Optimization
+
+**Gradient checkpointing**:
+
+- Recompute activation values
+- Reduce memory footprint
+- Trade-off with computation time
+
+**Zero Redundancy Optimizer**:
+
+- ZeRO-1: optimizer state sharding
+- ZeRO-2: add gradient sharding
+- ZeRO-3: parameter sharding
+
+**CPU offloading**:
+
+- Store parameters on CPU
+- Dynamically load to GPU
+- Extended memory capacity
+
+### Compute Optimization
+
+**Operator fusion**:
+
+- LayerNorm fusion
+- Attention operator optimization
+- Custom CUDA kernels
+
+**Compilation optimization**:
+
+- TorchScript compilation
+- TensorRT optimization
+- ONNX conversion
+
+## Training Stability
+
+### Numerical Stability
+
+**Loss scaling**:
+
+- Automatic mixed precision
+- Dynamic loss scaling
+- Gradient overflow detection
+
+**Weight initialization**:
+
+- Xavier/Kaiming initialization
+- Hierarchical initialization
+- Pre-trained weight loading
+
+### Training Monitoring
+
+**Metric monitoring**:
+
+- Loss curve tracking
+- Gradient norm monitoring
+- Learning rate changes
+- Memory usage
+
+**Anomaly detection**:
+
+- NaN/Inf detection
+- Gradient explosion monitoring
+- Model divergence warnings
+
+## Large-Scale Training Engineering
+
+### Hardware Configuration
+
+**Compute resources**:
+
+- GPU cluster configuration
+- Memory and bandwidth requirements
+- Storage system design
+- Network topology optimization
+
+**Environment management**:
+
+- Docker containerization
+- Environment consistency guarantees
+- Dependency management
+- Version control
+
+### Experiment Management
+
+**Hyperparameter search**:
+
+- Grid search
+- Bayesian optimization
+- Early stopping
+- Resource budget management
+
+**Experiment tracking**:
+
+- MLflow experiment logging
+- Weights & Biases monitoring
+- Experiment result comparison
+- Reproducibility guarantees
+
+## Fault Handling
+
+### Common Issues
+
+1. **Out-of-memory**: batch size adjustment, gradient accumulation
+2. **Convergence issues**: learning rate adjustment, architecture optimization
+3. **Communication failures**: network configuration, node recovery
+4. **Data issues**: data validation, anomaly handling
+
+### Recovery Strategies
+
+**Checkpoint mechanism**:
+
+- Periodically save model state
+- Save optimizer state
+- Record random seed
+- Resume training progress
+
+**Fault-tolerant design**:
+
+- Node failure detection
+- Automatic task restart
+- Elastic training architecture
+- Data integrity checks
+
+## Performance Optimization
+
+### System Level
+
+**I/O optimization**:
+
+- Data prefetching
+- Multi-process data loading
+- Memory-mapped files
+- SSD storage optimization
+
+**Communication optimization**:
+
+- AllReduce algorithm optimization
+- Communication topology design
+- Bandwidth utilization improvement
+- Latency reduction techniques
+
+### Algorithm Level
+
+**Training strategies**:
+
+- Progressive training
+- Curriculum learning
+- Adversarial training
+- Multi-stage training
+
+**Regularization techniques**:
+
+- Dropout variants
+- Weight decay
+- Label smoothing
+- Data augmentation
+
+## Best Practices
+
+1. **Thorough experiment design**: control variables, ensure reproducibility
+2. **Progressive scaling**: validate from small models to large models step by step
+3. **Monitoring-driven**: real-time monitoring of training state and resource usage
+4. **Documentation**: detailed recording of experiment configurations and results
+5. **Team collaboration**: establish good experiment sharing mechanisms
+
+## Future Directions
+
+1. **Automated training**: automatic hyperparameter tuning and architecture search
+2. **Efficient architectures**: more efficient model architecture design
+3. **Hardware co-design**: software-hardware co-optimization
+4. **Green AI**: reducing training energy consumption and carbon emissions
+5. **Federated learning**: distributed collaborative training paradigm
+
+## From UNSW IT-AI Involution Hell Documentation
+
+- SwanLab - AI model training tracking and visualization tool
+- Documentation: https://docs.swanlab.cn/guide_cloud/general/what-is-swanlab.html
+- Official site: https://swanlab.cn
+- GitHub: https://github.com/swanhubx/swanlab
