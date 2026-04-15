@@ -47,6 +47,11 @@ function normalizeDocsPath(raw: string): string | null {
   if (normalized.startsWith("docs/")) {
     normalized = `app/${normalized}`;
   }
+  // fumadocs 的 page.file.path 返回"相对 app/docs/"路径（如 ai/xxx/index.mdx）
+  // 而不是仓库根。这里补上前缀，和 page.tsx 传参保持兼容。
+  if (!normalized.startsWith("app/")) {
+    normalized = `app/docs/${normalized}`;
+  }
   // 必须落在 app/docs/ 下才放行
   if (!normalized.startsWith("app/docs/")) {
     return null;
