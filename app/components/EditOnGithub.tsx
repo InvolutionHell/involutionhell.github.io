@@ -4,13 +4,13 @@ export function EditOnGithub({ href }: { href: string }) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 rounded-md px-4 h-11 text-base font-medium hover:bg-muted/80 hover:text-foreground no-underline"
+      className="inline-flex items-center gap-2 px-3 py-1.5 font-mono text-xs uppercase tracking-widest border border-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors no-underline"
       data-umami-event="docs_edit_click"
       data-umami-event-page={href}
     >
       <svg
         aria-hidden="true"
-        className="h-8 w-8"
+        className="h-4 w-4"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"

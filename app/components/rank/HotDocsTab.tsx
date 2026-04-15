@@ -40,8 +40,27 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
   const [state, dispatch] = useReducer(reducer, { status: "loading" });
 
   useEffect(() => {
-    dispatch({ type: "fetch" });
     let cancelled = false;
+
+    // sessionStorage 缓存：同一会话内切换 tab 或来回进出 /rank 不再重复请求
+    // 后端 Caffeine 缓存 10 分钟，前端这里保持 5 分钟避免展示太旧数据
+    const CACHE_TTL_MS = 5 * 60 * 1000;
+    const cacheKey = `hot-docs:${windowParam}:20`;
+    try {
+      const raw = sessionStorage.getItem(cacheKey);
+      if (raw) {
+        const cached = JSON.parse(raw) as { ts: number; docs: HotDoc[] };
+        if (Date.now() - cached.ts < CACHE_TTL_MS) {
+          // 命中缓存：直接渲染，跳过网络请求；没有 loading 闪烁
+          dispatch({ type: "ok", docs: cached.docs });
+          return;
+        }
+      }
+    } catch {
+      // sessionStorage 在隐私模式 / 配额超限会抛错，降级到正常请求
+    }
+
+    dispatch({ type: "fetch" });
     fetch(`${BACKEND_URL}/analytics/top-docs?window=${windowParam}&limit=20`)
       .then((r) => {
         if (!r.ok) throw new Error();
@@ -52,7 +71,18 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
       })
       .then((body) => {
         if (!body.success) throw new Error();
-        if (!cancelled) dispatch({ type: "ok", docs: body.data ?? [] });
+        if (cancelled) return;
+        const docs = body.data ?? [];
+        dispatch({ type: "ok", docs });
+        // 写入会话缓存，下次切 tab 秒回
+        try {
+          sessionStorage.setItem(
+            cacheKey,
+            JSON.stringify({ ts: Date.now(), docs }),
+          );
+        } catch {
+          // 写失败不影响展示
+        }
       })
       .catch(() => {
         if (!cancelled) dispatch({ type: "error" });

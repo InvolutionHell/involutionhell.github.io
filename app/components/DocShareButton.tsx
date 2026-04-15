@@ -38,7 +38,7 @@ export function DocShareButton() {
     <button
       type="button"
       onClick={handleCopy}
-      className="inline-flex items-center gap-2 rounded-md px-4 h-11 text-base font-medium hover:bg-muted/80 hover:text-foreground"
+      className="inline-flex items-center gap-2 px-3 py-1.5 font-mono text-xs uppercase tracking-widest border border-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors"
       aria-label="复制页面链接"
     >
       <svg

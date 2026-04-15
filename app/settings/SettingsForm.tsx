@@ -27,6 +27,14 @@ function getToken(): string | null {
   return localStorage.getItem("satoken");
 }
 
+// 从 document.cookie 读取 locale，返回 "zh" | "en" | null
+function getLocaleCookie(): "zh" | "en" | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(/(?:^|;\s*)locale=([^;]+)/);
+  const val = match?.[1];
+  return val === "zh" || val === "en" ? val : null;
+}
+
 // 骨架屏占位
 function SkeletonRow() {
   return (
@@ -39,10 +47,16 @@ function SkeletonRow() {
 
 export function SettingsForm() {
   const { status } = useAuth();
-  const { setTheme } = useTheme();
+  const { theme: currentTheme, setTheme } = useTheme();
   const router = useRouter();
 
-  const [prefs, setPrefs] = useState<UserPreferences>(DEFAULT_PREFS);
+  // 初始值：主题从 ThemeProvider 读（避免表单与页面实际主题不一致），
+  // 语言从 locale cookie 读（与 middleware 写的值保持同步）
+  const [prefs, setPrefs] = useState<UserPreferences>(() => ({
+    ...DEFAULT_PREFS,
+    theme: currentTheme as UserPreferences["theme"],
+    language: getLocaleCookie() ?? DEFAULT_PREFS.language,
+  }));
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{
@@ -58,6 +72,16 @@ export function SettingsForm() {
       router.replace("/login?redirect=/settings");
     }
   }, [status, router]);
+
+  // 监听全局 ThemeProvider 的主题变化（比如 Header 的 ThemeToggle）
+  // 把变化同步到表单选中态，避免"外部切换了但 settings 还显示旧值"
+  useEffect(() => {
+    setPrefs((p) =>
+      p.theme === currentTheme
+        ? p
+        : { ...p, theme: currentTheme as UserPreferences["theme"] },
+    );
+  }, [currentTheme]);
 
   // 拉取偏好数据
   useEffect(() => {
@@ -81,9 +105,13 @@ export function SettingsForm() {
       .then((body) => {
         if (body?.success && body?.data) {
           const merged = { ...DEFAULT_PREFS, ...body.data };
-          setPrefs(merged);
-          // 加载出来的 theme 立即同步到 ThemeProvider，避免"已保存设置与当前主题不一致"
-          setTheme(merged.theme);
+          // 表单显示后端的"已保存"值；但不强制 setTheme 覆盖
+          // 因为用户可能在别处用 ThemeToggle 改过本地主题，
+          // 以本地当前主题为准，后端值只是表单的初始显示
+          setPrefs({
+            ...merged,
+            theme: currentTheme as UserPreferences["theme"],
+          });
         }
       })
       .catch(() => {
@@ -136,6 +164,8 @@ export function SettingsForm() {
         setPrefs(merged);
         // 主题变化立即同步到 ThemeProvider（同步写 localStorage）
         setTheme(merged.theme);
+        // 语言变化写回 cookie，供文档页 Server Component 读取
+        document.cookie = `locale=${merged.language};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`;
       }
       showToast("success", "偏好设置已保存");
     } catch {
@@ -196,15 +226,17 @@ export function SettingsForm() {
 
       {/* 主题设置 */}
       <section>
-        <label className="block font-serif font-bold text-lg mb-3 uppercase tracking-wide">
-          主题
-        </label>
+        <label className="block font-serif font-bold text-lg mb-3">主题</label>
         <div className="flex gap-0 border border-[var(--foreground)]">
           {themeOptions.map(({ value, label }) => (
             <button
               key={value}
               type="button"
-              onClick={() => setPrefs((p) => ({ ...p, theme: value }))}
+              onClick={() => {
+                // 立即同步到 ThemeProvider，避免"表单已选但页面没变"的割裂感
+                setPrefs((p) => ({ ...p, theme: value }));
+                setTheme(value);
+              }}
               className={`flex-1 py-2 px-4 font-mono text-sm uppercase transition-colors ${
                 prefs.theme === value
                   ? "bg-[var(--foreground)] text-[var(--background)]"
@@ -219,15 +251,17 @@ export function SettingsForm() {
 
       {/* 语言设置 */}
       <section>
-        <label className="block font-serif font-bold text-lg mb-3 uppercase tracking-wide">
-          语言
-        </label>
+        <label className="block font-serif font-bold text-lg mb-3">语言</label>
         <div className="flex gap-0 border border-[var(--foreground)]">
           {langOptions.map(({ value, label }) => (
             <button
               key={value}
               type="button"
-              onClick={() => setPrefs((p) => ({ ...p, language: value }))}
+              onClick={() => {
+                setPrefs((p) => ({ ...p, language: value }));
+                // 写 cookie 覆盖 middleware 的 IP 判断，让文档页 Server Component 读取
+                document.cookie = `locale=${value};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`;
+              }}
               className={`flex-1 py-2 px-4 font-mono text-sm uppercase transition-colors ${
                 prefs.language === value
                   ? "bg-[var(--foreground)] text-[var(--background)]"
@@ -242,30 +276,27 @@ export function SettingsForm() {
 
       {/* AI 默认提供商 */}
       <section>
-        <label
-          htmlFor="ai-provider"
-          className="block font-serif font-bold text-lg mb-3 uppercase tracking-wide"
-        >
+        <label className="block font-serif font-bold text-lg mb-3">
           AI 默认提供商
         </label>
-        <select
-          id="ai-provider"
-          value={prefs.aiDefaultProvider}
-          onChange={(e) =>
-            setPrefs((p) => ({
-              ...p,
-              aiDefaultProvider: e.target
-                .value as UserPreferences["aiDefaultProvider"],
-            }))
-          }
-          className="w-full border border-[var(--foreground)] bg-[var(--background)] text-[var(--foreground)] font-mono text-sm px-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]"
-        >
+        <div className="flex gap-0 border border-[var(--foreground)]">
           {aiOptions.map(({ value, label }) => (
-            <option key={value} value={value}>
+            <button
+              key={value}
+              type="button"
+              onClick={() =>
+                setPrefs((p) => ({ ...p, aiDefaultProvider: value }))
+              }
+              className={`flex-1 py-2 px-4 font-mono text-sm transition-colors ${
+                prefs.aiDefaultProvider === value
+                  ? "bg-[var(--foreground)] text-[var(--background)]"
+                  : "bg-transparent text-[var(--foreground)] hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              }`}
+            >
               {label}
-            </option>
+            </button>
           ))}
-        </select>
+        </div>
       </section>
 
       {/* 提交按钮 */}

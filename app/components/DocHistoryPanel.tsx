@@ -50,10 +50,10 @@ function relativeTime(dateStr: string): string {
 function SkeletonRow() {
   return (
     <div className="flex items-center gap-3 py-2.5 animate-pulse">
-      <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 shrink-0" />
+      <div className="w-6 h-6 bg-neutral-200 dark:bg-neutral-700 shrink-0" />
       <div className="flex-1 flex flex-col gap-1">
-        <div className="h-3 w-2/3 rounded bg-neutral-200 dark:bg-neutral-700" />
-        <div className="h-2.5 w-1/3 rounded bg-neutral-100 dark:bg-neutral-800" />
+        <div className="h-3 w-2/3 bg-neutral-200 dark:bg-neutral-700" />
+        <div className="h-2.5 w-1/3 bg-neutral-100 dark:bg-neutral-800" />
       </div>
     </div>
   );
@@ -129,7 +129,7 @@ export function DocHistoryPanel({ path }: DocHistoryPanelProps) {
                 href={item.htmlUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start gap-3 py-2.5 group hover:bg-neutral-50 dark:hover:bg-neutral-900 rounded transition-colors px-1 -mx-1"
+                className="flex items-start gap-3 py-2.5 group hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors px-1 -mx-1"
               >
                 {/* 头像 */}
                 <Image
@@ -137,7 +137,7 @@ export function DocHistoryPanel({ path }: DocHistoryPanelProps) {
                   alt={item.authorLogin}
                   width={24}
                   height={24}
-                  className="rounded-full mt-0.5 shrink-0"
+                  className="mt-0.5 shrink-0"
                   unoptimized
                 />
 

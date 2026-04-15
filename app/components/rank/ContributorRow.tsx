@@ -58,7 +58,7 @@ export function ContributorRow({
               className="absolute top-0 left-0 h-full bg-[var(--foreground)] transition-all duration-1000 origin-left"
               style={{ width: `${(user.points / maxPoints) * 100}%` }}
             />
-            <div className="absolute inset-0 flex items-center px-2 font-mono text-[10px] text-white mix-blend-difference uppercase tracking-widest z-10 pointer-events-none">
+            <div className="absolute inset-0 hidden md:flex items-center px-2 font-mono text-[10px] text-white mix-blend-difference uppercase tracking-widest z-10 pointer-events-none">
               POWER LEVEL
             </div>
           </div>
@@ -67,12 +67,12 @@ export function ContributorRow({
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/60 z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-[50%] outline-none top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-2 border-[#111111] bg-[#F9F9F7] p-6 sm:p-8 shadow-[8px_8px_0px_0px_#111111] duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] max-h-[85vh] flex col dark:bg-neutral-950 dark:border-neutral-200 dark:shadow-[8px_8px_0px_0px_#e5e5e5]">
+        <Dialog.Content className="fixed left-[50%] outline-none top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-2 border-[var(--foreground)] bg-[var(--background)] p-6 sm:p-8 shadow-[8px_8px_0px_0px_var(--foreground)] duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] max-h-[85vh] flex col">
           {/* 弹窗核心内容：左侧头像，右侧个人基础信息 */}
-          <div className="flex justify-between items-start border-b-4 border-[#111111] dark:border-neutral-200 pb-6 mb-4 shrink-0 relative">
+          <div className="flex justify-between items-start border-b-4 border-[var(--foreground)] pb-6 mb-4 shrink-0 relative">
             <div className="flex gap-5 md:gap-6 items-start w-full pr-12">
               {/* 用户头像 */}
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-neutral-200 dark:bg-neutral-800 border-2 border-[#111111] dark:border-neutral-200 shrink-0 overflow-hidden">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-neutral-200 dark:bg-neutral-800 border-2 border-[var(--foreground)] shrink-0 overflow-hidden">
                 <Image
                   src={user.avatarUrl}
                   alt={user.name}
@@ -91,7 +91,7 @@ export function ContributorRow({
                       href={`https://github.com/${user.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#111111] dark:text-neutral-100 hover:text-[#CC0000] dark:hover:text-[#CC0000] transition-colors"
+                      className="text-[var(--foreground)] hover:text-[#CC0000] transition-colors"
                       data-umami-event="click_github_profile_name"
                       data-umami-event-user={user.name}
                     >
@@ -107,7 +107,7 @@ export function ContributorRow({
                     href={`https://github.com/${user.name}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-[#111111]/70 hover:text-[#CC0000] dark:text-neutral-400 dark:hover:text-[#CC0000] transition-colors w-max"
+                    className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-[var(--foreground)]/70 hover:text-[#CC0000] transition-colors w-max"
                     data-umami-event="click_github_profile"
                     data-umami-event-user={user.name}
                   >
@@ -119,26 +119,26 @@ export function ContributorRow({
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2">
                   {/* 总积分面板 */}
                   <div className="flex flex-col">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-[#111111]/70 dark:text-neutral-400 mb-0.5">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--foreground)]/70 mb-0.5">
                       Total Score
                     </span>
                     <span className="font-serif font-black text-xl md:text-2xl text-[#CC0000] leading-none">
                       {user.points.toLocaleString()}{" "}
-                      <span className="text-xs font-mono text-[#111111] dark:text-neutral-200 tracking-normal leading-none inline-block align-baseline">
+                      <span className="text-xs font-mono text-[var(--foreground)] tracking-normal leading-none inline-block align-baseline">
                         PTS
                       </span>
                     </span>
                   </div>
 
                   {/* 分隔线 */}
-                  <div className="w-px h-8 bg-[#111111]/20 dark:bg-neutral-200/20"></div>
+                  <div className="w-px h-8 bg-[var(--foreground)]/20"></div>
 
                   {/* 提交次数面板 */}
                   <div className="flex flex-col">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-[#111111]/70 dark:text-neutral-400 mb-0.5">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--foreground)]/70 mb-0.5">
                       Commits
                     </span>
-                    <span className="font-serif font-black text-xl md:text-2xl text-[#111111] dark:text-neutral-100 leading-none">
+                    <span className="font-serif font-black text-xl md:text-2xl text-[var(--foreground)] leading-none">
                       {user.commits}
                     </span>
                   </div>
@@ -147,7 +147,7 @@ export function ContributorRow({
             </div>
 
             {/* 弹窗关闭按钮 */}
-            <Dialog.Close className="absolute top-0 right-0 h-8 w-8 flex items-center justify-center border border-[#111111] dark:border-neutral-200 hover:bg-[#111111] hover:text-[#F9F9F7] dark:hover:bg-neutral-200 dark:hover:text-neutral-950 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000] shrink-0">
+            <Dialog.Close className="absolute top-0 right-0 h-8 w-8 flex items-center justify-center border border-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000] shrink-0">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
             </Dialog.Close>
