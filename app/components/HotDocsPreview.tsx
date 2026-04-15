@@ -7,24 +7,27 @@ interface TopDocDto {
 }
 
 async function fetchTopDocs(): Promise<TopDocDto[]> {
-  // 同源请求 Next ISR 路由，避开对 BACKEND_URL 的硬依赖，
-  // 并复用 app/api/analytics/top-docs 的 revalidate=300 缓存。
-  // Server Component 中 fetch 需要绝对 URL，优先读显式站点地址，
-  // 其次 VERCEL_URL（预览/生产），本地回退到 3010。
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
-    "http://localhost:3010";
+  // 直连 Java 后端 /analytics/top-docs（GA4 数据 + Caffeine 缓存），
+  // Next 不再做聚合，把 CPU 留给后端。
+  // BACKEND_URL 不设置时不做任何硬编码 fallback：不同开发者端口不一致（8080/8081/其他），
+  // 生产环境必须显式配置，本地未配也直接 no-op 返回空，而不是假装连 8081。
+  const backendUrl = process.env.BACKEND_URL;
+  if (!backendUrl) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[HotDocsPreview] BACKEND_URL 未配置，跳过 Top Docs 请求。本地请在 .env.local 设置。",
+      );
+    }
+    return [];
+  }
   try {
     const res = await fetch(
-      `${siteUrl}/api/analytics/top-docs?window=7d&limit=5`,
-      {
-        next: { revalidate: 300 },
-      },
+      `${backendUrl}/analytics/top-docs?window=7d&limit=5`,
+      { next: { revalidate: 300 } },
     );
     if (!res.ok) return [];
     const json = await res.json();
-    // 统一 ApiResponse<{ path, title, views }[]> 结构
+    // 后端 ApiResponse<List<TopDocDto>> 结构：{ success, data: [...] }
     return Array.isArray(json?.data) ? json.data : [];
   } catch {
     return [];
