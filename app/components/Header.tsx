@@ -31,7 +31,16 @@ export function Header() {
         <div className="flex items-center justify-between h-10">
           <nav className="hidden md:flex items-center gap-8 font-sans text-xs font-bold uppercase tracking-widest text-[var(--foreground)]">
             <a
-              href="#features"
+              href="/"
+              className="hover:text-[#CC0000] transition-colors"
+              data-umami-event="navigation_click"
+              data-umami-event-region="header"
+              data-umami-event-label="home"
+            >
+              首页
+            </a>
+            <a
+              href="/#features"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
               data-umami-event-region="header"
@@ -40,7 +49,7 @@ export function Header() {
               特点
             </a>
             <a
-              href="#community"
+              href="/#community"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
               data-umami-event-region="header"
@@ -49,7 +58,7 @@ export function Header() {
               社区
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
               data-umami-event-region="header"

@@ -12,6 +12,7 @@
  * @param {boolean} priority - 是否优先加载
  */
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export const BRAND_NAME = "Involution Hell";
@@ -38,7 +39,7 @@ export function BrandMark({
   const width = Math.round(imageSize * BRAND_LOGO_ASPECT_RATIO);
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <Link href="/" className={cn("flex items-center gap-2", className)}>
       <div className="relative">
         <Image
           src={BRAND_LOGO_LIGHT_SRC}
@@ -65,6 +66,6 @@ export function BrandMark({
       >
         {BRAND_NAME}
       </span>
-    </div>
+    </Link>
   );
 }
