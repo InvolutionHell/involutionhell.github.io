@@ -165,15 +165,19 @@ async function listDocFiles() {
     .sort((a, b) => a.relative.localeCompare(b.relative));
 }
 
-// 解析 frontmatter，取 docId / title
+// 解析 frontmatter，取 docId / title / isTranslation
 function parseDocFrontmatter(content) {
   const parsed = matter(content);
   const data = parsed.data || {};
   const docId = typeof data.docId === "string" ? data.docId.trim() : "";
   const title = typeof data.title === "string" ? data.title.trim() : "";
+  // 有 translatedFrom 字段即为翻译版，不计入贡献者统计
+  const isTranslation =
+    typeof data.translatedFrom === "string" && data.translatedFrom.length > 0;
   return {
     docId: docId || null,
     title: title || null,
+    isTranslation,
     frontmatter: data,
   };
 }
@@ -483,6 +487,11 @@ async function main() {
 
     if (!meta.docId) {
       log(`  ⚠️ 跳过 ${repoRelative}：缺少 docId`);
+      continue;
+    }
+    // 翻译版（frontmatter 有 translatedFrom）不统计贡献者
+    if (meta.isTranslation) {
+      log(`  ⏭  跳过翻译版：${repoRelative}`);
       continue;
     }
     const set = currentDocIdPaths.get(meta.docId) ?? new Set();
