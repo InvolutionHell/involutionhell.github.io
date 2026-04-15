@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
@@ -30,7 +31,7 @@ export function Header() {
 
         <div className="flex items-center justify-between h-10">
           <nav className="hidden md:flex items-center gap-8 font-sans text-xs font-bold uppercase tracking-widest text-[var(--foreground)]">
-            <a
+            <Link
               href="/"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
@@ -38,8 +39,8 @@ export function Header() {
               data-umami-event-label="home"
             >
               首页
-            </a>
-            <a
+            </Link>
+            <Link
               href="/#features"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
@@ -47,8 +48,8 @@ export function Header() {
               data-umami-event-label="features"
             >
               特点
-            </a>
-            <a
+            </Link>
+            <Link
               href="/#community"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
@@ -56,8 +57,8 @@ export function Header() {
               data-umami-event-label="community"
             >
               社区
-            </a>
-            <a
+            </Link>
+            <Link
               href="/#contact"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
@@ -65,7 +66,7 @@ export function Header() {
               data-umami-event-label="contact"
             >
               联系我们
-            </a>
+            </Link>
           </nav>
 
           <div className="flex items-center gap-2">
