@@ -13,12 +13,14 @@ function getStoredToken(): string | null {
 }
 
 /**
- * 向 Next.js 内置 /api/analytics 发送埋点事件。
- * 失败静默，不抛异常，不影响用户主流程。
+ * 向后端 /analytics/events 上报埋点事件。
  *
- * Header 命名注意：/api/analytics 的 resolveUserId 从 `x-satoken` 读取 token（见 lib/server-auth.ts），
- * 然后在内部再以 `satoken` header 转发给后端 /auth/me 验证。所以客户端 → Next 这一跳必须用 `x-satoken`，
- * 否则 userId 永远解析不到，埋点记录的 uniqueUsers 会恒为 0。
+ * 历史：之前走 Next.js 路由 /api/analytics 做 Prisma 直写，占用 Vercel Fluid CPU；
+ * 现改为走 next.config 的 /analytics/:path* rewrite 直接转发到 Java 后端，
+ * Next 这一层只做 edge 代理不跑 function，CPU 用量显著降低。
+ *
+ * Header 约定：Java 后端 SaToken 读取 `satoken` header 识别登录用户，匿名也会放行。
+ * 失败静默，不抛异常，不影响用户主流程。
  */
 export async function trackEvent(
   eventType: string,
@@ -26,16 +28,15 @@ export async function trackEvent(
 ): Promise<void> {
   try {
     const token = getStoredToken();
-    // 用 Record<string, string> 而不是 HeadersInit（联合类型），保证可变 + 类型安全
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
-    // 客户端 → Next 路由必须用 x-satoken（见上方注释）
+    // 登录用户附带 satoken，后端用它解析 userId；匿名时不加 header，后端按 userId=null 记录
     if (token) {
-      headers["x-satoken"] = token;
+      headers["satoken"] = token;
     }
 
-    await fetch("/api/analytics", {
+    await fetch("/analytics/events", {
       method: "POST",
       headers,
       body: JSON.stringify({ eventType, eventData: eventData ?? {} }),
