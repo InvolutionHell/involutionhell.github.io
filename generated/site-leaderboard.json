@@ -28,33 +28,33 @@
       },
       {
         "id": "gmpls10e2dz0bbizotvhglc8",
-        "title": "Static Array",
-        "url": "/docs/computer-science/data-structures/array/01-static-array"
+        "title": "静态数组",
+        "url": "/docs/computer-science/data-structures/array/01-static-array.zh"
       },
       {
         "id": "nuojcaq1s6r5nggul0uq3r3j",
-        "title": "Dynamic Array",
-        "url": "/docs/computer-science/data-structures/array/02-dynamic-array"
+        "title": "动态数组",
+        "url": "/docs/computer-science/data-structures/array/02-dynamic-array.zh"
       },
       {
         "id": "ai7cmwf4irjaobqf7uokj3b4",
-        "title": "Array",
-        "url": "/docs/computer-science/data-structures/array"
+        "title": "数组",
+        "url": "/docs/computer-science/data-structures/array/index.zh"
       },
       {
         "id": "vti0bt2qlnr681msbk6igznc",
-        "title": "Data Structures Fundamentals",
-        "url": "/docs/computer-science/data-structures"
+        "title": "数据结构基础",
+        "url": "/docs/computer-science/data-structures/index.zh"
       },
       {
         "id": "gkjk6stzpb44n9lv8u2ij7xx",
-        "title": "Singly Linked List",
-        "url": "/docs/computer-science/data-structures/linked-list/01-singly-linked-list"
+        "title": "单链表",
+        "url": "/docs/computer-science/data-structures/linked-list/01-singly-linked-list.zh"
       },
       {
         "id": "lt9yrqt0ksl2liabq9ocw0z4",
-        "title": "Linked List",
-        "url": "/docs/computer-science/data-structures/linked-list"
+        "title": "链表",
+        "url": "/docs/computer-science/data-structures/linked-list/index.zh"
       },
       {
         "id": "i88bna4sg5pr4ekhg32drv2i",
@@ -549,7 +549,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms.zh"
       },
       {
         "id": "rv6egbynttb4mt1n0412bue0",
@@ -658,8 +658,8 @@
       },
       {
         "id": "fostlzqqx6l10qz1egd8dw5m",
-        "title": "Counting Stars-Inter-Uni Programming Contest.md",
-        "url": "/docs/CommunityShare/Leetcode/Counting Stars-Inter-Uni Programming Contest"
+        "title": "Counting Stars — 校际编程竞赛",
+        "url": "/docs/CommunityShare/Leetcode/counting-stars-inter-uni-programming-contest.zh"
       },
       {
         "id": "l4db26ijmpeivh78a21981ia",
@@ -1168,7 +1168,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms.zh"
       }
     ]
   },
@@ -1181,33 +1181,33 @@
     "contributedDocs": [
       {
         "id": "gmpls10e2dz0bbizotvhglc8",
-        "title": "Static Array",
-        "url": "/docs/computer-science/data-structures/array/01-static-array"
+        "title": "静态数组",
+        "url": "/docs/computer-science/data-structures/array/01-static-array.zh"
       },
       {
         "id": "nuojcaq1s6r5nggul0uq3r3j",
-        "title": "Dynamic Array",
-        "url": "/docs/computer-science/data-structures/array/02-dynamic-array"
+        "title": "动态数组",
+        "url": "/docs/computer-science/data-structures/array/02-dynamic-array.zh"
       },
       {
         "id": "ai7cmwf4irjaobqf7uokj3b4",
-        "title": "Array",
-        "url": "/docs/computer-science/data-structures/array"
+        "title": "数组",
+        "url": "/docs/computer-science/data-structures/array/index.zh"
       },
       {
         "id": "vti0bt2qlnr681msbk6igznc",
-        "title": "Data Structures Fundamentals",
-        "url": "/docs/computer-science/data-structures"
+        "title": "数据结构基础",
+        "url": "/docs/computer-science/data-structures/index.zh"
       },
       {
         "id": "gkjk6stzpb44n9lv8u2ij7xx",
-        "title": "Singly Linked List",
-        "url": "/docs/computer-science/data-structures/linked-list/01-singly-linked-list"
+        "title": "单链表",
+        "url": "/docs/computer-science/data-structures/linked-list/01-singly-linked-list.zh"
       },
       {
         "id": "lt9yrqt0ksl2liabq9ocw0z4",
-        "title": "Linked List",
-        "url": "/docs/computer-science/data-structures/linked-list"
+        "title": "链表",
+        "url": "/docs/computer-science/data-structures/linked-list/index.zh"
       },
       {
         "id": "ksjj9shalh6hqezx6t6am5vw",
@@ -1631,7 +1631,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms.zh"
       }
     ]
   },
@@ -1645,7 +1645,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms.zh"
       }
     ]
   },

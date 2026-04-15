@@ -67,9 +67,9 @@ Then I tried the mathematical flip approach. Observing $S_i = S_{i-1} + "1" + \t
 
 **Three cases:**
 
-- **Left half** ($k < \text{mid}$): This is a copy of $S_{n-1}$. Recurse: "what is the $k$-th bit of $S_{n-1}$?"
+- **Left half** ($k &lt; \text{mid}$): This is a copy of $S_{n-1}$. Recurse: "what is the $k$-th bit of $S_{n-1}$?"
 - **Middle** ($k = \text{mid}$): By the construction formula, this bit is always `"1"`.
-- **Right half** ($k > \text{mid}$): The right portion is the reversed invert of $S_{n-1}$.
+- **Right half** ($k &gt; \text{mid}$): The right portion is the reversed invert of $S_{n-1}$.
 
 Due to the **reverse**, the 1st character of the right half corresponds to the last character of the left half, and so on.
 

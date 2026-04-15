@@ -11,4 +11,4 @@ Joint Embedding Predictive Architectures (JEPAs) offer a compelling framework fo
 
 <br />
 
-<https://arxiv.org/pdf/2603.19312>
+&lt;https://arxiv.org/pdf/2603.19312&gt;
