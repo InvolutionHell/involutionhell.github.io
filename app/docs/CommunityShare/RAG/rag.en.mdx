@@ -1,0 +1,107 @@
+---
+title: RAG
+description: ""
+date: "2025-09-19"
+tags:
+  - tag-one
+docId: zywri1bs64awfi9utfjy14ll
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# RAG
+
+This RAG toy demo is designed to help people unfamiliar with RAG understand the full pipeline in under 10 minutes.
+
+You can also pair it with "Mark's Tech Notes" for a deeper read.
+
+## RAG — Retrieval-Augmented Generation
+
+**Problem it solves:** Intelligent Q&A, building external knowledge bases, and specializing LLMs for specific domains.
+
+**Tools you need:** An LLM, an external knowledge base, and domain-specific data.
+
+**The core idea of RAG** is:
+
+1. Search the domain-specific files for relevant information
+2. Use the retrieved information as supplementary context
+3. Bundle it together with the user's query and send everything to the LLM to get an answer
+
+## RAG Pipeline
+
+Chunking → Embedding → Store in vector DB → User query → Retrieval → Re-ranking → Pack processed data + query → Feed to LLM → Get answer
+
+## Part 1: Building Your Own Minimal RAG
+
+### 1. Chunking
+
+Split your document into specific segments.
+
+**Example:**
+
+- Our document: "Today the weather is great"
+- If we split by character: the entire document becomes "T", "o", "d", "a", "y", "t", "h", "e", "w", "e", "a", "t", "h", "e", "r", "i", "s", "g", "r", "e", "a", "t" — 22 separate pieces
+
+**Optimization direction:** In real-world engineering, chunking strategy is a key optimization lever for any RAG system. Individual characters carry very little semantic information in isolation. You could instead chunk by word, sentence, paragraph, page, or chapter — the right strategy can dramatically improve RAG performance.
+
+Chunks produced by this step are referred to as "slices" in the rest of this guide.
+
+### 2. Embedding the Slices
+
+Embedding converts the text in each slice into a vector representation that computers can process.
+
+There are many approaches. You'll need an embedding model — typically you can use a pre-trained model from Hugging Face via the `sentence-transformers` library. For very small datasets, one-hot encoding works too. Beginners don't need to understand the internals — just know that tools exist to convert text slices into vectors. This falls under NLP (Natural Language Processing).
+
+- For example, "Today" might become `[0.23, 0.34, 0.54, 0.23, 0.76]`.
+
+Because embedding can be computationally expensive and the underlying documents don't change, we don't need to re-embed every time. We embed everything once and store the results in a database.
+
+**Optimization direction:** Different embedding models produce different results. You can use open-source pre-trained models, or if you have high-quality domain data, train your own embedding model.
+
+### 3. Storing in a Vector Database
+
+A vector database is built for storing and querying vectors.
+
+To avoid re-embedding documents every time, we store both the vector and its corresponding slice text together in a vector database.
+
+Vector databases come in different forms: lightweight local embeddings (stored on your machine) and cloud-hosted deployments (queried over the network). For lightweight projects, local libraries like `faiss` or `MongoDB` work great.
+
+**Optimization direction:** The choice of vector database can also affect overall RAG system performance.
+
+### 4. The Base LLM
+
+The LLM can be deployed locally or accessed via API.
+
+For example, you could use Gemini, which has a free daily token quota. Search for how to get a Gemini API key.
+
+**Optimization direction:** The base LLM has a direct impact on RAG quality. Besides general-purpose models like GPT and Gemini, some practitioners fine-tune a general LLM or train a specialized model for specific domains — for example, a model focused on medical diagnosis or legal consultation. These specialized models may lag behind in general capability but excel within their target domain.
+
+## Part 2: Using Your RAG System
+
+Assuming you've already built a RAG system and have a ChatGPT-style interface to interact with, here's how a query flows through the system.
+
+### 5. User Query & Retrieval
+
+Say the user asks: "What's the weather like today?"
+
+We embed this query using the same embedding model used during setup, then compare the resulting vector against all vectors in our database. The matching process retrieves the slices most similar to the query — this is called retrieval.
+
+Retrieval prioritizes recall over precision: we'd rather include everything relevant and filter later than miss something important.
+
+### 6. Re-ranking
+
+Re-ranking is a further filtering step on the retrieved results. For example, if we retrieved 20 slices, we select the top 5 most relevant to the user's query to reduce noise.
+
+**Optimization direction:** Different indexing strategies and re-ranking algorithms can yield very different results.
+
+### 7. Calling the LLM and Getting an Answer
+
+Finally, we bundle the user query and the top 5 slices together, apply prompt engineering, and send everything to the LLM. The LLM uses both the query and the relevant context slices to generate an answer.
+
+**Optimization direction:** Investing in prompt engineering pays off here.
+
+**For example, the basic logic of CoT (Chain of Thought):**
+
+- "A is True then B is true" and "A is True" = "B is True"

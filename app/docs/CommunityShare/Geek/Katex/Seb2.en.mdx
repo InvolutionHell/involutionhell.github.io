@@ -1,0 +1,113 @@
+---
+title: Math Formula Syntax
+date: 2025-09-20T14:25:39.000Z
+docId: khcrztruqdku9fntd3dwzvwe
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+## Summation, Product & Binomial
+
+|      Example      |     Command     |
+| :---------------: | :-------------: |
+| $$\sum_{i=1}^n$$  | `\sum_{i=1}^n`  |
+| $$\prod_{i=1}^n$$ | `\prod_{i=1}^n` |
+| $$\tbinom{a}{b}$$ | `\tbinom{a}{b}` |
+
+## Matrices & Determinants
+
+$$
+\left(\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right)
+$$
+
+```latex
+$$
+\left(\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right)
+$$
+```
+
+$$
+\left|\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right|
+$$
+
+```latex
+$$
+\left|\begin{matrix}
+a & b \\
+c & d
+\end{matrix}\right|
+$$
+```
+
+$$
+\left(\begin{matrix}
+1 & 2 & \cdots & n \\
+2 & 3 & \cdots & n+1 \\
+\vdots & \vdots & \ddots & n^2 - 1\\
+n & n+1 & \cdots & n^2
+\end{matrix}\right)
+$$
+
+```latex
+$$
+\left(\begin{matrix}
+1 & 2 & \cdots & n \\
+2 & 3 & \cdots & n+1 \\
+\vdots & \vdots & \ddots & n^2 - 1\\
+n & n+1 & \cdots & n^2
+\end{matrix}\right)
+$$
+```
+
+## Aligned Equations
+
+$$
+\begin{aligned}
+    f(X|\theta) &= f(x_1,x_2,\cdots,x_n|\theta)\\
+    &= f(x_1|\theta) \cdot f(x_2|\theta) \cdots f(x_n|\theta)\\
+    &= \prod_{i=1}^n \frac{1}{x_i !} e^{-\theta}\theta^{x_i}\\
+    &= \left(\prod_{i=1}^n \frac{1}{x_i !}\right) e^{-n \theta}\theta^{\sum_{i=1}^n x_i}
+\end{aligned}
+$$
+
+```latex
+$$
+\begin{aligned}
+    f(X|\theta) &= f(x_1,x_2,\cdots,x_n|\theta)\\
+    &= f(x_1|\theta) \cdot f(x_2|\theta) \cdots f(x_n|\theta)\\
+    &= \prod_{i=1}^n \frac{1}{x_i !} e^{-\theta}\theta^{x_i}\\
+    &= \left(\prod_{i=1}^n \frac{1}{x_i !}\right) e^{-n \theta}\theta^{\sum_{i=1}^n x_i}
+\end{aligned}
+$$
+```
+
+## Piecewise Functions (differs from standard LaTeX)
+
+Since `\equation` and the standard `\cases` syntax are not supported here, a workaround is needed:
+
+$$
+f(x,\theta) = \left\{ \begin{array}{ll}
+\dfrac{1}{x\sqrt{2\pi \theta}} e^{-\frac{1}{2\theta} [\log(x)]^2} &,\text{ $x>0$} \\
+0 &,\text{ otherwise}
+\end{array} \right.
+$$
+
+```latex
+$$
+f(x,\theta) = \left\{ \begin{array}{ll}
+\dfrac{1}{x\sqrt{2\pi \theta}} e^{-\frac{1}{2\theta} [\log(x)]^2} &,\text{ $x>0$} \\
+0 &,\text{ otherwise}
+\end{array} \right.
+$$
+```

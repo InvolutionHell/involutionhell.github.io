@@ -1,0 +1,99 @@
+---
+title: SwanLab Quick Start Guide
+description: ""
+date: "2025-09-23"
+tags:
+  - tag-one
+docId: mhyoknm6vj8jmp186oli5f5c
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+I've been running a lot of experiments lately and things were getting messy fast — results scattered everywhere, and I was seriously considering just tracking everything in Excel.
+
+Then I remembered a teammate from group 9444 mentioning SwanLab for experiment tracking and visualization. So I put together this quick start guide — it'll be part of my own experiment pipeline going forward.
+
+If you have a better system for managing research experiments, feel free to share it.
+
+Anyway, let's get into SwanLab. Here's the quick start workflow for experiment tracking with SwanLab.
+
+## 1. Create an Account & Get Your API Key
+
+First, open the SwanLab website: [https://swanlab.cn/](https://swanlab.cn/)
+If you don't have an account yet, register on the site first.
+
+Once you're logged in, create a project. You'll see a Quick Start guide — just follow it step by step and your API key will be right there. I've copied the key steps here for convenience.
+
+## 2. Install the SwanLab Library
+
+In any environment with Python 3, install the SwanLab client library via pip:
+
+```bash
+pip install swanlab
+```
+
+## 3. Log In to SwanLab
+
+Run the following command in your terminal:
+
+```bash
+swanlab login
+```
+
+You'll see a prompt like this:
+
+```
+swanlab: Logging into swanlab cloud.
+swanlab: You can find your API key at: https://swanlab.cn/settings
+swanlab: Paste an API key from your profile and hit enter, or press 'CTRL-C' to quit:
+```
+
+Paste the API key you copied from your profile settings page and you're in. ([docs.swanlab.cn](https://docs.swanlab.cn/en/guide_cloud/general/quick-start.html))
+
+## 4. Submit an Experiment
+
+```python
+import swanlab
+import random
+
+# Initialize a new SwanLab run to track this script
+swanlab.init(
+  # Set the project this run belongs to
+  project="mteb-ailastatue",
+  workspace="mira",
+  # Track hyperparameters and run metadata
+  config={
+    "learning_rate": 0.02,
+    "architecture": "CNN",
+    "dataset": "CIFAR-100",
+    "epochs": 10
+  }
+)
+
+# Simulate training
+epochs = 10
+offset = random.random() / 5
+for epoch in range(2, epochs):
+  acc = 1 - 2 ** -epoch - random.random() / epoch - offset
+  loss = 2 ** -epoch + random.random() / epoch + offset
+
+  # Log training metrics to SwanLab
+  swanlab.log({"acc": acc, "loss": loss})
+
+# [Optional] Mark the run as finished — required in notebook environments
+swanlab.finish()
+
+
+```
+
+---
+
+## 5. View Your Results!
+
+After running the code, navigate to your newly created project to compare different experiments and their metrics.
+
+## References
+
+Official docs: [Quick Start Guide](https://docs.swanlab.cn/en/guide_cloud/general/quick-start.html)

@@ -1,0 +1,49 @@
+---
+title: Git Getting Started Guide — Git Tips Every Developer Should Know
+description: ""
+date: "2025-09-19"
+tags:
+  - tag-one
+docId: tksz80mfqqyzwzzer5p3uxtg
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+## Most Common Git Commands
+
+| Basic                                      | Branch & Remote                                     |
+| ------------------------------------------ | --------------------------------------------------- |
+| `git init <dir>` → Initialize a repo       | `git branch` → List / create branches               |
+| `git clone <repo>` → Clone a remote repo   | `git checkout -b <branch>` → New branch + switch    |
+| `git add <file>` → Stage a file            | `git merge <branch>` → Merge a branch               |
+| `git commit -m "msg"` → Commit changes     | `git pull <remote>` → Fetch + merge remote          |
+| `git push <remote> <branch>` → Push branch | `git remote add <name> <url>` → Add remote          |
+| `git status` → Check file status           | `git fetch <remote> <branch>` → Fetch remote branch |
+| `git log --oneline` → One-line history     | `git pull --rebase <remote>` → Fetch + rebase       |
+| `git diff` → View unstaged changes         | `git push <remote> --tags` → Push all tags          |
+
+## Other Git Commands
+
+| Undo / Reset / Log / Diff                                               | Config / Advanced Push / Rebase                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `git commit --amend` → Modify the last commit                           | `git config user.name <name>` → Set repo author name        |
+| `git revert <commit>` → Revert a commit                                 | `git config --global user.name <name>` → Global author name |
+| `git reset <file>` → Unstage a file                                     | `git config --global user.email <email>` → Global email     |
+| `git reset --soft <commit>` → Roll back commit, keep staged & working   | `git config --global alias.<alias> <cmd>` → Create alias    |
+| `git reset --mixed <commit>` → Roll back commit, keep working (default) | `git config --system core.editor <editor>` → Set editor     |
+| `git reset --hard <commit>` → Roll back commit, discard changes         | `git config --global --edit` → Edit global config           |
+| `git clean -n` → Preview deletion of untracked files                    | `git push <remote> --force` → Force push (dangerous)        |
+| `git reflog` → View HEAD history                                        | `git push <remote> --all` → Push all branches               |
+| `git log -<n>` → Limit number of commits                                | `git rebase <base>` → Rebase a branch                       |
+| `git log --stat` → File change stats                                    | `git rebase -i <base>` → Interactive rebase                 |
+| `git log -p` → Detailed commit diff                                     | `git rebase --continue` → Continue rebase after conflict    |
+| `git log <since>..<until>` → History in a range                         | `git rebase --abort` → Abort rebase                         |
+| `git log -- <file>` → History for a specific file                       | `git log --author="<pattern>"` → Search by author           |
+| `git diff HEAD` → Working tree vs. latest commit                        | `git log --grep="<pattern>"` → Search by message            |
+| `git diff --cached` → Staged vs. latest commit                          | `git log --graph --decorate` → Graphical history            |
+
+## Practice Exercises
+
+Here's a recommended interactive sandbox for learning Git — great for beginners to get hands-on quickly: https://learngitbranching.js.org/
