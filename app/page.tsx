@@ -1,7 +1,6 @@
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
-import { Features } from "./components/Features";
-import { Community } from "./components/Community";
+import { DispatchNetwork } from "./components/DispatchNetwork";
 import { Footer } from "./components/Footer";
 import { FloatWindow } from "./components/float-window/FloatWindow";
 
@@ -10,8 +9,7 @@ export default function DocsIndex() {
     <>
       <Header />
       <Hero />
-      <Features />
-      <Community />
+      <DispatchNetwork />
       <Footer />
       <FloatWindow />
     </>
