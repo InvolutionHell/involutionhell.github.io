@@ -206,6 +206,9 @@ export default async function RootLayout({
         <ThemeProvider defaultTheme="dark" storageKey="ih-theme">
           <AuthProvider>
             <RootProvider
+              // 禁用 fumadocs 内置的 next-themes，避免与我们自己的 ThemeProvider（storageKey: ih-theme）
+              // 同时往 <html class> 写 light/dark 导致闪烁和状态不同步
+              theme={{ enabled: false }}
               search={{
                 SearchDialog: CustomSearchDialog,
                 // 使用静态索引，兼容 next export 与本地开发
