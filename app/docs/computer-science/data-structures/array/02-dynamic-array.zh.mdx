@@ -1,0 +1,327 @@
+---
+title: 动态数组
+description: 动态数组的实现原理、扩容机制与性能分析
+date: "2024-01-05"
+tags:
+  - dynamic-array
+  - resizing
+  - amortized-analysis
+docId: nuojcaq1s6r5nggul0uq3r3j
+lang: zh
+translatedFrom: en
+translatedAt: 2026-04-15T08:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# 动态数组
+
+动态数组解决了静态数组大小固定的问题，可在运行时动态调整大小，是许多高级数据结构和算法的基础。
+
+## 核心概念
+
+动态数组通过以下机制实现动态扩展：
+
+1. **容量（Capacity）**：当前已分配内存能容纳的元素数量
+2. **大小（Size）**：当前实际存储的元素数量
+3. **扩容策略**：当 size 超过 capacity 时，重新分配更大的内存空间
+
+```
+容量：  [_ _ _ _ _ _ _ _]  (capacity = 8)
+大小：  [1 2 3 4 _ _ _ _]  (size = 4)
+```
+
+## 扩容机制
+
+### 常见扩容策略
+
+1. **倍增扩容**：每次将容量扩大为原来的两倍
+2. **黄金比例扩容**：增长因子为 1.5 或 1.618
+3. **固定增量扩容**：每次增加固定数量的空间
+
+```javascript
+// 倍增扩容示例
+function resize(oldCapacity) {
+  return oldCapacity * 2; // 或 oldCapacity + oldCapacity
+}
+```
+
+### 扩容过程
+
+```
+初始状态：[1 2 3 4] capacity=4, size=4
+
+添加元素 5：
+1. 检测到 size == capacity
+2. 分配新内存：capacity = 4 * 2 = 8
+3. 复制旧数据：[1 2 3 4 _ _ _ _]
+4. 添加新元素：[1 2 3 4 5 _ _ _]
+5. 释放旧内存
+```
+
+## 代码实现
+
+### JavaScript 实现
+
+```javascript
+class DynamicArray {
+  constructor() {
+    this.capacity = 2;
+    this.size = 0;
+    this.data = new Array(this.capacity);
+  }
+
+  // 获取元素
+  get(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+    return this.data[index];
+  }
+
+  // 设置元素
+  set(index, value) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+    this.data[index] = value;
+  }
+
+  // 在末尾添加元素
+  push(value) {
+    // 检查是否需要扩容
+    if (this.size >= this.capacity) {
+      this.resize();
+    }
+
+    this.data[this.size] = value;
+    this.size++;
+  }
+
+  // 移除最后一个元素
+  pop() {
+    if (this.size === 0) {
+      throw new Error("Array is empty");
+    }
+
+    const value = this.data[this.size - 1];
+    this.size--;
+
+    // 可选：缩容以节省内存
+    if (this.size < this.capacity / 4) {
+      this.shrink();
+    }
+
+    return value;
+  }
+
+  // 扩容
+  resize() {
+    const oldCapacity = this.capacity;
+    this.capacity *= 2;
+    const newData = new Array(this.capacity);
+
+    // 复制旧数据
+    for (let i = 0; i < this.size; i++) {
+      newData[i] = this.data[i];
+    }
+
+    this.data = newData;
+    console.log(`Expanded: ${oldCapacity} -> ${this.capacity}`);
+  }
+
+  // 缩容
+  shrink() {
+    if (this.capacity <= 2) return;
+
+    const oldCapacity = this.capacity;
+    this.capacity = Math.floor(this.capacity / 2);
+    const newData = new Array(this.capacity);
+
+    for (let i = 0; i < this.size; i++) {
+      newData[i] = this.data[i];
+    }
+
+    this.data = newData;
+    console.log(`Shrunk: ${oldCapacity} -> ${this.capacity}`);
+  }
+
+  // 在指定位置插入元素
+  insert(index, value) {
+    if (index < 0 || index > this.size) {
+      throw new Error("Index out of bounds");
+    }
+
+    if (this.size >= this.capacity) {
+      this.resize();
+    }
+
+    // 右移元素
+    for (let i = this.size; i > index; i--) {
+      this.data[i] = this.data[i - 1];
+    }
+
+    this.data[index] = value;
+    this.size++;
+  }
+
+  // 删除指定位置的元素
+  remove(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+
+    const value = this.data[index];
+
+    // 向左移动元素
+    for (let i = index; i < this.size - 1; i++) {
+      this.data[i] = this.data[i + 1];
+    }
+
+    this.size--;
+
+    if (this.size < this.capacity / 4) {
+      this.shrink();
+    }
+
+    return value;
+  }
+
+  length() {
+    return this.size;
+  }
+
+  toString() {
+    const elements = [];
+    for (let i = 0; i < this.size; i++) {
+      elements.push(this.data[i]);
+    }
+    return `[${elements.join(", ")}] (size: ${this.size}, capacity: ${this.capacity})`;
+  }
+}
+```
+
+### 使用示例
+
+```javascript
+const arr = new DynamicArray();
+
+// 添加元素
+arr.push(1);
+arr.push(2);
+arr.push(3); // 触发扩容
+console.log(arr.toString()); // [1, 2, 3] (size: 3, capacity: 4)
+
+// 插入元素
+arr.insert(1, 10);
+console.log(arr.toString()); // [1, 10, 2, 3] (size: 4, capacity: 4)
+
+// 删除元素
+arr.remove(0);
+console.log(arr.toString()); // [10, 2, 3] (size: 3, capacity: 4)
+```
+
+## 性能分析
+
+### 时间复杂度
+
+| 操作             | 平均情况 | 最坏情况 | 说明                    |
+| ---------------- | -------- | -------- | ----------------------- |
+| 访问             | O(1)     | O(1)     | 直接索引访问            |
+| 搜索             | O(n)     | O(n)     | 需要遍历                |
+| 插入（末尾）     | O(1)\*   | O(n)     | 摊还 O(1)，偶尔需要扩容 |
+| 插入（任意位置） | O(n)     | O(n)     | 需要移动元素            |
+| 删除（末尾）     | O(1)\*   | O(1)     | 摊还 O(1)               |
+| 删除（任意位置） | O(n)     | O(n)     | 需要移动元素            |
+
+\*摊还时间复杂度
+
+### 摊还分析
+
+虽然单次扩容操作需要 O(n) 时间，但通过摊还分析可以证明：
+
+- 连续进行 n 次 `push` 操作的总时间复杂度为 O(n)
+- 因此单次 `push` 操作的摊还时间复杂度为 O(1)
+
+**证明思路**：
+
+- 假设从空数组开始，进行 n 次 push 操作
+- 扩容发生在大小为 1, 2, 4, 8, ..., 2^k 时
+- 总的复制操作次数为：1 + 2 + 4 + ... + 2^k < 2n
+- 所以平均每次 push 的成本为 (n + 2n) / n = 3 = O(1)
+
+## 优化策略
+
+### 1. 选择合适的增长因子
+
+```javascript
+// 不同的增长策略
+const GROWTH_STRATEGIES = {
+  DOUBLE: (capacity) => capacity * 2, // 快速增长，可能浪费内存
+  GOLDEN_RATIO: (capacity) => Math.floor(capacity * 1.5), // 平衡增长
+  FIBONACCI: (capacity) => capacity + previousCapacity, // 渐进增长
+};
+```
+
+### 2. 预分配容量
+
+```javascript
+// 如果知道大概的数据量，可以预分配容量
+class DynamicArray {
+  constructor(initialCapacity = 2) {
+    this.capacity = initialCapacity;
+    this.size = 0;
+    this.data = new Array(this.capacity);
+  }
+
+  // 预留容量
+  reserve(minCapacity) {
+    if (minCapacity > this.capacity) {
+      this.capacity = minCapacity;
+      this.resize();
+    }
+  }
+}
+```
+
+### 3. 内存对齐优化
+
+```cpp
+// C++ 中考虑内存对齐
+template<typename T>
+class DynamicArray {
+private:
+    T* data;
+    size_t size;
+    size_t capacity;
+
+    // 确保容量是 2 的幂次，有利于内存对齐
+    size_t nextPowerOfTwo(size_t n) {
+        size_t power = 1;
+        while (power < n) power <<= 1;
+        return power;
+    }
+};
+```
+
+## 实际应用
+
+### 1. 编程语言中的动态数组
+
+- **JavaScript**：`Array`
+- **Python**：`list`
+- **Java**：`ArrayList`
+- **C++**：`std::vector`
+- **C#**：`List<T>`
+
+### 2. 应用场景
+
+- **缓冲区**：网络数据包缓冲、文件读取缓冲
+- **集合**：实现栈、队列等其他数据结构
+- **图形编程**：顶点数组、像素缓冲
+- **数据处理**：动态添加和处理数据项
+
+## 总结
+
+动态数组是现代编程中最重要的数据结构之一，它兼具数组高效访问的特性和灵活调整大小的能力。理解其扩容机制和摊还分析，对于编写高效代码至关重要。
+
+虽然动态数组解决了静态数组的大小限制问题，但在某些场景下，链表等其他数据结构可能更为合适。下一节我们将学习链表相关知识。

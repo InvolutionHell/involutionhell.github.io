@@ -1,0 +1,84 @@
+---
+title: 数组
+description: 数组的基本概念、特性与应用场景
+date: "2024-01-03"
+tags:
+  - array
+  - linear-data-structure
+docId: ai7cmwf4irjaobqf7uokj3b4
+lang: zh
+translatedFrom: en
+translatedAt: 2026-04-15T08:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# 数组
+
+数组是最基础也最重要的数据结构之一。它是一种有序集合，存储相同类型的元素，这些元素在内存中连续存放。
+
+## 数组的特性
+
+### 优点
+
+- **随机访问**：可通过下标在 O(1) 时间内访问任意元素
+- **内存利用率高**：元素连续存储，内存利用率高
+- **对缓存友好**：连续的内存访问模式对 CPU 缓存非常友好
+
+### 缺点
+
+- **大小固定**：静态数组的大小在创建时确定，无法动态调整
+- **插入/删除开销大**：在中间位置插入或删除元素需要移动其他元素
+
+## 数组类型
+
+### 静态数组
+
+- [静态数组详解](/computer-science/data-structures/array/static-array)
+- 大小在编译时确定
+- 通常分配在栈上
+
+### 动态数组
+
+- [动态数组详解](/computer-science/data-structures/array/dynamic-array)
+- 大小可在运行时调整
+- 通常分配在堆上
+
+## 基本操作
+
+```javascript
+// 创建数组
+const arr = [1, 2, 3, 4, 5];
+
+// 访问元素 - O(1)
+const element = arr[2]; // 3
+
+// 修改元素 - O(1)
+arr[1] = 10;
+
+// 遍历数组 - O(n)
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+```
+
+## 时间复杂度
+
+| 操作 | 时间复杂度 |
+| ---- | ---------- |
+| 访问 | O(1)       |
+| 查找 | O(n)       |
+| 插入 | O(n)       |
+| 删除 | O(n)       |
+
+## 应用场景
+
+数组适用于：
+
+- 需要频繁随机访问元素的场景
+- 数据量相对固定的情况
+- 需要高效遍历的算法
+- 作为其他数据结构的底层基础
+
+---
+
+继续学习数组的具体实现和高级应用！

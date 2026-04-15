@@ -1,0 +1,173 @@
+---
+title: 静态数组
+description: 静态数组的实现原理、特性与使用场景
+date: "2024-01-04"
+tags:
+  - static-array
+  - memory-management
+docId: gmpls10e2dz0bbizotvhglc8
+lang: zh
+translatedFrom: en
+translatedAt: 2026-04-15T08:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# 静态数组
+
+静态数组是数组最基本的形式，其大小在编译时确定，在程序运行期间无法改变。
+
+## 内存布局
+
+静态数组在内存中连续存储：
+
+```
+内存地址：  1000  1004  1008  1012  1016
+数组：      [10]  [20]  [30]  [40]  [50]
+下标：       0     1     2     3     4
+```
+
+假设每个整数占 4 字节，数组元素 `arr[i]` 的内存地址为：
+
+```
+address = base_address + i * element_size
+```
+
+## 特性分析
+
+### 时间复杂度
+
+- **访问**：O(1) —— 通过下标直接计算内存地址
+- **查找**：O(n) —— 需要遍历整个数组
+- **插入**：O(n) —— 需要移动后续元素
+- **删除**：O(n) —— 需要移动后续元素
+
+### 空间复杂度
+
+- **存储**：O(n) —— n 个元素
+- **额外空间**：O(1) —— 无需额外指针或元数据
+
+## 代码实现
+
+### C++ 实现
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    // 声明静态数组
+    int arr[5] = {10, 20, 30, 40, 50};
+
+    // 访问元素
+    cout << "First element: " << arr[0] << endl;
+
+    // 修改元素
+    arr[2] = 35;
+
+    // 遍历数组
+    for (int i = 0; i < 5; i++) {
+        cout << arr[i] << " ";
+    }
+
+    return 0;
+}
+```
+
+### JavaScript 实现
+
+```javascript
+// JavaScript 中的数组实际上是动态的，但我们可以模拟静态数组的行为
+class StaticArray {
+  constructor(size) {
+    this.size = size;
+    this.data = new Array(size);
+  }
+
+  get(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+    return this.data[index];
+  }
+
+  set(index, value) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+    this.data[index] = value;
+  }
+
+  length() {
+    return this.size;
+  }
+}
+
+// 使用示例
+const arr = new StaticArray(5);
+arr.set(0, 10);
+arr.set(1, 20);
+console.log(arr.get(0)); // 10
+```
+
+## 优缺点
+
+### 优点
+
+1. **内存效率高**：无额外元数据开销
+2. **对缓存友好**：连续内存布局提升访问效率
+3. **简单直接**：易于实现和使用
+4. **编译期优化**：编译器可进行更多优化
+
+### 缺点
+
+1. **大小固定**：运行时无法改变大小
+2. **内存浪费**：若无法充分利用所有空间
+3. **插入/删除效率低**：需要移动大量元素
+
+## 应用场景
+
+静态数组特别适用于：
+
+- **嵌入式系统**：内存受限，需要精确控制内存
+- **高性能计算**：需要最大化内存访问效率
+- **系统编程**：底层系统代码，需要可预测的内存布局
+- **固定大小数据集**：如像素数组、音频采样等
+
+## 实际示例
+
+### 图像处理
+
+```cpp
+// 处理 640x480 的灰度图像
+unsigned char image[640 * 480];
+
+// 访问像素 (x, y)
+int getPixel(int x, int y) {
+    return image[y * 640 + x];
+}
+
+// 设置像素值
+void setPixel(int x, int y, unsigned char value) {
+    image[y * 640 + x] = value;
+}
+```
+
+### 查找表
+
+```cpp
+// 预计算查找表
+const int SQUARE_TABLE[101] = {
+    0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100,
+    // ... 预计算 0-100 的平方值
+};
+
+int getSquare(int n) {
+    return SQUARE_TABLE[n]; // O(1) 查找
+}
+```
+
+## 总结
+
+静态数组是理解所有数组类型的基础。尽管存在大小固定的局限，其高效性和简洁性在特定场景下不可替代。
+
+下一节我们将学习动态数组如何解决静态数组大小固定的问题。

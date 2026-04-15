@@ -1,0 +1,74 @@
+---
+title: AI Town Design Document
+description: ""
+date: "2025-10-18"
+tags:
+  - ai-project
+docId: bkxwg1m9p9rnm8062wsm020w
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T08:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# AI Town Design Document
+
+## 1. Project Overview
+
+- **Type**: A lightweight simulation + social + quest-based mini-game driven by multi-agent NPCs
+- **Core selling points**: NPCs "remember you" and collaborate with each other through dialogue; players can use **community contribution points** (earned by posting, submitting PRs, etc.) to obtain in-game currency and abilities, driving town events
+- **Technology foundation**: Godot 4 (Microverse-style) + multi-agent framework (O-R-P-A: Observe → Retrieve → Plan → Act) + local model first (with template fallback)
+
+## 2. Goals (MVP)
+
+1. Single map + 3 NPCs (merchant / messenger / editor) + quest board (fetch / relay / check-in)
+2. Dialogue with **short-term memory + end-of-day summary**
+3. **Minimal community integration**: support entering a "redemption code" to receive coins / action points (future: automatic issuance via webhook)
+4. Use points (or redeemed coins) to trigger 2–3 **visible world changes** (discount day / extra quests / expanded dialogue budget)
+
+## 3. Core Gameplay (Version 1)
+
+- **Loop**: Accept quest → Dialogue / collaborate with NPCs → Complete to earn coins / AP → Nightly summary generated → Events refresh next day
+- **Uses of points / coins** (pick 2–3 to implement first)
+  - Unlock a **discount day** at the shop (all prices -10%)
+  - Purchase **action points** (one extra quest per day)
+  - Purchase **dialogue budget** (3 additional conversation turns with an NPC that day)
+  - Trigger a **theme-day announcement** (published by the editor NPC; NPC dialogue becomes more active)
+
+## 4. Open-Source Community Integration (Two Phases)
+
+### Phase A (MVP) — Redemption Code Verification
+
+- The community backend issues one-time **redemption codes** (containing point value and expiry); player enters code in-game → server verifies and voids → returns coins / AP
+- **Advantage**: No login or account binding required; maximally stable and ready to ship
+
+### Phase B (Mid-term) — Automatic Issuance via Webhook
+
+- Posts, PR merges on GitHub / the site trigger a Webhook → write to `pending_rewards`
+- Game launch or clicking "Sync" → fetch pending rewards → automatically credited
+- Optional: bind Steam / GitHub account for stronger identity verification
+
+## 5. System Architecture (Minimal Modules)
+
+- **Client (Godot)**
+  - `Wallet` (authoritative entry point for coins / AP)
+  - `TaskManager`, `DialogManager`, `MemoryManager`, `CharacterManager`
+  - `TownEventBus` (broadcasts shop open / midday break / close / theme day)
+  - `RedeemPanel` (redemption code UI)
+
+- **Services (can be merged into community backend)**
+  - `/api/v1/redeem` (one-time verification and voiding)
+  - (Reserved) `/api/v1/rewards/pending`, `/webhooks/github`
+
+**Data Flow (MVP)**  
+Community issues code → Player enters it in-game → `redeem` verifies → Returns coins / AP → `Wallet` credits → `TownEventBus` triggers discount / quest refresh
+
+## 6. Scoring and Spending (Initial Draft)
+
+| Action           | Community Points Earned | In-game Conversion (Example) |
+| ---------------- | ----------------------: | ---------------------------- |
+| Post approved    |                     +80 | 80 pts = 400 coins           |
+| PR merged        |                     +80 | 80 pts = 400 coins           |
+| Article featured |                     +50 | 50 pts = 1 "theme day" item  |
+
+> Conversion rates are stored in a config file; events can apply temporary bonuses (e.g., 1.2× on weekends)

@@ -1,0 +1,93 @@
+---
+title: What Frontend Skills Should 2025 New Graduates Learn?
+description: ""
+date: "2025-09-19"
+tags:
+  - frontend
+docId: uzoqs57kwc4tfut4wvgnbjhf
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T08:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+The author is a fresh graduate who worked domestically for 8 months. The following reflects my understanding of frontend learning for the 2025 autumn recruitment season. Please feel free to point out any errors or omissions.
+
+#### Prerequisites
+
+1. The ability to effectively use Google Search and leverage LLMs to find information.
+
+#### HTML
+
+1. Understand the purpose of `<meta>` tags, such as `viewport` and `keyword`.
+
+2. Use `<link>` and `<script>` tags, and understand attributes like `rel`, `async`, and `defer`.
+
+#### CSS
+
+1. Basics: box model (`box-sizing`), Flexbox layout, positioning (`position: relative/absolute/fixed/sticky` and their differences). How to center elements.
+
+2. `rem`/`em` units.
+
+3. Tailwind CSS is a must-learn.
+
+4. Understand CSS preprocessors (SCSS).
+
+Personally, I think advanced topics like CSS animations are good to know at a high level — delegating them to AI is much more convenient. As for Tailwind, I consider it essential in 2025: once you have a solid CSS foundation, you can start using Tailwind right away.
+
+#### JavaScript
+
+1. Basics: functions, objects, arrays, `this`, prototype, closures, prototype chain, inheritance, modules, `Promise`, `async/await`, ES6 features.
+   Learn the basics from the JavaScript Red Book — many interview questions come directly from it.
+
+2. DOM manipulation. DOM and BOM APIs.
+
+3. Network requests: `fetch`, axios. Beginners should spend more time with `fetch` to understand the fundamentals, but try different request libraries like axios to compare their pros and cons.
+
+#### Frameworks
+
+React:
+
+1. [Read the official documentation](https://react.dev/)
+
+2. State management, including React's built-in `useContext` and `useReducer` hooks, and popular libraries (Redux RTK, zustand, mobx).
+   State management doesn't need to be studied too deeply or narrowly — different projects at work use different approaches.
+
+#### Node.js
+
+1. Use Express to build a simple server and communicate with the frontend. 2. Database usage: CRUD operations using ORM/ODM libraries (MongoDB, MySQL). 3. Understand RESTful API standards.
+
+At this point, build one or two solid portfolio projects, review interview questions, and memorize the key concepts — you should be able to land an internship without much trouble. That said, standing out in the autumn recruitment season requires more.
+
+### Advanced Topics
+
+#### TypeScript
+
+I consider TypeScript essential for new graduates, even though campus recruitment interviews may not directly test TypeScript syntax.
+
+TypeScript's static type checking catches a large number of potential errors (such as field name typos and type mismatches) at coding time.
+Using TypeScript-defined `interface` or `type` also facilitates AI-assisted coding. One key reason LLMs can generate "usable" code is type information — when you clearly define interface fields, function parameters, and return types in TypeScript, AI can "understand" your data structures and context, producing more accurate, business-logic-aligned code.
+
+Of course, in real work projects are also written in TypeScript — you can't write code without knowing it.
+
+**Toolchain:**
+
+1. Understand what each part of the toolchain does (e.g., parsers: Babel, esbuild, swc; bundlers: Webpack, Rollup, esbuild — what are the differences between categories, and between tools within the same category).
+
+2. Be able to use at least one bundler; understand `package.json` configuration.
+
+3. Configure ESLint, Prettier, and StyleLint to unify code style.
+
+4. Understand npm, yarn, pnpm and other package managers, and how to use them to manage project dependencies.
+
+5. Understand CI/CD and automation workflows.
+
+6. Be familiar with Husky.
+
+#### Advanced Frameworks (Next.js, Remix)
+
+First, understand why advanced frameworks are needed on top of React itself:
+
+React is a UI library — it doesn't directly address routing, data fetching, or SSR. Advanced frameworks fill those gaps. I recommend Next.js: it has a larger community, and Vercel provides one-click deployment, making it easier to learn about engineering practices.
+
+At this stage, new graduates have sufficient breadth for the autumn recruitment season. Make sure your resume includes a Next.js project deployed on Vercel (recommended stack: Next.js + Tailwind + pnpm + TypeScript). Of course, academic background and internship experience also matter. Additionally, mastering CS fundamentals (mainly computer networking) and algorithm problems (LeetCode Hot 100) is important — frontend interviews don't demand much in algorithms, so focus on quality over quantity.

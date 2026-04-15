@@ -1,0 +1,94 @@
+---
+title: Multimodal Reinforcement Learning Project (MVP Goals)
+description: Build a lightweight multimodal understanding and generation system that closes the loop from visual perception to language expression, incorporating reinforcement learning and answer-to-image generation.
+date: "2025-10-17"
+tags:
+  - projects
+  - multimodal
+  - reinforcement-learning
+  - RLHF
+docId: ifwz8sqxqsgjrafa79pycrcm
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T08:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Multimodal Group – MVP Specification
+
+**Project version:** v0.1  
+**Repository:** [involutionhell](https://github.com/InvolutionHell/involutionhell)
+
+---
+
+<a id="vision"></a>
+## 1. Vision
+
+Build a lightweight multimodal understanding and generation system that enables the model to interpret images, retrieve relevant information, and produce logically coherent text output.  
+The goal is to close the full loop from visual perception to language expression, and further develop the ability to explain answers through generated images.
+
+<a id="mvp-goals"></a>
+## 2. MVP Phase Goals
+
+<a id="phase-1"></a>
+### Phase 1: Basic Multimodal Pipeline
+
+- Image content recognition (objects, scenes, semantic labels).
+- Semantic retrieval (image → text / text → image).
+- Generative understanding and text output.
+- Model references: CLIP / SigLIP / BLIP-2 / LLaVA / Qwen-VL.
+
+<a id="phase-2"></a>
+### Phase 2: Multimodal Reinforcement Learning
+
+- Incorporate user feedback and reward signals to optimise model generation and retrieval performance.
+- Main directions:
+  1. RLHF / DPO fine-tuning to learn user preferences.
+  2. Retrieval strategy optimisation based on behavioural data.
+  3. Generation quality control and consistency improvement.
+
+- Goal: give the system the ability to self-improve and adapt to user preferences.
+
+<a id="phase-2-5"></a>
+### Phase 2.5: Answer-to-Image Generation
+
+- Automatically generate illustrative images from the model's text answers to aid comprehension.
+- Implementation: use Stable Diffusion / SDXL to convert answer text into image prompts.
+- Application examples:
+  - Answer "the process of black hole formation" → generate a structural diagram.
+  - Explain a scene from a novel → generate a conceptual illustration.
+
+- Goal: enable the system not only to understand images and answer questions, but also to explain answers through generated images.
+
+<a id="architecture"></a>
+## 3. System Architecture
+
+```
+[Frontend] → Upload image / Display results
+      ↓
+[Backend API] → FastAPI + LangChain + Vector Search
+      ↓
+[Multimodal Models] → CLIP / BLIP / LLaVA / Qwen-VL
+      ↓
+[RL Module + Answer-to-Image] (Phase 2 and 2.5)
+```
+
+<a id="milestones"></a>
+## 4. Milestones
+
+| Phase     | Goal                                  | Deliverables                                  |
+| --------- | ------------------------------------- | --------------------------------------------- |
+| Phase 1   | Multimodal recognition and generation | Image recognition, retrieval, text generation |
+| Phase 2   | Reinforcement learning optimisation   | RLHF / DPO, retrieval strategy optimisation   |
+| Phase 2.5 | Answer-to-image generation            | Automatic illustration generation             |
+| Phase 3   | Scaling and deployment                | Web demo and API interface                    |
+
+<a id="team"></a>
+## 5. Team Responsibilities
+
+| Module                                          | Owner    |
+| ----------------------------------------------- | -------- |
+| Image recognition and encoding                  | Member A |
+| Semantic retrieval and data processing          | Member B |
+| Generation module and model integration         | Member C |
+| Reinforcement learning and visualisation output | Member D |
