@@ -1,0 +1,154 @@
+---
+title: Reinforcement Learning
+description: Fundamentals of reinforcement learning, Chain-of-Thought (CoT), GRPO, and their applications in large language models
+date: "2025-01-27"
+tags:
+  - reinforcement-learning
+  - rlhf
+  - cot
+  - grpo
+  - ppo
+docId: s4fuhmdf6hj49jx1l7k87d4p
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T00:00:00Z
+translatorAgent: claude-opus-4-6
+---
+
+Reinforcement learning plays a vital role in the era of large language models, particularly in reasoning and alignment. From RLHF to Chain-of-Thought reasoning, RL provides key technical foundations for enhancing LLM capabilities.
+
+## Recommended Learning Resources
+
+### Prof. Shiyu Zhao's RL Course (Westlake University)
+
+**Highlights**: The mathematical foundations of reinforcement learning, from scratch to deep understanding
+
+**Resources**:
+
+- **Book & Slides**: [GitHub repository](https://github.com/MathFoundationRL/Book-Mathmatical-Foundation-of-Reinforcement-Learning)
+- **Video lectures**: [Full course on Bilibili](https://www.bilibili.com/video/BV1sd4y167NS/)
+- **Why this course**: Rigorous math derivations with a solid theoretical foundation
+
+### RethinkFun RL Series
+
+**Recommended creator**: [@RethinkFun](https://space.bilibili.com/18235884/)
+
+**Core videos**:
+
+- [RL fundamentals explained](https://www.bilibili.com/video/BV1rooaYVEk8/) — plain-language explanations with illustrated principles and formula derivations
+- [PPO and GRPO algorithm walkthroughs](https://www.bilibili.com/video/BV15cZYYvEhz/) — illustrated algorithm internals
+
+### Beginner Tutorials
+
+- **Minimal Introduction to Reinforcement Learning** — an intuitive walkthrough of MDP, DP/MC/TD, Q-learning, policy gradients, and PPO
+
+## RL Papers and Projects (Pending Review)
+
+> 📊 **Paper shortlist**: Click to view the full list of RL papers pending review
+>
+> Status categories: Not Started, Evaluating, Completed, Not Recommended, Not Open-Sourced
+
+## GRPO Reproduction References
+
+### TRL Framework
+
+- **Project**: [TRL (Transformer Reinforcement Learning)](https://github.com/huggingface/trl)
+- **Highlights**: HuggingFace's official RL framework
+- **Supported algorithms**: GRPO, PPO, DPO, and more
+
+## Chain-of-Thought (CoT)
+
+### Core Concept
+
+Chain-of-Thought reasoning is a key technique for exposing an LLM's reasoning process, improving both interpretability and reasoning capability.
+
+### Notable Papers and Projects
+
+#### CoT-Valve: Length-Compressible Chain-of-Thought Tuning
+
+- **Highlights**: A technique for tuning Chain-of-Thought reasoning with compressible length
+- **Source**: [HuggingFace Daily Papers](https://huggingface.co/papers/date/2025-07-25)
+
+#### MCoT (Multi-Chain-of-Thought)
+
+- **Project**: [Awesome-MCoT](https://github.com/yaotingwangofficial/Awesome-MCoT)
+- **Highlights**: Multi-chain reasoning that improves performance on complex reasoning tasks
+
+#### Latent CoT
+
+- **Project**: [Awesome-Latent-CoT](https://github.com/awesome-latent-cot)
+- **Core idea**: Move reasoning from linguistic symbols into the latent space to capture richer and more complex thought processes
+
+### Multimodal CoT
+
+Chain-of-Thought reasoning that combines visual and textual information — showing strong capability on multimodal tasks.
+
+### Survey on Latent-Space Reasoning
+
+- **Key survey**: [HIT's first survey on latent-space reasoning](https://zhuanlan.zhihu.com/p/1930639357087298531)
+- **Core argument**: Reshapes the boundaries of LLM reasoning by exploring reasoning mechanisms in the latent space
+
+## DeepSeek-R1 Deep Dive
+
+DeepSeek-R1, as a model with standout reasoning capabilities, has technical details worth in-depth study:
+
+- Reasoning mechanism design
+- Training strategy analysis
+- Performance evaluation methodology
+
+## Suggested Learning Path
+
+### Foundations
+
+1. **Math prerequisites**: probability, dynamic programming, optimization theory
+2. **Core concepts**: MDP, value functions, policies, returns
+3. **Classical algorithms**: Q-learning, policy gradients, Actor-Critic
+
+### Intermediate
+
+1. **Modern algorithms**: PPO, TRPO, SAC, TD3
+2. **LLM applications**: RLHF, Constitutional AI
+3. **Chain-of-Thought techniques**: CoT, MCoT, Latent CoT
+
+### Practice
+
+1. **Frameworks**: OpenAI Gym, Stable Baselines3, TRL
+2. **Hands-on projects**: game AI, dialogue system optimization
+3. **Paper reproduction**: reproducing and improving upon key algorithms
+
+## Application Areas
+
+### LLM Alignment
+
+- **RLHF**: Learning from human feedback to improve output quality
+- **Constitutional AI**: Principle-based approach to AI alignment
+- **DPO**: Direct Preference Optimization — a simplified alternative to RLHF
+
+### Reasoning Capability
+
+- **Chain-of-Thought reasoning**: Improves performance on complex reasoning tasks
+- **Tool use**: Training models to invoke external tools
+- **Code generation**: Improves programming capability
+
+### Multi-Agent Systems
+
+- **Cooperative learning**: Multiple agents solve problems together
+- **Competitive learning**: Individual capabilities improve through competition
+- **Social learning**: Agents learn from the behavior of other agents
+
+## Frontier Trends
+
+1. **Offline RL**: Learning policies from static datasets
+2. **Meta-learning**: Algorithms that adapt quickly to new tasks
+3. **Safe RL**: Ensuring the safety of both the learning process and the learned policy
+4. **Explainable RL**: Improving the interpretability of decision-making
+
+## Additional Notes
+
+- Chain-of-Thought / Multi-step CoT (MCoT) / Latent CoT
+
+- GRPO learning resources:
+  - Bilibili playlist: https://space.bilibili.com/18235884/search?keyword=GRPO
+  - PPO/GRPO algorithm explainer: https://www.bilibili.com/video/BV15cZYYvEhz/
+  - Paper and resource collection: https://github.com/yaotingwangofficial/Awesome-MCoT
+- RL math foundations textbook: GitHub https://github.com/MathFoundationRL/Book-Mathmatical-Foundation-of-Reinforcement-Learning

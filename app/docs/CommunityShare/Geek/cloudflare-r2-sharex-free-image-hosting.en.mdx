@@ -1,0 +1,153 @@
+---
+title: Building a Personal/Team "Permanent" Image Host with Cloudflare R2 + ShareX
+description: ""
+date: "2025-09-27"
+tags:
+  - tag-one
+docId: gj4bn01un0s0841berfvwrn5
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T00:00:00Z
+translatorAgent: claude-opus-4-6
+---
+
+# Building a Personal/Team "Permanent" Image Host with Cloudflare R2 + ShareX
+
+This guide walks you from zero to a working image host — high-performance, reliable, near-zero cost, and fully under your control — built on Cloudflare R2's free tier and ShareX's workflow automation.
+
+**End result**: press a hotkey to take a screenshot, have the image automatically uploaded to your own storage (or upload existing local images manually), and get a Markdown-formatted link copied straight to your clipboard for seamless writing.
+
+---
+
+## Contents
+
+1.  [Part 1: Configure Cloudflare R2 (cloud storage)](#part-1-configure-cloudflare-r2-cloud-storage)
+2.  [Part 2: Configure ShareX (desktop client)](#part-2-configure-sharex-desktop-client)
+3.  [Part 3: Optimize the ShareX workflow](#part-3-optimize-the-sharex-workflow)
+4.  [F.A.Q. and troubleshooting](#faq-and-troubleshooting)
+
+---
+
+## Part 1: Configure Cloudflare R2 (cloud storage)
+
+First, enable R2 storage in Cloudflare.
+![](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/%E5%9B%BE%E7%89%87_20250927143514.png)
+
+### 1.1 Create an R2 bucket
+
+A bucket is the container that holds all your images.
+
+1.  Sign in to the Cloudflare dashboard and open **R2** from the left-hand menu.
+2.  Click **Create bucket**.
+3.  **Bucket name**: enter a globally unique bucket name (for example, `your-org-images-2025`).
+4.  **Location**: leave the default **Automatic**.
+5.  Click **Create bucket**.
+
+![](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/xrRAVMB2Sz.png)
+
+### 1.2 Enable public access on the bucket
+
+To let uploaded images be served externally, turn on public access.
+
+1.  Open the bucket you just created and click the **Settings** tab at the top.
+    ![1r0AU3aWkD.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/1r0AU3aWkD.png)
+2.  In the **Public Development URL** section below, click **Enable** on the right.
+3.  Type the confirmation text.
+    ![fgc4amk7S7.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/fgc4amk7S7.png)
+4.  **Note down** the `https://pub-....r2.dev` URL shown here — this is your public-access domain.
+    ![RmQwxSxpLi.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/RmQwxSxpLi.png)
+
+### 1.3 Create an API token for uploads
+
+The API token is the "key" that lets ShareX upload files to R2.
+
+1.  Return to the R2 overview page and click **Manage API Tokens** in the top-right corner.
+    ![CTzhiiSl04.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/CTzhiiSl04.png)
+1.  Click **Create Account API token**.
+    ![FBEzXXohz7.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/FBEzXXohz7.png)
+1.  **Permissions**: **you must select `Object Read & Write`**. This is the critical step — read-only permissions will cause uploads to fail.
+    ![xB4pYQOeEI.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/xB4pYQOeEI.png)
+1.  Click **Create API token**.
+1.  **⚠️ Copy and save immediately!** The page displays your `Access Key ID` and `Secret Access Key`. **These two secrets are shown only once** — copy them immediately and paste them somewhere safe. The `Default endpoints` link at the bottom also needs to be saved.
+    ![kg9E8tEozI.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/kg9E8tEozI.png)
+
+---
+
+## Part 2: Configure ShareX (desktop client)
+
+### 2.1 Download and install ShareX
+
+Grab the latest version from the official site: [https://getsharex.com/](https://getsharex.com/)
+
+### 2.2 Configure the S3 upload destination
+
+This is the heart of the setup.
+
+1.  Open ShareX and, from the main window, click `Destination settings...`.
+2.  In the popup, select `Amazon S3` on the left and fill in your configuration on the right.
+3.  Fill in your R2 details exactly as shown in the table below:
+
+| ShareX field          | What to enter                                             | Notes                                                                                                                               |
+| --------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Access key ID**     | Paste the `Access Key ID` you saved                       |                                                                                                                                     |
+| **Secret access key** | Paste the `Secret Access Key` you saved                   |                                                                                                                                     |
+| **Region**            | Leave blank                                               |                                                                                                                                     |
+| **Endpoints**         | Leave blank                                               |
+| **Endpoint**          | `https://<your-AccountID>.r2.cloudflarestorage.com`       | If you saved this earlier, paste it as-is. Make sure there's no trailing `/`.                                                       |
+| **Bucket name**       | Your R2 bucket name (for example, `your-org-images-2025`) |                                                                                                                                     |
+| **Upload path**       | `img/%y/%mo/%d/`                                          | Organizes images as `img/year/month/day/`, which helps with management. ShareX uses `%` for variables. (Customize as you like.)     |
+| **Use custom domain** | **Check this box**                                        |                                                                                                                                     |
+| (Custom domain field) | `https://<the r2.dev public URL you noted down>`          | **Note**: only paste the Public Development URL you saved earlier — don't append `$key$`. Modern ShareX handles that automatically. |
+
+#### 2.2.1 Critical Advanced settings
+
+At the bottom of the S3 configuration window, find the **Advanced** section and apply these settings:
+
+- `Set public-read ACL on file`: **must be unchecked**. R2 doesn't support this; leaving it checked will produce `403 Forbidden` errors.
+- `Use path style request`: **must be checked**. R2 requires this request URL style.
+
+### 2.3 Set S3 as the default image uploader
+
+1.  Return to the ShareX main window.
+2.  Click `Destinations` -> `Image uploader` -> `File uploader` -> and pick `Amazon S3`.
+    ![Code_nqStY1UhqR.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/Code_nqStY1UhqR.png)
+
+---
+
+## Part 3: Optimize the ShareX workflow
+
+### 3.1 Auto-copy a Markdown link
+
+1.  In the ShareX main window, click `Task settings...`.
+2.  In the popup, select **`Advanced`** from the lower part of the left sidebar.
+    ![ShareX_ZWFVlZZu0W.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_ZWFVlZZu0W.png)
+3.  Click `ClipboardContentFormat` under `After upload`.
+4.  Replace the contents with the Markdown format `![$filename]($result)`.
+
+### 3.2 Enable auto-copy to clipboard
+
+1.  From the main window, under `After upload tasks`, tick `Copy URL to clipboard` on the right.
+    ![ShareX_zf6qftjnu6.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_zf6qftjnu6.png)
+
+### 3.3 Change the hotkey
+
+You can change the hotkey under `Hotkey settings` on the main window, giving you a one-shot flow: screenshot → upload → Markdown on your clipboard.
+
+---
+
+## F.A.Q. and Troubleshooting
+
+**Q1: I get a `(403) Forbidden` error when uploading — what now?**  
+**A1:** This is the most common issue. Check the following two S3 Advanced settings:
+
+1.  Make sure **`Set public-read ACL on file`** is **unchecked**.
+2.  Make sure **`Use path style request`** is **checked**.
+3.  If it still fails, regenerate an **API token with `Object Read & Write` permissions** and update it in ShareX.
+
+**Q2: I don't want to upload screenshots — I want to upload existing local images.**  
+**A2:**
+**Use the Upload tab on the left**: pick the type of content you want to upload from inside that tab.
+![ShareX_34TAgHco1T.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_34TAgHco1T.png)
+
+**Q3: Why can't I use PicGo?**  
+**A3:** In my testing, PicGo's S3 plugin has compatibility issues with Cloudflare R2 — filenames and paths aren't handled correctly. ShareX's S3 implementation is more standard and currently the more reliable choice.

@@ -1,0 +1,570 @@
+---
+title: 单链表
+description: "单链表的实现、操作与应用"
+date: "2024-01-07"
+tags:
+  - singly-linked-list
+  - pointer-operations
+  - basic-data-structure
+docId: gkjk6stzpb44n9lv8u2ij7xx
+lang: zh
+translatedFrom: en
+translatedAt: 2026-04-15T00:00:00Z
+translatorAgent: claude-opus-4-6
+---
+
+# 单链表
+
+单链表是链表最基本的形式，每个节点包含数据和指向下一个节点的指针。它支持动态内存分配，并能高效地完成插入和删除操作。
+
+## 节点结构
+
+```javascript
+class ListNode {
+  constructor(data) {
+    this.data = data; // 数据域
+    this.next = null; // 指针域，指向下一个节点
+  }
+}
+```
+
+## 完整实现
+
+```javascript
+class SinglyLinkedList {
+  constructor() {
+    this.head = null; // 头指针
+    this.size = 0; // 链表长度
+  }
+
+  // 头部插入节点
+  prepend(data) {
+    const newNode = new ListNode(data);
+    newNode.next = this.head;
+    this.head = newNode;
+    this.size++;
+  }
+
+  // 尾部插入节点
+  append(data) {
+    const newNode = new ListNode(data);
+
+    // 若链表为空，新节点成为头节点
+    if (!this.head) {
+      this.head = newNode;
+      this.size++;
+      return;
+    }
+
+    // 找到最后一个节点
+    let current = this.head;
+    while (current.next) {
+      current = current.next;
+    }
+
+    // 链接新节点
+    current.next = newNode;
+    this.size++;
+  }
+
+  // 在指定位置插入节点
+  insert(index, data) {
+    if (index < 0 || index > this.size) {
+      throw new Error("Index out of bounds");
+    }
+
+    // 头部插入
+    if (index === 0) {
+      this.prepend(data);
+      return;
+    }
+
+    const newNode = new ListNode(data);
+    let current = this.head;
+
+    // 找到插入位置的前一个节点
+    for (let i = 0; i < index - 1; i++) {
+      current = current.next;
+    }
+
+    // 插入新节点
+    newNode.next = current.next;
+    current.next = newNode;
+    this.size++;
+  }
+
+  // 删除头节点
+  removeFirst() {
+    if (!this.head) {
+      return null;
+    }
+
+    const removedData = this.head.data;
+    this.head = this.head.next;
+    this.size--;
+    return removedData;
+  }
+
+  // 删除尾节点
+  removeLast() {
+    if (!this.head) {
+      return null;
+    }
+
+    // 只有一个节点
+    if (!this.head.next) {
+      const removedData = this.head.data;
+      this.head = null;
+      this.size--;
+      return removedData;
+    }
+
+    // 找到倒数第二个节点
+    let current = this.head;
+    while (current.next.next) {
+      current = current.next;
+    }
+
+    const removedData = current.next.data;
+    current.next = null;
+    this.size--;
+    return removedData;
+  }
+
+  // 删除指定位置的节点
+  remove(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+
+    // 删除头节点
+    if (index === 0) {
+      return this.removeFirst();
+    }
+
+    let current = this.head;
+
+    // 找到被删节点的前一个节点
+    for (let i = 0; i < index - 1; i++) {
+      current = current.next;
+    }
+
+    const removedData = current.next.data;
+    current.next = current.next.next;
+    this.size--;
+    return removedData;
+  }
+
+  // 删除指定值的第一个节点
+  removeByValue(data) {
+    if (!this.head) {
+      return false;
+    }
+
+    // 如果头节点就是要删除的节点
+    if (this.head.data === data) {
+      this.head = this.head.next;
+      this.size--;
+      return true;
+    }
+
+    let current = this.head;
+    while (current.next && current.next.data !== data) {
+      current = current.next;
+    }
+
+    // 找到了要删除的节点
+    if (current.next) {
+      current.next = current.next.next;
+      this.size--;
+      return true;
+    }
+
+    return false; // 未找到
+  }
+
+  // 查找元素
+  indexOf(data) {
+    let current = this.head;
+    let index = 0;
+
+    while (current) {
+      if (current.data === data) {
+        return index;
+      }
+      current = current.next;
+      index++;
+    }
+
+    return -1; // 未找到
+  }
+
+  // 获取指定位置的元素
+  get(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("Index out of bounds");
+    }
+
+    let current = this.head;
+    for (let i = 0; i < index; i++) {
+      current = current.next;
+    }
+
+    return current.data;
+  }
+
+  // 检查链表是否包含指定元素
+  contains(data) {
+    return this.indexOf(data) !== -1;
+  }
+
+  // 获取链表长度
+  length() {
+    return this.size;
+  }
+
+  // 检查链表是否为空
+  isEmpty() {
+    return this.size === 0;
+  }
+
+  // 清空链表
+  clear() {
+    this.head = null;
+    this.size = 0;
+  }
+
+  // 转换为数组
+  toArray() {
+    const result = [];
+    let current = this.head;
+
+    while (current) {
+      result.push(current.data);
+      current = current.next;
+    }
+
+    return result;
+  }
+
+  // 遍历链表
+  forEach(callback) {
+    let current = this.head;
+    let index = 0;
+
+    while (current) {
+      callback(current.data, index);
+      current = current.next;
+      index++;
+    }
+  }
+
+  // 反转链表
+  reverse() {
+    let prev = null;
+    let current = this.head;
+    let next = null;
+
+    while (current) {
+      next = current.next; // 保存下一个节点
+      current.next = prev; // 反转指针
+      prev = current; // 移动 prev
+      current = next; // 移动 current
+    }
+
+    this.head = prev;
+  }
+
+  // 打印链表
+  toString() {
+    if (!this.head) {
+      return "Empty list";
+    }
+
+    const elements = [];
+    let current = this.head;
+
+    while (current) {
+      elements.push(current.data);
+      current = current.next;
+    }
+
+    return elements.join(" -> ");
+  }
+}
+```
+
+## 使用示例
+
+```javascript
+// 创建链表
+const list = new SinglyLinkedList();
+
+// 添加元素
+list.append(1);
+list.append(2);
+list.append(3);
+list.prepend(0);
+console.log(list.toString()); // "0 -> 1 -> 2 -> 3"
+
+// 插入元素
+list.insert(2, 1.5);
+console.log(list.toString()); // "0 -> 1 -> 1.5 -> 2 -> 3"
+
+// 查找元素
+console.log(list.indexOf(2)); // 3
+console.log(list.get(1)); // 1
+console.log(list.contains(3)); // true
+
+// 删除元素
+list.remove(0); // 删除索引 0 的元素
+list.removeByValue(1.5); // 删除值为 1.5 的元素
+console.log(list.toString()); // "1 -> 2 -> 3"
+
+// 反转链表
+list.reverse();
+console.log(list.toString()); // "3 -> 2 -> 1"
+
+// 遍历链表
+list.forEach((data, index) => {
+  console.log(`Index ${index}: ${data}`);
+});
+```
+
+## 关键算法细节
+
+### 1. 插入操作中的指针变化
+
+```
+插入前：A -> B -> C
+在 A 与 B 之间插入 X：
+
+步骤 1：newNode.next = A.next
+        A -> B -> C
+        X ----↗
+
+步骤 2：A.next = newNode
+        A -> X -> B -> C
+```
+
+### 2. 删除操作中的指针变化
+
+```
+删除前：A -> B -> C -> D
+删除 B：
+
+步骤 1：找到 B 的前驱节点 A
+步骤 2：A.next = B.next
+        A -----> C -> D
+        （B 被跳过，等待垃圾回收）
+```
+
+### 3. 反转算法细节
+
+```javascript
+// 反转过程示意
+// 初始：1 -> 2 -> 3 -> null
+// 目标：null <- 1 <- 2 <- 3
+
+function reverse(head) {
+  let prev = null;
+  let current = head;
+
+  while (current !== null) {
+    let next = current.next; // 保存下一个节点
+    current.next = prev; // 反转当前节点的指针
+    prev = current; // prev 前移
+    current = next; // current 前移
+  }
+
+  return prev; // 此时 prev 指向新的头节点
+}
+```
+
+## 常见面试题
+
+### 1. 检测链表中的环
+
+```javascript
+function hasCycle(head) {
+  if (!head || !head.next) return false;
+
+  let slow = head;
+  let fast = head;
+
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      return true; // 发现环
+    }
+  }
+
+  return false;
+}
+```
+
+### 2. 找到链表的中点
+
+```javascript
+function findMiddle(head) {
+  if (!head) return null;
+
+  let slow = head;
+  let fast = head;
+
+  while (fast.next && fast.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  return slow;
+}
+```
+
+### 3. 合并两个有序链表
+
+```javascript
+function mergeTwoLists(l1, l2) {
+  const dummy = new ListNode(0);
+  let current = dummy;
+
+  while (l1 && l2) {
+    if (l1.data <= l2.data) {
+      current.next = l1;
+      l1 = l1.next;
+    } else {
+      current.next = l2;
+      l2 = l2.next;
+    }
+    current = current.next;
+  }
+
+  // 连接剩余的节点
+  current.next = l1 || l2;
+
+  return dummy.next;
+}
+```
+
+## 性能优化技巧
+
+### 1. 尾指针优化
+
+```javascript
+class OptimizedSinglyLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null; // 维护尾指针
+    this.size = 0;
+  }
+
+  append(data) {
+    const newNode = new ListNode(data);
+
+    if (!this.head) {
+      this.head = this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
+    }
+
+    this.size++;
+  }
+
+  // 现在 append 操作是 O(1) 而不是 O(n)
+}
+```
+
+### 2. 哨兵节点优化
+
+```javascript
+class SentinelLinkedList {
+  constructor() {
+    this.sentinel = new ListNode(null); // 哨兵节点
+    this.sentinel.next = null;
+    this.size = 0;
+  }
+
+  // 有了哨兵节点后，许多操作的边界处理会更简单
+  prepend(data) {
+    const newNode = new ListNode(data);
+    newNode.next = this.sentinel.next;
+    this.sentinel.next = newNode;
+    this.size++;
+  }
+}
+```
+
+## 实际应用场景
+
+### 1. 实现栈
+
+```javascript
+class Stack {
+  constructor() {
+    this.list = new SinglyLinkedList();
+  }
+
+  push(item) {
+    this.list.prepend(item);
+  }
+
+  pop() {
+    return this.list.removeFirst();
+  }
+
+  peek() {
+    return this.list.isEmpty() ? null : this.list.get(0);
+  }
+
+  isEmpty() {
+    return this.list.isEmpty();
+  }
+}
+```
+
+### 2. 实现队列
+
+```javascript
+class Queue {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  enqueue(item) {
+    const newNode = new ListNode(item);
+    if (!this.tail) {
+      this.head = this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
+    }
+  }
+
+  dequeue() {
+    if (!this.head) return null;
+
+    const item = this.head.data;
+    this.head = this.head.next;
+    if (!this.head) this.tail = null;
+
+    return item;
+  }
+}
+```
+
+## 注意事项
+
+1. **空指针检查**：总是先判断节点是否为空
+2. **边界情况**：特别留意空链表和单节点的情况
+3. **内存管理**：在需要手动管理内存的语言中，记得释放已删除的节点
+4. **指针操作顺序**：插入和删除时注意指针修改的先后顺序
+
+## 小结
+
+单链表是理解链表这一数据结构的基础。虽然它在随机访问上不如数组高效，但在动态的插入与删除操作中表现出色。掌握单链表的实现与操作，是学习更复杂数据结构的必经之路。
+
+下一节我们会学习双向链表，看看它如何通过增加反向指针带来更大的灵活性。

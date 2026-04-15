@@ -1,0 +1,219 @@
+---
+title: Compute Platforms
+description: A guide to AI development on cloud compute platforms such as AutoDL and InternStudio
+date: "2025-01-27"
+tags:
+  - compute-platforms
+  - autodl
+  - internstudio
+  - gpu-cloud
+  - development-environment
+docId: d73h3kyjnzytk1y2nizulyr6
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T00:00:00Z
+translatorAgent: claude-opus-4-6
+---
+
+Training and inference on AI models requires substantial compute. This section walks through the mainstream compute platforms and cloud services to help developers pick the right resources.
+
+## AutoDL
+
+### Overview
+
+- **Website**: [https://www.autodl.com/home](https://www.autodl.com/home)
+- **Positioning**: A dedicated GPU cloud service
+- **Strengths**: Affordable pricing and a simple workflow — well suited for individual developers and small teams
+
+### Documentation
+
+- **Full docs**: [AutoDL official docs](https://www.autodl.com/docs/)
+- **Coverage**:
+  - Instance creation and management
+  - Environment setup
+  - Data upload and download
+  - Billing and cost
+
+### Step-by-Step: Connecting PyCharm Professional to AutoDL
+
+**Configuration steps**:
+
+1. **Create an AutoDL instance**: Pick a suitable GPU configuration
+2. **Collect connection info**: Note the IP address, port, and username
+3. **Configure PyCharm**: Set up the remote interpreter
+4. **File sync**: Configure automatic upload and download
+5. **Debug and run**: Remote debugging and code execution
+
+**Network configuration**:
+
+- SSH connection settings
+- Port forwarding
+- File transfer tuning
+- Ensuring a stable connection
+
+**Development workflow**:
+
+- Write code locally
+- Sync code to the remote machine
+- Schedule GPU resources
+- Download result files
+
+## InternStudio
+
+### Platform Introduction
+
+- **Website**: [https://studio.intern-ai.org.cn/](https://studio.intern-ai.org.cn/user/account)
+- **Highlights**: A free compute platform provided by the Shanghai AI Laboratory
+- **Use cases**: Learning, research, and small-scale project development
+
+### Connection and Usage
+
+**SSH connection setup**:
+
+- [SSH connection and port forwarding tutorial](https://juejin.cn/post/7446234916049829939)
+- Supports remote development workflows
+- Provides a JupyterLab interface
+
+**Camp 4 training resources**:
+
+- **GitHub**: [Tutorial (Camp 4)](https://github.com/InternLM/Tutorial/tree/camp4)
+- **Linux basics**: [InternStudio basic commands](https://aicarrier.feishu.cn/wiki/XZChwwDsciyFyHk5mGTc1EKinkc)
+
+### Open-Source Community Project Applications
+
+**Compute grants**:
+
+- 🔥 [Intern LLM open-source community project application](https://openxlab.org.cn/apps) 🔥
+- Available for open-source projects and academic research
+- Offers long-term, stable compute support
+
+## Platform Comparison
+
+### When to Choose AutoDL
+
+**Strengths**:
+
+- Hourly billing keeps costs predictable
+- Rich set of preinstalled environments
+- Good Chinese-language support
+- Stable network connectivity
+
+**Ideal users**:
+
+- Individual developers
+- Beginners and students
+- Short-term project needs
+- Budget-constrained teams
+
+### When to Choose InternStudio
+
+**Strengths**:
+
+- Free usage quota
+- Academic-friendly
+- Integrated with the InternLM ecosystem
+- Rich educational resources
+
+**Ideal users**:
+
+- Students and researchers
+- InternLM model users
+- Teaching and training
+- Open-source project development
+
+### Other Cloud Options
+
+#### International Platforms
+
+- **Google Colab**: Free GPU — good for learning and lightweight work
+- **AWS EC2**: Enterprise-grade service with broad features but higher cost
+- **Microsoft Azure**: Integrates well with the Windows ecosystem
+- **Lambda Labs**: Specialized GPU cloud provider
+
+#### China-Based Platforms
+
+- **Alibaba Cloud**: Enterprise-grade with a mature ecosystem
+- **Tencent Cloud**: Tuned for gaming and social workloads
+- **Baidu Cloud**: AI platform built around the PaddlePaddle ecosystem
+- **Huawei Cloud**: Support for Ascend AI processors
+
+## Tips and Best Practices
+
+### Cost Optimization
+
+1. **On-demand usage**: Shut down idle instances promptly
+2. **Preinstalled images**: Pick an image that matches your stack
+3. **Data management**: Plan storage usage up front
+4. **Alerts**: Set budget and resource-usage alerts
+
+### Developer Productivity
+
+1. **Environment management**: Use Docker or conda
+2. **Code sync**: Set up Git or a file-sync tool
+3. **Debugging**: Master remote debugging workflows
+4. **Resource monitoring**: Watch GPU and memory usage in real time
+
+### Data Security
+
+1. **Regular backups**: Back up critical data across multiple locations
+2. **Version control**: Manage code with Git
+3. **Access control**: Use strong SSH keys
+4. **Compliance**: Follow relevant data-handling regulations
+
+## Environment Setup Guide
+
+### Deep Learning Environment
+
+**Core components**:
+
+- CUDA/cuDNN
+- Python 3.8+
+- PyTorch/TensorFlow
+- Jupyter Notebook
+
+**Common libraries**:
+
+```bash
+# PyTorch ecosystem
+pip install torch torchvision transformers datasets
+
+# Scientific computing
+pip install numpy pandas matplotlib seaborn
+
+# Machine learning
+pip install scikit-learn xgboost lightgbm
+
+# Deep learning utilities
+pip install wandb tensorboard
+```
+
+### Development Tool Setup
+
+- **IDEs**: PyCharm Professional, VS Code
+- **Debugging**: pdb, ipdb
+- **Profiling**: nvidia-smi, htop
+- **Version control**: Git, DVC
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Connection timeouts**: Check network and firewall settings
+2. **GPU unavailable**: Verify CUDA installation and driver version
+3. **Out of memory**: Reduce batch size or shrink model parameters
+4. **Out of disk space**: Clean up temporary files and logs
+
+### Performance Tuning
+
+1. **GPU utilization**: Monitor and optimize GPU usage
+2. **I/O optimization**: Speed up data loading and preprocessing
+3. **Memory management**: Tune caching and batch size appropriately
+4. **Parallelism**: Leverage multi-GPU and distributed training
+
+## Learning Suggestions
+
+1. **Know one platform deeply**: Develop expertise on at least one major platform
+2. **Stay cost-aware**: Learn to plan and control compute spend
+3. **Environment management**: Master configuration and dependency management
+4. **Monitor and tune**: Track resource usage and optimize performance
+5. **Security practices**: Take data security and access control seriously
