@@ -1,0 +1,100 @@
+---
+title: PyTorch
+description: "PyTorch deep learning framework: beginner tutorials, tensor operations, interview essentials"
+date: "2025-01-27"
+tags:
+  - pytorch
+  - deep-learning-framework
+  - tensor
+  - neural-networks
+docId: psc0xf6oa1m7g8s9wfwiojkf
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+PyTorch is one of the most important frameworks for modern deep learning, dominating both research and large model development.
+
+## Getting Started
+
+### Xiaotudui PyTorch Tutorial
+
+- **Video**: [PyTorch Deep Learning Quick-Start Tutorial](https://www.bilibili.com/video/BV1hE411t7RN/?spm_id_from=333.337.search-card.all.click&vd_source=14245d272f6606a31fe299db9e47ca84)
+- **Highlights**: Easy to understand; suitable for absolute beginners
+- **Coverage**:
+  - Basic concepts
+  - Tensor operations
+  - Building neural networks
+  - Training loop design
+  - Real-world project examples
+
+### Official and Community Resources
+
+- **PyTorch Official Chinese Tutorial**: [pytorch.ac.cn/tutorials](https://pytorch.ac.cn/tutorials/)
+- **Runoob Tutorial**: [runoob.com/pytorch](https://www.runoob.com/pytorch/pytorch-tensor.html)
+- **PyTorch Interview Essentials**: [mstx.cn](https://www.mstx.cn/pytorch.html)
+
+---
+
+## Core Concepts
+
+- **Tensor**: PyTorch's core data structure — a GPU-accelerated multi-dimensional array  
+  ![](./index.assets/word-img-01.png)  
+  ![](./index.assets/word-img-02.png)
+- **Autograd**: Dynamic computation graph and automatic differentiation
+- **nn.Module**: Modular building block for neural networks
+- **Training loop**: Optimizers, loss functions, learning rate schedulers, and more
+
+---
+
+## Advanced Tensor Operations
+
+### Tools and Libraries
+
+- **einops**: [GitHub](https://github.com/arogozhnikov/einops) — Elegant tensor operations (`rearrange`, `reduce`, `repeat`)
+- **The Tensor Cookbook**:
+  - [Official site](https://tensorcookbook.com/)
+  - [Zhihu discussion](https://www.zhihu.com/search?type=content&q=%E5%BC%A0%E9%87%8F%E9%A3%9F%E8%B0%B1)
+  - [tensorgrad (GitHub)](https://github.com/thomasahle/tensorgrad)
+  - [Cookbook PDF]
+
+---
+
+## Classic Textbook
+
+- **Deep Learning with PyTorch Step-by-Step: A Beginner's Guide** (Daniel Voigt Godoy)
+  - [PDF (Z-Library)]
+
+---
+
+## Practical Advice
+
+### Learning Path
+
+1. **Basics**: Tensor operations and autograd
+2. **Model building**: `nn.Module` and loss functions
+3. **Training loop**: Optimizers and learning rate schedulers
+4. **Advanced features**: Distributed training and optimization techniques
+5. **Project practice**: Full end-to-end project development
+
+### Development Tips
+
+1. **Hands-on every concept**: Implement each idea yourself
+2. **Read the source code**: Understand underlying implementation principles
+3. **Build projects**: Solidify knowledge through real-world practice
+4. **Engage with the community**: Contribute to open-source projects
+
+---
+
+## Appendix: Environment Setup
+
+### Jupyter Kernel Registration
+
+```bash
+pip install ipykernel
+
+# Register a kernel
+python -m ipykernel install --user --name myenv
+python -m ipykernel install --user --name yourname --display-name yourname
+```

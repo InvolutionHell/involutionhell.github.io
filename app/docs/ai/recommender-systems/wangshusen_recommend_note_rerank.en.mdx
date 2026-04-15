@@ -1,0 +1,422 @@
+---
+title: Wang Shusen Recommender Systems Study Notes — Re-Ranking
+description: ""
+date: "2025-09-27"
+tags:
+  - tag-one
+docId: ol03smbujgwztho45ycj52ah
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Wang Shusen Recommender Systems Study Notes — Re-Ranking
+
+## Re-Ranking
+
+### Diversity in Recommender Systems
+
+#### Measuring Item Similarity
+
+**Similarity Measures**
+
+- Based on item attribute tags.
+  - Category, brand, keywords...
+
+- Based on item vector representations.
+  - Item vectors learned by the retrieval two-tower model _(not ideal)_.
+  - Content-based vector representations _(preferred)_.
+
+**Attribute Tag-Based Similarity**
+
+- Item attribute tags: category, brand, keywords...
+- Compute similarity based on _first-level category_, _second-level category_, and _brand_.
+  - Item $i$: Beauty, Makeup, Chanel.
+  - Item $j$: Beauty, Perfume, Chanel.
+  - Similarity: $\text{sim}_1(i, j) = 1$, $\text{sim}_2(i, j) = 0$, $\text{sim}_3(i, j) = 1$.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-1-1.png)
+
+Content-based item representation can improve diversity.
+
+CNN can process images to output feature vectors; BERT can process text to output feature vectors. The two vectors are then concatenated.
+
+**How to train CNN and BERT?**
+
+- **CLIP** is the currently recognized most effective pre-training method.
+- **Idea**: For _image–text_ pairs, predict whether the image and text match.
+- **Advantage**: No manual annotation needed. Posts on Xiaohongshu naturally contain images + text, and most posts have matching image-text content.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-1-2.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-1-3.png)
+
+- A batch contains $m$ positive pairs.
+- One image paired with $m - 1$ texts forms negative samples.
+- The batch contains $m(m - 1)$ negative pairs in total.
+
+#### Methods for Improving Diversity
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-1-4.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-1-5.png)
+
+Post-processing in pre-ranking also requires diversity algorithms.
+
+Post-processing in full ranking is also called re-ranking.
+
+### Maximal Marginal Relevance (MMR)
+
+**Diversity**
+
+- Full ranking scores $n$ candidate items; let the fused scores be  
+  $$\text{reward}_1, \dots, \text{reward}_n$$
+- Let the similarity between items $i$ and $j$ be $\text{sim}(i,j)$.
+- Select $k$ items from $n$, requiring both high ranking scores and high diversity.
+
+#### MMR Diversity Algorithm
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-2-1.png)
+
+- Compute the Marginal Relevance score for each item $i$ in set $\mathcal{R}$:
+
+  $$
+  \text{MR}_i = \theta \cdot \text{reward}_i - (1 - \theta) \cdot \max\limits_{j \in \mathcal{S}} \text{sim}(i, j)
+  $$
+
+- $\text{reward}_i$ is the item's full-ranking score; $\max\limits_{j \in \mathcal{S}} \text{sim}(i, j)$ measures how similar the unselected item $i$ is to already selected items. A higher ranking score and lower similarity yield a higher MR score.
+
+- **Maximal Marginal Relevance (MMR)**:
+  Select the item with the highest MR score from unselected items:
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \text{MR}_i
+  $$
+
+**MMR Diversity Algorithm**
+
+1. Initialize selected items $\mathcal{S}$ as the empty set; initialize unselected items $\mathcal{R}$ as the full set $\{1, \dots, n\}$.
+2. Select the item with the highest ranking score $\text{reward}_i$, move it from $\mathcal{R}$ to $\mathcal{S}$.
+3. Repeat for $k - 1$ rounds:
+   a. Compute scores $\{\text{MR}_i\}_{i \in \mathcal{R}}$ for all items in $\mathcal{R}$.
+   b. Select the item with the highest score and move it from $\mathcal{R}$ to $\mathcal{S}$.
+
+#### **Sliding Window**
+
+- **MMR**:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \left\{ \theta \cdot \text{reward}_i - (1 - \theta) \cdot \max\limits_{j \in \mathcal{S}} \text{sim}(i, j) \right\}
+  $$
+
+- As more items are selected (i.e., $\mathcal{S}$ grows), it becomes harder to find item $i \in \mathcal{R}$ that is dissimilar to all items in $\mathcal{S}$.
+
+- Assuming $\text{sim}$ has range $[0,1]$: when $\mathcal{S}$ is large, the diversity score $\max\limits_{j \in \mathcal{S}} \text{sim}(i, j)$ is always approximately 1, causing MMR to break down.
+
+- **Solution**: Set a sliding window $\mathcal{W}$, e.g., the most recently selected 10 items, and replace $\mathcal{S}$ in the MMR formula with $\mathcal{W}$.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-2-2.png)
+
+- **Standard MMR**:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \left\{ \theta \cdot \text{reward}_i - (1 - \theta) \cdot \max\limits_{j \in \mathcal{S}} \text{sim}(i, j) \right\}.
+  $$
+
+- **With sliding window**:
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \left\{ \theta \cdot \text{reward}_i - (1 - \theta) \cdot \max\limits_{j \in \mathcal{W}} \text{sim}(i, j) \right\}
+  $$
+
+### Re-Ranking Rules
+
+#### Re-Ranking Rules
+
+**Rule: At most $k$ consecutive posts of a certain type**
+
+- Xiaohongshu recommendation system items are divided into image-text posts and video posts.
+- At most $k = 5$ consecutive image-text posts; at most $k = 5$ consecutive video posts.
+- If positions $i$ through $i+4$ are all image-text posts, then position $i+5$ must be a video post.
+
+**Rule: At most 1 post of a certain type in every $k$ posts**
+
+- Promoted posts from operations have their ranking score multiplied by a factor greater than 1 (boost), helping them get more exposure.
+- To prevent boost from harming user experience, limit to at most 1 promoted post per $k = 9$ posts.
+- If position $i$ is a promoted post, then positions $i+1$ through $i+8$ cannot be promoted posts.
+
+**Rule: At most $k$ posts of a certain type in the first $t$ posts**
+
+- The top $t$ posts receive the most visibility and matter most for user experience.  
+  (_Xiaohongshu's top 4 form the first screen_)
+- Xiaohongshu recommendation system has posts with e-commerce cards; too many may hurt user experience.
+- In the first $t=1$ posts, at most $k=0$ posts with e-commerce cards.
+- In the first $t=4$ posts, at most $k=1$ post with e-commerce cards.
+
+#### MMR + Re-Ranking Rules
+
+- MMR selects one item per round:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \left\{ \theta \cdot \text{reward}_i - (1 - \theta) \cdot \max\limits_{j \in \mathcal{W}} \text{sim}(i, j) \right\}
+  $$
+
+- Re-ranking combines MMR with rules to maximize MR subject to rule constraints.
+
+- Each round, first use rules to exclude some items from $\mathcal{R}$, yielding subset $\mathcal{R'}$.
+
+- Replace $\mathcal{R}$ with $\mathcal{R'}$ in the MMR formula; selected items satisfy the rules.
+
+### DPP: Mathematical Foundations
+
+#### Parallelepiped
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-4-1.png)
+
+- A **parallelepiped** in 2D space is a **parallelogram**.
+
+- Points in a parallelogram can be expressed as:
+
+  $$\mathbf{x} = \alpha_1 \mathbf{v}_1 + \alpha_2 \mathbf{v}_2.$$
+
+- Coefficients $\alpha_1$ and $\alpha_2$ have range $[0,1]$.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-4-2.png)
+
+- A **parallelepiped** in 3D space is a **parallelepiped** (3D).
+
+- Points in a parallelepiped can be expressed as:
+
+  $$\mathbf{x} = \alpha_1 \mathbf{v}_1 + \alpha_2 \mathbf{v}_2 + \alpha_3 \mathbf{v}_3.$$
+
+- Coefficients $\alpha_1, \alpha_2, \alpha_3$ have range $[0,1]$.
+
+**Parallelepiped**
+
+- A set of vectors $\mathbf{v}_1, \cdots, \mathbf{v}_k \in \mathbb{R}^d$ defines a $k$-dimensional parallelepiped:
+
+  $$P(\mathbf{v}_1, \cdots, \mathbf{v}_k) = \{\alpha_1 \mathbf{v}_1 + \cdots + \alpha_k \mathbf{v}_k \mid 0 \leq \alpha_1, \cdots, \alpha_k \leq 1\}.$$
+
+- Requires $k \leq d$; for example, a $k = 2$-dimensional parallelogram in $d = 3$-dimensional space.
+
+- If $\mathbf{v}_1, \cdots, \mathbf{v}_k$ are linearly dependent, then volume $\text{vol}(P) = 0$. (Example: $k = 3$ vectors lying on a plane yield a parallelepiped with volume 0.)
+
+**Area of a Parallelogram**
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-4-3.png)
+
+Using $\mathbf{v}_2$ as the base, how to compute the height $\mathbf{q}_1$?
+
+- Compute the projection of $\mathbf{v}_1$ onto $\mathbf{v}_2$:
+
+  $$\text{Proj}_{\mathbf{v}_2}(\mathbf{v}_1) = \frac{\mathbf{v}_1^T \mathbf{v}_2}{\|\mathbf{v}_2\|_2^2} \cdot \mathbf{v}_2.$$
+
+- Compute
+
+  $$\mathbf{q}_1 = \mathbf{v}_1 - \text{Proj}_{\mathbf{v}_2}(\mathbf{v}_1).$$
+
+- Property: base $\mathbf{v}_2$ and height $\mathbf{q}_1$ are orthogonal.
+
+**Volume of a Parallelepiped**
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-4-4.png)
+
+- **Volume** = base area × $\|\text{height}\|_2$.
+
+- Parallelogram $P(\mathbf{v}_1, \mathbf{v}_2)$ is the base of parallelepiped $P(\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3)$.
+
+- Height $\mathbf{q}_3$ is perpendicular to the base $P(\mathbf{v}_1, \mathbf{v}_2)$.
+
+**When is Volume Maximized/Minimized?**
+
+- Let $\mathbf{v}_1$, $\mathbf{v}_2$, $\mathbf{v}_3$ all be unit vectors.
+
+- When the three vectors are orthogonal, the parallelepiped is a cube; volume is maximized at $\text{vol} = 1$.
+
+- When the three vectors are linearly dependent, volume is minimized at $\text{vol} = 0$.
+
+#### **Measuring Item Diversity**
+
+- Given $k$ items, represent them as unit vectors $\mathbf{v}_1, \cdots, \mathbf{v}_k \in \mathbb{R}^d$. ($d \geq k$)
+
+- Use parallelepiped volume to measure item diversity; volume ranges between $0$ and $1$.
+
+- If $\mathbf{v}_1, \cdots, \mathbf{v}_k$ are mutually orthogonal (_high diversity_), volume is maximized at $\text{vol} = 1$.
+
+- If $\mathbf{v}_1, \cdots, \mathbf{v}_k$ are linearly dependent (_low diversity_), volume is minimized at $\text{vol} = 0$.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-4-5.png)
+
+- Given $k$ items represented as unit vectors $\mathbf{v}_1, \cdots, \mathbf{v}_k \in \mathbb{R}^d$. ($d \geq k$)
+
+- Arrange them as columns of matrix $\mathbf{V} \in \mathbb{R}^{d \times k}$.
+
+- With $d \geq k$, determinant and volume satisfy:
+
+  $$\det(\mathbf{V}^T \mathbf{V}) = \text{vol}(P(\mathbf{v}_1, \cdots, \mathbf{v}_k))^2.$$
+
+- Therefore, the determinant $\det(\mathbf{V}^T \mathbf{V})$ can be used to measure the diversity of vectors $\mathbf{v}_1, \cdots, \mathbf{v}_k$.
+
+### DPP: Diversity Algorithm
+
+#### **Diversity Problem**
+
+- Full ranking scores $n$ items: $\text{reward}_1, \cdots, \text{reward}_n$.
+
+- Vector representations of $n$ items: $\mathbf{v}_1, \cdots, \mathbf{v}_n \in \mathbb{R}^d$.
+
+- Select $k$ items from $n$ to form set $\mathcal{S}$:
+  - **High value**: sum of scores $\sum_{j \in \mathcal{S}} \text{reward}_j$ should be maximized.
+  - **High diversity**: volume of parallelepiped $P(\mathcal{S})$ formed by $k$ vectors in $\mathcal{S}$ should be maximized.
+
+- Let the $k$ item vectors in $\mathcal{S}$ form the columns of matrix $\mathbf{V}_{\mathcal{S}} \in \mathbb{R}^{d \times k}$.
+
+- Use these $k$ vectors as edges to form parallelepiped $P(\mathcal{S})$.
+
+- Volume $\text{vol}(P(\mathcal{S}))$ can measure the diversity of items in $\mathcal{S}$.
+
+- With $k \leq d$, determinant and volume satisfy:
+
+  $$\det(\mathbf{V}_{\mathcal{S}}^T \mathbf{V}_{\mathcal{S}}) = \text{vol}(P(\mathcal{S}))^2$$
+
+#### **Determinantal Point Process (DPP)**
+
+- DPP is a classical statistical machine learning method:
+
+  $$
+  \arg\max_{\mathcal{S}: |\mathcal{S}|=k} \log \det(\mathbf{V}_{\mathcal{S}}^T \mathbf{V}_{\mathcal{S}})
+  $$
+
+- Hulu's paper applies DPP to recommender systems:
+
+  $$
+  \arg\max_{\mathcal{S}: |\mathcal{S}|=k} \theta \cdot \left( \sum_{j \in \mathcal{S}} \text{reward}_j \right) + (1 - \theta) \cdot \log \det(\mathbf{V}_{\mathcal{S}}^T \mathbf{V}_{\mathcal{S}})
+  $$
+
+- **DPP applied to recommender systems**:
+
+  $$
+  \arg\max_{\mathcal{S}: |\mathcal{S}|=k} \theta \cdot \left( \sum_{j \in \mathcal{S}} \text{reward}_j \right) + (1 - \theta) \cdot \log \det(\mathbf{V}_{\mathcal{S}}^T \mathbf{V}_{\mathcal{S}})
+  $$
+
+- Let $\mathbf{A}$ be an $n \times n$ matrix with element $(i,j)$ equal to $a_{ij} = \mathbf{v}_i^T \mathbf{v}_j$.
+
+- Given vectors $\mathbf{v}_1, \cdots, \mathbf{v}_n \in \mathbb{R}^d$, computing $\mathbf{A}$ takes $O(n^2 d)$ time.
+
+- $\mathbf{A}_{\mathcal{S}} = \mathbf{V}_{\mathcal{S}}^T \mathbf{V}_{\mathcal{S}}$ is a $k \times k$ submatrix of $\mathbf{A}$. If $i, j \in \mathcal{S}$, then $a_{ij}$ is an element of $\mathbf{A}_{\mathcal{S}}$.
+
+- **DPP applied to recommender systems**:
+
+  $$
+  \arg\max_{\mathcal{S}: |\mathcal{S}|=k} \theta \cdot \left( \sum_{j \in \mathcal{S}} \text{reward}_j \right) + (1 - \theta) \cdot \log \det(\mathbf{A}_{\mathcal{S}})
+  $$
+
+- **DPP is a combinatorial optimization problem**: select a subset $\mathcal{S}$ of size $k$ from $\{1, \cdots, n\}$.
+
+- Let $\mathcal{S}$ denote selected items and $\mathcal{R}$ unselected items; solve greedily:
+
+  $$
+  \arg\max_{i \in \mathcal{R}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det(\mathbf{A}_{\mathcal{S} \cup \{i\}})
+  $$
+
+#### Solving DPP
+
+**Brute Force Algorithm**
+
+- **Greedy algorithm**:
+
+  $$
+  \arg\max_{i \in \mathcal{R}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det(\mathbf{A}_{\mathcal{S} \cup \{i\}}).
+  $$
+
+- **Complexity analysis**:
+  - For a single $i$, computing the determinant of $\mathbf{A}_{\mathcal{S} \cup \{i\}}$ takes $O(|\mathcal{S}|^3)$ time.
+
+  - For all $i \in \mathcal{R}$, computing determinants takes $O(|\mathcal{S}|^3 \cdot |\mathcal{R}|)$ time.
+
+  - The above must be solved $k$ times to select $k$ items. Using brute-force determinant computation, total time complexity is:
+
+    $$
+    O(|\mathcal{S}|^3 \cdot |\mathcal{R}| \cdot k) = O(nk^4).
+    $$
+
+- **Total time complexity of brute-force algorithm**:
+  $$
+  O(n^2 d + nk^4).
+  $$
+
+**Hulu's Fast Algorithm**
+
+- Hulu's paper designs a numerical algorithm that selects $k$ items from $n$ in only $O(n^2 d + nk^2)$ time.
+
+- Given vectors $\mathbf{v}_1, \cdots, \mathbf{v}_n \in \mathbb{R}^d$, computing $\mathbf{A}$ takes $O(n^2 d)$ time.
+
+- Compute all determinants in $O(nk^2)$ time using **Cholesky decomposition**.
+
+- **Cholesky decomposition** $\mathbf{A}_{\mathcal{S}} = \mathbf{L} \mathbf{L}^T$, where $\mathbf{L}$ is a lower triangular matrix (**all elements above the diagonal are zero**).
+
+- **Cholesky decomposition enables computing the determinant of $\mathbf{A}_{\mathcal{S}}$**:
+  - The determinant of lower triangular matrix $\mathbf{L}$ equals the product of diagonal elements.
+
+  - The determinant of $\mathbf{A}_{\mathcal{S}}$ is:
+
+    $$
+    \det(\mathbf{A}_{\mathcal{S}}) = \det(\mathbf{L})^2 = \prod_i l_{ii}^2.
+    $$
+
+- Given $\mathbf{A}_{\mathcal{S}} = \mathbf{L} \mathbf{L}^T$, one can quickly derive the Cholesky decomposition of all $\mathbf{A}_{\mathcal{S} \cup \{i\}}$, thus quickly computing all determinants $\det(\mathbf{A}_{\mathcal{S} \cup \{i\}})$.
+
+- **Greedy algorithm**:
+
+  $$
+  \arg\max_{i \in \mathcal{R}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det(\mathbf{A}_{\mathcal{S} \cup \{i\}}).
+  $$
+
+- **Initialization**: $\mathcal{S}$ contains only one item; $\mathbf{A}_{\mathcal{S}}$ is a $1 \times 1$ matrix.
+
+- **Each round**:
+  - Based on $\mathbf{A}_{\mathcal{S}} = \mathbf{L} \mathbf{L}^T$ from the previous round, quickly derive the Cholesky decomposition of $\mathbf{A}_{\mathcal{S} \cup \{i\}}$ ($\forall i \in \mathcal{R}$).
+  - From this, compute $\log \det(\mathbf{A}_{\mathcal{S} \cup \{i\}})$.
+
+#### DPP Extensions
+
+**Sliding Window**
+
+- Let $\mathbf{S}$ denote selected items and $\mathcal{R}$ unselected items; DPP greedy solution:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det (\mathbf{A}_{\mathbf{S} \cup \{i\}}).
+  $$
+
+- As set $\mathbf{S}$ grows, similar items accumulate; item vectors tend toward linear dependence.
+
+- Determinant $\det(\mathbf{A}_{\mathbf{S}})$ collapses to zero; its logarithm approaches negative infinity.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/6-5-1.png)
+
+- Greedy algorithm:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det (\mathbf{A}_{\mathbf{S} \cup \{i\}})
+  $$
+
+- With sliding window:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det (\mathbf{A}_{\mathcal{W} \cup \{i\}})
+  $$
+
+**Rule Constraints**
+
+- Each round of the greedy algorithm selects one item from $\mathcal{R}$:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det (\mathbf{A}_{\mathcal{W} \cup \{i\}})
+  $$
+
+- Many rule constraints exist, e.g., at most 5 consecutive video posts (_if 5 video posts have already appeared consecutively, the next must be an image-text post_).
+
+- Use rules to exclude some items from $\mathcal{R}$, yielding subset $\mathcal{R'}$, then solve:
+
+  $$
+  \arg\max\limits_{i \in \mathcal{R'}} \theta \cdot \text{reward}_i + (1 - \theta) \cdot \log \det (\mathbf{A}_{\mathcal{W} \cup \{i\}})
+  $$

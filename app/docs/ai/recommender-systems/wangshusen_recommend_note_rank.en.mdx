@@ -1,0 +1,354 @@
+---
+title: Wang Shusen Recommender Systems Study Notes — Ranking
+description: ""
+date: "2025-09-27"
+tags:
+  - tag-one
+docId: vjwogf9afghpbvi71e4dfsgj
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Wang Shusen Recommender Systems Study Notes — Ranking
+
+## Ranking
+
+### Multi-Objective Ranking Model
+
+**User–Post Interactions**
+
+- For each post, the system records:
+  - **Number of impressions**
+  - **Number of clicks**
+  - **Number of likes**
+  - **Number of favorites**
+  - **Number of shares**
+
+- **Click-through rate (CTR)** = clicks / impressions
+- **Like rate** = likes / clicks
+- **Favorite rate** = favorites / clicks
+- **Share rate** = shares / clicks
+
+**Basis for Ranking**
+
+- The ranking model estimates click-through rate, like rate, favorite rate, share rate, and other scores.
+- Fuse these estimated scores. (_e.g., weighted sum._)
+- Rank and truncate based on the fused score.
+
+#### Multi-Objective Model
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-1-1.png)
+
+- User features: e.g., user ID, user profile
+- Item features: e.g., item ID, item profile, author information
+- Statistical features: e.g., how many posts a user has been exposed to, clicked, or liked over a recent time period; how many impressions, clicks, or likes an item has received over a recent time period
+- Context features: e.g., current time, user's location
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-1-2.png)
+
+Training:
+
+- For click-through rate, the model essentially classifies whether an item was clicked — a binary classification problem, using cross-entropy loss.
+
+- Total loss function: $\sum_{i=1}^{4} \alpha_i \cdot \text{CrossEntropy}(y_i, p_i)$.
+- Compute gradients of the loss function and update parameters via gradient descent.
+
+**Training**
+
+- Challenge: Class imbalance.
+  - Out of every 100 impressions, approximately 10 clicks and 90 non-clicks.
+  - Out of every 100 clicks, approximately 10 favorites and 90 non-favorites.
+  - The gap between negative and positive samples is large; extra negative samples add little value and waste compute.
+
+- Solution: Negative sample down-sampling (_down-sampling_)
+  - Keep a small fraction of negative samples.
+  - Balance positive and negative sample counts to save compute.
+
+#### Predicted Value Calibration
+
+- Let the number of positive and negative samples be $n_+$ and $n_-$.
+- Down-sample negative samples, discarding a fraction.
+- Use $\alpha \cdot n_-$ negative samples, where $\alpha \in (0,1)$ is the sampling rate.
+- Because there are fewer negative samples, the **estimated click-through rate** is higher than the **true click-through rate**. The smaller $\alpha$, the fewer negative samples, and the more the model overestimates click-through rate.
+
+- **True click-through rate**:
+
+$$
+p_{\text{true}} = \frac{n_+}{n_+ + n_-} \quad (\text{expected value})
+$$
+
+- **Estimated click-through rate**:
+
+$$
+p_{\text{pred}} = \frac{n_+}{n_+ + \alpha \cdot n_-} \quad (\text{expected value})
+$$
+
+- From the two equations above, the calibration formula is:
+
+$$
+p_{\text{true}} = \frac{\alpha \cdot p_{\text{pred}}}{(1 - p_{\text{pred}}) + \alpha \cdot p_{\text{pred}}}.
+$$
+
+### Multi-gate Mixture-of-Experts (MMoE)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-2-1.png)
+
+Expert networks 1, 2, and 3 are the expert neural networks.
+
+User features, item features, statistical features, and behavior features are fed into the left neural network, then passed through a softmax activation function to produce a weight vector. This type of network is called a gating network. The three values $p_1, p_2, p_3$ in the vector represent the weights assigned to $x_1, x_2, x_3$ respectively. The right side works analogously.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-2-2.png)
+
+The weight vector from the left gating network is combined with the feature vectors from the expert networks and fed into the left task network to predict click-through rate. The right side works analogously.
+
+#### Polarization
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-2-3.png)
+
+When the left gating network's weight vector assigns close-to-1 weight to expert 3 and close-to-0 weight to the others, and the right gating network's weight vector assigns close-to-1 weight to expert 2 and close-to-0 weight to the others, the result is that expert 1's output doesn't participate in the model at all. This situation should be avoided.
+
+#### Addressing Polarization
+
+- If there are $n$ "experts," each softmax's input and output are $n$-dimensional vectors.
+
+- **During training, apply dropout to the softmax output**:
+  - Each of the $n$ softmax output values is masked with 10% probability.
+  - Each "expert" has a 10% probability of being randomly dropped.
+
+### Score Fusion
+
+**Simple Weighted Sum**
+
+$$
+p_{\text{click}} + w_1 \cdot p_{\text{like}} + w_2 \cdot p_{\text{collect}} + \cdots
+$$
+
+**Click Rate Multiplied by Weighted Sum of Other Terms**
+
+$$
+p_{\text{click}} \cdot \left( 1 + w_1 \cdot p_{\text{like}} + w_2 \cdot p_{\text{collect}} + \cdots \right)
+$$
+
+- $p_{\text{click}} = \frac{\text{clicks}}{\text{impressions}}$
+- $p_{\text{like}} = \frac{\text{likes}}{\text{clicks}}$
+
+**Fusion Score Formula from a Domestic Short-Video App**
+
+- Rank $n$ candidate videos by estimated watch time $p_{\text{time}}$.
+- If a video ranks $r_{\text{time}}$, its score is $\frac{1}{r_{\text{time}}^{\alpha} + \beta}$.
+- Apply similar treatment to estimated scores for clicks, likes, shares, comments, etc.
+- Final fused score: ($\alpha_{1,2,3\dots}$ are hyperparameters)
+
+$$
+\frac{w_1}{r_{\text{time}}^{\alpha_1} + \beta_1} + \frac{w_2}{r_{\text{click}}^{\alpha_2} + \beta_2} + \frac{w_3}{r_{\text{like}}^{\alpha_3} + \beta_3} + \cdots
+$$
+
+**Fusion Score Formula from an E-commerce Platform**
+
+- E-commerce conversion funnel:
+
+  $$\text{impression} \rightarrow \text{click} \rightarrow \text{add to cart} \rightarrow \text{payment}$$
+
+- Model estimates: $p_{\text{click}}$, $p_{\text{cart}}$, $p_{\text{pay}}$.
+
+- Final fused score: ($\alpha_{1,2,3,4\dots}$ are hyperparameters)
+
+$$
+p_{\text{click}}^{\alpha_1} \times p_{\text{cart}}^{\alpha_2} \times p_{\text{pay}}^{\alpha_3} \times \text{price}^{\alpha_4}
+$$
+
+### Video Watch Time Modeling
+
+#### Video Watch Duration
+
+**Image-text Posts vs. Videos**
+
+- Main ranking signals for image-text posts:
+
+  _Clicks, likes, favorites, shares, comments..._
+
+- Video ranking additionally uses watch duration and completion rate.
+
+- Direct regression fitting of watch duration performs poorly. YouTube's duration modeling approach is recommended.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-4-1.png)
+
+If $p = y$, then $\exp(z) = t$.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-4-2.png)
+
+#### Video Watch Duration Modeling
+
+- Let $z$ denote the output of the last fully connected layer. Set $p = \text{sigmoid}(z)$.
+- Let $t$ denote the observed watch duration. (_If no click, $t = 0$._)
+- Training: minimize cross-entropy loss
+
+$$
+\left( \frac{t}{1 + t} \cdot \log p + \frac{1}{1 + t} \cdot \log (1 - p) \right).
+$$
+
+- Inference: use $\exp(z)$ as the estimated watch duration.
+- Include $\exp(z)$ as a term in the fusion formula.
+
+#### Video Completion Rate
+
+**Regression Approach**
+
+- Example: A 10-minute video was watched for 4 minutes, so the actual completion rate is $y = 0.4$.
+
+- Fit estimated completion rate $p$ to $y$:
+
+$$
+\text{loss} = y \cdot \log p + (1 - y) \cdot \log (1 - p).
+$$
+
+- Online estimated completion rate: model outputs $p = 0.73$, meaning an estimated 73% of the video is watched.
+
+**Binary Classification Approach**
+
+- Define a completion threshold, e.g., 80% completion.
+- Example: A 10-minute video — watching >8 minutes is a positive sample; watching `<8` minutes is a negative sample.
+- Train with binary classification: completion >80% vs. completion `<80%`.
+- Online estimated completion rate: model outputs $p = 0.73$, meaning:
+
+$$
+\mathbb{P}(\text{completion} > 80\%) = 0.73.
+$$
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-4-3.png)
+
+Longer videos have lower completion rates, so directly using estimated completion rate biases ranking toward short videos over long videos. Adjustment is needed to treat short and long videos fairly.
+
+- Online: estimate completion rate and then adjust:
+
+  $$
+  p_{\text{finish}} = \frac{\text{estimated completion rate}}{f(\text{video length})}
+  $$
+
+- Include $p_{\text{finish}}$ as a term in the fusion formula.
+
+### Ranking Model Features
+
+#### Features
+
+**User Profile**
+
+- User ID (_embedded during retrieval and ranking_).
+- Demographic attributes: gender, age.
+- Account information: new/returning, activity level...
+- Categories, keywords, and brands of interest.
+
+**Item Profile**
+
+- Item ID (_embedded during retrieval and ranking_).
+- Publication time (_or age_).
+- GeoHash (_latitude/longitude encoding_), city.
+- Title, category, keywords, brand...
+- Word count, image count, video resolution, number of tags...
+- Information richness, image aesthetics...
+
+**User Statistical Features**
+
+- Number of impressions, clicks, likes, favorites, etc. in the last 30 days (7 days, 1 day, 1 hour)...
+- Bucketed by post type (_image-text / video_). (_e.g., the user's click-through rate on image-text posts vs. video posts in the last 7 days._)
+- Bucketed by post category. (_e.g., the user's click-through rate on beauty posts, food posts, and tech posts in the last 30 days._)
+
+**Post Statistical Features**
+
+- Number of impressions, clicks, likes, favorites, etc. in the last 30 days (7 days, 1 day, 1 hour)...
+- Bucketed by user gender, user age...
+- Author features:
+  - Number of published posts
+  - Number of followers
+  - Consumption metrics (_impressions, clicks, likes, favorites_)
+
+**Context Features**
+
+- User location GeoHash (_latitude/longitude encoding_), city.
+- Current time (_discretized and embedded_).
+- Whether it's a weekend, whether it's a holiday.
+- Phone brand, phone model, operating system.
+
+#### Feature Processing
+
+- **Discrete features**: embed.
+  - User ID, post ID, author ID.
+  - Category, keywords, city, phone brand.
+
+- **Continuous features**: bucket into discrete features.
+  - Age, post word count, video duration.
+
+- **Continuous features**: other transformations.
+  - Apply $\log(1 + x)$ to impression counts, click counts, like counts, etc.
+  - Convert to click-through rate, like rate, etc., and apply smoothing.
+
+#### Feature Coverage
+
+- Many features cannot achieve 100% sample coverage.
+- Example: Many users don't fill in their age, so the user age feature has coverage far below 100%.
+- Example: Many users set privacy permissions; the app cannot access user location, so context features are missing.
+- Improving feature coverage can make the full-ranking model more accurate.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-5-1.png)
+
+The main server retrieves a batch of item IDs from the retrieval server. The user sends a request, and the main server forwards the user ID, context features, and item IDs to the ranking server.
+
+User profile database has lower load, since only one user's features are read per request. Item profile database has higher load, since thousands of posts' features must be read per request. Similarly, user statistics database has lower load, while item statistics database has higher load. User profile vectors can be large, but item profile vectors should not be too large.
+
+Both user profiles and item profiles are relatively static and can even be cached locally on the ranking server. Statistical data is dynamic and requires timely database updates.
+
+After receiving features, the ranking server packages them and passes them to TF Serving. TF scores the posts and returns results to the ranking server. The ranking server applies a series of rules to rank the posts and returns the top-ranked posts to the server.
+
+### Pre-Ranking
+
+**Pre-Ranking vs. Full Ranking**
+
+| **Pre-Ranking**                 | **Full Ranking**            |
+| ------------------------------- | --------------------------- |
+| Scores thousands of posts.      | Scores hundreds of posts.   |
+| Per-inference cost must be low. | Per-inference cost is high. |
+| Accuracy is lower.              | Accuracy is higher.         |
+
+#### Full-Ranking Model & Two-Tower Model
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-6-1.png)
+
+**Full-Ranking Model**
+
+- Early fusion: concatenate all features first, then feed into neural network.
+- High online inference cost: if there are $n$ candidate posts, the large model must run $n$ inferences.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-6-2.png)
+
+**Two-Tower Model**
+
+- Late fusion: feed user and item features into separate neural networks without fusing user and item features.
+
+- Low online computation:
+  - User tower only needs one online inference to compute user representation $a$.
+  - Item representation $b$ is pre-stored in a vector database; item tower does no online inference.
+
+- Accuracy is lower than full-ranking model.
+  Late fusion is less accurate than early fusion.
+
+#### Three-Tower Model for Pre-Ranking
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-6-4.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/3-6-3.png)
+
+- With $n$ items, the upper model layers require $n$ inferences.
+- The majority of pre-ranking computation is in the upper model layers.
+
+**Three-Tower Model Inference**
+
+- Retrieve features from multiple data sources:
+  - 1 user's profile and statistical features.
+  - $n$ items' profiles and statistical features.
+
+- User tower: runs only 1 inference.
+- Item tower: runs inference only on cache misses.
+- Cross tower: must run $n$ inferences.
+- Upper network: runs $n$ inferences to score $n$ items.

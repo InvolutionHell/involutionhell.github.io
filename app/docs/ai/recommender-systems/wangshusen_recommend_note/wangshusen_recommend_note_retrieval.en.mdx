@@ -1,0 +1,1333 @@
+---
+title: Wang Shusen Recommender Systems Study Notes — Retrieval
+description: ""
+date: "2025-09-22"
+tags:
+  - tag-one
+docId: c3a4nmid9plytif5ameigj7d
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Wang Shusen Recommender Systems Study Notes — Retrieval
+
+## Retrieval
+
+### Item-Based Collaborative Filtering (ItemCF)
+
+#### Basic Idea
+
+If a user likes $item_1$, and $item_1$ is similar to $item_2$, then the user is likely to also like $item_2$.
+
+#### ItemCF Implementation
+
+User's interest in an item: $like(user, item_j)$
+
+Similarity between items: $sim(item_j, item)$
+
+Estimated user interest in a candidate item: $\sum_j like(user, item_j) \times sim(item_j, item)$
+
+#### Item Similarity
+
+**Computing item similarity** (considering degree of user preference)
+
+Let users who like item $i_1$ form set $\mathcal{W}_1$
+
+Let users who like item $i_2$ form set $\mathcal{W}_2$
+
+Define intersection $\mathcal{V} = \mathcal{W}_1 \cap \mathcal{W}_2$
+
+Similarity between the two items:
+
+$$
+sim(i_1, i_2) = \frac{|\mathcal{V}|}{\sqrt{|\mathcal{W}_1| \cdot |\mathcal{W}_2|}}.
+$$
+
+**Computing item similarity (weighted by degree of user preference)**
+
+Let users who like item $i_1$ form set $\mathcal{W}_1$
+
+Let users who like item $i_2$ form set $\mathcal{W}_2$
+
+Define intersection $\mathcal{V} = \mathcal{W}_1 \cap \mathcal{W}_2$
+
+Similarity between the two items:
+
+$$
+sim(i_1, i_2) = \frac{\sum_{v \in \mathcal{V}} like(v, i_1) \cdot like(v, i_2)}
+{\sqrt{\sum_{u_1 \in \mathcal{W}_1} like^2(u_1, i_1)} \cdot \sqrt{\sum_{u_2 \in \mathcal{W}_2} like^2(u_2, i_2)}}
+$$
+
+#### Full ItemCF Retrieval Workflow
+
+**Offline Precomputation**
+
+Build "user → item" index
+
+- Record item IDs the user has recently clicked or interacted with.
+- Given any user ID, retrieve the list of items they have recently shown interest in.
+
+Build "item → item" index
+
+- Compute pairwise similarity between items.
+- For each item, index the $k$ most similar items.
+- Given any item ID, quickly find its $k$ most similar items.
+
+**Online Retrieval**
+
+1. Given a user ID, use the "user → item" index to find the list of items the user has recently interacted with (last-n).
+2. For each item in the last-n list, use the "item → item" index to find the top-k similar items.
+3. For the retrieved similar items (up to $nk$ total), use the formula to estimate user interest scores.
+4. Return the top 100 highest-scoring items as recommendation results.
+
+Using indexes, offline computation is large but online computation is small.
+
+#### Summary
+
+**ItemCF Principle**
+
+User likes item $i_1$; then the user likes item $i_2$ which is similar to $i_1$.
+
+Item similarity:
+
+- If users who like $i_1$ and $i_2$ have large overlap, then $i_1$ and $i_2$ are similar.
+
+- Formula:
+
+$$
+sim(i_1, i_2) = \frac{|\mathcal{W}_1 \cap \mathcal{W}_2|}{\sqrt{|\mathcal{W}_1| \cdot |\mathcal{W}_2|}}
+$$
+
+**ItemCF Retrieval Channel**
+
+Maintain two indexes:
+
+- User → item list: $n$ items the user has recently interacted with.
+- Item → item list: $k$ items with highest similarity.
+
+Online retrieval:
+
+- Use both indexes to retrieve up to $nk$ items per request.
+- Estimate user interest score for each item:
+
+$$
+\sum_j like(user, item_j) \times sim(item_j, item).
+$$
+
+- Return the top 100 highest-scoring items as retrieval results.
+
+### Swing Retrieval Channel
+
+#### Swing Model
+
+Let items liked by user $u_1$ form set $\mathcal{J}_1$.
+
+Let items liked by user $u_2$ form set $\mathcal{J}_2$.
+
+Define the overlap between two users:
+
+$$
+\textbf{overlap}(u_1, u_2) = |\mathcal{J}_1 \cap \mathcal{J}_2|
+$$
+
+If users $u_1$ and $u_2$ have high overlap, they may come from the same small circle; their weight should be reduced.
+
+#### Swing Model
+
+Let users who like item $i_1$ form set $\mathcal{W}_1$.
+
+Let users who like item $i_2$ form set $\mathcal{W}_2$.
+
+Define intersection $\mathcal{V} = \mathcal{W}_1 \cap \mathcal{W}_2$.
+
+Similarity between the two items:
+
+$$
+sim(i_1, i_2) = \sum_{u_1 \in \mathcal{V}} \sum_{u_2 \in \mathcal{V}} \frac{1}{\alpha + \text{overlap}(u_1, u_2)}
+$$
+
+#### Summary
+
+- The only difference between Swing and ItemCF is item similarity.
+- **ItemCF**: If the proportion of overlapping users between two items is high, the two items are considered similar.
+- **Swing**: Additionally considers whether overlapping users come from the same small circle.
+  - Users who like both items form set $\mathcal{V}$.
+  - For users $u_1$ and $u_2$ in $\mathcal{V}$, their overlap is $\text{overlap}(u_1, u_2)$.
+  - High overlap between two users means they may come from the same small circle; their weight is reduced.
+
+### User-Based Collaborative Filtering (UserCF)
+
+#### Basic Idea
+
+If user $user_1$ is similar to user $user_2$, and $user_2$ likes a certain item, then $user_1$ is also likely to like that item.
+
+#### UserCF Implementation
+
+Similarity between users: $sim(user, user_j)$
+
+User's interest in an item: $like(user_j, item)$
+
+Estimated user interest in a candidate item: $\sum_j sim(user, user_j) \times like(user_j, item)$
+
+#### User Similarity
+
+**Computing user similarity**
+
+Let items liked by user $u_1$ form set $\mathcal{J}_1$.
+
+Let items liked by user $u_2$ form set $\mathcal{J}_2$.
+
+Define intersection $I = \mathcal{J}_1 \cap \mathcal{J}_2$.
+
+Similarity between the two users:
+
+$$
+sim(u_1, u_2) = \frac{|I|}{\sqrt{|\mathcal{J}_1| \cdot |\mathcal{J}_2|}}
+$$
+
+**Downweighting popular items**
+
+Let items liked by user $u_1$ form set $\mathcal{J}_1$.
+
+Let items liked by user $u_2$ form set $\mathcal{J}_2$.
+
+Define intersection $I = \mathcal{J}_1 \cap \mathcal{J}_2$.
+
+Similarity between the two users:
+
+$$
+sim(u_1, u_2) = \frac{\sum_{l \in I} \frac{1}{\log(1 + n_l)}}{\sqrt{|\mathcal{J}_1| \cdot |\mathcal{J}_2|}}.
+$$
+
+Where $n_l$ denotes the number of users who like item $l$, reflecting the item's popularity.
+
+#### Full UserCF Retrieval Workflow
+
+**Offline Precomputation**
+
+Build "user → item" index
+
+- Record item IDs the user has recently clicked or interacted with.
+- Given any user ID, retrieve the list of items they have recently shown interest in.
+
+Build "user → user" index
+
+- For each user, index the $k$ most similar users.
+- Given any user ID, quickly find the $k$ most similar users.
+
+**Online Retrieval**
+
+1. Given a user ID, use the "user → user" index to find the top-k most similar users.
+2. For each top-k similar user, use the "user → item" index to find the list of items they have recently shown interest in (last-n).
+3. For the retrieved $nk$ similar items, use the formula to estimate user interest scores.
+4. Return the top 100 highest-scoring items as retrieval results.
+
+#### Summary
+
+**UserCF Principle**
+
+User $u_1$ is similar to $u_2$, and $u_2$ likes a certain item; then $u_1$ may also like that item.
+
+**User similarity**:
+
+- If users $u_1$ and $u_2$ have large overlap in liked items, they are similar.
+- **Formula**:
+
+$$
+sim(u_1, u_2) = \frac{|\mathcal{J}_1 \cap \mathcal{J}_2|}{\sqrt{|\mathcal{J}_1| \cdot |\mathcal{J}_2|}}.
+$$
+
+**UserCF Retrieval Channel**
+
+Maintain two indexes:
+
+- User → item list: $n$ items the user has recently interacted with.
+- User → user list: $k$ users with highest similarity.
+
+Online retrieval:
+
+- Use both indexes to retrieve up to $nk$ items per request.
+- Estimate interest score for user $user$ on each item $item$:
+
+$$
+\sum_j sim(user, user_j) \times like(user_j, item).
+$$
+
+- Return the top 100 highest-scoring items as retrieval results.
+
+### Discrete Feature Processing
+
+1. **Build a dictionary**: Map categories to indices.
+   - China → 1
+   - USA → 2
+   - India → 3
+
+2. **Vectorize**: Map indices to vectors.
+   - One-hot encoding: Map indices to high-dimensional sparse vectors.
+   - Embedding: Map indices to low-dimensional dense vectors.
+
+#### One-Hot Encoding
+
+**One-hot encoding for nationality features**
+
+Nationality: China, USA, India, etc. — 200 categories.
+
+Dictionary: China → 1, USA → 2, India → 3, ...
+
+One-hot encoding: Represent nationality as a 200-dimensional sparse vector.
+
+- Unknown → 0 → [0,0,0,0,...,0]
+- China → 1 → [**1**,0,0,0,...,0]
+- USA → 2 → [0,**1**,0,0,...,0]
+- India → 3 → [0,0,**1**,0,...,0]
+
+#### Embedding
+
+One-hot encoding can be mapped to embedding vectors.
+
+Number of parameters: vector dimension × number of categories.
+
+- Suppose embedding vectors are 4-dimensional.
+- There are 200 nationalities.
+- Number of parameters = 4 × 200 = 800.
+
+Implementation: TensorFlow and PyTorch provide embedding layers.
+
+- Parameters are stored as a matrix of size vector dimension × number of categories.
+- Input is an index, e.g., "USA" has index 2.
+- Output is a vector, e.g., "USA" corresponds to the 2nd column of the parameter matrix.
+
+#### Summary
+
+Discrete feature processing: one-hot encoding, embedding.
+
+When the number of categories is large, use embedding.
+
+- Word embedding.
+- User ID embedding.
+- Item ID embedding.
+
+### Matrix Completion
+
+![](./wangshusen_recommend_note_retrieval.assets/2-5-1.png)
+
+Embedding matrix **A** outputs a column vector **a** for each user; the number of users equals the number of columns.
+
+Embedding matrix **B** outputs a column vector **b** for each item; the number of items equals the number of columns.
+
+#### Basic Idea
+
+User embedding parameter matrix is **A**. User $u$ corresponds to the $u$-th column, denoted vector $\mathbf{a}_u$.
+
+Item embedding parameter matrix is **B**. Item $i$ corresponds to the $i$-th column, denoted vector $\mathbf{b}_i$.
+
+Inner product $\langle \mathbf{a}_u, \mathbf{b}_i \rangle$ estimates user $u$'s interest in item $i$.
+
+The goal of training is to learn matrices **A** and **B** so that estimated values fit the observed true interest scores; **A** and **B** are the embedding layer parameters.
+
+#### Dataset
+
+Dataset: a collection of (user ID, item ID, interest score) triples, denoted $\Omega = \{(u, i, y)\}$.
+
+Interest scores in the dataset are system-recorded, for example:
+
+- Exposed but not clicked → 0 points
+- Click, like, favorite, share → 1 point each
+- Minimum score is 0, maximum is 4
+
+#### Training
+
+Map user ID and item ID to vectors.
+
+- User $u$ → vector $\mathbf{a}_u$
+- Item $i$ → vector $\mathbf{b}_i$
+
+Solve the optimization problem using gradient descent to obtain parameters **A** and **B**:
+
+$$
+\min_{\mathbf{A}, \mathbf{B}} \sum_{(u,i,y) \in \Omega} \left( y - \langle \mathbf{a}_u, \mathbf{b}_i \rangle \right)^2.
+$$
+
+#### Matrix Completion
+
+![](./wangshusen_recommend_note_retrieval.assets/2-5-2.png)
+
+After training, gray (missing) positions can be filled in, enabling recommendations based on interest scores.
+
+#### Why It Performs Poorly in Practice...
+
+**Drawback 1**: Only uses ID embedding; ignores item and user attributes.
+
+- Item attributes: category, keywords, location, author information.
+- User attributes: gender, age, geolocation, interested categories.
+- Two-tower models can be seen as an upgraded version of matrix completion.
+
+**Drawback 2**: Negative sample selection is wrong.
+
+- Sample: (user, item) pair denoted $(u, i)$.
+- Positive sample: exposed and then clicked/interacted. (Correct approach)
+- Negative sample: exposed but not clicked/interacted. (Wrong approach)
+
+**Drawback 3**: Training method is suboptimal.
+
+- Inner product $\langle {\mathbf{a}_u}, {\mathbf{b}_i} \rangle$ is inferior to cosine similarity.
+- Using squared loss (regression) is worse than cross-entropy loss (classification).
+
+#### Model Storage
+
+1. Training yields matrices **A** and **B**.
+   - Each column of **A** corresponds to one user.
+   - Each column of **B** corresponds to one item.
+
+2. Store columns of matrix **A** in a key-value table.
+   - Key is user ID; value is a column of **A**.
+   - Given a user ID, return a vector (the _user's embedding_).
+
+3. Storage and indexing of matrix **B** is more complex.
+
+#### Online Serving
+
+1. Use the user ID as key to query the key-value table and retrieve the user's vector, denoted $\mathbf{a}$.
+
+2. Nearest-neighbor search: find the $k$ items the user is most likely interested in, as retrieval results.
+   - Item $i$'s embedding vector is $\mathbf{b}_i$.
+   - Inner product $\langle \mathbf{a}, \mathbf{b}_i \rangle$ estimates user interest in item $i$.
+   - Return the $k$ items with the largest inner product.
+
+> **If enumerating all items, time complexity is proportional to the number of items. To find the k items of highest interest, interest scores for all items must be computed.**
+
+#### Systems Supporting Nearest-Neighbor Search
+
+**Systems**: Milvus, Faiss, HnswLib, etc.
+
+**Nearest-neighbor criteria**:
+
+- Smallest Euclidean distance (L2 distance)
+- Largest vector inner product (inner product similarity)
+- Largest cosine angle (cosine similarity)
+
+![](./wangshusen_recommend_note_retrieval.assets/2-5-3.png)
+
+**a** represents a user's embedding vector; the scatter points represent item embedding vectors. The goal is to find the nearest-neighbor vector to **a** (nearest neighbor in matrix completion means the largest inner product).
+
+![](./wangshusen_recommend_note_retrieval.assets/2-5-4.png)
+
+Partition the scatter points into regions; represent each region with a centroid vector, replacing all item vectors within that region.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-5-5.png)
+
+Find the nearest-neighbor region vector to **a**, then compute the top-k nearest item vectors within that region.
+
+#### Summary
+
+**Matrix Completion**
+
+- Embed item IDs and user IDs, mapping them to vectors.
+- Inner product $\langle {\mathbf{a}_u}, {\mathbf{b}_i} \rangle$ as user $u$'s estimated interest in item $i$.
+- Fit $\langle {\mathbf{a}_u}, {\mathbf{b}_i} \rangle$ to observed true interest scores to learn embedding layer parameters.
+- Matrix completion has many drawbacks and performs poorly.
+
+**Online Retrieval**
+
+- Use user vector ${\mathbf{a}}$ as query; find item $i$ that maximizes $\langle {\mathbf{a}}, {\mathbf{b}_i} \rangle$.
+- Brute-force enumeration is too slow. In practice, use approximate nearest-neighbor search.
+- Vector databases such as Milvus, Faiss, and HnswLib support approximate nearest-neighbor search.
+
+### Two-Tower Model: Architecture and Training
+
+#### Two-Tower Model
+
+![](./wangshusen_recommend_note_retrieval.assets/2-6-1.png)
+
+![](./wangshusen_recommend_note_retrieval.assets/2-6-2.png)
+
+![](./wangshusen_recommend_note_retrieval.assets/2-6-3.png)
+
+**Training the Two-Tower Model**
+
+- Pointwise: Treat each positive and negative sample independently; do simple binary classification.
+- Pairwise: Each batch contains one positive sample and one negative sample.
+- Listwise: Each batch contains one positive sample and multiple negative samples.
+
+**Positive and Negative Sample Selection**
+
+- Positive samples: Items the user clicked.
+- Negative samples [1,2]:
+  - Items not retrieved?
+  - Items retrieved but filtered by pre-ranking or full ranking?
+  - Items exposed but not clicked?
+
+#### Pointwise Training
+
+- Frame retrieval as a binary classification task.
+- For positive samples, encourage $\cos(\mathbf{a}, \mathbf{b})$ to approach $+1$.
+- For negative samples, encourage $\cos(\mathbf{a}, \mathbf{b})$ to approach $-1$.
+- Control ratio of positive to negative samples at $1:2$ or $1:3$.
+
+#### Pairwise Training
+
+The two item towers share the same parameters.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-6-4.png)
+
+**Basic idea**: Encourage $\cos(\mathbf{a}, \mathbf{b}^+)$ to be greater than $\cos(\mathbf{a}, \mathbf{b}^-)$.
+
+- If $\cos(\mathbf{a}, \mathbf{b}^+)$ exceeds $\cos(\mathbf{a}, \mathbf{b}^-) + m$, there is no loss. $m$ is a hyperparameter.
+- Otherwise, loss = $\cos(\mathbf{a}, \mathbf{b}^-) + m - \cos(\mathbf{a}, \mathbf{b}^+)$.
+
+**Loss Functions**
+
+**Triplet hinge loss:**
+
+$$
+L(\mathbf{a}, \mathbf{b}^+, \mathbf{b}^-) = \max \{ 0, \cos(\mathbf{a}, \mathbf{b}^-) + m - \cos(\mathbf{a}, \mathbf{b}^+) \}
+$$
+
+**Triplet logistic loss:**
+
+$$
+L(\mathbf{a}, \mathbf{b}^+, \mathbf{b}^-) = \log(1 + \exp[\sigma \cdot (\cos(\mathbf{a}, \mathbf{b}^-) - \cos(\mathbf{a}, \mathbf{b}^+))]).
+$$
+
+#### Listwise Training
+
+- One data point contains:
+  - One user with feature vector $\mathbf{a}$.
+  - One positive sample with feature vector $\mathbf{b}^+$.
+  - Multiple negative samples with feature vectors $\mathbf{b}_1^-, \dots, \mathbf{b}_n^-$.
+
+- Encourage $\cos(\mathbf{a}, \mathbf{b}^+)$ to be as large as possible.
+
+- Encourage $\cos(\mathbf{a}, \mathbf{b}_1^-), \dots, \cos(\mathbf{a}, \mathbf{b}_n^-)$ to be as small as possible.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-6-5.png)
+
+Encourage $\cos(\mathbf{a}, \mathbf{b}^+)$ to approach 1; encourage $\cos(\mathbf{a}, \mathbf{b}_1^-), \dots, \cos(\mathbf{a}, \mathbf{b}_n^-)$ to approach 0.
+
+Loss function is cross-entropy loss.
+
+#### Summary
+
+**Two-Tower Model**
+
+- User tower and item tower each output a single vector.
+- Cosine similarity of the two vectors serves as the estimated interest score.
+
+- Three training approaches:
+  - **Pointwise**: Each batch uses one user and one item (positive or negative).
+  - **Pairwise**: Each batch uses one user, one positive sample, and one negative sample.
+  - **Listwise**: Each batch uses one user, one positive sample, and multiple negative samples.
+
+**Models Not Suitable for Retrieval: Early Fusion Models**
+
+![](./wangshusen_recommend_note_retrieval.assets/2-6-6.png)
+
+The two-tower model uses late fusion for retrieval — its advantage is that item representations can be precomputed via the item tower. Each time a user arrives, their representation is computed via the user tower; fast nearest-neighbor methods then retrieve the top-k items closest to the user representation.
+
+If early fusion is used instead, item representations cannot be precomputed. To retrieve k items, the user's features must be fused with each item's features and passed through the neural network to get an interest score — requiring processing every item, losing the advantage of fast nearest-neighbor methods.
+
+### Two-Tower Model: Positive and Negative Samples
+
+**Positive Samples**
+
+- Positive samples: (user, item) pairs that were exposed and then clicked. (User is interested in the item)
+
+- Problem: A small fraction of items account for most clicks, causing positive samples to be mostly popular items.
+- Solution: Oversample rare items, or downsample popular items.
+- Oversampling (up-sampling): A sample appears multiple times.
+- Downsampling (down-sampling): Some samples are discarded.
+
+**How to Select Negative Samples**
+
+Negative sample selection criteria differ for retrieval, pre-ranking, full ranking, and re-ranking.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-7-1.png)
+
+#### Simple Negative Samples
+
+**Simple Negative Samples: Full Item Pool**
+
+- Items not retrieved are very likely to be uninteresting to the user.
+- Items not retrieved ≈ the full item pool.
+- Sample from the full item pool as negative samples.
+- Uniform or non-uniform sampling?
+
+**Uniform sampling**: Unfair to rare items.
+
+- Positive samples are mostly popular items.
+- If negative samples are uniformly sampled, negative samples are mostly rare items.
+
+**Non-uniform sampling**: Aimed at suppressing popular items.
+
+- Negative sample probability proportional to popularity (_click count_).
+- $\text{sampling probability} \propto (\text{click count})^{0.75}$. 0.75 is an empirical value.
+
+**Simple Negative Samples: In-Batch Negative Samples**
+
+- A batch has $n$ positive samples.
+
+- One user $p$ paired with $n-1$ items forms negative samples.
+
+- The batch has $n(n-1)$ negative samples in total.
+
+- All are simple negative samples. (The first user doesn't like the second item.)
+
+- Probability of an item appearing in the batch $\propto \text{click count}$. More popular items have higher probability of appearing.
+
+- Probability of an item becoming a negative sample should ideally be $\propto {\text{click count}}^{0.75}$, but here it is $\propto \text{click count}$.
+
+- Popular items have too high a probability of becoming negative samples.
+
+- Sampling probability of item $i$: $p_i \propto {\text{click count}}$. More popular items have higher probability.
+
+- Estimated user interest in item $i$: $\cos(\mathbf{a}, \mathbf{b}_i)$
+
+- During training, adjust to: $\cos(\mathbf{a}, \mathbf{b}_i) - \log p_i$. This debiases and prevents over-suppression of popular items. Reasoning: $\cos(\mathbf{a}, \mathbf{b}_i) - \log p_i$ is used for training; more popular items have a smaller adjusted value. When a popular item and a rare item have the same raw $\cos(\mathbf{a}, \mathbf{b}_i)$, the popular item's adjusted value is smaller. After training, the popular item's $\cos(\mathbf{a}, \mathbf{b}_i)$ ends up larger than the rare item's.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-7-2.png)
+
+![](./wangshusen_recommend_note_retrieval.assets/2-7-3.png)
+
+#### Hard Negative Samples
+
+**Hard Negative Samples**
+
+- Items filtered out by pre-ranking (relatively hard).
+- Items ranked near the bottom by full ranking (very hard).
+
+**Binary classification of positive and negative samples**:
+
+- Full item pool (easy): high classification accuracy.
+- Items filtered by pre-ranking (relatively hard): more likely to be misclassified.
+- Items ranked near the bottom by full ranking (very hard): even more likely to be misclassified.
+
+**Training Data**
+
+- Mix multiple types of negative samples.
+
+- 50% of negative samples from the full item pool (simple negative samples).
+
+- 50% of negative samples from items that did not pass ranking (hard negative samples).
+
+#### Common Mistakes
+
+Items exposed but not clicked should not be used as negative samples for retrieval model training.
+
+They can be used as negative samples for ranking model training.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-7-4.png)
+
+#### **Principles for Negative Sample Selection**
+
+**Retrieval goal**: Quickly find items the user may be interested in.
+
+- Full item pool (easy): Vast majority are completely uninteresting to the user.
+- Filtered by ranking (hard): User may be interested, but not enough.
+- Exposed but not clicked (unusable): User is interested but may not have clicked by chance.
+  - Can be used as negative samples for ranking; cannot be used as negative samples for retrieval.
+
+#### Summary
+
+- **Positive samples**: Exposed and then clicked.
+
+- **Simple negative samples**:
+  - Full item pool.
+  - In-batch negative samples.
+
+- **Hard negative samples**: Retrieved but filtered out by ranking.
+
+- **Error**: Using exposed-but-not-clicked items as negative samples for retrieval.
+
+### Two-Tower Model: Online Retrieval and Updates
+
+#### Online Retrieval
+
+![](./wangshusen_recommend_note_retrieval.assets/2-8-1.png)
+
+**Two-Tower Model Retrieval**
+
+**Offline storage**: Store item vectors $\mathbf{b}$ in a vector database.
+
+1. After training, use the item tower to compute feature vector $\mathbf{b}$ for every item.
+2. Store hundreds of millions of item vectors $\mathbf{b}$ in a vector database (e.g., Milvus, Faiss, HnswLib).
+3. Vector database builds an index to accelerate nearest-neighbor search.
+
+**Online retrieval**: Find the top-k items the user is most interested in.
+
+1. Given user ID and profile, compute user vector $\mathbf{a}$ online using the neural network.
+
+2. Nearest-neighbor search:
+   - Use vector $\mathbf{a}$ as query; call the vector database for nearest-neighbor search.
+   - Return the $k$ items with the highest cosine similarity as retrieval results.
+
+Why store item vectors $\mathbf{b}$ offline and compute user vector $\mathbf{a}$ online?
+
+- Each retrieval uses one user vector $\mathbf{a}$ and hundreds of millions of item vectors $\mathbf{b}$.  
+  (Computing item vectors online is too costly.)
+
+- User interests change dynamically; item features are relatively stable.  
+  (Storing user vectors offline is possible but hurts recommendation quality.)
+
+#### Model Updates
+
+**Full Update vs. Incremental Update**
+
+**Full update**: At midnight tonight, train the model using all of yesterday's data.
+
+- Start from yesterday's model parameters (not random initialization).
+- Train for 1 epoch on yesterday's data — each day's data is used only once.
+- Release new **user tower neural network** and **item vectors** for online retrieval.
+- Full update has lower requirements on data pipelines and systems.
+
+**Incremental update**: Apply online learning to update model parameters.
+
+- User interests change in real time.
+- Collect online data in real time; apply stream processing to generate TFRecord files.
+- Apply online learning to incrementally update ID Embedding parameters.
+- Release updated user ID embeddings for the user tower to compute user vectors online.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-8-2.png)
+
+**Question**: Can we only do incremental updates and skip full updates?
+
+- User behavior differs across time periods within a day; hourly data is biased; minute-level data is even more biased.
+- Full update: randomly shuffle one full day of data; train for 1 epoch.
+- Incremental update: train for 1 epoch in chronological order.
+- Random shuffling is better than sequential ordering; full training is better than incremental training.
+
+#### Summary
+
+**Two-Tower Model**
+
+- User tower and item tower each output a vector; cosine similarity of the two vectors estimates interest.
+
+- Three training approaches: pointwise, pairwise, listwise.
+
+- Positive samples: items the user clicked.
+
+- Negative samples: full item pool (simple), items filtered out by ranking (hard).
+
+**Retrieval**
+
+- After training, store item vectors in a vector database for online nearest-neighbor search.
+
+- Online retrieval: given user ID and profile, call the user tower to compute user vector $\mathbf{a}$ in real time.
+
+- Use $\mathbf{a}$ as query; search the vector database; find the $k$ item vectors with highest cosine similarity; return $k$ item IDs.
+
+**Model Updates**
+
+- Full update: at midnight, use all of yesterday's data to train the full neural network for 1 epoch of SGD.
+
+- Incremental update: use real-time data to train the neural network; only update ID Embeddings; freeze fully connected layers.
+
+- Production systems:
+  - Combine full updates and incremental updates.
+  - Publish the latest user ID embeddings every few tens of minutes for the user tower to compute user vectors online.
+
+### Two-Tower Model + Self-Supervised Learning
+
+**Two-Tower Model Problem**
+
+- Recommender systems exhibit strong head effects:
+  - A small fraction of items account for most clicks.
+  - Most items have low click counts.
+- High-click items learn good representations; long-tail items learn poor representations.
+- Self-supervised learning: apply _data augmentation_ to better learn long-tail item vectors.
+
+#### Review of Two-Tower Model
+
+**In-Batch Negative Samples**
+
+- A _batch_ has $n$ positive sample pairs.
+- Form $n$ _lists_; each _list_ has 1 positive pair and $n-1$ negative pairs.
+
+**Listwise Training**
+
+- A _batch_ contains $n$ positive sample pairs (_with clicks_):
+
+  $$(\mathbf{a_1}, \mathbf{b_1}), (\mathbf{a_2}, \mathbf{b_2}), \dots, (\mathbf{a_n}, \mathbf{b_n}).$$
+
+- Negative samples: $\{(\mathbf{a_i}, \mathbf{b_j})\}$ for all $i \neq j$.
+
+- Encourage $\cos(\mathbf{a_i}, \mathbf{b_i})$ to be as large as possible; encourage $\cos(\mathbf{a_i}, \mathbf{b_j})$ to be as small as possible.
+
+**Loss Function**
+
+![](./wangshusen_recommend_note_retrieval.assets/2-9-1.png)
+
+**Debiasing**
+
+- Sampling probability of item $j$:
+
+  $$p_j \propto \text{click count}$$
+
+- Estimated interest of user $i$ in item $j$: $\cos(\mathbf{a_i}, \mathbf{b_j})$
+
+- During training, replace $\cos(\mathbf{a_i}, \mathbf{b_j})$ with:
+
+  $$\cos(\mathbf{a_i}, \mathbf{b_j}) - \log p_j$$
+
+**Training the Two-Tower Model**
+
+- Randomly sample $n$ (user, item) pairs from click data to form a _batch_.
+
+- Two-tower model loss function:
+
+$$
+L_{\text{main}}[i] = -\log \left( \frac{\exp(\cos(\mathbf{a_i}, \mathbf{b_i}) - \log p_i)}{\sum_{j=1}^{n} \exp(\cos(\mathbf{a_i}, \mathbf{b_j}) - \log p_j)} \right)
+$$
+
+- Apply gradient descent to minimize the loss:
+
+$$
+\frac{1}{n} \sum_{i=1}^{n} L_{\text{main}}[i]
+$$
+
+#### Self-Supervised Learning
+
+![](./wangshusen_recommend_note_retrieval.assets/2-9-2.png)
+
+![](./wangshusen_recommend_note_retrieval.assets/2-9-3.png)
+
+- The two vector representations $\mathbf{b'_i}$ and $\mathbf{b''_i}$ of item $i$ have high similarity.
+
+- The vector representations $\mathbf{b'_i}$ and $\mathbf{b''_j}$ of items $i$ and $j$ have low similarity.
+
+- Encourage $\cos(\mathbf{b'_i}, \mathbf{b''_i})$ to be as large as possible; encourage $\cos(\mathbf{b'_i}, \mathbf{b''_j})$ to be as small as possible.
+
+**Feature transformation converts an item's feature vector into another vector.**
+
+For example, an item's feature vector might be (audience gender, category, city, occupation) = (0, 5, 1.5, 9). Feature transformation converts (0, 5, 1.5, 9) into, say, (0.9, 7.3, 10.8, 9.6) (a simplified example).
+
+**Feature Transformation: Random Mask**
+
+- Randomly select some discrete features (e.g., _category_) and mask them.
+- Example:
+  - An item's _category_ feature is $\mathcal{U} = \{\text{electronics}, \text{photography}\}$.
+  - After _masking_, the _category_ feature becomes $\mathcal{U'} = \{\text{default}\}$. Default represents the missing value.
+  - _Masking_ means discarding all values of a feature.
+  - For example, if electronics = 1 and photography = 2, with missing default = 0, the pre-mask category value might be 1.5; after masking, it becomes 0.
+- Random mask does not mask all features — only some are randomly masked.
+
+**Feature Transformation: Dropout (applies only to multi-valued discrete features)**
+
+- An item can belong to multiple _categories_; _category_ is a multi-valued discrete feature.
+- _Dropout_: randomly discard 50% of feature values.
+- Example:
+  - An item's _category_ feature is $\mathcal{U} = \{\text{beauty}, \text{photography}\}$.
+  - After _dropout_, _category_ becomes $\mathcal{U'} = \{\text{beauty}\}$.
+  - For example, if beauty = 1 and photography = 2, the pre-dropout category value might be 1.5; post-dropout it becomes 1.
+
+**Feature Transformation: Complementary Features**
+
+- Suppose an item has 4 features:
+
+  _ID_, _category_, _keywords_, _city_
+
+- Randomly split into two groups: $\{\text{ID}, \text{keywords}\}$ and $\{\text{category}, \text{city}\}$
+
+- $\{\text{ID}, \text{default}, \text{keywords}, \text{default}\} \quad \Rightarrow \quad$ item representation
+
+- $\{\text{default}, \text{category}, \text{default}, \text{city}\} \quad \Rightarrow \quad$ item representation
+
+- Since they represent the same item, encourage the two item representations to be similar.
+
+**Feature Transformation: Mask a Group of Correlated Features**
+
+- A group of correlated features:
+  - Audience gender: $\mathcal{U} = \{\text{male}, \text{female}, \text{neutral}\}$
+
+  - Category: $\mathcal{V} = \{\text{beauty}, \text{electronics}, \text{football}, \text{photography}, \text{tech}, \dots\}$
+
+  - $u = \text{female}$ and $v = \text{beauty}$ co-occur with high probability $p(u, v)$.
+
+  - $u = \text{female}$ and $v = \text{electronics}$ co-occur with low probability $p(u, v)$.
+
+- $p(u)$: probability of a feature value being $u$.
+  - $p(\text{male}) = 20\%$
+  - $p(\text{female}) = 30\%$
+  - $p(\text{neutral}) = 50\%$
+
+- $p(u, v)$: probability that one feature is $u$ and another is $v$ simultaneously.
+  - $p(\text{female}, \text{beauty}) = 3\%$
+  - $p(\text{female}, \text{electronics}) = 0.1\%$
+
+- Offline: compute pairwise feature correlations using mutual information (_MI_):
+  (e.g., computing MI between _category_ and _audience gender_)
+
+$$
+MI(\mathcal{U}, \mathcal{V}) = \sum_{u \in \mathcal{U}} \sum_{v \in \mathcal{V}} p(u, v) \cdot \log \frac{p(u, v)}{p(u) \cdot p(v)}
+$$
+
+- Suppose an item has $k$ features. Offline: compute pairwise MI for all features, producing a $k \times k$ matrix.
+
+- Randomly select one feature as seed; find the $k/2$ features most correlated with the seed.
+
+- _Mask_ the seed and its $k/2$ correlated features; keep the remaining $k/2$ features.
+
+- Example: An item has four features $\{\text{ID}, \text{category}, \text{keywords}, \text{city}\}$. The seed is _keywords_, and the most correlated feature is _city_. After masking: $\{\text{ID}, \text{category}, \text{default}, \text{default}\}$.
+
+- Pros and cons:
+  - Pro: Outperforms _random mask_, _dropout_, and _complementary features_.
+  - Con: Complex method, difficult to implement and maintain.
+
+**Training the Model**
+
+- Uniformly sample $m$ items from all items to form a _batch_.
+
+- Apply two types of feature transformations; the item tower outputs two sets of vectors:
+
+$$
+\mathbf{b'_1}, \mathbf{b'_2}, \dots, \mathbf{b'_m} \quad \text{and} \quad \mathbf{b''_1}, \mathbf{b''_2}, \dots, \mathbf{b''_m}
+$$
+
+- Loss function for the $i$-th item:
+
+$$
+L_{\text{self}}[i] = -\log \left( \frac{\exp(\cos(\mathbf{b'_i}, \mathbf{b''_i}))}{\sum_{j=1}^{m} \exp(\cos(\mathbf{b'_i}, \mathbf{b''_j}))} \right)
+$$
+
+![](./wangshusen_recommend_note_retrieval.assets/2-9-4.png)
+
+- Self-supervised learning loss function:
+
+$$
+L_{\text{self}}[i] = -\log \left( \frac{\exp(\cos(\mathbf{b'_i}, \mathbf{b''_i}))}{\sum_{j=1}^{m} \exp(\cos(\mathbf{b'_i}, \mathbf{b''_j}))} \right)
+$$
+
+- Apply gradient descent to minimize self-supervised learning loss:
+
+$$
+\frac{1}{m} \sum_{i=1}^{m} L_{\text{self}}[i]
+$$
+
+#### Summary
+
+- Two-tower model learns poor vector representations for low-exposure items.
+
+- Self-supervised learning:
+  - Apply random feature transformations to items.
+  - Feature vectors $\mathbf{b'_i}$ and $\mathbf{b''_i}$ have high similarity (_same item_).
+  - Feature vectors $\mathbf{b'_i}$ and $\mathbf{b''_j}$ have low similarity (_different items_).
+
+- Experimental results: recommendations for low-exposure items and new items become more accurate.
+
+- Randomly sample $n$ (user, item) pairs from click data to form a _batch_.
+
+- Uniformly sample $m$ _items_ from all items to form a _batch_.
+
+- Apply gradient descent to minimize loss:
+
+$$
+\frac{1}{n} \sum_{i=1}^{n} L_{\text{main}}[i] + \alpha \cdot \frac{1}{m} \sum_{j=1}^{m} L_{\text{self}}[j].
+$$
+
+### Deep Retrieval
+
+- The classical two-tower model represents users and items as vectors; online nearest-neighbor search is performed.
+
+- _Deep Retrieval_ represents items as paths (_path_); online search finds paths best matching the user.
+
+- _Deep Retrieval_ is similar to Alibaba's _TDM_.
+
+**Outline**
+
+1. Indexes:
+   - path → List&lt;item&gt;
+   - item → List&lt;path&gt;
+
+2. Estimation model: neural network estimates user interest in a path.
+
+3. Online retrieval: user → path → item.
+
+4. Training:
+   - Learn neural network parameters.
+   - Learn item representations (item → path).
+
+#### Indexes
+
+**Items Represented as Paths**
+
+- Depth: _depth_ = 3 (number of layers).
+
+- Width: _width_ = K.
+
+- An item is represented as one path (_path_), e.g., $\mathbf{[2,4,1]}$.
+
+- An item can be represented as multiple paths, e.g., $\{\mathbf{[2,4,1]}, \mathbf{[4,1,1]}\}$.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-1.png)
+
+**Item-to-Path Index**
+
+**Index**: item → List⟨path⟩
+
+- One item corresponds to multiple paths.
+- A path is represented by 3 nodes: path = $[a, b, c]$.
+
+**Index**: path → List⟨item⟩
+
+- One path corresponds to multiple items.
+
+#### Estimation Model
+
+**Estimating User Interest in a Path**
+
+- A path is represented by 3 nodes: path = $[a, b, c]$.
+
+- Given user features $\mathbf{x}$, estimate user interest in node $a$: $p_1(a | \mathbf{x})$.
+
+- Given $\mathbf{x}$ and $a$, estimate user interest in node $b$: $p_2(b | a; \mathbf{x})$.
+
+- Given $\mathbf{x}, a, b$, estimate user interest in node $c$: $p_3(c | a, b; \mathbf{x})$.
+
+- Estimated user interest in path = $[a, b, c]$:
+
+$$
+p(a, b, c | \mathbf{x}) = p_1(a | \mathbf{x}) \times p_2(b | a; \mathbf{x}) \times p_3(c | a, b; \mathbf{x})
+$$
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-2.png)
+
+User feature vector $\mathbf{x}$ is passed through a neural network and then a softmax activation to output the $p_1$ vector. $p_1$ represents the interest scores the network assigns to the $K$ nodes at layer L1; the higher the score, the more likely a node is selected. If L1 has $K$ nodes, $p_1$ is a $K$-dimensional vector. Node $a$ is selected from L1's $K$ nodes based on $p_1$.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-3.png)
+
+Node $a$ is embedded to get emb($a$). The original user feature vector $\mathbf{x}$ is concatenated with emb($a$) and fed into another neural network, followed by a softmax layer to output $p_2$. $p_2$ represents interest scores for the $K$ nodes at layer L2. Node $b$ is selected from L2.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-4.png)
+
+Node $c$ is derived analogously.
+
+#### Online Retrieval
+
+**Retrieval**: user → path → item
+
+- **Step 1**: Given user features, use _beam search_ to retrieve a set of paths.
+
+- **Step 2**: Use the index "path → List⟨item⟩" to retrieve a set of items.
+
+- **Step 3**: Score and rank the items; select a subset.
+
+**Beam Search**
+
+- Suppose there are 3 layers, each with $K$ nodes; there are $K^3$ paths total.
+
+- Scoring all $K^3$ paths with the neural network is too expensive.
+
+- Beam search reduces computation.
+
+- Requires setting the hyperparameter beam size.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-5.png)
+
+Select the top 4 nodes at L1 based on the neural network's scores for the $K$ nodes.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-6.png)
+
+For each selected node $a$, compute user interest in path $[a, b]$:
+
+$$
+p(a,b | \mathbf{x})= p_1(a | \mathbf{x}) \times p_2(b | a; \mathbf{x})
+$$
+
+Compute $4 \times K$ scores, one for each path; select the top 4 paths.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-7.png)
+
+For each selected pair of nodes $a, b$, compute user interest in path $[a, b, c]$:
+
+$$
+p(a,b,c | \mathbf{x})= p(a,b | \mathbf{x}) \times p_3(c | a,b; \mathbf{x})
+$$
+
+Again compute $4 \times K$ scores; select the top 4 paths.
+
+**Beam Search**
+
+- User interest in path = $[a, b, c]$:
+
+$$
+p(a, b, c | \mathbf{x}) = p_1(a | \mathbf{x}) \times p_2(b | a; \mathbf{x}) \times p_3(c | a, b; \mathbf{x})
+$$
+
+- Optimal path:
+
+$$
+[a^\star, b^\star, c^\star] = \arg\max\limits_{a, b, c} p(a, b, c | \mathbf{x})
+$$
+
+- Greedy algorithm (_beam size_ = 1) selected path $[a, b, c]$ is not necessarily optimal.
+
+**Online Retrieval**
+
+- **Step 1**: Given user features, use the neural network and _beam search_ to retrieve a set of paths.
+
+- **Step 2**: Use indexes to retrieve a set of items.
+  - Look up index path → List⟨item⟩.
+  - Each path corresponds to multiple items.
+
+- **Step 3**: Rank items; select a subset.
+
+#### Training
+
+**Joint Learning of Neural Network Parameters and Item Representations**
+
+- Neural network $p(a, b, c | \mathbf{x})$ estimates user interest in path $[a, b, c]$.
+
+- Represent each item as multiple paths $\{[a, b, c]\}$; build indexes:
+  - item → List⟨path⟩,
+  - path → List⟨item⟩.
+
+- Positive sample (user, item): $\text{click}(\text{user}, \text{item}) = 1$.
+
+**Learning Neural Network Parameters**
+
+- Item is represented by $J$ paths: $[a_1, b_1, c_1], \dots, [a_J, b_J, c_J]$.
+
+- User interest in path $[a, b, c]$:
+
+$$
+p(a, b, c \mid \mathbf{x}) = p_1(a \mid \mathbf{x}) \times p_2(b \mid a; \mathbf{x}) \times p_3(c \mid a, b; \mathbf{x})
+$$
+
+- If the user clicked the item, they are interested in all $J$ paths.
+
+- Should maximize $\sum_{j=1}^{J} p(a_j, b_j, c_j \mid \mathbf{x})$.
+
+- Loss function:
+  The larger the total interest in $J$ paths, the smaller the loss.
+
+$$
+\text{loss} = -\log \left( \sum_{j=1}^{J} p(a_j, b_j, c_j \mid \mathbf{x}) \right)
+$$
+
+**Learning Item Representations**
+
+- User _user_'s interest in path _path_ = $[a, b, c]$:
+
+$$
+p(\text{path} \mid \text{user}) = p(a, b, c \mid \mathbf{x})
+$$
+
+- Relevance of item _item_ and path _path_:
+
+$$
+\text{score}(\text{item}, \text{path}) = \sum_{\text{user}} p(\text{path} \mid \text{user}) \times \text{click}(\text{user}, \text{item})
+$$
+
+$\text{click}(\text{user}, \text{item})$ = 1 if the user clicked the item, 0 otherwise.
+
+- Select $J$ paths with highest $\text{score}(\text{item}, \text{path})$ as _item_'s representation.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-10-8.png)
+
+- Select $J$ paths $\Pi = \{\text{path}_1, \dots, \text{path}_J\}$ as the item's representation.
+
+- **Loss function** (select paths highly correlated with _item_):
+
+$$
+\text{loss}(\text{item}, \Pi) = -\log \left( \sum_{j=1}^{J} \text{score}(\text{item}, \text{path}_j) \right)
+$$
+
+- **Regularization term** (avoid too many items clustering on one path):
+
+$$
+\text{reg}(\text{path}_j) = (\text{number of items on path}_j)^4.
+$$
+
+**Greedy Algorithm to Update Paths**
+
+- Suppose the item is already represented by $J$ paths $\Pi = \{\text{path}_1, \dots, \text{path}_J\}$. Now update paths in $\Pi$.
+
+- Fix $\{\text{path}_i\}_{i \neq l}$ and select a new $\text{path}_l$ from unselected paths:
+  Unselected paths are not limited to the current $J$ paths; they can be selected from external candidates. The selection pool can be the top-$N$ paths with highest $\text{score}(\text{item}, \text{path})$. $\text{loss}(\text{item}, \Pi)$ represents the loss of the path set consisting of $\{\text{path}_i\}$ and $\text{path}_l$. $\text{reg}(\text{path}_l)$ prevents too many items on one path.
+
+$$
+\text{path}_l \gets \arg\min_{\text{path}_l} \text{loss}(\text{item}, \Pi) + \alpha \cdot \text{reg}(\text{path}_l)
+$$
+
+- Selected paths have high score $\text{score}(\text{item}, \text{path}_l)$ without too many items on the path.
+
+#### Comparison
+
+**Updating the Neural Network**
+
+- Neural network predicts user interest in a path:
+
+$$
+p(\text{path} \mid \mathbf{x})
+$$
+
+- Training data required:
+  1. "Item → path" index.
+  2. Items clicked by the user.
+
+- If the user clicked the item, and the item corresponds to path $\text{path}$, update neural network parameters to increase $p(\text{path} \mid \mathbf{x})$.
+
+**Updating Item Representations**
+
+- Assess item–path relevance:
+
+  item $\longleftarrow_{\text{user clicked item}}$ user $\longrightarrow_{\text{neural network score}}$ path
+
+- Associate each item with $J$ paths:
+  - Item and path must have high relevance.
+  - A path cannot have too many items.
+
+#### Summary
+
+**Retrieval: User → Path → Item**
+
+- Given user features $\mathbf{x}$, use the neural network to estimate user interest in path $\text{path} = [a, b, c]$; score denoted $p(\text{path} \mid \mathbf{x})$.
+
+- Use beam search to find the $s$ paths with highest score $p(\text{path} \mid \mathbf{x})$.
+
+- Use index "$\text{path} \rightarrow \text{List}\{\text{item}\}$" to retrieve $n$ items on each path.
+
+- A total of $s \times n$ items are retrieved; do preliminary ranking and return the top-scoring items.
+
+**Training: Joint Learning of User–Path and Item–Path Relationships**
+
+- An item is represented by $J$ paths: $\text{path}_1, \dots, \text{path}_J$.
+
+- If the user clicked the item, update neural network parameters to increase:
+
+$$
+\sum_{j=1}^{J} p(\text{path}_j \mid \mathbf{x}).
+$$
+
+- If user interest score $p(\text{path} \mid \mathbf{x})$ is high and the user clicked item $\text{item}$, then $\text{item}$ and $\text{path}$ have relevance.
+
+- Find the $J$ paths most relevant to $\text{item}$, while avoiding too many items on one path.
+
+### Other Retrieval Channels
+
+#### Geo-Location Based Retrieval
+
+GeoHash Retrieval
+
+- Users may be interested in nearby events.
+- GeoHash: encoding of latitude/longitude; represents a rectangular geographic area.
+- Index: GeoHash → list of quality posts _(sorted by time, descending)_.
+- This retrieval channel has no personalization.
+
+**Same-City Retrieval**
+
+- Users may be interested in events in the same city.
+- Index: city → list of quality posts _(sorted by time, descending)_.
+- This retrieval channel has no personalization.
+
+##### Author-Based Retrieval
+
+**Followed Author Retrieval**
+
+- Users are interested in posts published by authors they follow.
+
+- Index:
+
+  user → followed authors  
+  author → published posts
+
+- Retrieval:
+
+  user → followed authors → most recent posts
+
+**Interacted Author Retrieval**
+
+- If the user is interested in a post _(like, favorite, share)_, they may be interested in other posts by that author.
+
+- Index:  
+  user → interacted authors
+
+- Retrieval:  
+  user → interacted authors → most recent posts
+
+**Similar Author Retrieval**
+
+- If a user likes a certain author, they like similar authors.
+
+- Index:  
+  author → similar authors _(k authors)_
+
+- Retrieval:  
+  user → interested authors _(n authors)_ → similar authors _(nk authors)_ → most recent posts _(nk posts)_
+
+#### Cache-Based Retrieval
+
+**Cache-Based Retrieval**
+
+Idea: reuse full-ranking results from the previous $n$ recommendation sessions.
+
+- Background:
+  - Full ranking outputs hundreds of posts and sends them to re-ranking.
+  - Re-ranking applies diversity sampling and selects a few dozen.
+  - More than half of full-ranking results are never exposed — wasted.
+
+- Cache posts ranked in the top 50 by full ranking that were not exposed; use them as a retrieval channel.
+
+Cache has a fixed size and requires an eviction mechanism.
+
+- Once a post is successfully exposed, it is evicted from the cache.
+- If the cache exceeds capacity, remove the oldest-entered post.
+- A post can be retrieved at most 10 times; it is evicted after 10 retrievals.
+- Each post is stored for at most 3 days; evicted after 3 days.
+
+### Exposure Filtering & Bloom Filter
+
+#### Exposure Filtering Problem
+
+- If a user has seen an item, don't expose it to them again.
+
+- For each user, record items already exposed to them. (Xiaohongshu only retrieves posts published within the past month, so only the past month's exposure history needs to be recorded per user.)
+- For each retrieved item, determine if it has already been exposed to that user; exclude previously exposed items.
+
+- If a user has seen $n$ items and $r$ items are retrieved, brute-force comparison requires $O(nr)$ time.
+
+#### Bloom Filter
+
+- Bloom filter determines whether an item ID is in the set of already-exposed items.
+
+- If the answer is **no**, that item is definitely not in the set.
+
+- If the answer is **yes**, the item is very likely in the set. (May have false positives: a non-exposed item is incorrectly judged as exposed and filtered out.)
+
+- Bloom filter represents an item set as an $m$-dimensional binary vector.
+- Each user has a set of exposed items, represented as a binary vector requiring $m$ bits of storage.
+- Bloom filter has $k$ hash functions; each maps an item ID to an integer between $0$ and $m-1$.
+
+![](./wangshusen_recommend_note_retrieval.assets/2-12-1.png)
+
+![](./wangshusen_recommend_note_retrieval.assets/2-12-2.png)
+
+**Bloom Filter**
+
+- Exposed item set size is $n$; binary vector dimension is $m$; uses $k$ hash functions.
+
+- Bloom filter false positive rate: $\delta \approx \left( 1 - \exp \left( -\frac{kn}{m} \right) \right)^{k}$.
+  - Larger $n$ means more 1s in the vector; higher false positive rate. (The probability that an unexposed item's $k$ hash positions are all 1 increases.)
+
+  - Larger $m$ means a longer vector; less likely hash collisions occur.
+
+  - $k$ too large or too small is suboptimal; $k$ has an optimal value.
+
+- Given tolerable false positive rate $\delta$, optimal parameters are:
+
+$$
+k = 1.44 \cdot \ln \left( \frac{1}{\delta} \right), \quad m = 2n \cdot \ln \left( \frac{1}{\delta} \right)
+$$
+
+![](./wangshusen_recommend_note_retrieval.assets/2-12-3.png)
+
+**Bloom Filter Drawbacks**
+
+- Bloom filter represents an item set as a binary vector.
+
+- Adding an item to the set only requires setting $k$ positions in the vector to 1. (If already 1, no change.)
+
+- Bloom filter only supports adding items; it does not support deleting items. Removing an item from the set cannot undo its effect on the vector.
+
+- Every day, items older than 1 month need to be removed from the item set. (Expired items can never be retrieved; no need to record them in the Bloom filter. Reducing $n$ lowers the false positive rate.)

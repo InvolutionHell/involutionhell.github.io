@@ -1,0 +1,98 @@
+---
+title: Multimodal Video Large Language Models
+description: "Study notes: fine-grained perception and long-video understanding challenges"
+status: note
+docId: ssrhm03fw9sbogk78dmy92ml
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Multimodal Video LLM Study Notes
+
+## 1. Background
+
+Multimodal video large models (MVMs) integrate visual, linguistic, and audio information.  
+Compared to image models, video tasks are significantly harder. The main pain points are:
+
+- **Fine-grained perception**: Requires precise localization of objects, actions, and relationships within a video.
+- **Long-video understanding**: Requires spanning long time horizons, capturing key events, and maintaining global coherence.
+
+---
+
+## 2. Fine-Grained Perception
+
+### 2.1 Observed Issues
+
+- Action recognition is too coarse — e.g., "pick up" vs. "lift" are easily confused.
+- Model answers lack timestamps or keyframes as evidence.
+- Different modalities (subtitles vs. video frames) are not synchronized.
+
+### 2.2 Challenges
+
+- **Data**: Fine-grained annotations are expensive; long-tail action samples are scarce.
+- **Compute**: High-resolution video causes the token count to explode.
+- **Representation**: Tension between local details and global semantics.
+
+### 2.3 Methods
+
+- **Hierarchical action/event modeling**: Global → local → atomic actions.
+- **Token pruning / compression**: Retain keyframes or key patches; reduce redundancy.
+- **Multi-task training**: Joint learning of classification + localization + QA.
+- **Evidence visualization**: Output frame indices or bounding boxes.
+
+---
+
+## 3. Long-Video Understanding
+
+### 3.1 Observed Issues
+
+- Models can only handle a few seconds of video; content is "forgotten" beyond a few minutes.
+- QA answers lack global context and are often off-topic.
+- Summaries or retrieval results are biased toward "local" content, ignoring the main thread.
+
+### 3.2 Challenges
+
+- **Token budget**: Minute-level videos can have hundreds of thousands of frames — impossible to feed in directly.
+- **Structural complexity**: Films, lectures, and meetings often contain multiple scenes, characters, and events.
+- **Cross-modal asynchrony**: Subtitles, audio, and actions do not necessarily occur simultaneously.
+
+### 3.3 Methods
+
+- **Hierarchical modeling**: Shot → Scene → Event → Video.
+- **Retrieval-augmented processing**: First locate key segments via indexing, then feed them into the large model for reasoning.
+- **Memory mechanisms**: Sliding window + cache, external memory banks, chain-of-summary.
+- **Multimodal collaboration**: Combine subtitles (ASR), OCR, and audio to assist the visual stream.
+
+---
+
+## 4. Common Evaluation Metrics
+
+- **Fine-grained perception**:
+  - Action localization mAP@tIoU
+  - QA accuracy + timestamp consistency
+  - Interpretability (match between evidence frames and answers)
+- **Long-video understanding**:
+  - QA accuracy (long context)
+  - Retrieval Recall@K / mAP
+  - Summary quality (ROUGE, human evaluation)
+  - Computational efficiency (fps, GPU memory usage)
+
+---
+
+## 5. Additional Thoughts
+
+- Fine-grained perception feels more like a **small joint task at the intersection of computer vision and NLP** (detection/segmentation/action recognition + QA).
+- Long-video understanding feels more like **systems engineering**: requiring data preprocessing (segmentation/indexing), models (hierarchical), and inference (retrieval + planning).
+- A likely future direction: **multimodal collaborative memory + interpretable reasoning**.
+
+---
+
+## 6. References
+
+- Feather the Throttle: Revisiting Visual Token Pruning — [arXiv:2412.13180](https://arxiv.org/abs/2412.13180)
+- Token Activation Map to Visually Explain Multimodal LLMs — [arXiv:2506.23270](https://arxiv.org/abs/2506.23270)
+- GLM-4.5V / 4.1V-Thinking — [arXiv:2507.01006](https://arxiv.org/abs/2507.01006)
+- Thinking with Images for Multimodal Reasoning — [arXiv:2506.23918](https://arxiv.org/abs/2506.23918)
+- Vision as a Dialect — [arXiv:2506.18898](https://arxiv.org/abs/2506.18898)

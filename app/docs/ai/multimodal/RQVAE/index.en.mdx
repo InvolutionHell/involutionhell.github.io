@@ -1,0 +1,122 @@
+---
+title: RQ-VAE Study Notes
+description: Notes and insights from studying RQ-VAE
+docId: pqplmwaj5o5aszydqo1drzrj
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+## RQ-VAE (Residual Quantization Variational Autoencoder)
+
+### Background and Motivation
+
+**Limitations of VQ-VAE**: Vector Quantized VAE (VQ-VAE) introduces discrete latent variables in high-fidelity generation tasks, discretizing continuous latent vectors via a codebook. However, when we want to shorten the discrete code sequence (e.g., represent a high-resolution image with fewer codes), traditional VQ-VAE faces a rate-distortion trade-off. Specifically, reducing the spatial size of quantized feature maps (i.e., fewer position codes) requires exponentially enlarging the codebook to maintain reconstruction quality. An overly large codebook not only inflates the model's parameter count but also leads to codebook collapse.
+
+**Introducing residual quantization**: To address this, researchers proposed RQ-VAE. The core idea is to replace single-step quantization with multi-level residual vector quantization: given a fixed codebook size, the encoder's output residuals are quantized recursively, approximating the original representation from coarse to fine. Through this Residual Quantization (RQ), high-dimensional features can be approximated accurately without enlarging the codebook. In other words, RQ-VAE greatly expands representational capacity by combining codewords from multiple levels: if each level's codebook has size $K$ and there are $L$ levels, the combined space is equivalent to a codebook of size $K^L$, while requiring far fewer parameters than directly training such a massive codebook. This approach preserves reconstruction quality while shortening code sequence length, offering a new solution for generating high-resolution images and other data.
+
+**Application context**: RQ-VAE was initially proposed to improve the efficiency and quality of autoregressive image generation. In high-resolution autoregressive models, overly long discrete code sequences slow down generation and increase computational cost. RQ-VAE can significantly shorten the code sequence while preserving image detail (e.g., compressing a 256×256 image to only 8×8=64 position codes). This is critical for accelerating autoregressive Transformer modeling. The residual quantization idea has also spread to audio coding and recommendation retrieval, discretizing continuous signals into multi-level semantic codes for efficient processing. In short, RQ-VAE's motivation is to overcome the bottleneck of single-level quantization and achieve discrete representation learning that balances high compression ratios with high reconstruction quality.
+
+### Model Architecture
+
+![](index.assets/2.png)
+
+#### Overall Structure
+
+RQ-VAE follows the standard autoencoder architecture, consisting of an encoder, a multi-level codebook quantizer, and a decoder.
+
+- The encoder maps the input (e.g., an image, audio segment, or text embedding) to a low-dimensional latent representation $z$.
+- The latent vector then passes through a multi-level residual quantization module, being represented as a combination of a series of code index sequences.
+- The decoder reconstructs the original data from these discrete codewords.
+
+Unlike traditional VAE, RQ-VAE's latent variables are discrete and multi-layered: each input corresponds to multiple codebook indices that jointly encode its information.
+
+#### Residual Quantization Mechanism
+
+In RQ-VAE, the latent vector $z$ is not represented by a single codeword at once. Instead, it is approximated level by level through recursive residual quantization:
+
+- The initial residual vector $r_0$ is defined as the encoder output $z$ itself.
+- At the first quantization level, the model finds the codebook vector $v_{c_0}^0$ in level-0 codebook $C^0$ closest to $r_0$, records its index $c_0$ as the level-0 codeword, then computes the residual $r_1 = r_0 - v_{c_0}^0$, preserving details not captured by the codeword.
+- At the next level: find the vector $v_{c_1}^1$ closest to $r_1$ in level-1 codebook $C^1$, get index $c_1$, and update the residual $r_2 = r_1 - v_{c_1}^1$.
+- This iterates for $L$ levels, yielding the codeword index sequence $(c_0, c_1, \ldots, c_{L-1})$.
+
+The final quantized representation $\tilde{z}$ is the sum of each level's codebook vectors: $\tilde{z} = \sum_{d=0}^{L-1} v_{c_d}^d$, approximately reconstructing the original latent vector $z$. The decoder takes $\tilde{z}$ as input to regenerate data $\hat{x}$, approximating the original input $x$.
+
+#### Multi-Level Codebook Design
+
+RQ-VAE typically equips each quantization level with an independent codebook $C^d$ (size $K$), rather than using a single large codebook. The rationale: as quantization deepens, the residual vector norm tends to decrease, and each level needs to represent information of different scale. Therefore, each level's codebook can quantize at different granularities. The first-level codeword typically captures the coarsest, most prominent feature patterns; subsequent levels progressively add finer detail corrections. This layer-by-layer refinement gives RQ-VAE's discrete representation a semantic hierarchical structure — for example, in recommender systems, similar items may share partial semantic IDs (prefix of the codeword sequence), indicating high-level semantic similarity. It is worth noting that some research uses shared codebooks, reusing the same set of codeword vectors across all levels. Shared codebooks can reduce parameter counts and improve codeword utilization — experiments have observed significant codeword reuse across levels. Whether using independent or shared codebooks, RQ-VAE achieves a hierarchical discrete representation: each input is represented by a combination of codewords that captures both overall semantics and fine detail.
+
+#### Encoder/Decoder Architecture
+
+The specific network architectures of the encoder and decoder can be adjusted based on the task. For image RQ-VAE, the encoder is typically a convolutional neural network that compresses high-dimensional images into low-resolution feature maps, then flattens them into a series of latent vectors for quantization. The decoder is a symmetric convolutional network that reconstructs images from the quantized features. For one-dimensional sequence tasks such as audio or language, the encoder/decoder can use convolutional stacks or Transformers to convert input signals into latent vectors and back. The key point is that RQ-VAE's encoder-decoder shares the reconstruction objective with standard VQ-VAE; the difference lies in the form of latent code representation — from a single codeword to a multi-codeword combination. This architectural choice enables RQ-VAE to dramatically improve compression ratio and representational flexibility without sacrificing much reconstruction quality.
+
+### Loss Function
+
+RQ-VAE's training objective follows the basic idea of VQ-VAE: balancing **reconstruction error** and **codebook optimization**. The total loss typically consists of two parts:
+
+#### Reconstruction Loss
+
+Encourages the decoder output $\hat{x}$ to be as close as possible to the original input $x$. Common metrics are MSE or perceptual loss. For image data, pixel-level MSE or perceptual feature error is typically used to ensure high-quality reconstruction even after multi-codeword combination.
+
+#### Codebook Vector Loss
+
+This is a special design targeting the quantization layers, used to learn and maintain the effectiveness of the codebooks. The typical approach applies constraints between the encoder output (or residual) and the corresponding codebook vector during quantization. Specifically, VQ-VAE introduced the "stop-gradient" technique, treating the encoder output as a target constant and only updating codebook vectors to minimize their distance from the encoder output. An additional "commitment loss" pushes the encoder output toward the selected codebook vector, preventing the encoder from continuously producing large residuals without convergence. In RQ-VAE's multi-level context, this loss is computed for each quantization level, encouraging codebook vectors at each level to stay close to the residual they are responsible for approximating. For example, at level $d$, we can apply the loss $|\text{sg}(r_d) - v_{c_d}^d|_2^2$ on the selected codeword $v_{c_d}^d$ and residual $r_d$ (where sg denotes stop-gradient, optimizing only the codebook), plus $\beta|r_d - \text{sg}(v_{c_d}^d)|_2^2$ to constrain the encoder. The sum of per-level losses is weighted and combined with the reconstruction loss to form the complete training objective. By adjusting hyperparameter weights such as $\beta$, reconstruction accuracy and codebook learning stability can be balanced.
+
+### Model Training
+
+#### Joint Training
+
+RQ-VAE's encoder, decoder, and multiple codebooks are typically trained end-to-end jointly. Each iteration obtains multi-level codewords and the reconstructed result via forward propagation, computes the combined loss, and updates parameters via backpropagation. Since the quantization operation itself is not differentiable, the **straight-through estimator** is typically used to pass gradients through quantization — gradients are passed directly to the corresponding encoder output, allowing the network to update. Codebook vectors are updated only based on codebook loss using the stop-gradient technique, without interfering with encoder output gradients. In practice, this joint training process requires carefully balancing the coefficients of each loss component to prevent reconstruction error from dominating codebook updates (or vice versa), which could cause the model to fail to converge or leave codewords underutilized.
+
+#### Codebook Initialization and Stability
+
+To mitigate training instabilities such as codebook collapse (many inputs mapping to very few codewords), the following strategies are commonly used:
+
+**Good codebook initialization**: For example, apply k-means clustering to the first batch of training data and set cluster centers as initial codebook vectors. This provides a diverse initial codeword distribution, reducing the risk of the model getting stuck in local optima early on.
+
+**Regularization and frequency control**: Add small perturbations to rarely used codewords or periodically reinitialize unused codewords to encourage exploration.
+
+**Staged training**: If the number of codebook levels is large, consider first training a model with fewer levels until stable reconstruction is achieved, then gradually increasing the number of quantization levels.
+
+It is worth mentioning that Lee et al. observed when proposing RQ-VAE that using **shared codebooks** helps improve codeword utilization. Shared codebooks mean all levels use the same set of vectors, so no level's codebook sits idle — mitigating low-frequency codeword waste. However, shared codebooks may also reduce each level's flexibility to optimize for different residual scales. Overall, RQ-VAE training builds on VQ-VAE experience while requiring appropriate adjustments for multi-level quantization characteristics, ensuring codewords at every level are effectively learned and cooperate to achieve high-quality reconstruction.
+
+### Advantages and Disadvantages
+
+**Advantages**:
+
+- **Efficient discrete representation**: RQ-VAE can represent data with shorter code sequences while preserving detail. Compared to single-codeword schemes, the total number of required codewords is significantly reduced, facilitating downstream autoregressive or sequence modeling. For example in image tasks, RQ-VAE can represent 256×256 images with 8×8=64 positions, each represented by a multi-codeword combination, dramatically reducing computational overhead for autoregressive models.
+- **High-fidelity reconstruction quality**: Through progressive residual quantization, RQ-VAE achieves greater representational capacity than VQ-VAE under the same codebook capacity. Experiments show that increasing quantization depth is more effective than enlarging the codebook for improving reconstruction quality. RQ-VAE can maintain faithful reconstruction at lower feature map resolutions than VQ-VAE, solving the distortion problem that single-level quantization causes when reducing resolution.
+- **Stable codebook utilization**: Since information is distributed across multiple codeword levels, no single codeword needs to carry all the information, which to some extent reduces the tendency for codebook collapse. Especially with the shared codebook strategy, different quantization levels reuse the same codewords, leading to higher codeword utilization — many codewords can play a role at both coarse and fine levels. Overall, RQ-VAE's multi-level quantization avoids the extreme case of "most codewords idle, few codewords overloaded."
+- **Semantic hierarchy and compositional flexibility**: RQ-VAE's multi-codeword combination naturally forms hierarchical semantics. First-level codewords often correspond to categories or coarse attributes; subsequent codewords add detail (e.g., style, texture). This interpretability is beneficial in certain applications. Multi-codeword discrete representations also enable compositional generalization — different data may share partial codewords, reflecting similarity relationships in the discrete space.
+
+**Disadvantages**:
+
+- **Limitations of autoregressive models**: RQ-VAE is often combined with autoregressive Transformers for generation tasks. While it performs well on large datasets, the model tends to overfit on small-scale data and does not surpass state-of-the-art GANs (e.g., StyleGAN2). This is a common problem with the autoregressive paradigm: it is difficult to learn representations that generalize as well as GANs with limited data. Therefore, on small datasets, RQ-VAE does not solve the overfitting problem and requires regularization or stronger priors.
+- **Unidirectional generation and speed**: Autoregressive generation can only decode sequentially in one direction, which remains slower than methods that can sample in parallel (e.g., diffusion models). RQ-VAE reduces sequence length and thus speeds up sampling to some extent, but inherently still requires generating sequences step by step. For tasks requiring bidirectional context (e.g., image editing), the autoregressive + RQ-VAE framework remains limited and may need to be combined with bidirectional models or other generative paradigms in the future.
+- **Training complexity**: Multi-level quantization introduces more training hyperparameters (e.g., number of quantization levels, codebook size per level, loss weights). Training RQ-VAE is often more complex and time-consuming than training single-level VQ-VAE — each additional codebook level adds encoder computation and loss terms, and improper training may cause certain codewords to remain unused for a long time or reduce reconstruction quality. For example, researchers found that more training epochs are needed to fully exploit the potential of deep RQ-VAE, which increases training cost. Therefore, efficiently training deep RQ-VAE is a major challenge.
+- **Model parameters and memory**: Although RQ-VAE avoids a single oversized codebook, if independent codebooks are used with many levels, the total parameter count and storage overhead are not negligible. For example, with $K$ codewords per level at dimension $D$, $L$ independent levels have approximately $L \times K \times D$ parameters. When $L$ is large (e.g., tens of levels in audio models) or $D$ is high-dimensional, the total parameter count is still considerable. However, in common settings (a few levels for image models, codebooks of a few thousand entries), this overhead is generally acceptable. Additionally, multi-codeword summation at inference time slightly increases decoding computation, but its impact relative to total computation is small.
+
+In summary, RQ-VAE provides superior discrete representational capability but still has room for improvement in certain areas, including faster generation, more robust training, and integration with other generative architectures.
+
+### Applications
+
+RQ-VAE, as a powerful tool for discrete representation learning, has been successfully applied across generation and modeling tasks in multiple modalities:
+
+- **Image generation**: RQ-VAE was initially applied to high-resolution image generation. Lee et al. proposed using RQ-VAE-encoded discrete codes as Transformer inputs, building a two-stage model (RQ-VAE + autoregressive Transformer) for image generation. On datasets such as ImageNet, this approach surpassed previous autoregressive models in both unconditional and conditional generation. Notably, on 256×256 images, RQ-VAE compresses feature maps to 8×8, improving Transformer modeling efficiency while still generating high-quality images with significantly improved FID scores. Compared to earlier pixel-level AR models such as PixelCNN, this framework achieves orders of magnitude faster sampling. However, on small-scale datasets (e.g., FFHQ faces), its performance still lags behind the best GAN models of the time. Overall, RQ-VAE + Transformer demonstrated the viability of short-code representation + autoregression in image generation, offering new ideas for subsequent work.
+- **Audio modeling**: In neural audio coding and generation, residual vector quantization has become one of the standard techniques. Google's SoundStream model encodes speech/audio signals through a convolutional encoder and applies multi-level residual quantization (up to tens of levels), achieving lossy compression of broadband audio. SoundStream maintains near-original audio quality while reducing bitrate to the order of a few kbps — the key lies in the multi-level codebook providing high-precision reconstruction. These discrete audio codes can then be used for audio generation models: for example, Google's AudioLM and MusicLM first obtain discrete audio representations via SoundStream, then train language models to generate these discrete codes, producing coherent music or speech. Meta's EnCodec follows a similar design philosophy. The RQ-VAE (or RVQ) approach allows neural networks to learn end-to-end audio compression while providing discrete units for downstream generation tasks. Therefore, in audio denoising, music generation, speech transmission, and similar areas, VAE models based on residual quantization demonstrate superior high-fidelity and high-compression performance.
+- **Language and recommendation**: Although text is inherently a sequence of discrete symbols, RQ-VAE is beginning to play a role in semantic representation. For example, in generative recommender systems, RQ-VAE is used to encode item content features (e.g., product description text) into semantic IDs. Each item is represented as a set of codewords (a tuple of semantic IDs), and similar items share some codewords, maintaining semantic proximity in the discrete space. Models such as Google's TIGER and Kuaishou's OneSug use RQ-VAE to discretize text descriptions or queries, mapping user history sequences into semantic codes and then using sequence-to-sequence models to generate the next recommended item or query. These semantic IDs effectively alleviate the problem of overly large vocabularies caused by using raw IDs in recommendation scenarios, enabling large language models to directly process item sequences. In language modeling, there are also research attempts to discretize continuous semantic representations of sentences to facilitate compression and retrieval — for example, in generative retrieval tasks, RQ-VAE extracts semantic IDs for queries, then generates the most relevant document ID character by character. These attempts show that in language-related domains, RQ-VAE can serve as a tool for discretizing semantic embeddings, improving cross-modal or cross-system integration efficiency. In multimodal applications, people have also envisioned discretizing images and audio through their respective RQ-VAEs alongside text, uniformly representing them as discrete sequences so that a single general-purpose Transformer can understand multiple signals simultaneously. In summary, in language and recommender systems, RQ-VAE provides a method for converting high-dimensional semantic vectors into composable discrete symbols, demonstrating potential to improve downstream task performance.
+
+### Comparison with VQ-VAE
+
+#### VQ-VAE
+
+Classic VQ-VAE uses a single-level codebook to quantize continuous latent vectors into a single discrete codeword, obtaining a discrete representation of images or sequences. Its advantage is a simple structure where discrete codes can be directly used to train autoregressive models. However, because each position has only one codeword, VQ-VAE often requires high spatial resolution or a large codebook to represent sufficient detail. As noted earlier, the single-codebook scheme involves a trade-off between compression ratio and fidelity: to reduce the number of codewords (lower resolution), the codebook must be enlarged to avoid information loss. An overly large codebook then causes stability problems (e.g., underutilized codebook vectors). By contrast, RQ-VAE uses multi-codeword combinations to significantly expand representational capacity without relying heavily on codebook scale. Under the same codebook size, RQ-VAE can represent data with fewer spatial positions while maintaining high-fidelity reconstruction. RQ-VAE can be seen as an extension of VQ-VAE that breaks through its representational capacity limitations for a given codebook size.
+
+#### VQ-VAE-2
+
+VQ-VAE-2 is a hierarchical extension of VQ-VAE proposed by DeepMind for better generation of image details. It introduces two-level (or multi-level) discrete hierarchies: for example, high-level codewords capture the global coarse structure, while low-level codewords capture local fine-grained information. Specifically, VQ-VAE-2 has two (or more) independent VQ modules: it first encodes to obtain a high-level discrete representation, then uses the high-level representation as a condition to predict fine-grained low-level discrete representations during decoding. The difference from RQ-VAE is that VQ-VAE-2's hierarchy is spatially/semantically separated, with each level's codewords corresponding to feature maps at different scales; RQ-VAE's hierarchy is a progressive approximation on the same latent vector, where multiple levels of codewords jointly form the representation of one position. Intuitively, VQ-VAE-2 encodes images in a "first overview, then detail" manner, with different levels acting on different abstraction levels; RQ-VAE refines the encoding at the same abstraction level through residual stacking. Both embody hierarchical discrete representation thinking, but their implementation mechanisms differ. VQ-VAE-2 can improve generation quality (especially textural detail) and provide multi-scale semantic control, but it does not significantly reduce the total number of codes — introducing multiple levels may actually require more codewords for reconstruction. In contrast, one of RQ-VAE's design goals is precisely to reduce discrete sequence length, concentrating information into fewer positions and using multi-codeword stacking at each position to ensure no detail is lost. Therefore, in scenarios requiring compact discrete representations (e.g., autoregressive modeling requiring short sequences), RQ-VAE is relatively more advantageous.
+
+### Summary
+
+RQ-VAE combines residual quantization with variational autoencoder ideas, successfully achieving discrete representation learning with high compression ratios and high fidelity. Through coarse-to-fine quantization using multi-level codebooks, it overcomes the dilemma of traditional VQ-VAE regarding codebook capacity and sequence length, realizing hierarchical representation of discrete latent codes. This approach has achieved remarkable results in applications across images, audio, text, and other domains — not only improving the effectiveness and efficiency of generative models, but also providing a powerful tool for emerging tasks such as cross-modal representation and generative retrieval.

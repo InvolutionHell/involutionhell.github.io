@@ -1,0 +1,261 @@
+---
+title: Wang Shusen Recommender Systems Study Notes — Feature Crossing
+description: ""
+date: "2025-09-27"
+tags:
+  - tag-one
+docId: hajz43iblku13mmevia8zrhv
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Wang Shusen Recommender Systems Study Notes — Feature Crossing
+
+## Feature Crossing
+
+### Factorization Machine (FM)
+
+#### Linear Model
+
+- Given $d$ features, denoted as $\mathbf{x} = [x_1, \cdots, x_d]$.
+
+- **Linear model**:
+
+  $$
+  p = b + \sum_{i=1}^{d} w_i x_i.
+  $$
+
+- **The model has $d + 1$ parameters**: $\mathbf{w} = [w_1, \cdots, w_d]$ and $b$.
+
+- **Prediction is a weighted sum of features**. (_Addition only, no multiplication._)
+
+#### Second-Order Crossed Features
+
+- **Given $d$ features, denoted as** $\mathbf{x} = [x_1, \cdots, x_d]$.
+
+- **Linear model + second-order crossed features**:
+
+  $$
+  p = b + \sum_{i=1}^{d} w_i x_i + \sum_{i=1}^{d} \sum_{j=i+1}^{d} u_{ij} x_i x_j.
+  $$
+
+- **The model has $O(d^2)$ parameters**.
+
+**Linear model + second-order crossed features**:
+
+$$
+p = b + \sum_{i=1}^{d} w_i x_i + \sum_{i=1}^{d} \sum_{j=i+1}^{d} u_{ij} x_i x_j.
+$$
+
+$$
+u_{ij} \approx v^T_iv_j
+$$
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-1-1.png)
+
+Matrix $U$ has $d$ rows and $d$ columns; matrix $V$ has $d$ rows and $k$ columns; matrix $V^T$ has $k$ rows and $d$ columns.
+
+- **Factorization Machine (FM)**:
+
+  $$
+  p = b + \sum_{i=1}^{d} w_i x_i + \sum_{i=1}^{d} \sum_{j=i+1}^{d} \left( \mathbf{v}_i^T \mathbf{v}_j \right) x_i x_j.
+  $$
+
+- **FM has $O(kd)$ parameters**. ($k \ll d$)
+
+#### Factorization Machine
+
+- FM is a drop-in replacement for linear models; anywhere linear regression or logistic regression can be used, FM can be used instead.
+- FM uses second-order crossed features, making it more expressive than linear models.
+- Through the approximation $u_{ij} \approx \mathbf{v}_i^T \mathbf{v}_j$, FM reduces the number of second-order cross weights from $O(d^2)$ to $O(kd)$.
+
+### Deep & Cross Network (DCN)
+
+#### Retrieval and Ranking Models
+
+Two-tower models and multi-objective ranking models are just structural frameworks; the internal neural networks can be any network architecture.
+
+#### Cross Layer
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-2-1.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-2-2.png)
+
+Incorporates ResNet concepts to prevent vanishing gradients.
+
+#### Cross Network
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-2-3.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-2-4.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-2-5.png)
+
+**Deep & Cross Network (DCN)**
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-2-6.png)
+
+DCN outperforms fully connected networks in practice and can be used in the user tower and item tower of two-tower models, the shared bottom network of multi-objective ranking models, and the expert networks in MMoE.
+
+### Learning Hidden Unit Contributions (LHUC)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-3-1.png)
+
+The neural network structure is [multiple fully connected layers] → [Sigmoid × 2], so all values in the output vector lie between 0 and 2.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-3-2.png)
+
+### SENet & Bilinear Cross
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-4-1.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-4-2.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-4-3.png)
+
+- **SENet applies field-wise weighting to discrete features.**
+
+- **Field**:
+  - User ID embedding is a 64-dimensional vector.
+  - The 64 elements (i.e., the embedding vector of one feature) form one field and receive the same weight.
+  - The more important the feature, the higher the weight.
+
+- **If there are $m$ fields, the weight vector is $m$-dimensional.**
+
+#### Cross-Field Feature Crossing
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-4-4.png)
+
+**Inner Product**
+
+Both $x^T_i$ and $x_j$ are feature embedding vectors; $f_{ij}$ is a scalar. With $m$ fields, pairwise inner products yield $m^2$ scalars.
+
+**Hadamard Product**
+
+Both $x^T_i$ and $x_j$ are feature embedding vectors; $f_{ij}$ is a vector. With $m$ fields, pairwise Hadamard products yield $m^2$ vectors — too many. One must manually specify which vector pairs to cross, rather than crossing all pairs.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-4-5.png)
+
+**Bilinear Cross (inner product)**
+
+With $m$ fields, there are $m^2$ scalar values $f_{ij}$ and $m^2/2$ parameter matrices $W_{ij}$.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-4-6.png)
+
+**Bilinear Cross (Hadamard)**
+
+With $m$ fields, there are $m^2$ vector values $f_{ij}$ and $m^2/2$ parameter matrices $W_{ij}$.
+
+#### FiBiNet
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/4-4-7.png)
+
+## Behavior Sequences
+
+### User Behavior Sequence Modeling
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/5-1-1.png)
+
+**LastN Features**
+
+- **LastN**: Item IDs from the user's most recent $n$ interactions (clicks, likes, etc.).
+- Embed **LastN** item IDs to get $n$ vectors.
+- Take the average of these $n$ vectors as one type of user feature.
+- Applicable to retrieval two-tower models, pre-ranking three-tower models, and full-ranking models.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/5-1-2.png)
+
+### DIN Model
+
+**DIN Model**
+
+- DIN replaces simple averaging with **weighted averaging**, i.e., an attention mechanism.
+- Weights: similarity between the candidate item and the user's **LastN** items.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/5-2-1.png)
+
+**DIN Model**
+
+- For a given candidate item, compute its similarity to each of the user's **LastN** items.
+- Use the similarity as weights to compute a weighted sum of the user's **LastN** item vectors, yielding a single vector.
+- Use this vector as a user feature input to the ranking model, estimating click-through rate, like rate, etc. for (user, candidate item) pairs.
+- This is essentially an attention mechanism.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/5-2-2.png)
+
+**Simple Averaging vs. Attention Mechanism**
+
+- Both _simple averaging_ and attention mechanism are applicable to full-ranking models.
+- _Simple averaging_ is applicable to two-tower and three-tower models.
+  - _Simple averaging_ only uses **LastN**, which is a user-intrinsic feature.
+  - The average of LastN vectors is used as input to the user tower.
+- Attention mechanism is not applicable to two-tower or three-tower models.
+  - Attention mechanism requires **LastN** + **candidate item**.
+  - The user tower cannot see the candidate item, so attention mechanism cannot be applied inside the user tower.
+
+### SIM Model
+
+**DIN Model**
+
+- Computes a weighted average of the user's **LastN** vectors.
+- Weights are the similarity between the candidate item and each LastN item.
+
+**DIN Model Drawbacks**
+
+- Attention layer computation $\propto n$ (length of user behavior sequence).
+- Can only record the most recent few hundred items; otherwise computation is too expensive.
+- Drawback: Focuses on short-term interests, forgetting long-term interests.
+
+**How to Improve DIN?**
+
+- **Goal**: Retain long user behavior sequences ($n$ large) without excessive computation.
+
+- **Improved DIN**:
+  - DIN computes a weighted average of **LastN** vectors using similarity as weights.
+  - If a **LastN** item is very different from the candidate item, its weight is near zero.
+  - Quickly eliminate **LastN** items unrelated to the candidate item, reducing computation in the attention layer.
+
+#### SIM Model
+
+- Retains long-term user behavior history; $n$ can be in the thousands.
+- For each candidate item, quickly search the user's **LastN** records to find $k$ similar items.
+- Convert **LastN** into **TopK**, then feed into the attention layer.
+- **SIM** reduces computation (from $n$ to $k$).
+
+**Step 1: Search**
+
+- **Method 1: Hard Search**
+  - Filter **LastN** items to keep only those with the same category as the candidate item.
+  - Simple, fast, requires no training.
+
+- **Method 2: Soft Search**
+  - Embed items to get vectors.
+  - Use the candidate item vector as a **query** and perform $k$-nearest neighbor search, keeping the $k$ nearest items in **LastN**.
+  - Better performance, more complex to implement.
+
+**Step 2: Attention Mechanism**
+
+**Using Temporal Information**
+
+- Let $\delta$ be the time elapsed since the user interacted with a **LastN** item.
+- Discretize $\delta$, then embed it to get vector **d**.
+- Concatenate the two vectors to represent a **LastN** item:
+  - Vector **x** is the item embedding.
+  - Vector **d** is the time embedding.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/5-3-1.png)
+
+Why does SIM **use temporal information**?
+
+- **DIN** has a short sequence, recording the user's recent behavior.
+- **SIM** has a long sequence, recording the user's long-term behavior.
+- The more distant the interaction in time, the less important it is.
+
+#### Conclusions
+
+- Long sequences (long-term interests) outperform short sequences (recent interests).
+- Attention mechanism outperforms simple averaging.
+- **Soft search** vs. **Hard search**? Depends on engineering infrastructure.
+- Using temporal information provides improvement.

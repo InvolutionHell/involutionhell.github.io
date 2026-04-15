@@ -17,21 +17,24 @@ export async function GET(req: NextRequest) {
     since.setFullYear(since.getFullYear() - 10);
   }
 
+  // Prisma 对 JSON 字段的 startsWith 过滤不能直接嵌套写在 where，
+  // 这里先按 eventType + createdAt 过滤，再在内存里按 path 前缀筛
   const rows = await prisma.analyticsEvent.findMany({
     where: {
       eventType: "page_view",
       createdAt: { gte: since },
-      eventData: { path: { startsWith: "/docs/" } },
     },
     select: { eventData: true },
   });
 
-  // 统计各路径 PV
+  // 统计各路径 PV（内存过滤 /docs/ 前缀）
   const counts: Record<string, number> = {};
   for (const row of rows) {
     const data = row.eventData as { path?: string; title?: string } | null;
     const path = data?.path;
-    if (path) counts[path] = (counts[path] ?? 0) + 1;
+    if (path && path.startsWith("/docs/")) {
+      counts[path] = (counts[path] ?? 0) + 1;
+    }
   }
 
   const top = Object.entries(counts)

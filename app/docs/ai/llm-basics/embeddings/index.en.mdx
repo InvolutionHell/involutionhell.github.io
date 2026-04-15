@@ -1,0 +1,43 @@
+---
+title: Embedding Models
+description: Resources on embeddings and vector representations.
+date: "2024-01-15"
+tags:
+  - embedding
+  - vector
+  - representation
+  - nlp
+  - retrieval
+docId: xnl2yzrb4x748zhhfe26ragt
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+**Embedding** is a technique that maps discrete objects (such as words, sentences, images, and user behaviors) to a continuous vector space.  
+With this representation, semantically similar objects tend to be closer together in the vector space, making computation and modeling more tractable.
+
+## Core Idea
+
+- **Discrete → Continuous**: Transforms symbolic inputs into numerical vectors, enabling neural network processing.
+- **Semantic preservation**: The structure of the vector space retains the semantic relationships between objects.
+- **Computability**: Vectors support operations such as addition, dot product, and cosine similarity, enabling retrieval, clustering, and classification.
+
+## Applications in Large Models
+
+- **Word/sentence vectors**: The most common representation in NLP models (e.g., Word2Vec, BERT, GPT).
+- **Multimodal representations**: Mapping images, audio, video, and other modalities into a shared vector space for cross-modal retrieval.
+- **Retrieval and recommendation**: Semantic retrieval based on vector similarity (vector databases, RAG), and personalized recommender systems.
+- **Fine-tuning and merging**: Optimizing vector representations for specific tasks via methods such as LoRA and SLERP.
+
+## Typical Methods
+
+- **Early methods**: Word2Vec, GloVe
+- **Contextual representations**: ELMo, BERT
+- **Embeddings from generative LLMs**: GPT series, Qwen Embedding, OpenAI Embedding API
+
+## Summary
+
+Embedding is a foundational component of modern machine learning and large model applications.  
+It bridges the discrete and continuous worlds, and is a core tool for semantic understanding, retrieval-augmented generation (RAG), and multimodal fusion.

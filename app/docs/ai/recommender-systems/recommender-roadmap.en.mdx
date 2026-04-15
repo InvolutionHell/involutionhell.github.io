@@ -1,0 +1,176 @@
+---
+title: Recommender Systems
+description: Recommender systems learning path, hands-on projects, paper resources, and competitions
+date: "2025-01-27"
+tags:
+  - recommender-systems
+  - recsys
+  - llm4rec
+  - collaborative-filtering
+  - deep-learning
+docId: as876rdhtmpnyyeclxt226s1
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+Recommender systems are one of the most important AI applications in industry. From traditional collaborative filtering to modern large-model recommendations, this section covers the complete learning path for recommender systems.
+
+## 8.1 Recommender Systems Learning Path (WIP)
+
+### 8.1.1 Understanding the Business
+
+Search, advertising, and recommendation have different scopes:
+
+- **Search**: Focuses on query-based retrieval, understanding user search intent
+- **Advertising**: Balances three-way interests among advertisers, ad platforms, and user experience
+- **Recommendation**: Focuses on long-term ecosystem, maximizing long-term user value
+
+**Core Differences**:
+
+- Recommendation only cares about whether the ranking order of item fusion scores is accurate
+- Advertising must also ensure score distances (related to bidding mechanisms)
+- Generally, item scores in recommender systems can be summarized as: **recall → ctr × cvr**
+- Ad systems additionally multiply by bid and deep_cvr scores (e.g., payment amount)
+
+**Business Understanding Advice**: Whether it's search, advertising, or recommendation, it's recommended to read "Computational Advertising" to understand the business fundamentals.
+
+### 8.1.2 Learning Models
+
+Evolution of recommender system models:
+
+1. **Traditional Methods**: Collaborative filtering, matrix factorization
+2. **Deep Learning**: DeepFM, Wide&Deep, DIN, etc.
+3. **Pre-trained Models**: BERT4Rec, SASRec, etc.
+4. **LLM Era**: LLM4Rec, ChatRec, etc.
+
+## 8.2 Recommender Learning Resources
+
+### 8.2.1 Wang Shusen's Recommender Systems Course
+
+- **Video**: [Bilibili Recommender Systems Course](https://www.bilibili.com/video/BV1pS4y1a7QT)
+- **Highlights**: Balanced theory and practice, rich industry experience
+- **Content**: From basic collaborative filtering to deep learning recommendation models
+
+### 8.2.2 Datawhale Large Model Recommender Systems Study Group
+
+- **Tutorial**: [GitHub Repository](https://github.com/datawhalechina/fun-rec)
+- **Website**: [https://datawhalechina.github.io/fun-rec/](https://datawhalechina.github.io/fun-rec/#/)
+- **Highlights**: Collaborative learning format, suitable for beginners
+
+### 8.2.3 "Internet Giant Recommender Algorithm in Practice"
+
+- **Resource Link**: [Zhihu Article Introduction](https://zhuanlan.zhihu.com/p/623814354)
+- **Highlights**: Real-world industry experience sharing
+- **Content**: Practical application cases of recommender algorithms at major companies
+
+## 8.3 Beginner Projects
+
+### 8.3.1 Alibaba Tianchi News Recommendation System
+
+- **Competition**: [Tianchi News Recommendation](https://tianchi.aliyun.com/competition/entrance/531842/introduction)
+- **Highlights**: Real business scenarios, high data quality
+- **Learning Value**: Complete recommender system development workflow
+
+**Recommender System Project Collection**: A curated collection of more hands-on project resources
+
+## 8.4 Recommender Systems Study Notes
+
+**Recommender Systems Study Notes Table**: View the complete organized study notes
+
+**Core Content Includes**:
+
+- Classic recommendation algorithm principles
+- Deep learning recommendation models
+- Industry deployment experience
+- Evaluation metrics and optimization strategies
+
+## 8.5 Recommender Systems Papers (To Be Curated)
+
+GitHub paper collection, continuously updated. Content is closer to practical business, without much focus on generative recommendation.
+
+**Recommender Systems Paper Curation Table**: View the complete paper curation list
+
+**Curation Status**:
+
+- Not Started: Pending curation
+- Under Review: Currently being evaluated
+- Completed: Review finished
+- Not Recommended: Quality below standard
+- Not Open-Source: Code not publicly available
+
+### LLM4REC
+
+Applications of large models in recommender systems, including:
+
+- **Pre-trained Recommendation Models**: Pre-training on large-scale data
+- **Generative Recommendation**: Framing recommendation as a generation task
+- **Multimodal Recommendation**: Combining text, images, and other multimodal information
+- **Conversational Recommendation**: Natural language interaction-based recommendation
+
+## 8.6 Related Competitions
+
+### Tencent Advertising Algorithm Competition
+
+- **Website**: [https://algo.qq.com](https://algo.qq.com)
+- **Problem**: Participants predict users' next likely ad interactions based on desensitized multi-modal historical behavior data (collaborative, textual, visual)
+- **Technical Requirements**: Each interaction includes ID-type ad features and multimodal information (images, text, etc.)
+- **Innovation Direction**: Via baseline models and solution review stages, the competition encourages participants to break out of traditional discriminative recommendation frameworks and explore generative recommendation
+
+### Multimodal Short Video Click Prediction — Malanshan Cup
+
+- **Website**: [https://challenge.ai.mgtv.com/](https://challenge.ai.mgtv.com/)
+- **Problem**: Predict videos users watch and completion rate based on Mango TV's multimodal features, combined with user features and behavior data
+- **Technical Highlights**: Full baseline sharing for 2025 MGTV Multimodal Video Recommendation (0.256+)
+
+### Kaggle Playground — FlightRank2025
+
+- **Problem**: 2025 personalized flight recommendation for passengers
+- **Goal**: Build an intelligent flight ranking model to predict which flight option business travelers will choose from search results
+- **Reference Solution**: [CatBoost Ranker Baseline](https://www.kaggle.com/code/ka1242/catboost-ranker-baseline-flightrank-2025)
+
+## Technology Trends
+
+### Traditional Recommendation → LLM Recommendation
+
+1. **Representation Learning**: From sparse features to dense embeddings
+2. **Sequence Modeling**: From static features to dynamic sequences
+3. **Multimodal Fusion**: From single modality to multi-modal information
+4. **Generative Recommendation**: From discriminative models to generative models
+
+### Industry Deployment Considerations
+
+1. **Latency Requirements**: Millisecond-level response time
+2. **Throughput**: High-concurrency request handling
+3. **Storage Optimization**: Model compression and quantization
+4. **A/B Testing**: Online performance evaluation
+
+### Evaluation Metric Framework
+
+**Offline Metrics**:
+
+- Accuracy-based: Precision, Recall, F1
+- Ranking-based: NDCG, MAP, MRR
+- Diversity: Coverage, Diversity
+
+**Online Metrics**:
+
+- Click-Through Rate (CTR)
+- Conversion Rate (CVR)
+- Dwell Time
+- User Retention
+
+## Learning Suggestions
+
+1. **Business Understanding First**: Deeply understand the nature and goals of recommendation business
+2. **Progressive Algorithm Learning**: Start from classic algorithms, gradually go deeper into deep learning methods
+3. **Practice-Oriented**: Accumulate hands-on experience through projects and competitions
+4. **Engineering Skills**: Emphasize system design and engineering implementation
+5. **Continuous Learning**: Follow frontier technologies like large models applied to recommendation
+
+## Other Summaries
+
+- LLM4REC (Large Model Recommendation)
+- Learning Path (WIP): Business understanding, model learning
+- Recommender Learning Resources: Wang Shusen, Datawhale, hands-on projects

@@ -1,0 +1,500 @@
+---
+title: Wang Shusen Recommender Systems Study Notes — Cold Start
+description: ""
+date: "2025-09-27"
+tags:
+  - tag-one
+docId: bvccoatft6y7bph83oivdcfe
+lang: en
+translatedFrom: zh
+translatedAt: 2026-04-15T12:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Wang Shusen Recommender Systems Study Notes — Cold Start
+
+## Item Cold Start
+
+### Item Cold Start: Evaluation Metrics
+
+**Item Cold Start**
+
+- Newly published posts on Xiaohongshu.
+- Newly uploaded videos on Bilibili.
+- Newly published articles on Toutiao.
+
+**New Post Cold Start**
+
+- New posts lack user interaction, making recommendation difficult and less effective.
+- Supporting newly published, low-exposure posts can strengthen authors' motivation to publish.
+
+**Cold Start Optimization Goals**
+
+1. Precise recommendation: Overcome cold start difficulties, recommend new posts to suitable users without causing dissatisfaction.
+
+2. Incentivize publishing: Direct traffic toward low-exposure new posts, encouraging authors to publish.
+
+3. Discover high-potential content: Through initial small-scale traffic probing, identify high-quality posts and give them traffic boosts.
+
+**Evaluation Metrics**
+
+- Author-side metrics:
+  - Publishing penetration rate, average posts per user.
+
+- User-side metrics:
+  - New post metrics: click-through rate and interaction rate for new posts.
+  - Platform-wide metrics: consumption time, DAU, MAU.
+
+- Content-side metrics:
+  - Proportion of high-heat posts.
+
+#### Author-Side Metrics
+
+**Publishing Penetration Rate**
+
+- Publishing penetration rate = Number of daily publishers / DAU
+- A user counts as a publisher if they publish at least one post.
+- **Example**:
+  - Daily publishers = 1 million
+  - DAU = 20 million
+  - Publishing penetration rate = 100 / 2000 = 5%
+
+**Average Posts per User**
+
+- Average posts per user = Daily published posts / DAU
+- **Example**:
+  - Daily published posts = 2 million
+  - DAU = 20 million
+  - Average posts per user = 200 / 2000 = 0.1
+
+Publishing penetration rate and average posts per user reflect authors' motivation to publish.
+
+An important optimization goal for cold start is to incentivize publishing and grow the content pool.
+
+The more exposure new posts receive, and the earlier their first exposure and interaction occur, the higher the author's motivation to publish.
+
+#### User-Side Metrics
+
+**New Post Consumption Metrics**
+
+- Click-through rate and interaction rate for new posts.
+  - Issue: The Gini coefficient of exposure is large.
+  - A small number of top new posts occupy the majority of exposure.
+
+- Evaluate high-exposure and low-exposure new posts separately.
+  - High-exposure: e.g., >1000 impressions.
+  - Low-exposure: e.g., `<1000` impressions.
+
+#### **Content-Side Metrics**
+
+**Proportion of High-Heat Posts**
+
+- High-heat post: received 1000+ clicks within the first 30 days.
+- A higher proportion of high-heat posts indicates stronger ability to discover quality content during the cold start phase.
+
+#### **Summary**
+
+- **Author-side metrics**: Publishing penetration rate, average posts per user.
+- **User-side metrics**: New post consumption metrics, platform-wide consumption metrics.
+- **Content-side metrics**: Proportion of high-heat posts.
+
+**Cold Start Optimization Points**
+
+- **Optimize the full pipeline** (_including retrieval and ranking_).
+- **Traffic control** (_how traffic is allocated between new and old posts_).
+
+### Item Cold Start: Simple Retrieval Channels
+
+#### Retrieval Basis
+
+**Cold Start Retrieval Challenges**
+
+- Lack of user interaction means item ID embeddings haven't been learned well, leading to poor two-tower model performance.
+- Lack of user interaction means ItemCF is not applicable.
+
+#### Two-Tower Model
+
+**ID Embedding**
+
+**Improvement 1: Use default embedding for new posts**
+
+- When the item tower performs ID embedding, let all new posts share a single ID rather than using their own real IDs.
+- Default embedding: the embedding vector corresponding to the shared ID.
+- New posts only get their own ID embedding vectors after the next model training.
+
+**Improvement 2: Leverage similar post embedding vectors**
+
+- Find the top-k high-exposure posts with the most similar content.
+- Average the embedding vectors of these k high-exposure posts as the new post's embedding.
+
+**Multiple Retrieval Pools**
+
+- Multiple retrieval pools give new posts more exposure opportunities:
+  - Posts from the last 1 hour,
+  - Posts from the last 6 hours,
+  - Posts from the last 24 hours,
+  - Posts from the last 30 days.
+
+- Sharing a single two-tower model means multiple retrieval pools add no additional training cost.
+
+#### Category-Based Retrieval
+
+**Category-Based Retrieval**
+
+- The system maintains a category index:
+  $$\text{category} \rightarrow \text{post list (sorted by time, descending)}$$
+
+- Use the category index for retrieval:
+  $$\text{user profile} \rightarrow \text{category} \rightarrow \text{post list}$$
+
+- Retrieve the top k posts from the list (i.e., the most recent k posts).
+
+**Keyword-Based Retrieval**
+
+- The system maintains a keyword index:
+  $$\text{keyword} \rightarrow \text{post list (sorted by time, descending)}$$
+
+- Retrieval is based on **keywords** in the user profile.
+
+**Drawbacks**
+
+- Drawback 1: Only effective for very recently published posts.
+  - Retrieves the most recent k posts in a given category/keyword.
+  - After a few hours of publication, posts have no more opportunity to be retrieved.
+
+- Drawback 2: Weak personalization, insufficiently precise.
+
+### Item Cold Start: Clustering-Based Retrieval
+
+#### Clustering-Based Retrieval
+
+**Basic Idea**
+
+- If a user likes a post, they will likely enjoy posts with similar content.
+
+- Pre-train a neural network that maps posts to vectors based on their category and image-text content.
+
+- Cluster the post vectors into 1000 $clusters$, recording the centroid direction of each $cluster$. (k-means clustering using cosine similarity.)
+
+**Cluster Index**
+
+- After a new post is published, use the neural network to map it to a feature vector.
+
+- Find the most similar vector among the 1000 cluster vectors (corresponding to 1000 $clusters$), and assign the new post to that $cluster$.
+
+- Index:
+
+  $$
+  cluster \rightarrow \text{post ID list (sorted by time, descending)}
+  $$
+
+**Online Retrieval**
+
+- Given a user ID, find their last-$n$ interacted posts and use them as seed posts.
+
+- Map each seed post to a vector and find the most similar $cluster$. (This tells us which $clusters$ the user is interested in.)
+
+- From each $cluster$'s post list, retrieve the most recent $m$ posts.
+
+- Retrieve at most $mn$ new posts in total.
+
+#### Content Similarity Model
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-3-1.png)
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-3-2.png)
+
+#### Training the Content Similarity Model
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-3-3.png)
+
+**Model Training**
+
+Basic idea: Encourage $\cos(\mathbf{a}, \mathbf{b}^+)$ to be greater than $\cos(\mathbf{a}, \mathbf{b}^-)$
+
+**Triplet hinge loss:**
+
+$$
+L(\mathbf{a}, \mathbf{b}^+, \mathbf{b}^-) = \max\{0, \cos(\mathbf{a}, \mathbf{b}^-) + m - \cos(\mathbf{a}, \mathbf{b}^+)\}
+$$
+
+**Triplet logistic loss:**
+
+$$
+L(\mathbf{a}, \mathbf{b}^+, \mathbf{b}^-) = \log(1 + \exp(\cos(\mathbf{a}, \mathbf{b}^-) - \cos(\mathbf{a}, \mathbf{b}^+)))
+$$
+
+**&lt;Seed Post, Positive Sample>**
+
+Method 1: Manual annotation of pairwise similarity
+
+Method 2: Algorithmically auto-select positive samples
+
+Selection criteria:
+
+- Use only high-exposure posts as pairs (because they have sufficient user interaction information).
+- Two posts share the same secondary category, e.g., both are "Recipe Tutorials".
+
+- Use ItemCF item similarity to select positive samples.
+
+**&lt;Seed Post, Negative Sample>**
+
+- Randomly select from all posts meeting the following conditions:
+  - Sufficient text length _(so that neural network text feature extraction is effective)_.
+  - High post quality, avoiding image-text mismatch.
+
+#### Summary
+
+- **Basic Idea**: Based on the user's likes, favorites, and shares, recommend posts with similar content.
+
+- **Offline Training**: Multimodal neural network maps image-text content to vectors.
+
+- **Online Service**:
+
+  $$
+  \text{Posts the user likes} \rightarrow \text{Feature vector} \rightarrow \text{Nearest cluster} \rightarrow \text{New posts}
+  $$
+
+### Item Cold Start: Look-Alike Audience Expansion
+
+#### Look-Alike Origins in Internet Advertising
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-4-1.png)
+
+- How to compute user similarity?
+
+- UserCF: Two users share common interests.
+
+- Embedding: The $\cos$ similarity between two user vectors is high.
+
+#### Look-Alike for New Post Retrieval
+
+- Clicks, likes, favorites, shares — indicates users may be interested in a post.
+
+- Use users who interacted with the post as seed users.
+
+- Use look-alike to expand to similar users.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-4-2.png)
+
+- Near-real-time update of feature vectors.
+
+- The feature vector is the average of vectors from interacted users.
+
+- Each time a user interacts with the item, update the post's feature vector.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-4-3.png)
+
+Use the two-tower model to compute a user's feature vector, then perform nearest-neighbor search in the vector database. This process is called Look-Alike retrieval.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-4-4.png)
+
+If seed users like a certain post, similar users may also like that post — this is the Look-Alike expansion retrieval channel.
+
+### Item Cold Start: Traffic Control
+
+**Reasons for Supporting New Posts**
+
+- **Goal 1**: Incentivize publishing, grow the content pool.
+  - The more exposure new posts receive, the higher the author's motivation to create.
+  - Reflected in publishing penetration rate and average posts per user.
+
+- **Goal 2**: Discover high-quality posts.
+  - Explore by giving every new post sufficient exposure.
+  - Discovery capability is reflected in the proportion of high-heat posts.
+
+**Industry Approach**
+
+- Assume the recommendation system only distributes posts with age `<30` days.
+
+- Assume natural distribution: new posts (age `<24` hours) account for 1/30 of impressions.
+
+- Support new posts to make their impression share much greater than 1/30.
+
+**Evolution of Traffic Control Techniques**
+
+1. Force-insert new posts into recommendation results.
+2. Boost the ranking scores of new posts.
+3. Use boosting to ensure minimum exposure for new posts.
+4. Differentiated exposure guarantees.
+
+#### New Post Score Boosting
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-5-1.png)
+
+**New Post Boosting**
+
+- **Goal**: Give new posts more exposure opportunities.
+  - With natural distribution, 24-hour new posts account for 1/30 of impressions.
+  - With manual intervention, significantly increase this share.
+
+- Intervene at the pre-ranking and re-ranking stages to boost new posts.
+
+- **Advantages**: Easy to implement, good ROI.
+
+- **Disadvantages**:
+  - Impressions are sensitive to the boost coefficient.
+  - Difficult to precisely control impressions; tends to cause over-exposure or under-exposure.
+
+#### New Post Exposure Guarantee
+
+- **Exposure guarantee**: Regardless of post quality, ensure 100 impressions within 24 hours.
+
+- On top of the existing boost coefficient, multiply by an additional boost factor, e.g.:
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-5-2.png)
+
+**Dynamic Boost for Exposure Guarantee**
+
+Use the following four values to compute the boost coefficient:
+
+- Target time: e.g., 24 hours.
+- Target impressions: e.g., 100.
+- Publishing time: e.g., the post has been published for 12 hours.
+- Current impressions: e.g., the post has received 20 impressions.
+
+Calculation formula:
+
+$$
+\text{boost coefficient} = f\left( \frac{\text{publishing time}}{\text{target time}}, \frac{\text{current impressions}}{\text{target impressions}} \right) = f(0.5, 0.2)
+$$
+
+**Challenges with Exposure Guarantee**
+
+Guarantee success rate is well below 100%
+
+- Many posts fail to reach 100 impressions within 24 hours.
+- Retrieval and ranking deficiencies.
+- Poorly tuned boost coefficients.
+
+Changes in the online environment can cause guarantee failures
+
+- Online environment changes: new retrieval channels, upgraded ranking models, changed re-ranking diversification rules...
+- Counter-measure: Adjust boost coefficients after online environment changes.
+
+Does more score boosting always benefit new posts?
+
+- Benefit: More score boost means more impressions.
+- Drawback: Post gets recommended to less suitable audiences.
+  - An excessively high boost coefficient inflates the estimated interest score, routing posts to unsuitable audiences.
+  - Click-through rate, like rate, and other metrics will be lower.
+  - Long-term, this is penalized by the recommendation system and makes it hard to grow into a popular post.
+
+#### Differentiated Exposure Guarantee
+
+- **Exposure guarantee**: Regardless of new post quality, provide support — guarantee 100 impressions in the first 24 hours.
+
+- **Differentiated exposure guarantee**: Different posts have different targets; ordinary posts get 100 impressions, high-quality content gets 100–500 impressions.
+
+**Differentiated Exposure Guarantee**
+
+- **Base guarantee**: 100 impressions in 24 hours.
+
+- **Content quality**: Use a model to evaluate content quality; give additional guarantee targets up to +200 impressions.
+
+- **Author quality**: Based on the author's historical post quality; give additional guarantee targets up to +200 impressions.
+
+- **A post has a minimum guarantee of 100 and a maximum of 500 impressions.**
+
+#### Summary
+
+- **Traffic control**: How traffic is allocated between new and old posts.
+
+- **Supporting new posts**: Dedicated retrieval channels, score boosting at ranking stage.
+
+- **Exposure guarantee**: Help new posts reach 100 impressions in the first 24 hours.
+
+- **Differentiated guarantee**: Based on content quality and author quality, determine the guarantee target.
+
+### Item Cold Start: A/B Testing
+
+**New Post Cold Start A/B Testing**
+
+- **Author-side metrics**:
+  - Publishing penetration rate, average posts per user.
+
+- **User-side metrics**:
+  - Click-through rate and interaction rate for new posts.
+  - Platform-wide metrics: consumption time, DAU, MAU.
+
+#### User-Side Experiment
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-6-1.png)
+
+**User-Side Experiment**
+
+**Drawbacks**
+
+- Constraint: Exposure guarantee of 100 impressions.
+- Assumption: The more new post impressions, the lower user time-in-app.
+- New strategy: Double the ranking weight for new posts.
+
+- Results (looking at consumption metrics only)
+  - A/B test diff is negative (treatment group worse than control group).
+
+  - If rolled out, diff would shrink (e.g., -2% → -1%).
+  - This is because new posts have an exposure guarantee. The treatment group's new posts get more impressions, the control group fewer. For example, with 90 new posts guaranteed 100 impressions each (9000 total), the treatment group gets 6000 and the control group gets 3000. After the experiment ends, each group's 50% users both get 4500 impressions, causing the diff to be overstated.
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-6-2.png)
+
+#### Author-Side Experiment
+
+**Author-Side Experiment: Approach 1**
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-6-3.png)
+
+**Drawback: New Posts Compete with Each Other for Traffic**
+
+- Setup:
+  - New and old posts each have their own queue, no competition.
+
+  - Re-ranking: 1/3 traffic to new posts, 2/3 to old posts.
+
+- New strategy: Double the weight of new posts.
+
+- Results (looking at publishing metrics only):
+  - A/B test diff is positive (treatment group better than control group).
+
+  - If rolled out, diff disappears (e.g., 2% → 0).
+
+**Drawback: New Posts Compete with Old Posts for Traffic**
+
+- Setup: New and old posts compete freely.
+
+- New strategy: Double the ranking weight for new posts.
+
+- During A/B test, 50% new posts (with strategy) compete with 100% old posts.
+
+- After rollout, 100% new posts (with strategy) compete with 100% old posts.
+
+- Author-side A/B test results differ somewhat from post-rollout results.
+
+**Author-Side Experiment: Approach 2**
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-6-4.png)
+
+**Advantages and Disadvantages of Approach 2 vs. Approach 1**
+
+- Advantage: New posts in the two buckets don't compete with each other; author-side experiment results are more reliable.
+
+- Same issue: New and old posts still compete; author-side A/B test results still differ somewhat from rollout results.
+
+- Disadvantage: New post pool shrinks by half, negatively affecting user experience.
+
+**Author-Side Experiment: Approach 3**
+
+![](https://raw.githubusercontent.com/H0SH123/Books-and-Notes/main/RecommenderSystem/images/7-6-5.png)
+
+Has an impact on business operations.
+
+#### Summary
+
+- Cold start A/B testing needs to observe both **author publishing metrics** and **user consumption metrics**.
+
+- All A/B testing approaches have flaws. (Xiaohongshu has better approaches, but none are perfect.)
+
+- When designing an approach, ask yourself:
+  - Will the treatment and control groups' new posts compete with each other for traffic?
+  - How do new and old posts compete for traffic?
+  - If we isolate both posts and users simultaneously, will the content pool shrink?
+  - If we apply an exposure guarantee to new posts, what happens?
