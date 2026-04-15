@@ -7,16 +7,25 @@ interface TopDocDto {
 }
 
 async function fetchTopDocs(): Promise<TopDocDto[]> {
-  const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8081";
+  // 同源请求 Next ISR 路由，避开对 BACKEND_URL 的硬依赖，
+  // 并复用 app/api/analytics/top-docs 的 revalidate=300 缓存。
+  // Server Component 中 fetch 需要绝对 URL，优先读显式站点地址，
+  // 其次 VERCEL_URL（预览/生产），本地回退到 3010。
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
+    "http://localhost:3010";
   try {
     const res = await fetch(
-      `${backendUrl}/analytics/top-docs?window=7d&limit=5`,
-      { next: { revalidate: 300 } },
+      `${siteUrl}/api/analytics/top-docs?window=7d&limit=5`,
+      {
+        next: { revalidate: 300 },
+      },
     );
     if (!res.ok) return [];
     const json = await res.json();
-    // 后端用 ApiResponse<List<TopDocDto>> 包裹，data 字段存实际数据
-    return json.data ?? json;
+    // 统一 ApiResponse<{ path, title, views }[]> 结构
+    return Array.isArray(json?.data) ? json.data : [];
   } catch {
     return [];
   }

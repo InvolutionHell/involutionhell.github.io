@@ -21,11 +21,27 @@ export function middleware(req: NextRequest) {
     (req as NextRequest & { geo?: { country?: string } }).geo?.country ?? "";
   const acceptLang = req.headers.get("accept-language") ?? "";
 
-  // 默认中文；只有明确英文 Accept-Language 且非中国 IP 才切 en
+  // 解析 Accept-Language header 按 q 值排序的优先级列表
+  // 例如 "fr-CA,fr;q=0.9,en;q=0.8,zh;q=0.5" → [fr-CA, fr, en, zh]
+  // 之前只 startsWith 判断会忽略 q 值较低但明确列出的语言。
+  const preferred = acceptLang
+    .split(",")
+    .map((part) => {
+      const [tag, ...params] = part.trim().split(";");
+      const qParam = params.find((p) => p.trim().startsWith("q="));
+      const q = qParam ? parseFloat(qParam.slice(2)) : 1;
+      return { tag: tag.toLowerCase(), q: Number.isFinite(q) ? q : 0 };
+    })
+    .filter((item) => item.tag)
+    .sort((a, b) => b.q - a.q);
+
+  const firstMatch = preferred.find((item) =>
+    /^(en|zh)(-|$)/.test(item.tag),
+  )?.tag;
+
+  // 默认中文；只有 Accept-Language 首选为英文且非中国 IP 才切 en
   const isExplicitlyEnglish =
-    !acceptLang.toLowerCase().startsWith("zh") &&
-    acceptLang.toLowerCase().startsWith("en") &&
-    country !== "CN";
+    firstMatch?.startsWith("en") === true && country !== "CN";
   const locale = isExplicitlyEnglish ? "en" : "zh";
 
   const res = NextResponse.next();

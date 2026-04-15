@@ -137,7 +137,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Param): Promise<Metadata> {
   const { slug } = await params;
-  const page = source.getPage(slug);
+  const locale = await getLocaleFromCookie();
+  // metadata 需与页面主体同语言，避免英文页显示中文 title/desc 造成 SEO 错乱
+  const { page } = getPageWithLocale(slug, locale);
   if (page == null) {
     notFound();
   }
