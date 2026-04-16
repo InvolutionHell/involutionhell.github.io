@@ -4,26 +4,10 @@ description: 这里收集了社区分享的所有 Leetcode 刷题笔记和题解
 docId: aslw60tfyzxqga598pt4ociu
 ---
 
-import { source } from "@/lib/source";
+import { SectionIndex } from "@/app/components/docs/SectionIndex";
 
 # Leetcode 题解
 
 欢迎查阅 Leetcode 相关的分享内容。
 
-<Cards>
-  {source
-    .getPages()
-    .filter(
-      (page) =>
-        page.file.dirname === "CommunityShare/Leetcode" &&
-        page.file.name !== "index",
-    )
-    .map((page) => (
-      <Card
-        key={page.url}
-        title={page.data.title}
-        href={page.url}
-        description={page.data.description}
-      />
-    ))}
-</Cards>
+<SectionIndex root="CommunityShare/Leetcode" />
