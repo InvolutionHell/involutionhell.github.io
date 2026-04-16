@@ -1,8 +1,8 @@
 "use client";
 
-import { BotIcon, ChevronDownIcon } from "lucide-react";
+import { BotIcon, ChevronDownIcon, XIcon } from "lucide-react";
 
-import { type FC, forwardRef, useState, useEffect } from "react";
+import { type FC, forwardRef, useState, useEffect, useCallback } from "react";
 import { AssistantModalPrimitive } from "@assistant-ui/react";
 
 import { Thread } from "@/app/components/assistant-ui/thread";
@@ -30,6 +30,13 @@ export const AssistantModal: FC<AssistantModalProps> = ({
   isLoadingWelcome,
 }) => {
   const [showBubble, setShowBubble] = useState(false);
+  // 受控状态：允许模态框内部的 X 按钮主动关闭窗口
+  // issue #285: 原先只能靠 Trigger/点击外部/Esc 关闭，用户反馈不知道怎么关窗
+  const [open, setOpen] = useState(false);
+
+  const handleCloseModal = useCallback(() => {
+    setOpen(false);
+  }, []);
 
   useEffect(() => {
     // 检查本次访问是否已关闭过气泡
@@ -61,7 +68,7 @@ export const AssistantModal: FC<AssistantModalProps> = ({
   };
 
   return (
-    <AssistantModalPrimitive.Root>
+    <AssistantModalPrimitive.Root open={open} onOpenChange={setOpen}>
       <AssistantModalPrimitive.Anchor className="aui-root aui-modal-anchor fixed right-4 bottom-4 size-14">
         {/* 自定义气泡组件 */}
         {showBubble && (
@@ -88,8 +95,18 @@ export const AssistantModal: FC<AssistantModalProps> = ({
       </AssistantModalPrimitive.Anchor>
       <AssistantModalPrimitive.Content
         sideOffset={16}
-        className="aui-root aui-modal-content z-50 h-[500px] w-[400px] overflow-clip rounded-xl border bg-popover p-0 text-popover-foreground shadow-md outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-1/2 data-[state=closed]:slide-out-to-right-1/2 data-[state=closed]:zoom-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=open]:slide-in-from-right-1/2 data-[state=open]:zoom-in [&>.aui-thread-root]:bg-inherit"
+        className="aui-root aui-modal-content relative z-50 h-[500px] w-[400px] overflow-clip rounded-xl border bg-popover p-0 text-popover-foreground shadow-md outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-1/2 data-[state=closed]:slide-out-to-right-1/2 data-[state=closed]:zoom-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=open]:slide-in-from-right-1/2 data-[state=open]:zoom-in [&>.aui-thread-root]:bg-inherit"
       >
+        {/* 右上角关闭按钮，issue #285：用户找不到关闭模态框的显式入口 */}
+        <button
+          type="button"
+          onClick={handleCloseModal}
+          aria-label="Close assistant"
+          className="aui-modal-close absolute top-2 right-2 z-10 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <XIcon className="size-4" />
+          <span className="sr-only">Close assistant</span>
+        </button>
         <Thread
           errorMessage={errorMessage}
           showSettingsAction={showSettingsAction}

@@ -58,7 +58,7 @@ export const SettingsDialog = ({
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="intern" id="intern" />
-                <Label htmlFor="intern">InternS1 (Free)</Label>
+                <Label htmlFor="intern">GLM-4.6V-Flash (Free)</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="openai" id="openai" />
@@ -176,11 +176,15 @@ export const SettingsDialog = ({
           )}
 
           {provider === "intern" && (
-            <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">
-                感谢上海AILab的书生大模型对本项目的算力支持，Intern-AI
-                模型已预配置，无需提供 API Key。
-              </div>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p>
+                当前免费模型为智谱 GLM-4.6V-Flash（128K
+                上下文，支持多模态），由站点统一承担费用，无需提供 API Key。
+              </p>
+              <p className="text-xs">
+                🙏 特别鸣谢上海 AI Lab 书生 Intern-S1
+                为本项目提供首发算力支持——第一个金主，永远铭记。
+              </p>
             </div>
           )}
         </div>

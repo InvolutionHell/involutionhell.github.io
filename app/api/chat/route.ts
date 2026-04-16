@@ -33,9 +33,16 @@ export async function POST(req: Request) {
   const proxyReq = req.clone();
 
   // ====== 尝试优雅降级代理到 Java 后端 ======
+  // Java 后端 /openai/responses/stream 带 @SaCheckLogin，匿名请求必 401；
+  // 直接跳过代理省掉 5s 超时，也避免 401 文案被上游误显示为"unauthorized"。
+  const hasAuthToken = Boolean(req.headers.get("x-satoken"));
   try {
+    if (!hasAuthToken) {
+      throw new Error("Anonymous request, skip backend proxy.");
+    }
     const backendUrl = process.env.BACKEND_URL;
     if (!backendUrl) throw new Error("BACKEND_URL is not configured.");
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5秒超时
 
