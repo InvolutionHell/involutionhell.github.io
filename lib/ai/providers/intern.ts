@@ -23,10 +23,22 @@ export function createInternModel() {
     return deepseek("deepseek-chat");
   }
 
+  // 显式校验 ZHIPU_API_KEY：若漏配，下游 401 又会在 UI 上变成 "unauthorized"
+  // 透传 —— 正好绕回 issue #285 原本要修的症状。在这里早抛出带指引的错误，
+  // 运维看日志一眼知道补哪个 env var，避免二次塌房（Copilot CR #2）。
+  const zhipuApiKey = process.env.ZHIPU_API_KEY;
+  if (!zhipuApiKey || zhipuApiKey.trim() === "") {
+    throw new Error(
+      "Missing required environment variable ZHIPU_API_KEY. " +
+        "配置位置：Vercel Project Settings → Environment Variables。" +
+        "免费 key 从 https://open.bigmodel.cn/ 获取。",
+    );
+  }
+
   const glm = createOpenAICompatible({
     name: "zhipu",
     baseURL: "https://open.bigmodel.cn/api/paas/v4/",
-    apiKey: process.env.ZHIPU_API_KEY,
+    apiKey: zhipuApiKey,
   });
 
   return glm("glm-4.6v-flash");

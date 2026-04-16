@@ -35,60 +35,65 @@ export async function POST(req: Request) {
   // ====== 尝试优雅降级代理到 Java 后端 ======
   // Java 后端 /openai/responses/stream 带 @SaCheckLogin，匿名请求必 401；
   // 直接跳过代理省掉 5s 超时，也避免 401 文案被上游误显示为"unauthorized"。
-  const hasAuthToken = Boolean(req.headers.get("x-satoken"));
-  try {
-    if (!hasAuthToken) {
-      throw new Error("Anonymous request, skip backend proxy.");
-    }
-    const backendUrl = process.env.BACKEND_URL;
-    if (!backendUrl) throw new Error("BACKEND_URL is not configured.");
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5秒超时
-
-    // 原封不动把前端的参数丢给 Java
-    let proxyRes: Response;
-    try {
-      proxyRes = await fetch(`${backendUrl}/openai/responses/stream`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // 浏览器侧用 x-satoken 传递 token，转发给后端时改回后端期望的 satoken
-          ...(req.headers.get("x-satoken")
-            ? { satoken: req.headers.get("x-satoken")! }
-            : {}),
-        },
-        body: await proxyReq.text(),
-        signal: controller.signal,
-      });
-    } finally {
-      // 无论成功还是抛出（网络错误/超时中断），都清除定时器
-      clearTimeout(timeoutId);
-    }
-
-    // 如果 Java 后端返回成功，则直接把它的流传回浏览器，提前结束
-    if (proxyRes.ok && proxyRes.body) {
-      console.log(
-        "[Chat Fallback Proxy] 🚀 Java Backend responded successfully. Piping stream...",
-      );
-      return new Response(proxyRes.body, {
-        headers: {
-          "Content-Type":
-            proxyRes.headers.get("Content-Type") || "text/plain; charset=utf-8",
-        },
-      });
-    } else {
-      console.warn(
-        `[Chat Fallback Proxy] ⚠️ Java Backend returned status: ${proxyRes.status}, fallback to local Next.js inference.`,
-      );
-    }
-  } catch (error) {
-    console.warn(
-      `[Chat Fallback Proxy] ❌ Java Backend unavailable or timed out, fallback to local Next.js inference. Error:`,
-      error,
+  // 匿名分支走显式 if 短路，不进 try/catch —— 否则每个匿名请求都会被 catch
+  // 打成 "Java Backend unavailable" 带 stack 的 warn，生产日志会刷爆
+  // （Copilot CR #1）。
+  const satoken = req.headers.get("x-satoken");
+  if (!satoken) {
+    console.log(
+      "[Chat Fallback Proxy] ⏭️  Anonymous request, skip backend proxy, use local inference.",
     );
+  } else {
+    try {
+      const backendUrl = process.env.BACKEND_URL;
+      if (!backendUrl) throw new Error("BACKEND_URL is not configured.");
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5秒超时
+
+      // 原封不动把前端的参数丢给 Java
+      let proxyRes: Response;
+      try {
+        proxyRes = await fetch(`${backendUrl}/openai/responses/stream`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // 浏览器侧用 x-satoken 传递 token，转发给后端时改回后端期望的 satoken
+            satoken,
+          },
+          body: await proxyReq.text(),
+          signal: controller.signal,
+        });
+      } finally {
+        // 无论成功还是抛出（网络错误/超时中断），都清除定时器
+        clearTimeout(timeoutId);
+      }
+
+      // 如果 Java 后端返回成功，则直接把它的流传回浏览器，提前结束
+      if (proxyRes.ok && proxyRes.body) {
+        console.log(
+          "[Chat Fallback Proxy] 🚀 Java Backend responded successfully. Piping stream...",
+        );
+        return new Response(proxyRes.body, {
+          headers: {
+            "Content-Type":
+              proxyRes.headers.get("Content-Type") ||
+              "text/plain; charset=utf-8",
+          },
+        });
+      } else {
+        console.warn(
+          `[Chat Fallback Proxy] ⚠️ Java Backend returned status: ${proxyRes.status}, fallback to local Next.js inference.`,
+        );
+      }
+    } catch (error) {
+      console.warn(
+        `[Chat Fallback Proxy] ❌ Java Backend unavailable or timed out, fallback to local Next.js inference. Error:`,
+        error,
+      );
+    }
   }
-  // ====== 代理失败，继续往下走，启用备选方案（本地直连 AI）======
+  // ====== 代理失败/匿名短路，继续往下走，启用备选方案（本地直连 AI）======
 
   try {
     // 先把 body 消费掉，再并行验证用户身份
