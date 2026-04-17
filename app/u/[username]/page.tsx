@@ -8,6 +8,7 @@ import { Footer } from "@/app/components/Footer";
 import { ProfileCard } from "./ProfileCard";
 import { EditLinkIfOwner } from "./EditLinkIfOwner";
 import { AdminLinkIfOwnerAdmin } from "./AdminLinkIfOwnerAdmin";
+import { DeveloperToolsIfOwner } from "./DeveloperToolsIfOwner";
 import { ActivityHeatmap } from "./ActivityHeatmap";
 import { FollowButton } from "./FollowButton";
 import { GithubRepos, GithubReposSkeleton } from "./GithubRepos";
@@ -410,6 +411,12 @@ export default async function UserProfilePage({ params }: Param) {
                   ownerGithubId={user.githubId ?? null}
                   ownerUsername={user.username}
                   identifier={username}
+                />
+                {/* 开发者工具入口（所有本人都看得见；权限由目标服务自己管）：
+                    目前只有 Infisical 密钥管理，未来可挂 CI token / API key 等 */}
+                <DeveloperToolsIfOwner
+                  ownerGithubId={user.githubId ?? null}
+                  ownerUsername={user.username}
                 />
                 {/* 管理员自见入口：只有 roles=admin 的本人访问自己主页时才渲染 */}
                 <AdminLinkIfOwnerAdmin
