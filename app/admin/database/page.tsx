@@ -1,28 +1,28 @@
 "use client";
 
 /**
- * /admin/database — 数据库管理后台（iframe 嵌入 pgAdmin）。
+ * /admin/database — 数据库管理入口。
  *
- * 权限：<AdminGuard required="admin"> 兜底，非 admin 直接 403；
- * 真正的操作权限由 pgAdmin 自身登录（环境变量里的 PGADMIN_EMAIL / PGADMIN_PASSWORD）
- * 把守，前端这层只是"路由可见"。
+ * 早期版本用 iframe 嵌入 pgAdmin，但跨域 / 同源两种嵌法都各有坑：
+ *   - 跨域（iframe src = api.involutionhell.com/admin/pgadmin/）：
+ *     pgAdmin 的 session + CSRF cookie 走 SameSite=Lax，子域 iframe 发 POST
+ *     时浏览器不带 cookie，登录永远报 "CSRF session token is missing"。
+ *   - 同源（走 Next.js rewrite 把 pgAdmin 代到 localhost:3010 下）：
+ *     pgAdmin 自己会发绝对 URL 的重定向（host 用它自己以为的值），
+ *     浏览器跟着跳到 http://localhost:8082 踩 "拒绝连接"。
  *
- * 流量：
- *   浏览器 → involutionhell.com/admin/database
- *     └─ iframe src="https://api.involutionhell.com/admin/pgadmin/"
- *          └─ Caddy /admin/pgadmin/* → 127.0.0.1:8082（pgAdmin 容器）
+ * 所以改简单方案——这里只放一个跳转按钮，新标签页打开 pgAdmin，让它自己管
+ * 自己的 session / CSRF，省心。管理员反正不高频用。
  *
- * pgAdmin 容器环境里设了 SCRIPT_NAME=/admin/pgadmin，
- * Caddy 响应里剥掉 X-Frame-Options 并换成 CSP frame-ancestors 放行本站主域。
- *
- * 为什么不把 pgAdmin 和主站 UI 做统一风格：
- *   用户明确说"管理员不配享受好 UI"——优先把基础能力接通，视觉一致性排最后。
+ * 权限：<AdminGuard required="admin"> 兜底（真正的安全由 pgAdmin 登录把守）。
  */
 
+import Link from "next/link";
 import { AdminGuard } from "../events/AdminGuard";
 
-// pgAdmin 所在路径。默认打 production Caddy，dev 如果要本地联调可以用
-// NEXT_PUBLIC_PGADMIN_URL 覆盖（比如指到 http://localhost:8082/admin/pgadmin/）。
+// pgAdmin 的公网地址。Vercel 生产走 Caddy 代理的 api.involutionhell.com，
+// 本地 dev 需要手动 SSH port-forward 8082 到自己机器、然后设
+// NEXT_PUBLIC_PGADMIN_URL=http://localhost:8082/admin/pgadmin/。
 const PGADMIN_URL =
   process.env.NEXT_PUBLIC_PGADMIN_URL ??
   "https://api.involutionhell.com/admin/pgadmin/";
@@ -37,17 +37,18 @@ export default function AdminDatabasePage() {
 
 function AdminDatabaseInner() {
   return (
-    <main className="pt-24 pb-0 bg-[var(--background)] min-h-screen flex flex-col">
-      <div className="max-w-6xl w-full mx-auto px-6 lg:px-8 pb-4">
-        <header className="border-t-4 border-[var(--foreground)] pt-6 mb-4">
+    <main className="pt-32 pb-16 bg-[var(--background)] min-h-screen">
+      <div className="max-w-3xl mx-auto px-6 lg:px-8">
+        <header className="border-t-4 border-[var(--foreground)] pt-6 mb-10">
           <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-neutral-500">
             Admin · Database
           </div>
-          <h1 className="font-serif text-2xl md:text-3xl font-black uppercase mt-2 tracking-tight">
+          <h1 className="font-serif text-3xl md:text-4xl font-black uppercase mt-2 tracking-tight">
             数据库管理
           </h1>
-          <p className="mt-2 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            下方嵌入的是 pgAdmin。首次进入要用{" "}
+          <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            点按钮新标签打开 pgAdmin，在它自己的页面里做备份 / 恢复 / 查表 / 跑
+            SQL。第一次进要用{" "}
             <code className="font-mono text-[11px] bg-neutral-200 dark:bg-neutral-800 px-1">
               PGADMIN_EMAIL
             </code>{" "}
@@ -55,30 +56,45 @@ function AdminDatabaseInner() {
             <code className="font-mono text-[11px] bg-neutral-200 dark:bg-neutral-800 px-1">
               PGADMIN_PASSWORD
             </code>{" "}
-            登录（在{" "}
+            登录（看服务器 .env）。左侧树自动预注册了{" "}
             <code className="font-mono text-[11px] bg-neutral-200 dark:bg-neutral-800 px-1">
-              .env
-            </code>{" "}
-            里）。 左树自动预注册了 &ldquo;InvolutionHell (local)&rdquo;
-            连接，双击即连。 备份/恢复在数据库右键菜单里；定时备份落在{" "}
-            <code className="font-mono text-[11px] bg-neutral-200 dark:bg-neutral-800 px-1">
-              Storage → backups/
+              InvolutionHell (local)
             </code>
-            。
+            ，双击即连。
           </p>
         </header>
-      </div>
 
-      {/* iframe 占满剩余视口，便于操作。高度用 calc 减去 header 高度约 220px。 */}
-      <div className="flex-1 border-t border-[var(--foreground)]">
-        <iframe
-          src={PGADMIN_URL}
-          title="pgAdmin"
-          className="w-full h-[calc(100vh-220px)] min-h-[600px] border-0"
-          // 不加 sandbox：pgAdmin 依赖自己的 cookie + localStorage 保持登录态，
-          // 用 sandbox 会屏蔽掉，功能直接残废。允许同源脚本和 form 提交。
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+        <Link
+          href={PGADMIN_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block border border-[var(--foreground)] p-8 hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors group"
+          data-umami-event="admin_open_pgadmin"
+        >
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-neutral-500 group-hover:text-[var(--background)] mb-2">
+            外部窗口打开
+          </div>
+          <h2 className="font-serif text-2xl font-black uppercase tracking-tight mb-2">
+            打开 pgAdmin →
+          </h2>
+          <p className="text-sm leading-relaxed opacity-80 font-mono break-all">
+            {PGADMIN_URL}
+          </p>
+        </Link>
+
+        <aside className="mt-10 text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+          <p className="mb-2 font-mono uppercase tracking-[0.2em] text-[10px]">
+            备份文件位置
+          </p>
+          <p>
+            pg-backup 每天 03:00 自动 pg_dump 写到{" "}
+            <code className="font-mono text-[11px] bg-neutral-200 dark:bg-neutral-800 px-1">
+              /var/lib/pgadmin/storage/admin_involutionhell.com/backups/
+            </code>
+            （daily / weekly / monthly / last 四个子目录）。Restore 对话框选
+            文件时直接能看到。
+          </p>
+        </aside>
       </div>
     </main>
   );
