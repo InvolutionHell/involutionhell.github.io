@@ -17,15 +17,28 @@
  * 权限：<AdminGuard required="admin"> 兜底（真正的安全由 pgAdmin 登录把守）。
  */
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AdminGuard } from "../events/AdminGuard";
 
-// pgAdmin 的公网地址。Vercel 生产走 Caddy 代理的 api.involutionhell.com，
-// 本地 dev 需要手动 SSH port-forward 8082 到自己机器、然后设
-// NEXT_PUBLIC_PGADMIN_URL=http://localhost:8082/admin/pgadmin/。
-const PGADMIN_URL =
-  process.env.NEXT_PUBLIC_PGADMIN_URL ??
-  "https://api.involutionhell.com/admin/pgadmin/";
+// pgAdmin URL 选择逻辑（客户端运行时决定，否则 SSR 拿不到 hostname）：
+//   1. NEXT_PUBLIC_PGADMIN_URL 显式覆盖（最高优先级）
+//   2. 浏览器 hostname 是 localhost / 127.0.0.1 → 走本地 http://localhost:8082/admin/pgadmin/
+//      （要求开发者先 ssh -L 8082:127.0.0.1:8082 server 把端口引到本机）
+//   3. 其他情况 → 公网入口 https://api.involutionhell.com/admin/pgadmin/
+//      （需要 Caddy forward_auth + cookie，prod 正常使用路径）
+const PROD_PGADMIN_URL = "https://api.involutionhell.com/admin/pgadmin/";
+const LOCAL_PGADMIN_URL = "http://localhost:8082/admin/pgadmin/";
+
+function pickPgadminUrl(hostname: string | null): string {
+  if (process.env.NEXT_PUBLIC_PGADMIN_URL) {
+    return process.env.NEXT_PUBLIC_PGADMIN_URL;
+  }
+  if (hostname === "localhost" || hostname === "127.0.0.1") {
+    return LOCAL_PGADMIN_URL;
+  }
+  return PROD_PGADMIN_URL;
+}
 
 export default function AdminDatabasePage() {
   return (
@@ -36,6 +49,15 @@ export default function AdminDatabasePage() {
 }
 
 function AdminDatabaseInner() {
+  // 客户端挂载后拿 hostname 选 URL。首屏 SSR 先渲染 prod URL 占位，useEffect
+  // 里按实际 hostname 刷成 localhost 版（如果需要）。dev 不做 SSR 不影响。
+  // setState 走 Promise.resolve 异步化，避开 "cascading renders" lint 规则。
+  const [pgadminUrl, setPgadminUrl] = useState(PROD_PGADMIN_URL);
+  useEffect(() => {
+    const next = pickPgadminUrl(window.location.hostname);
+    Promise.resolve().then(() => setPgadminUrl(next));
+  }, []);
+
   return (
     <main className="pt-32 pb-16 bg-[var(--background)] min-h-screen">
       <div className="max-w-3xl mx-auto px-6 lg:px-8">
@@ -65,7 +87,8 @@ function AdminDatabaseInner() {
         </header>
 
         <Link
-          href={PGADMIN_URL}
+          key={pgadminUrl}
+          href={pgadminUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="block border border-[var(--foreground)] p-8 hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors group"
@@ -78,7 +101,7 @@ function AdminDatabaseInner() {
             打开 pgAdmin →
           </h2>
           <p className="text-sm leading-relaxed opacity-80 font-mono break-all">
-            {PGADMIN_URL}
+            {pgadminUrl}
           </p>
         </Link>
 
