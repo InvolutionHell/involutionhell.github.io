@@ -355,18 +355,18 @@ pnpm postinstall          # 同步必要的 Husky/Fumadocs 配置
 
 ### 服务一览
 
-| 用途         | URL                                             | 谁能进                                  | 登录方式                                |
-| ------------ | ----------------------------------------------- | --------------------------------------- | --------------------------------------- |
-| 主站         | `https://involutionhell.com`                    | 所有登录用户                            | GitHub OAuth                            |
-| 后端 API     | `https://api.involutionhell.com`                | — (内部调用)                            | sa-token (cookie/header)                |
-| **密钥管理** | `https://secrets.involutionhell.com`            | **所有登录协作者**，按 project 权限查看 | GitHub OAuth（复用主站 App）            |
-| 数据库管理   | `https://api.involutionhell.com/admin/pgadmin/` | **仅 admin**                            | 主站 cookie 自动通过 Caddy forward_auth |
-| 网站分析     | `https://umami.involutionhell.com`              | **仅 admin**                            | 本地 umami 账号                         |
+| 用途         | URL                                             | 谁能进                                  | 登录方式                                                                |
+| ------------ | ----------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------- |
+| 主站         | `https://involutionhell.com`                    | 所有登录用户                            | GitHub OAuth                                                            |
+| 后端 API     | `https://api.involutionhell.com`                | — (内部调用)                            | sa-token (cookie/header)                                                |
+| **密钥管理** | `https://secrets.involutionhell.com`            | **所有登录协作者**，按 project 权限查看 | GitHub OAuth（独立 App "InvolutionHell Infisical"，首次进入需授权一次） |
+| 数据库管理   | `https://api.involutionhell.com/admin/pgadmin/` | **仅 admin**                            | 主站 cookie 自动通过 Caddy forward_auth                                 |
+| 网站分析     | `https://umami.involutionhell.com`              | **仅 admin**                            | 本地 umami 账号                                                         |
 
 ### 怎么拿到 admin / 密钥权限
 
 1. **申请 admin 角色**：现有 superadmin 在 `/admin/users` 页面勾选即可授予（产品规则：superadmin 本身不能通过 API 变动）
-2. **申请 Infisical 项目访问**：登录 `secrets.involutionhell.com` 后（GitHub OAuth 自动建账号），联系现有 admin 加到对应 project。Infisical 内部按 environment 分 `dev` / `prod` / `shared`
+2. **申请 Infisical 项目访问**：登录 `secrets.involutionhell.com` 时会跳 GitHub 让你授权一个名叫 **InvolutionHell Infisical** 的 App —— 这是正常的。虽然你之前授权过主站的 "InvolutionHell" App，但 Infisical 是独立 OAuth App（org 下两个 App 共用同一个 GitHub 账号，但 scope / token 完全隔离，一个撤销不影响另一个）。授权页能看到 owned by InvolutionHell 和相同 logo，确认后点 Authorize 即可。进去后账号自动按 GitHub 身份建好，联系现有 admin 加到对应 project。Infisical 内部按 environment 分 `dev` / `prod` / `shared`
 3. **不要自己手动 INSERT `user_accounts` 表挂 admin 角色** —— OAuth 登录按 `github_<id>` 匹配 username，手工 insert 的人类 username 行永远是孤儿，用户登录后会另开一行丢 admin。历史上有人踩过
 
 ### `.env` 文件规则

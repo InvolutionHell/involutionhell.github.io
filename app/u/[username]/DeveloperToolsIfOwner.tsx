@@ -41,7 +41,7 @@ export function DeveloperToolsIfOwner({ ownerGithubId, ownerUsername }: Props) {
       rel="noopener noreferrer"
       className="font-mono text-[11px] uppercase tracking-widest px-2 py-1 border border-[var(--foreground)] text-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors font-bold"
       data-umami-event="profile_devtools_secrets_click"
-      title="Infisical 密钥管理（GitHub OAuth 登录，按 project 权限查看）"
+      title="Infisical 密钥管理 — 首次进入 GitHub 会要你再授权一次，这是正常的：Infisical 和主站是两个独立的 OAuth App（授权页会显示 owned by InvolutionHell 和相同 logo）。登录后按 project 权限查看"
     >
       密钥管理 ↗
     </Link>
