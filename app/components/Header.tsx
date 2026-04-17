@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ThemeToggle } from "./ThemeToggle";
+import { LocaleToggle } from "./LocaleToggle";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { Github as GithubIcon } from "./icons/Github";
@@ -106,6 +107,7 @@ export async function Header() {
                 <MessageCircle className="h-4 w-4" />
               </a>
             </Button>
+            <LocaleToggle />
             <ThemeToggle />
             <AuthNav />
           </div>
