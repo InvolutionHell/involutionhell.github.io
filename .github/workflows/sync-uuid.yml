@@ -1,5 +1,13 @@
 name: Docs Backfill (on docs changes)
 
+# 2026-04-17 起从"GH runner 直连 Neon"改为"SSH 进自建服务器跑脚本"。
+# 原因：DB 从 Neon 迁到服务器自建 PG 后只绑 127.0.0.1:5432，不对公网暴露。
+# 设计权衡见 wiki Frontend-Auth-And-Admin / 后端 docs/database.md。
+#
+# Secrets 依赖：
+#   SERVER_HOST / SERVER_USER / SERVER_SSH_KEY — SSH 远程登录三件套
+#   （私钥生成方式 + 公钥已写入服务器 ~/.ssh/authorized_keys，见仓库 wiki）
+
 on:
   push:
     branches:
@@ -21,57 +29,52 @@ concurrency:
 
 jobs:
   backfill:
-    # 防止 fork、限定 main、并避免机器人循环
+    # 防止 fork、限定 main / feat/contributor、并避免机器人循环
     if:
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/contributor') &&
       github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      GITHUB_TOKEN: ${{ secrets.GH_PAT }} # 供脚本调用 GitHub API 提升速率
-      DOCS_DIR: app/docs
-
     steps:
-      - uses: actions/checkout@v4
-
-      # Enable corepack to ensure the exact pnpm version from package.json is used
-      - name: Enable Corepack
-        run: corepack enable
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
+      - name: Run backfill on server via SSH
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          node-version: 22
-          cache: "pnpm" # 顺便启用 pnpm 缓存，加速
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          # 超时 15 分钟：backfill-contributors 要遍历所有 docs + 拉 GitHub API，
+          # 大改动一次跑 3-5 分钟，留足余量
+          command_timeout: 15m
+          # set -euo pipefail + BRANCH 透传，脚本内任何一步失败都让整个 action fail
+          envs: GITHUB_REF_NAME
+          script: |
+            set -euo pipefail
+            BRANCH="${GITHUB_REF_NAME:-main}"
+            cd /home/ubuntu/involution-hell-project/frontend
 
-      # Verify pnpm version matches package.json packageManager field
-      - name: Check pnpm version
-        run: node scripts/check-pnpm-version.mjs
+            # 1. 同步仓库到触发本次 workflow 的 commit
+            git fetch --prune origin
+            git checkout "$BRANCH"
+            git reset --hard "origin/$BRANCH"
 
-      - name: Install deps
-        run: pnpm install --frozen-lockfile
+            # 2. 依赖和 Prisma client（frontend .env 里 DATABASE_URL 已指本地 PG）
+            set -a && . ./.env && set +a
+            pnpm install --frozen-lockfile
+            pnpm prisma generate
 
-      - name: Generate Prisma Client
-        run: pnpm prisma generate
+            # 3. 给 docs 补 docId frontmatter（幂等；没新增就啥都不改）
+            pnpm exec node scripts/uuid.mjs
 
-      - name: Ensure docId frontmatter
-        run: pnpm exec node scripts/uuid.mjs
+            # 4. 回填 contributors 并写 generated/doc-contributors.json
+            pnpm exec tsx scripts/backfill-contributors.mjs
 
-      - name: Backfill contributors & sync DB
-        run: pnpm exec tsx scripts/backfill-contributors.mjs
-
-      - name: Auto-commit doc metadata (if any)
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore(docs): sync doc metadata [skip ci]" # ← 防循环
-          file_pattern: "app/docs/**/*.md app/docs/**/*.mdx generated/doc-contributors.json"
-
-      - name: Upload snapshot JSON
-        uses: actions/upload-artifact@v4
-        with:
-          name: doc-contributors-snapshot
-          path: generated/doc-contributors.json
-          if-no-files-found: ignore
+            # 5. 自动提交 —— 仅当 MDX / JSON 有实际变动时才推
+            if ! git diff --quiet -- 'app/docs/**/*.md' 'app/docs/**/*.mdx' generated/doc-contributors.json; then
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add 'app/docs/**/*.md' 'app/docs/**/*.mdx' generated/doc-contributors.json
+              # [skip ci] 防止自提交再次触发本 workflow 死循环
+              git commit -m "chore(docs): sync doc metadata [skip ci]"
+              git push origin "$BRANCH"
+            else
+              echo "No metadata changes to commit."
+            fi
