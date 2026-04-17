@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/db";
 import { streamText, UIMessage, convertToModelMessages } from "ai";
 import { getModel, requiresApiKey, type AIProvider } from "@/lib/ai/models";
 import { buildSystemMessage } from "@/lib/ai/prompt";
@@ -187,55 +186,59 @@ export async function POST(req: Request) {
       system: systemMessage,
       messages: await convertToModelMessages(messages || []),
       onFinish: async ({ text }) => {
+        // 2026-04-17 起对话历史改由后端 /api/chat/sessions/save 统一持久化（事务保证
+        // Chat + Message 一起落库）。原本 prisma 直连 Neon 的方案在 Neon → 自建 PG
+        // 切换后会产生前后端双写不同库的脏数据，所以整条路径下掉。
         try {
-          // 等待用户身份解析（与流式传输并行运行，此时大概率已完成）
-          const userId = await userIdPromise;
-
-          // 1. 保存/更新会话，绑定用户 ID
-          // update 也写入 userId：覆盖此前匿名创建的记录（用户登录后继续同一 chatId）
-          await prisma.chat.upsert({
-            where: { id: effectiveChatId },
-            update: {
-              updatedAt: new Date(),
-              ...(userId != null && { userId }),
-            },
-            create: {
-              id: effectiveChatId,
-              ...(userId != null && { userId }),
-            },
-          });
-
-          // 2. 保存用户消息 (取最后一条)
-          // AI SDK v5 中，UIMessage 不再有 content 字段，内容在 parts 数组中
-          const safeMessages = messages || [];
-          const lastUserMessage = safeMessages[safeMessages.length - 1];
-          if (lastUserMessage && lastUserMessage.role === "user") {
-            // 从 parts 数组中提取所有文本内容并拼接
-            const userContent = Array.isArray(lastUserMessage.parts)
-              ? lastUserMessage.parts
-                  .filter((part) => part.type === "text")
-                  .map((part) => (part as { type: "text"; text: string }).text)
-                  .join("\n")
-              : (lastUserMessage as unknown as { content?: string })?.content ||
-                "";
-
-            await prisma.message.create({
-              data: {
-                chatId: effectiveChatId,
-                role: "user",
-                content: userContent,
-              },
-            });
+          const backendUrl = process.env.BACKEND_URL;
+          if (!backendUrl) {
+            console.warn(
+              "[Chat History] BACKEND_URL 未配置，跳过持久化（不阻塞流式返回）",
+            );
+            return;
           }
 
-          // 3. 保存 AI 回复
-          await prisma.message.create({
-            data: {
-              chatId: effectiveChatId,
-              role: "assistant",
-              content: text,
+          // 从 parts 数组中提取最后一条 user 消息的纯文本；AI SDK v5 没有 content
+          // 字段，需要自己拼。空消息（role 不是 user 或 parts 为空）就传 null，
+          // 后端看到 null/空串会跳过插入，语义和原 Prisma 版 if 判断保持一致。
+          const safeMessages = messages || [];
+          const lastUserMessage = safeMessages[safeMessages.length - 1];
+          const userContent =
+            lastUserMessage && lastUserMessage.role === "user"
+              ? Array.isArray(lastUserMessage.parts)
+                ? lastUserMessage.parts
+                    .filter((part) => part.type === "text")
+                    .map(
+                      (part) => (part as { type: "text"; text: string }).text,
+                    )
+                    .join("\n")
+                : (lastUserMessage as unknown as { content?: string })
+                    ?.content || ""
+              : "";
+
+          // 后端用 sa-token 从 header 取 userId 关联会话；匿名请求不带 satoken
+          // 时后端自动把 userId 置 NULL，行为与原 prisma.chat.upsert 一致。
+          // 静默 await 用户解析（原代码 await userIdPromise，这里保持阻塞等待
+          // 以确保后端鉴权不会错用过期数据；失败已在 resolveUserId 内降级）。
+          await userIdPromise;
+
+          const resp = await fetch(`${backendUrl}/api/chat/sessions/save`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(satoken ? { satoken } : {}),
             },
+            body: JSON.stringify({
+              chatId: effectiveChatId,
+              userMessage: userContent,
+              assistantMessage: text,
+            }),
           });
+          if (!resp.ok) {
+            console.warn(
+              `[Chat History] backend save returned ${resp.status}, history may be lost for chat ${effectiveChatId}`,
+            );
+          }
         } catch (error) {
           console.error("Failed to save chat history:", error);
         }
