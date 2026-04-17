@@ -49,6 +49,12 @@ function AdminHomeInner() {
             href="/admin/events"
             badge="Admin+"
           />
+          <AdminCard
+            title="数据库管理"
+            description="嵌入 pgAdmin，用按钮完成备份 / 恢复 / 查表 / 跑 SQL。"
+            href="/admin/database"
+            badge="Admin+"
+          />
           {isSuperadmin && (
             <AdminCard
               title="用户管理"
@@ -88,7 +94,9 @@ function AdminCard({
     >
       <div
         className={`font-mono text-[10px] uppercase tracking-[0.3em] mb-2 ${
-          accent ? "text-[#CC0000] group-hover:text-white" : "text-neutral-500 group-hover:text-[var(--background)]"
+          accent
+            ? "text-[#CC0000] group-hover:text-white"
+            : "text-neutral-500 group-hover:text-[var(--background)]"
         }`}
       >
         {badge}
