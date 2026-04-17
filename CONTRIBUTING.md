@@ -36,9 +36,9 @@
 
    ```Markdown
    # 标题1
-   ## 标题2 
+   ## 标题2
    ```
- 
+
    每点击一行，左边都有加号按钮，可以快捷添加你要的内容块
 
    ![image.png](https://pub-fa1987abe8794da6ba45cdf9284954b3.r2.dev/users/7/contributing-guide/1765632611285-image.png)
@@ -70,7 +70,6 @@
    ![image.png](https://pub-fa1987abe8794da6ba45cdf9284954b3.r2.dev/users/7/contributing-guide/1765632611098-image.png)
 
    点击右上角的commit changes
-
 
 4. 点击 `Commit changes`，若是第一次投稿，GitHub 会提示先 Fork 仓库；按提示操作一次即可
    ![fork](./public//git_assets/need_fork.png)
@@ -182,31 +181,34 @@ git push origin doc_raven
 **解决方案**：
 
 1. **确保使用正确的 pnpm 版本**：
+
    ```bash
    # 检查当前版本
    pnpm --version
-   
+
    # 应该显示: 10.20.0
    # 如果不是，请使用以下命令之一：
-   
+
    # 方法 1: 使用 corepack（推荐）
    corepack enable
    corepack prepare pnpm@10.20.0 --activate
-   
+
    # 方法 2: 全局安装
    npm install -g pnpm@10.20.0
    ```
 
 2. **验证版本一致性**：
+
    ```bash
    pnpm check:pnpm-version
    ```
 
 3. **如果 lockfile 已经被错误修改**：
+
    ```bash
    # 丢弃 lockfile 的修改
    git checkout pnpm-lock.yaml
-   
+
    # 确认使用正确的 pnpm 版本后重新安装
    pnpm install
    ```
@@ -217,10 +219,12 @@ git push origin doc_raven
 #### 问题：CI 检查失败，提示 lockfile 不一致
 
 这通常意味着：
+
 1. 你本地使用的 pnpm 版本与项目要求的不一致
 2. lockfile 被错误修改或损坏
 
 **解决方案**：
+
 ```bash
 # 1. 确认并切换到正确的 pnpm 版本
 corepack enable
@@ -239,12 +243,14 @@ git status
 #### 问题：为什么要使用 corepack 而不是全局安装？
 
 **Corepack 的优势**：
+
 - 自动读取 `package.json` 的 `packageManager` 字段
 - 每个项目可以使用不同的 pnpm 版本而不冲突
 - 新贡献者克隆项目后自动使用正确的版本
 - 减少版本不匹配导致的问题
 
 **如何为团队启用 corepack**：
+
 ```bash
 # 一次性设置，之后所有项目都会受益
 corepack enable
@@ -305,12 +311,12 @@ pnpm check:pnpm-version
 #### ⚠️ 为什么版本一致性很重要？
 
 不同版本的 pnpm 在序列化 `pnpm-lock.yaml` 时可能使用不同的格式（如单引号 vs 双引号），导致：
+
 - PR 中产生大量无意义的 diff
 - 增加代码审查负担
 - 可能导致 CI 检查失败
 
 我们的 CI 工作流会自动检查版本一致性，如果检测到版本不匹配会导致构建失败。
-
 
 ### 3. 本地开发
 
@@ -340,6 +346,57 @@ pnpm check:pnpm-version   # 检查 pnpm 版本是否与 package.json 一致
 pnpm check:lockfile       # 检查 lockfile 是否有未预期的修改
 pnpm postinstall          # 同步必要的 Husky/Fumadocs 配置
 ```
+
+---
+
+## 🔐 基础设施访问
+
+项目除了 GitHub 仓库，还有几个对外/对内服务。所有登录都走**同一个 GitHub 账号**，不再有每处独立密码。
+
+### 服务一览
+
+| 用途         | URL                                             | 谁能进                                  | 登录方式                                |
+| ------------ | ----------------------------------------------- | --------------------------------------- | --------------------------------------- |
+| 主站         | `https://involutionhell.com`                    | 所有登录用户                            | GitHub OAuth                            |
+| 后端 API     | `https://api.involutionhell.com`                | — (内部调用)                            | sa-token (cookie/header)                |
+| **密钥管理** | `https://secrets.involutionhell.com`            | **所有登录协作者**，按 project 权限查看 | GitHub OAuth（复用主站 App）            |
+| 数据库管理   | `https://api.involutionhell.com/admin/pgadmin/` | **仅 admin**                            | 主站 cookie 自动通过 Caddy forward_auth |
+| 网站分析     | `https://umami.involutionhell.com`              | **仅 admin**                            | 本地 umami 账号                         |
+
+### 怎么拿到 admin / 密钥权限
+
+1. **申请 admin 角色**：现有 superadmin 在 `/admin/users` 页面勾选即可授予（产品规则：superadmin 本身不能通过 API 变动）
+2. **申请 Infisical 项目访问**：登录 `secrets.involutionhell.com` 后（GitHub OAuth 自动建账号），联系现有 admin 加到对应 project。Infisical 内部按 environment 分 `dev` / `prod` / `shared`
+3. **不要自己手动 INSERT `user_accounts` 表挂 admin 角色** —— OAuth 登录按 `github_<id>` 匹配 username，手工 insert 的人类 username 行永远是孤儿，用户登录后会另开一行丢 admin。历史上有人踩过
+
+### `.env` 文件规则
+
+- 本地 dev：
+  - 后端：`involution-hell-project/backend/.env`（`set -a && . ./.env && set +a` 注入 Spring Boot）
+  - 前端：`involution-hell-project/frontend/.env`
+- 生产：`/home/ubuntu/involution-hell/.env`（**只在部署机**，不在仓库里；CI 不覆盖）
+- 两份 .env **故意有差异**（PGHOST / SERVER_PORT / AUTH_URL）—— 不要强行统一，参见 wiki [Changelog 2026-04-17](https://github.com/InvolutionHell/involutionhell/wiki/Changelog-2026-04-17-Self-Hosted-Infra) 的架构说明
+- **所有秘密值**将来会迁到 Infisical 单一真源，`.env` 只存极少数 bootstrap 配置。改动期间前后仓两份并存，改值要同步改两处
+
+### 开发者自助入口
+
+登录主站后，访问**自己**的个人主页 `/u/<你的 github id>`，在顶部按钮栏能看到：
+
+- **密钥管理 ↗**（所有登录协作者可见） → 跳 Infisical
+- **管理员界面**（仅 admin 可见） → 跳 `/admin`
+- **编辑**（仅本人可见） → 跳 profile 编辑
+
+这些按钮都是 "只有本人看自己主页时才渲染"，路人看不到。
+
+### Spring Boot 后端本地启动
+
+```bash
+cd involution-hell-project/backend
+set -a && . ./.env && set +a   # .env 里有 SERVER_PORT=8081 等
+./mvnw spring-boot:run
+```
+
+前端 `BACKEND_URL` 指 `http://localhost:8081`，前后一致。
 
 ---
 
