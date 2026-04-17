@@ -4,9 +4,17 @@ name: Docs Backfill (on docs changes)
 # 原因：DB 从 Neon 迁到服务器自建 PG 后只绑 127.0.0.1:5432，不对公网暴露。
 # 设计权衡见 wiki Frontend-Auth-And-Admin / 后端 docs/database.md。
 #
+# ⚠️  这个 workflow 维护的是**贡献者署名记录的生命线**——谁写了哪篇文档、
+# 文件改名/移动后署名不丢，全靠底层两个脚本：
+#   - scripts/uuid.mjs        生成/保持 docId frontmatter（永不改写已有值）
+#   - scripts/backfill-contributors.mjs  按 docId 累加 GitHub commits 到 DB，
+#                             doc_paths 表维护历史路径并集跨改名追踪
+# 若本 workflow 跑坏了（生成错 docId / 写坏 JSON / 写错 DB），署名可能丢失。
+# 下面每一步前都有防御性检查，出错就 fail loud 不吞错。
+#
 # Secrets 依赖：
 #   SERVER_HOST / SERVER_USER / SERVER_SSH_KEY — SSH 远程登录三件套
-#   （私钥生成方式 + 公钥已写入服务器 ~/.ssh/authorized_keys，见仓库 wiki）
+#   （私钥生成方式 + 公钥已写入服务器 ~/.ssh/authorized_keys，见 wiki）
 
 on:
   push:
@@ -51,28 +59,90 @@ jobs:
             BRANCH="${GITHUB_REF_NAME:-main}"
             cd /home/ubuntu/involution-hell-project/frontend
 
-            # 1. 同步仓库到触发本次 workflow 的 commit
+            # ============================================================
+            # 0. 脏工作树检查
+            # ------------------------------------------------------------
+            # 为什么重要：下一步 git reset --hard 会抹掉所有未提交改动。
+            # 如果上次 workflow 跑到一半 uuid.mjs 写了 docId 但 backfill 失败没
+            # commit，这些"生成了的新 docId"在脏树里。reset 后 uuid.mjs 会生成
+            # 不同的新 UUID——不丢署名（因为从未 commit 到 main），但浪费 id
+            # 且可能造成 docId 分叉留给下一次排查。
+            #
+            # 更严重的场景：如果有人手工在服务器上 hotfix MDX 忘 commit，
+            # reset 会悄悄抹掉。一律 fail loud 强制人工介入更安全。
+            # ============================================================
+            if [[ -n "$(git status --porcelain)" ]]; then
+              echo "::error::服务器 frontend 工作树不干净，拒绝 reset。先人工处理后再重跑。"
+              git status --short
+              exit 1
+            fi
+
+            # 同步仓库到触发本次 workflow 的 commit
             git fetch --prune origin
             git checkout "$BRANCH"
             git reset --hard "origin/$BRANCH"
 
-            # 2. 依赖和 Prisma client（frontend .env 里 DATABASE_URL 已指本地 PG）
+            # ============================================================
+            # 1. 加载环境变量 + 必要字段校验
+            # ------------------------------------------------------------
+            # DATABASE_URL 缺失时 backfill 会隐性降级（shouldSyncDb=false），
+            # 生成的 JSON 内容是"本轮快照"而非"DB 累计值"，覆盖 commit 回仓
+            # 会把累计呈现变成单次快照——**视觉上像数据丢了**但 DB 没动。
+            # 直接 fail 不给它走降级路径。
+            # ============================================================
             set -a && . ./.env && set +a
+            if [[ -z "${DATABASE_URL:-}" ]]; then
+              echo "::error::DATABASE_URL 未配置，拒绝运行以免 JSON 降级成本轮快照"
+              exit 1
+            fi
+            if [[ -z "${GITHUB_TOKEN:-}" ]]; then
+              echo "::warning::GITHUB_TOKEN 未配置，GitHub API rate limit 60/h 会打爆"
+            fi
+
+            # ============================================================
+            # 2. DB 健康检查
+            # ------------------------------------------------------------
+            # 如果本地 PG 意外被清库或未迁移完成，doc_contributors 表可能是空的。
+            # 从空 DB 起增量累计 → 早期已经超出 GitHub API 单文件 commits 最多 N 页
+            # 范围的老 commits 永远拉不回来 → 署名丢失。
+            #
+            # 下限 200 行是保守值：迁移完成后 doc_contributors 约 295 行，
+            # 低于 200 视为"异常状态"，要人工确认后才能继续。
+            # ============================================================
+            CONTRIB_COUNT=$(docker exec involution-postgres \
+              psql -U neondb_owner -d involution_hell -tAc \
+              "SELECT count(*) FROM doc_contributors;" 2>/dev/null || echo "0")
+            if [[ "$CONTRIB_COUNT" -lt 200 ]]; then
+              echo "::error::doc_contributors 只有 $CONTRIB_COUNT 行（预期 >= 200），DB 状态异常，拒绝运行。"
+              echo "::error::如果是故意重置 DB，临时把本检查注释掉，一次跑完再恢复。"
+              exit 1
+            fi
+            echo "DB 健康检查通过：doc_contributors 有 $CONTRIB_COUNT 行"
+
+            # 3. 依赖和 Prisma client
             pnpm install --frozen-lockfile
             pnpm prisma generate
 
-            # 3. 给 docs 补 docId frontmatter（幂等；没新增就啥都不改）
+            # ============================================================
+            # 4. 跑脚本
+            # ------------------------------------------------------------
+            # uuid.mjs：幂等补 docId；已有 docId 的文件绝对不改。
+            # backfill-contributors.mjs：按 docId 增量累加，doc_paths 表合并历史路径，
+            # 翻译版跳过，失败即 exit 1 让本 step fail 不进 commit。
+            # ============================================================
             pnpm exec node scripts/uuid.mjs
-
-            # 4. 回填 contributors 并写 generated/doc-contributors.json
             pnpm exec tsx scripts/backfill-contributors.mjs
 
-            # 5. 自动提交 —— 仅当 MDX / JSON 有实际变动时才推
+            # ============================================================
+            # 5. 自动提交
+            # ------------------------------------------------------------
+            # 只 commit MDX frontmatter 改动 + 生成的 JSON，不包含任何其他脏文件。
+            # [skip ci] 防止自提交再次触发本 workflow 死循环。
+            # ============================================================
             if ! git diff --quiet -- 'app/docs/**/*.md' 'app/docs/**/*.mdx' generated/doc-contributors.json; then
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git add 'app/docs/**/*.md' 'app/docs/**/*.mdx' generated/doc-contributors.json
-              # [skip ci] 防止自提交再次触发本 workflow 死循环
               git commit -m "chore(docs): sync doc metadata [skip ci]"
               git push origin "$BRANCH"
             else
