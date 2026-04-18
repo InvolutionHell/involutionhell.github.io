@@ -3,7 +3,10 @@ title: LeWorldModel
 description: 从像素端到端稳定训练的联合嵌入预测架构
 date: "2026-04-08"
 tags:
-  - 世界模型
+  - world-models
+  - jepa
+  - representation-learning
+  - embodied-ai
 docId: boo70qqm8nos8b0q9h7zjrki
 lang: zh
 translatedFrom: en

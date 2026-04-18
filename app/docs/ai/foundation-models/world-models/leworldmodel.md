@@ -3,7 +3,10 @@ title: LeWorldModel
 description: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels
 date: "2026-04-08"
 tags:
-  - 世界模型
+  - world-models
+  - jepa
+  - representation-learning
+  - embodied-ai
 docId: boo70qqm8nos8b0q9h7zjrki
 ---
 

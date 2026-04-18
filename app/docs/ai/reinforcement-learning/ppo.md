@@ -3,7 +3,10 @@ title: PPO
 description: ""
 date: "2025-10-03"
 tags:
-  - tag-one
+  - reinforcement-learning
+  - ppo
+  - policy-gradient
+  - gae
 docId: zf8zk108oqbsg56xjyqb5txk
 ---
 

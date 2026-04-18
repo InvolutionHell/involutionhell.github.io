@@ -64,6 +64,30 @@ const config = {
         destination: "/docs/ai/projects/ai-town",
         statusCode: 301,
       },
+      // feat/docs-reorg-rag-projects phase 2：继续把 CommunityShare 下的 AI 内容归并到 ai/
+      {
+        source: "/docs/CommunityShare/Geek/leworldmodel",
+        destination: "/docs/ai/foundation-models/world-models/leworldmodel",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/CommunityShare/Amazing-AI-Tools/perplexity-comet",
+        destination: "/docs/ai/misc-tools/perplexity-comet",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms",
+        destination:
+          "/docs/ai/foundation-models/prompt-engineering/prompt-repetition-improves-non-reasoning-llms",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/docs/CommunityShare/Personal-Study-Notes/Reinforcement-Learning/ppo",
+        destination: "/docs/ai/reinforcement-learning/ppo",
+        statusCode: 301,
+      },
     ];
   },
   async rewrites() {
