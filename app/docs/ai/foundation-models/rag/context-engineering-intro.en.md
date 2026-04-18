@@ -3,7 +3,9 @@ title: A Quick Introduction to Context Engineering
 description: ""
 date: "2025-10-03"
 tags:
-  - tag-one
+  - context-engineering
+  - prompt-engineering
+  - llm-fundamentals
 docId: wdqqrepoy43jiieyyjmaekk1
 lang: en
 translatedFrom: zh

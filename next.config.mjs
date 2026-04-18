@@ -22,6 +22,45 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  /**
+   * 文档目录重组产生的老 URL → 新 canonical URL 的 301 重定向。
+   *
+   * 为什么需要：站点上线一段时间后，原路径被 Google 索引 + 被用户收藏 / 外链引用。
+   * 目录重组（比如把 CommunityShare/RAG/* 搬到 ai/foundation-models/rag/*）
+   * 必然改 URL；不加 301 的话老链接一律 404，SEO 权重流失 + 用户体验断裂。
+   *
+   * permanent=true 下发 308（Next.js 特性：permanent 对应 308，保留原 method；
+   * 普通文件重定向 308 和 301 对爬虫基本等价），浏览器 / 爬虫会缓存跳转关系，
+   * 后续直接打新 URL 省一次 round-trip。
+   *
+   * 每次再动 docs 路径，都要在这里补一条。
+   */
+  async redirects() {
+    return [
+      // feat/docs-reorg-rag-projects（2026-04-18）
+      {
+        source: "/docs/CommunityShare/RAG/rag",
+        destination: "/docs/ai/foundation-models/rag/rag",
+        permanent: true,
+      },
+      {
+        source: "/docs/CommunityShare/RAG/embedding",
+        destination: "/docs/ai/foundation-models/rag/embedding",
+        permanent: true,
+      },
+      {
+        // 文件名也规范化成 kebab-case：context_engineering_intro → context-engineering-intro
+        source: "/docs/CommunityShare/RAG/context_engineering_intro",
+        destination: "/docs/ai/foundation-models/rag/context-engineering-intro",
+        permanent: true,
+      },
+      {
+        source: "/docs/all-projects/ai-town",
+        destination: "/docs/ai/projects/ai-town",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8080";
     return [
