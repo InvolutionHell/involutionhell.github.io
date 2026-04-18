@@ -3,7 +3,8 @@ title: "Must-Read Before Your Interview: Four Tips That Significantly Boost Your
 description: ""
 date: "2025-09-28"
 tags:
-  - tag-one
+  - interview-preparation
+  - career
 docId: cgo4lweflk5jx1hsncr8hshk
 lang: en
 translatedFrom: zh

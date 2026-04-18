@@ -3,7 +3,9 @@ title: Building with Make
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - makefile
+  - build-system
 docId: g6wucmr69lamd9xyxm7uunnd
 lang: en
 translatedFrom: zh

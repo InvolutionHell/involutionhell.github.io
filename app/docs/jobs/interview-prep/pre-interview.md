@@ -3,7 +3,8 @@ title: " 面试前必看：掌握这四个小技巧，你的成功率会大大�
 description: ""
 date: "2025-09-28"
 tags:
-  - tag-one
+  - interview-preparation
+  - career
 docId: cgo4lweflk5jx1hsncr8hshk
 ---
 

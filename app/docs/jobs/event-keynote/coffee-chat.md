@@ -3,7 +3,12 @@ title: 资深科技大厂程序员Coffee Chat回顾
 description: ""
 date: "2025-11-01"
 tags:
-  - tag-one
+  - career
+  - networking
+  - tech-industry
+  - australia-job-market
+  - career-path
+  - sre
 docId: ld59a8z1v84ig4rlr0p0n2a9
 ---
 

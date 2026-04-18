@@ -3,7 +3,9 @@ title: linux/win上的c++库
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - cpp-libraries
+  - development-environment
 docId: totx4pej5lhyt1nl4anwhakj
 ---
 

@@ -3,7 +3,9 @@ title: Handwritten Fixed-Size Memory Pool
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - memory-pool
+  - system-programming
 docId: xgxqqvglxyauoeh8eye7lzu6
 lang: en
 translatedFrom: zh

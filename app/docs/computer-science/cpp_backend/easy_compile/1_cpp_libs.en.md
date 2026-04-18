@@ -3,7 +3,9 @@ title: C++ Libraries on Linux/Windows
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - cpp-libraries
+  - development-environment
 docId: totx4pej5lhyt1nl4anwhakj
 lang: en
 translatedFrom: zh

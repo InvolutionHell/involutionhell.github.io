@@ -3,7 +3,10 @@ title: Recommended Books on Mathematics and Data Science
 description: ""
 date: "2025-10-06"
 tags:
-  - tag-one
+  - math-textbooks
+  - learning-resources
+  - data-science
+  - book-recommendations
 docId: kzi6k1yg1sehlxidnxdsf59a
 lang: en
 translatedFrom: zh
