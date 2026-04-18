@@ -99,7 +99,7 @@ Planning your timeline well in advance is crucial — internships are often the 
 
 - Connect broadly on LinkedIn to build your personal platform — treat it as a professional showcase, not a social feed;
 - Real internal company transition example: "From Amazon IT Support to Developer";
-- Highly recommended: [Student Job Preparation Guide](https://involutionhell.vercel.app/docs/jobs/interview-prep/preparations-to-get-an-offer-as-a-student).
+- Highly recommended: [Student Job Preparation Guide](https://involutionhell.com/docs/career/interview-prep/preparations-to-get-an-offer-as-a-student).
 
 ## 6. Visa and International Career Paths: The E-3 Visa
 

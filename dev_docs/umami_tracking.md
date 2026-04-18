@@ -66,8 +66,8 @@
 
 // Sidebar Link (Fumadocs integration example)
 <Link
-  href="/docs/ai"
-  onClick={() => umami.track('navigation_click', { region: 'sidebar', path: '/docs/ai' })}
+  href="/docs/learn/ai"
+  onClick={() => umami.track('navigation_click', { region: 'sidebar', path: '/docs/learn/ai' })}
 >Artificial Intelligence</Link>
 ```
 

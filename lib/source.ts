@@ -29,7 +29,7 @@ export const source = loader({
         if (
           file &&
           file.format === "page" &&
-          path.startsWith("CommunityShare/Leetcode/")
+          path.startsWith("career/interview-prep/leetcode/")
         ) {
           const defaultSlugs = getSlugs(path);
           const newSlugs = defaultSlugs.map(convertSlugToPinyin);

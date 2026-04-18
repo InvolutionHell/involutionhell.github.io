@@ -7,21 +7,21 @@
     {
       "name": "Mock Interview",
       "discord": "https://discord.gg/QHsjqezfC?event=1430500169299922965",
-      "playback": "https://involutionhell.com/docs/jobs/event-keynote/event-takeway",
+      "playback": "https://involutionhell.com/docs/career/events/event-takeway",
       "coverUrl": "./event/mockInterview.webp",
       "deprecated": true
     },
     {
       "name": "Coffee Chat",
       "discord": "https://discord.com/invite/8AQZj7sa?event=1432010537402761348",
-      "playback": "https://involutionhell.com/docs/jobs/event-keynote/coffee-chat",
+      "playback": "https://involutionhell.com/docs/career/events/coffee-chat",
       "coverUrl": "./event/coffeeChat.webp",
       "deprecated": true
     },
     {
       "name": "Career Journey",
       "discord": "https://discord.com/invite/8AQZj7sa?event=1432010537402761348",
-      "playback": "https://involutionhell.com/docs/jobs/event-keynote/event-takeway",
+      "playback": "https://involutionhell.com/docs/career/events/event-takeway",
       "coverUrl": "./event/careerJourney.webp",
       "deprecated": true
     },

@@ -163,7 +163,7 @@ function pruneEmptyFolders(root: PageTree.Root): PageTree.Root {
 
         if (
           onlyChild.type === "page" &&
-          onlyChild.url.startsWith("/docs/ai/")
+          onlyChild.url.startsWith("/docs/learn/ai/")
         ) {
           return { ...onlyChild };
         }

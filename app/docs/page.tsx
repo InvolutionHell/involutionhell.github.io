@@ -9,7 +9,7 @@ import { SectionIndex } from "@/app/components/docs/SectionIndex";
  * 所以 /docs 本身 404。这个文件提供兜底 landing，复用已挂好的 DocsLayout。
  *
  * 内容交给 `<SectionIndex />`（root 不传 → 渲染 pageTree 顶层分区）。所有渲染
- * 逻辑和 CommunityShare / Leetcode 两处共用同一个组件，避免 drift。
+ * 逻辑和 community / career/interview-prep/leetcode 两处共用同一个组件，避免 drift。
  */
 
 async function getLocaleFromCookie(): Promise<"zh" | "en"> {

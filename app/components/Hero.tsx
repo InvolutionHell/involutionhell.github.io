@@ -21,22 +21,22 @@ export async function Hero() {
     {
       title: t("categories.ai.title"),
       desc: t("categories.ai.desc"),
-      href: "/docs/ai",
+      href: "/docs/learn/ai",
     },
     {
       title: t("categories.cs.title"),
       desc: t("categories.cs.desc"),
-      href: "/docs/computer-science",
+      href: "/docs/learn/cs",
     },
     {
       title: t("categories.jobs.title"),
       desc: t("categories.jobs.desc"),
-      href: "/docs/jobs/interview-prep/bq",
+      href: "/docs/career/interview-prep/bq",
     },
     {
       title: t("categories.community.title"),
       desc: t("categories.community.desc"),
-      href: "/docs/CommunityShare",
+      href: "/docs/community",
     },
   ];
 
@@ -91,7 +91,7 @@ export async function Hero() {
                 {t("join.body")}
               </p>
               <Link
-                href="/docs/ai"
+                href="/docs/learn/ai"
                 className="block w-full"
                 data-umami-event="navigation_click"
                 data-umami-event-region="hero_cta"

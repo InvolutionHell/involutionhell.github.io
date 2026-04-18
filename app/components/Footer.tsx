@@ -63,7 +63,7 @@ export async function Footer() {
               <ul className="space-y-3 font-body text-sm text-[var(--foreground)]">
                 <li>
                   <Link
-                    href="/docs/ai"
+                    href="/docs/learn/ai"
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"
@@ -74,7 +74,7 @@ export async function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/docs/computer-science"
+                    href="/docs/learn/cs"
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"
@@ -85,7 +85,7 @@ export async function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/docs/CommunityShare"
+                    href="/docs/community"
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"
@@ -96,7 +96,7 @@ export async function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/docs/jobs"
+                    href="/docs/career"
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"

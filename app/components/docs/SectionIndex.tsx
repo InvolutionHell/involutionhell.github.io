@@ -9,8 +9,8 @@ import type { PageTree } from "fumadocs-core/server";
  *
  * 三处使用场景：
  *   1. /docs landing        SectionIndex 不传参                         列出顶层分区（ai / cs / 群友分享 等）
- *   2. CommunityShare 首页   SectionIndex root=CommunityShare            列出 Geek / Leetcode / RAG 等子分类
- *   3. Leetcode 首页         SectionIndex root=CommunityShare/Leetcode   列出全部 Leetcode 题解
+ *   2. community 首页 SectionIndex root=community            列出 Geek / Leetcode / RAG 等子分类
+ *   3. career/interview-prep/leetcode 首页 SectionIndex root=career/interview-prep/leetcode   列出全部 Leetcode 题解
  *
  * ----------------------------------------------------------------------------
  * 为什么不直接用 fumadocs 自带的？
@@ -27,7 +27,7 @@ import type { PageTree } from "fumadocs-core/server";
  *     children:
  *       Folder
  *         name = AI 知识库
- *         index = Page(url=/docs/ai, name=AI 知识库)      // 有 index.mdx
+ *         index = Page(url=/docs/learn/ai, name=AI 知识库)      // 有 index.mdx
  *         children: [Page, Folder, ...]
  *       Folder
  *         name = All projects
@@ -53,7 +53,7 @@ type FolderNode = Extract<PageTree.Node, { type: "folder" }>;
 
 interface SectionIndexProps {
   /**
-   * 从 pageTree 根往下走的目录路径，段之间用 / 分隔，例如 CommunityShare/Leetcode。
+   * 从 pageTree 根往下走的目录路径，段之间用 / 分隔，例如 career/interview-prep/leetcode。
    * 不传 = 直接用 pageTree 根节点本身（用于 /docs landing）。
    */
   root?: string;
@@ -69,9 +69,9 @@ interface CardEntry {
 /**
  * 从 pageTree 根一路钻到 root 指定的目录节点。
  *
- * 举例：root = CommunityShare/Leetcode
- *   1) 根的 children 里找 segmentName = CommunityShare 的 folder
- *   2) 再在这个 folder 的 children 里找 segmentName = Leetcode 的 folder
+ * 举例：root = career/interview-prep/leetcode
+ *   1) 根的 children 里找 segmentName = career 的 folder
+ *   2) 再在这个 folder 的 children 里找 segmentName = interview-prep/leetcode 的 folder
  *   3) 返回这个 folder 节点
  *
  * 任一段找不到就返回 null（组件会渲染一个明显的错误提示，而不是静默空页）。
@@ -101,7 +101,7 @@ function findFolderByPath(
  * 为什么不直接用 folder.name：
  * fumadocs 的 FolderNode.name 是 ReactNode 类型（可能是 string，也可能是 JSX），
  * 直接字符串比较会在极端情况踩坑。更可靠的办法是从 folder.index.url 反推——
- * 比如 /docs/CommunityShare/Geek 最后一段 Geek 就是目录名。
+ * 比如 /docs/community/dev-tips 最后一段 Geek 就是目录名。
  *
  * 没 index 时退回 name.toString()。目前仓库里这种情况目录名都是纯字符串，
  * 所以兜底够用。
@@ -154,10 +154,10 @@ function buildCanonicalUrlSet(): Set<string> {
  * 用途：folder 没有自己的 index.mdx 时，不能硬拼 /docs/<folder> 做卡片链接（Next 路由
  * 里没这条，会 404）。所以往里走一层，找到第一个 page 文件的 url 拿来做兜底链接。比如：
  *
- *   CommunityShare/Language/         没 index.mdx
+ *   community/language/         没 index.mdx
  *     pte-intro.mdx                   用这篇的 url 做兜底
  *
- * 点击卡片会进到 /docs/CommunityShare/Language/pte-intro，不会 404。
+ * 点击卡片会进到 /docs/community/language/pte-intro，不会 404。
  */
 function findFirstPageUrl(
   nodes: PageTree.Node[],

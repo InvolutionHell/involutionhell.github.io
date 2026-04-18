@@ -95,7 +95,7 @@ R 老师提醒：**实习申请需提前半年准备**，一般在 2–4 月开�
 
 - 领英可以多connect一些人，展示自己的平台，不要当朋友圈发；
 - 真实公司内部转型案例：“从亚麻 IT Support 转 Dev”；
-- 干货推荐：[学生求职准备指南](https://involutionhell.vercel.app/docs/jobs/interview-prep/preparations-to-get-an-offer-as-a-student)。
+- 干货推荐：[学生求职准备指南](https://involutionhell.com/docs/career/interview-prep/preparations-to-get-an-offer-as-a-student)。
 
 ## 六、签证与国际发展路径：E3 签证
 

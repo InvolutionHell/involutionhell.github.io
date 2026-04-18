@@ -35,97 +35,187 @@ const config = {
    * 每次再动 docs 路径都要在这里补一条。
    */
   async redirects() {
+    // Option C IA 大重组：按读者意图分 learn / career / community / projects 四大顶层区。
+    // 顺序敏感——Next.js 首匹配命中，特殊文件级 + cpp_backend 老名字必须排在 wildcard 前。
     return [
-      // feat/docs-reorg-rag-projects（2026-04-18）RAG / AI 项目 / CommunityShare → ai/ 归并
+      // ============= 特殊路径（必须在 wildcard 之前） =============
+      // CommunityShare/RAG → learn/ai/foundation-models/rag （RAG 文件归 ai 主题）
       {
         source: "/docs/CommunityShare/RAG/rag",
-        destination: "/docs/ai/foundation-models/rag/rag",
+        destination: "/docs/learn/ai/foundation-models/rag/rag",
         statusCode: 301,
       },
       {
         source: "/docs/CommunityShare/RAG/embedding",
-        destination: "/docs/ai/foundation-models/rag/embedding",
+        destination: "/docs/learn/ai/foundation-models/rag/embedding",
         statusCode: 301,
       },
       {
-        // 文件名也规范化成 kebab-case：context_engineering_intro → context-engineering-intro
+        // 文件名顺手规范化：context_engineering_intro → context-engineering-intro
         source: "/docs/CommunityShare/RAG/context_engineering_intro",
-        destination: "/docs/ai/foundation-models/rag/context-engineering-intro",
+        destination:
+          "/docs/learn/ai/foundation-models/rag/context-engineering-intro",
         statusCode: 301,
       },
-      {
-        source: "/docs/all-projects/ai-town",
-        destination: "/docs/ai/projects/ai-town",
-        statusCode: 301,
-      },
+      // CommunityShare/Geek/leworldmodel → community/papers（paper summary 归社区论文）
       {
         source: "/docs/CommunityShare/Geek/leworldmodel",
-        destination: "/docs/ai/foundation-models/world-models/leworldmodel",
+        destination: "/docs/community/papers/leworldmodel",
         statusCode: 301,
       },
+      // CommunityShare/Amazing-AI-Tools 下两篇分家：tool review 归 tools，paper 归 papers
       {
         source: "/docs/CommunityShare/Amazing-AI-Tools/perplexity-comet",
-        destination: "/docs/ai/misc-tools/perplexity-comet",
+        destination: "/docs/community/tools/perplexity-comet",
         statusCode: 301,
       },
       {
         source:
           "/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms",
         destination:
-          "/docs/ai/foundation-models/prompt-engineering/prompt-repetition-improves-non-reasoning-llms",
+          "/docs/community/papers/prompt-repetition-improves-non-reasoning-llms",
         statusCode: 301,
       },
+      // PPO 强化学习主题 → learn/ai/reinforcement-learning
       {
         source:
           "/docs/CommunityShare/Personal-Study-Notes/Reinforcement-Learning/ppo",
-        destination: "/docs/ai/reinforcement-learning/ppo",
+        destination: "/docs/learn/ai/reinforcement-learning/ppo",
         statusCode: 301,
       },
-      // feat/docs-filename-kebab-case（2026-04-18）cpp_backend 目录树规范化：下划线 / 大驼峰 → kebab-case
+      // swanlab 之前 test run 已移到 ai/misc-tools/（main commit d6d0a3d），现改到 community/tools
+      {
+        source: "/docs/ai/misc-tools/swanlab",
+        destination: "/docs/community/tools/swanlab",
+        statusCode: 301,
+      },
+      // cpp_backend 老命名（下划线 / 大驼峰）→ learn/cs/cpp-backend/ (kebab-case)
       {
         source: "/docs/computer-science/cpp_backend/mempool_simple",
-        destination: "/docs/computer-science/cpp-backend/mempool-simple",
+        destination: "/docs/learn/cs/cpp-backend/mempool-simple",
         statusCode: 301,
       },
       {
         source:
           "/docs/computer-science/cpp_backend/Handwritten_pool_components/1_Handwritten_threadpool",
         destination:
-          "/docs/computer-science/cpp-backend/handwritten-pool-components/1-handwritten-threadpool",
+          "/docs/learn/cs/cpp-backend/handwritten-pool-components/1-handwritten-threadpool",
         statusCode: 301,
       },
       {
         source:
           "/docs/computer-science/cpp_backend/Handwritten_pool_components/2_Handwritten_mempool1",
         destination:
-          "/docs/computer-science/cpp-backend/handwritten-pool-components/2-handwritten-mempool1",
+          "/docs/learn/cs/cpp-backend/handwritten-pool-components/2-handwritten-mempool1",
         statusCode: 301,
       },
       {
         source: "/docs/computer-science/cpp_backend/easy_compile/1_cpp_libs",
-        destination:
-          "/docs/computer-science/cpp-backend/easy-compile/1-cpp-libs",
+        destination: "/docs/learn/cs/cpp-backend/easy-compile/1-cpp-libs",
         statusCode: 301,
       },
       {
         source: "/docs/computer-science/cpp_backend/easy_compile/2_base_gcc",
-        destination:
-          "/docs/computer-science/cpp-backend/easy-compile/2-base-gcc",
+        destination: "/docs/learn/cs/cpp-backend/easy-compile/2-base-gcc",
         statusCode: 301,
       },
       {
         source: "/docs/computer-science/cpp_backend/easy_compile/3_Make",
-        destination: "/docs/computer-science/cpp-backend/easy-compile/3-make",
+        destination: "/docs/learn/cs/cpp-backend/easy-compile/3-make",
         statusCode: 301,
       },
       {
         source: "/docs/computer-science/cpp_backend/easy_compile/4_CMake",
-        destination: "/docs/computer-science/cpp-backend/easy-compile/4-cmake",
+        destination: "/docs/learn/cs/cpp-backend/easy-compile/4-cmake",
         statusCode: 301,
       },
       {
         source: "/docs/computer-science/cpp_backend/easy_compile/5_vcpkg",
-        destination: "/docs/computer-science/cpp-backend/easy-compile/5-vcpkg",
+        destination: "/docs/learn/cs/cpp-backend/easy-compile/5-vcpkg",
+        statusCode: 301,
+      },
+      // all-projects/ai-town → projects/ai-town （顶层化）
+      {
+        source: "/docs/all-projects/ai-town",
+        destination: "/docs/projects/ai-town",
+        statusCode: 301,
+      },
+      // all-projects 裸路径本身也要兜底，防止指 /docs/all-projects 直接 404
+      {
+        source: "/docs/all-projects",
+        destination: "/docs/projects",
+        statusCode: 301,
+      },
+      // CommunityShare / Amazing-AI-Tools index 顶层
+      {
+        source: "/docs/CommunityShare",
+        destination: "/docs/community",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/CommunityShare/Amazing-AI-Tools",
+        destination: "/docs/community/tools",
+        statusCode: 301,
+      },
+
+      // ============= Wildcard 顶层区重命名 =============
+      // 学科主目录：ai → learn/ai, computer-science → learn/cs
+      {
+        source: "/docs/ai/:path*",
+        destination: "/docs/learn/ai/:path*",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/computer-science/:path*",
+        destination: "/docs/learn/cs/:path*",
+        statusCode: 301,
+      },
+      // 求职场景 jobs/{interview-prep,event-keynote} → career/{interview-prep,events}
+      {
+        source: "/docs/jobs/interview-prep/:path*",
+        destination: "/docs/career/interview-prep/:path*",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/jobs/event-keynote/:path*",
+        destination: "/docs/career/events/:path*",
+        statusCode: 301,
+      },
+      // 项目 all-projects → projects
+      {
+        source: "/docs/all-projects/:path*",
+        destination: "/docs/projects/:path*",
+        statusCode: 301,
+      },
+      // CommunityShare 分家：Leetcode 归求职刷题，其他按主题归 community/*
+      {
+        source: "/docs/CommunityShare/Leetcode/:path*",
+        destination: "/docs/career/interview-prep/leetcode/:path*",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/CommunityShare/Language/:path*",
+        destination: "/docs/community/language/:path*",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/CommunityShare/Life/:path*",
+        destination: "/docs/community/life/:path*",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/CommunityShare/MentalHealth/:path*",
+        destination: "/docs/community/mental-health/:path*",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/CommunityShare/Geek/:path*",
+        destination: "/docs/community/dev-tips/:path*",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/CommunityShare/Amazing-AI-Tools/:path*",
+        destination: "/docs/community/tools/:path*",
         statusCode: 301,
       },
     ];

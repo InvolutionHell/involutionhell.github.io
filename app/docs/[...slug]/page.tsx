@@ -195,7 +195,7 @@ export async function generateMetadata({ params }: Param): Promise<Metadata> {
     notFound();
   }
 
-  // 规范化 slug → canonical 路径。用户访问 /docs/ai/rl（原文）或 /docs/ai/rl.en（翻译版）
+  // 规范化 slug → canonical 路径。用户访问 /docs/learn/ai/rl（原文）或 /docs/learn/ai/rl.en（翻译版）
   // 都统一指向原始 slug，避免两个 URL 竞争同一份内容的 PageRank。
   const slugPath = (slug ?? []).join("/");
   const canonical = slugPath ? `/docs/${slugPath}` : "/docs";
