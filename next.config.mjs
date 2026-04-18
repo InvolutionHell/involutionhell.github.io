@@ -29,9 +29,14 @@ const config = {
    * 目录重组（比如把 CommunityShare/RAG/* 搬到 ai/foundation-models/rag/*）
    * 必然改 URL；不加 301 的话老链接一律 404，SEO 权重流失 + 用户体验断裂。
    *
-   * permanent=true 下发 308（Next.js 特性：permanent 对应 308，保留原 method；
-   * 普通文件重定向 308 和 301 对爬虫基本等价），浏览器 / 爬虫会缓存跳转关系，
-   * 后续直接打新 URL 省一次 round-trip。
+   * 用 statusCode: 301 显式下发真正的 301（"Moved Permanently"）。
+   * Next.js 默认 permanent:true 下发的是 308 —— SEO 语义等价，但 HTTP
+   * 协议语义上 308 严格保留 method、301 对 POST 含糊。文档 URL 都是 GET，
+   * 两者对爬虫基本等价，选 301 是因为：
+   *   - 历史最老最广为人知的"永久跳转"语义，老爬虫 / 老工具识别最稳
+   *   - Google Search Console 报告里显式认 301
+   *   - 和 commit 描述、PR 描述里写的 "301" 口径一致
+   * statusCode 与 permanent 互斥，这里用 statusCode 覆盖默认的 308 行为。
    *
    * 每次再动 docs 路径，都要在这里补一条。
    */
@@ -41,23 +46,23 @@ const config = {
       {
         source: "/docs/CommunityShare/RAG/rag",
         destination: "/docs/ai/foundation-models/rag/rag",
-        permanent: true,
+        statusCode: 301,
       },
       {
         source: "/docs/CommunityShare/RAG/embedding",
         destination: "/docs/ai/foundation-models/rag/embedding",
-        permanent: true,
+        statusCode: 301,
       },
       {
         // 文件名也规范化成 kebab-case：context_engineering_intro → context-engineering-intro
         source: "/docs/CommunityShare/RAG/context_engineering_intro",
         destination: "/docs/ai/foundation-models/rag/context-engineering-intro",
-        permanent: true,
+        statusCode: 301,
       },
       {
         source: "/docs/all-projects/ai-town",
         destination: "/docs/ai/projects/ai-town",
-        permanent: true,
+        statusCode: 301,
       },
     ];
   },
