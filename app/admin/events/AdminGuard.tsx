@@ -54,9 +54,7 @@ export function AdminGuard({ children, required = "admin" }: Props) {
   if (status === "unauthenticated") return null;
 
   const roles = user?.roles ?? [];
-  const passes = required === "superadmin"
-    ? roles.includes("superadmin")
-    : roles.includes("admin"); // superadmin 在 seed 里也会带 admin，所以这里一起通过
+  const passes = roles.includes("superadmin") || roles.includes(required); // superadmin 在 seed 里也会带 admin，所以这里一起通过
   if (!passes) {
     return (
       <main className="pt-32 pb-16 min-h-screen flex items-center justify-center px-6">
