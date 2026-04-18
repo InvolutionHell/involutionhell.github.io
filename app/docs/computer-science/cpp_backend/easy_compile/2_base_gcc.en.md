@@ -3,7 +3,9 @@ title: GCC/G++ Basics
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - gcc
+  - compiler-toolchain
 docId: kyu85av71b4n07hbdycbhvj9
 lang: en
 translatedFrom: zh

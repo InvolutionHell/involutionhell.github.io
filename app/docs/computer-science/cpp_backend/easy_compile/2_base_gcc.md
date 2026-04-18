@@ -3,7 +3,9 @@ title: 基础gcc/g++
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - gcc
+  - compiler-toolchain
 docId: kyu85av71b4n07hbdycbhvj9
 ---
 

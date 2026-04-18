@@ -3,7 +3,9 @@ title: 手写定长内存池
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - memory-pool
+  - system-programming
 docId: xgxqqvglxyauoeh8eye7lzu6
 ---
 

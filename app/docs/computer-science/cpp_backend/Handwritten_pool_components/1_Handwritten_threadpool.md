@@ -3,7 +3,9 @@ title: 手写线程池
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - threadpool
+  - concurrent-programming
 docId: mnjkrtrs7xk3fq538eqreuge
 ---
 

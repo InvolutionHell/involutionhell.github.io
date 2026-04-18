@@ -3,7 +3,9 @@ title: Make编译
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - makefile
+  - build-system
 docId: g6wucmr69lamd9xyxm7uunnd
 ---
 

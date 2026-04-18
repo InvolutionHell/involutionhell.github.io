@@ -3,7 +3,9 @@ title: "Theory of MoE"
 description: ""
 date: "2025-10-05"
 tags:
-  - tag-one
+  - mixture-of-experts
+  - model-architecture
+  - llm-fundamentals
 docId: db3qwg25h6l0bh8f2sdabdqc
 ---
 

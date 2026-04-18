@@ -3,7 +3,9 @@ title: CMake
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - cmake
+  - build-system
 docId: xk44lx4q1gpcm1uqk8nnbg7q
 ---
 

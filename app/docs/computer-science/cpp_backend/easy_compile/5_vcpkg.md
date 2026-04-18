@@ -3,7 +3,9 @@ title: vcpkg包管理器
 description: ""
 date: "2025-09-29"
 tags:
-  - tag-one
+  - cpp-backend
+  - vcpkg
+  - package-manager
 docId: gtqamuq3tftmvzstbunkgbo5
 ---
 
