@@ -22,6 +22,70 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  /**
+   * docs 目录整理产生的 URL 变化 → 301 重定向。
+   *
+   * 为什么要 301：站点上线一段时间后，原路径被 Google 索引 + 被用户收藏 / 外链。
+   * 改目录 / 文件名必然改 URL，不加 301 的话老链接 404，SEO 权重流失 +
+   * 用户体验断裂。statusCode:301 显式下发 "Moved Permanently"（不是 Next.js
+   * 默认 permanent:true 的 308）。两者 SEO 语义等价，选 301 因为识别最稳，
+   * 和 PR / commit 描述口径一致。statusCode 与 permanent 互斥；Next.js 源码
+   * redirect-status.js 里 allowedStatusCodes = {301,302,303,307,308}，合法。
+   *
+   * 每次再动 docs 路径都要在这里补一条。
+   */
+  async redirects() {
+    return [
+      // feat/docs-filename-kebab-case（2026-04-18）
+      // cpp_backend 目录树规范化：下划线 / 大驼峰 → kebab-case，保留数字前缀以维持 sidebar 顺序
+      {
+        source: "/docs/computer-science/cpp_backend/mempool_simple",
+        destination: "/docs/computer-science/cpp-backend/mempool-simple",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/docs/computer-science/cpp_backend/Handwritten_pool_components/1_Handwritten_threadpool",
+        destination:
+          "/docs/computer-science/cpp-backend/handwritten-pool-components/1-handwritten-threadpool",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/docs/computer-science/cpp_backend/Handwritten_pool_components/2_Handwritten_mempool1",
+        destination:
+          "/docs/computer-science/cpp-backend/handwritten-pool-components/2-handwritten-mempool1",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/computer-science/cpp_backend/easy_compile/1_cpp_libs",
+        destination:
+          "/docs/computer-science/cpp-backend/easy-compile/1-cpp-libs",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/computer-science/cpp_backend/easy_compile/2_base_gcc",
+        destination:
+          "/docs/computer-science/cpp-backend/easy-compile/2-base-gcc",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/computer-science/cpp_backend/easy_compile/3_Make",
+        destination: "/docs/computer-science/cpp-backend/easy-compile/3-make",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/computer-science/cpp_backend/easy_compile/4_CMake",
+        destination: "/docs/computer-science/cpp-backend/easy-compile/4-cmake",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/computer-science/cpp_backend/easy_compile/5_vcpkg",
+        destination: "/docs/computer-science/cpp-backend/easy-compile/5-vcpkg",
+        statusCode: 301,
+      },
+    ];
+  },
   async rewrites() {
     const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8080";
     return [
