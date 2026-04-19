@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import ZoteroFeedLazy from "@/app/components/ZoteroFeedLazy";
 import { Contribute } from "@/app/components/Contribute";
+import { ShareLink } from "@/app/components/ShareLink";
 import Image from "next/image";
 import { ActivityTicker } from "@/app/components/ActivityTicker";
 import { cn } from "@/lib/utils";
@@ -64,18 +65,11 @@ export async function Hero() {
                 {t("mission")}
               </p>
 
-              <div className="mt-12">
+              {/* 双 CTA 并排：Contribute（正式投稿 Fumadocs）+ ShareLink（随手分享外部文章到 /feed）
+                  两者视觉平级，移动端堆叠（flex-wrap），桌面并排（gap-6） */}
+              <div className="mt-12 flex flex-wrap items-start gap-x-6 gap-y-8">
                 <Contribute />
-                {/* 次级文字链：层级明显低于主 CTA，斜体小字，不抢夺视觉焦点 */}
-                <Link
-                  href="/feed"
-                  className="mt-4 inline-block text-sm italic text-muted-foreground hover:text-[var(--foreground)] transition-colors duration-200"
-                  data-umami-event="navigation_click"
-                  data-umami-event-region="hero_feed_entry"
-                  data-umami-event-label="feed link"
-                >
-                  {t("feedLink")}
-                </Link>
+                <ShareLink />
               </div>
             </div>
           </div>

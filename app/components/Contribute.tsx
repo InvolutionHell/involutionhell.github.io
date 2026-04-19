@@ -162,7 +162,8 @@ export function Contribute() {
         }
       }}
     >
-      <div className="relative mt-12 inline-flex w-full sm:w-auto">
+      {/* mt 由外层容器控制；本组件只负责按钮 + 徽章的相对定位 */}
+      <div className="relative inline-flex w-full sm:w-auto">
         <DialogTrigger asChild>
           <Button
             variant="hero"

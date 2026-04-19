@@ -9,7 +9,6 @@
   },
   "hero": {
     "mission": "A free, open learning community built by developers, for developers. No gatekeeping, no pointless grind — just real progress and the joy of building. Knowledge is a ladder to freedom, not a cage.",
-    "feedLink": "📎 Got a good read? Drop a link →",
     "cta": {
       "access": "Access Articles",
       "guideAriaLabel": "Contribution Guide"
@@ -443,5 +442,9 @@
       "placeholder": "my-article",
       "hint": "Auto-appends .md"
     }
+  },
+  "shareLink": {
+    "button": "Share Link",
+    "submitAriaLabel": "Quick submit"
   }
 }

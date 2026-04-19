@@ -9,6 +9,8 @@ import { ProfileCard } from "./ProfileCard";
 import { EditLinkIfOwner } from "./EditLinkIfOwner";
 import { AdminLinkIfOwnerAdmin } from "./AdminLinkIfOwnerAdmin";
 import { DeveloperToolsIfOwner } from "./DeveloperToolsIfOwner";
+import { SharesLinkIfOwner } from "./SharesLinkIfOwner";
+import { SharesOnProfile } from "./SharesOnProfile";
 import { ActivityHeatmap } from "./ActivityHeatmap";
 import { FollowButton } from "./FollowButton";
 import { GithubRepos, GithubReposSkeleton } from "./GithubRepos";
@@ -388,6 +390,12 @@ export default async function UserProfilePage({ params }: Param) {
                   ownerUsername={user.username}
                   identifier={username}
                 />
+                {/* 我的分享入口：本人访问自己主页时显示，跳 /u/{identifier}/shares */}
+                <SharesLinkIfOwner
+                  ownerGithubId={user.githubId ?? null}
+                  ownerUsername={user.username}
+                  identifier={username}
+                />
                 {/* 开发者工具入口（所有本人都看得见；权限由目标服务自己管）：
                     目前只有 Infisical 密钥管理，未来可挂 CI token / API key 等 */}
                 <DeveloperToolsIfOwner
@@ -485,40 +493,46 @@ export default async function UserProfilePage({ params }: Param) {
               )}
             </section>
 
-            {/* 右侧小卡区 */}
-            <div className="col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {projects.map((p, idx) => (
-                <ProfileCard
-                  key={`proj-${idx}`}
-                  kind="PROJ"
-                  index={idx + 1}
-                  title={p.title}
-                  meta={p.tags?.join(" · ")}
-                  summary={p.description}
-                  detail={p.description}
-                  href={sanitizeExternalUrl(p.url) ?? undefined}
+            {/* 右侧小卡区。
+                - projects/papers 有内容时：走内部 bento grid 展示卡片
+                - 二者都空时：直接把"我的分享"作为 col-span-7 的直接子元素，
+                  让它通过父 grid 默认 align-items:stretch 自动撑到与左侧 identity 卡同高。
+                  之所以不混在内部 grid 里：嵌套 grid 的 row 高度由内容决定，
+                  `h-full` 传不下去，会出现高度循环问题。 */}
+            <div className="col-span-12 lg:col-span-7">
+              {projects.length === 0 && papers.length === 0 ? (
+                <SharesOnProfile
+                  ownerGithubId={user.githubId ?? null}
+                  ownerUsername={user.username}
+                  identifier={username}
                 />
-              ))}
-              {papers.map((p, idx) => (
-                <ProfileCard
-                  key={`paper-${idx}`}
-                  kind="PAPER"
-                  index={idx + 1}
-                  // title 在 UserPaperItem 里允许 itemKey-only（title 可能缺），这里兜底
-                  title={p.title || p.itemKey || "(untitled paper)"}
-                  meta={[p.authors, p.year].filter(Boolean).join(", ")}
-                  summary={p.abstract}
-                  detail={p.abstract}
-                  href={sanitizeExternalUrl(p.url) ?? undefined}
-                />
-              ))}
-              {projects.length === 0 && papers.length === 0 && (
-                <div className="col-span-full border border-dashed border-[var(--foreground)] p-10 text-center text-neutral-500 font-sans text-sm leading-relaxed">
-                  {t("empty.title")}
-                  <br />
-                  <span className="text-xs text-neutral-400">
-                    {t("empty.subtitle")}
-                  </span>
+              ) : (
+                <div className="h-full grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  {projects.map((p, idx) => (
+                    <ProfileCard
+                      key={`proj-${idx}`}
+                      kind="PROJ"
+                      index={idx + 1}
+                      title={p.title}
+                      meta={p.tags?.join(" · ")}
+                      summary={p.description}
+                      detail={p.description}
+                      href={sanitizeExternalUrl(p.url) ?? undefined}
+                    />
+                  ))}
+                  {papers.map((p, idx) => (
+                    <ProfileCard
+                      key={`paper-${idx}`}
+                      kind="PAPER"
+                      index={idx + 1}
+                      // title 在 UserPaperItem 里允许 itemKey-only（title 可能缺），这里兜底
+                      title={p.title || p.itemKey || "(untitled paper)"}
+                      meta={[p.authors, p.year].filter(Boolean).join(", ")}
+                      summary={p.abstract}
+                      detail={p.abstract}
+                      href={sanitizeExternalUrl(p.url) ?? undefined}
+                    />
+                  ))}
                 </div>
               )}
             </div>

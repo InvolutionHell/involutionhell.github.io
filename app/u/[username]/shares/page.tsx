@@ -4,8 +4,6 @@ import { use, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/use-auth";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { LinkCard } from "@/app/feed/components/LinkCard";
 import type { ApiResponse, SharedLinkView } from "@/app/feed/types";
 
@@ -49,10 +47,16 @@ export default function SharesPage({ params }: PageProps) {
   const [links, setLinks] = useState<SharedLinkView[] | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // 是否为本人访问自己的页面
+  // 是否为本人访问自己的页面。
+  // URL 的 [username] 参数可能是 "github_114939201" 也可能是 "114939201"（纯 githubId）
+  // —— 个人主页 canonical URL 已用 githubId，所以两种格式都要支持。
+  // 判定逻辑照搬 EditLinkIfOwner：githubId 优先，username 兜底。
   const isOwner = useMemo(() => {
     if (status !== "authenticated" || !user) return false;
-    return user.username === username;
+    if (user.githubId != null && String(user.githubId) === username)
+      return true;
+    if (user.username === username) return true;
+    return false;
   }, [status, user, username]);
 
   useEffect(() => {
@@ -83,74 +87,70 @@ export default function SharesPage({ params }: PageProps) {
   }, [isOwner]);
 
   return (
-    <>
-      <Header />
-      <main className="mx-auto max-w-5xl px-6 py-12">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">我提交的分享</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {isOwner
-              ? "所有已提交的链接及审核状态。PENDING 表示 AI 正在审核，通常 10 秒 ~ 数分钟。"
-              : "仅本人可见。"}
-          </p>
-        </header>
+    <main className="mx-auto max-w-5xl px-6 py-12">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">我提交的分享</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {isOwner
+            ? "所有已提交的链接及审核状态。PENDING 表示 AI 正在审核，通常 10 秒 ~ 数分钟。"
+            : "仅本人可见。"}
+        </p>
+      </header>
 
-        {/* 非本人访问：给一个回到公共 /feed 的入口，避免页面显得空 */}
-        {!isOwner && (
-          <div className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-            <p>这是 {username} 的私有分享列表，只有本人登录后可见。</p>
-            <Link
-              href="/feed"
-              className="mt-4 inline-block text-primary underline underline-offset-4"
-            >
-              浏览公共分享墙 →
-            </Link>
-          </div>
-        )}
+      {/* 非本人访问：给一个回到公共 /feed 的入口，避免页面显得空 */}
+      {!isOwner && (
+        <div className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
+          <p>这是 {username} 的私有分享列表，只有本人登录后可见。</p>
+          <Link
+            href="/feed"
+            className="mt-4 inline-block text-primary underline underline-offset-4"
+          >
+            浏览公共分享墙 →
+          </Link>
+        </div>
+      )}
 
-        {isOwner && loadError && (
-          <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
-            加载失败：{loadError}
-          </div>
-        )}
+      {isOwner && loadError && (
+        <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+          加载失败：{loadError}
+        </div>
+      )}
 
-        {isOwner && !loadError && links === null && (
-          <p className="text-sm text-muted-foreground">加载中...</p>
-        )}
+      {isOwner && !loadError && links === null && (
+        <p className="text-sm text-muted-foreground">加载中...</p>
+      )}
 
-        {isOwner && links !== null && links.length === 0 && (
-          <div className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-            <p>{tFeed("empty")}</p>
-            <Link
-              href="/feed/submit"
-              className="mt-4 inline-block text-primary underline underline-offset-4"
-            >
-              去提交第一条 →
-            </Link>
-          </div>
-        )}
+      {isOwner && links !== null && links.length === 0 && (
+        <div className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
+          <p>{tFeed("empty")}</p>
+          <Link
+            href="/feed/submit"
+            className="mt-4 inline-block text-primary underline underline-offset-4"
+          >
+            去提交第一条 →
+          </Link>
+        </div>
+      )}
 
-        {isOwner && links !== null && links.length > 0 && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {links.map((link) => (
-              <div key={link.id} className="relative">
-                {/* 状态 badge 叠在卡片左上角，本人才看得到（只有这页拉） */}
-                <span
-                  className={`absolute left-3 top-3 z-10 rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_BADGE[link.status].className}`}
-                >
-                  {STATUS_BADGE[link.status].label}
-                </span>
-                <LinkCard
-                  link={link}
-                  categoryLabel={link.category ? tCategory(link.category) : ""}
-                  isLoggedIn={true}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
-      <Footer />
-    </>
+      {isOwner && links !== null && links.length > 0 && (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {links.map((link) => (
+            <div key={link.id} className="relative">
+              {/* 状态 badge 叠在卡片左上角，本人才看得到（只有这页拉） */}
+              <span
+                className={`absolute left-3 top-3 z-10 rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_BADGE[link.status].className}`}
+              >
+                {STATUS_BADGE[link.status].label}
+              </span>
+              <LinkCard
+                link={link}
+                categoryLabel={link.category ? tCategory(link.category) : ""}
+                isLoggedIn={true}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </main>
   );
 }
