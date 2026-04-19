@@ -12,7 +12,6 @@
  */
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { AdminGuard } from "@/app/admin/events/AdminGuard";
 import type { SharedLinkView } from "@/app/feed/types";
 import { sanitizeExternalUrl } from "@/lib/url-safety";
@@ -130,16 +129,18 @@ function AdminCommunityInner() {
                 key={link.id}
                 className="border border-[var(--foreground)]/40 p-4 flex flex-col md:flex-row gap-4"
               >
-                {/* 左：OG 封面缩略图（没抓到就占位） */}
+                {/* 左：OG 封面缩略图（没抓到就占位）。
+                    改用 <img> + referrerPolicy="no-referrer"：微信/知乎/小红书
+                    图床防盗链会检查 Referer，非本站来源返回"未经允许"裂图。
+                    next/image 的 remotePatterns 限制外站域名也一并规避。 */}
                 <div className="w-full md:w-40 aspect-[16/9] flex-shrink-0 bg-neutral-100 dark:bg-neutral-900 relative overflow-hidden">
                   {link.ogCover ? (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                       src={link.ogCover}
                       alt={link.ogTitle ?? link.url}
-                      fill
-                      sizes="160px"
-                      className="object-cover"
-                      unoptimized
+                      referrerPolicy="no-referrer"
+                      className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
                     <span className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-neutral-400">

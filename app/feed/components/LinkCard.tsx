@@ -40,11 +40,15 @@ export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
       >
         {/* OG 封面 / 占位块 */}
         {link.ogCover && !link.ogFetchFailed ? (
-          // next/image 全站 unoptimized:true，用 img 即可（与 events 页一致）
+          // next/image 全站 unoptimized:true，用 img 即可（与 events 页一致）。
+          // referrerPolicy="no-referrer"：微信 mmbiz.qpic.cn 防盗链会检查 Referer，
+          // 非 mp.weixin.qq.com 来源直接返回"未经允许使用"裂图；不发 Referer 时
+          // 反而放行（微信客户端内打开文章浏览器也不发 Referer）。
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={link.ogCover}
             alt={link.ogTitle ?? link.host}
+            referrerPolicy="no-referrer"
             className="w-full aspect-[16/9] object-cover border-b border-[var(--foreground)]"
           />
         ) : (
