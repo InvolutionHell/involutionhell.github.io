@@ -294,6 +294,15 @@ const config = {
         source: "/api/community/links/:path*",
         destination: `${backendUrl}/api/community/links/:path*`,
       },
+      {
+        // 社区分享 admin 路由：列表、通过、拒绝（走 @SaCheckRole("admin")）
+        source: "/api/admin/community",
+        destination: `${backendUrl}/api/admin/community`,
+      },
+      {
+        source: "/api/admin/community/:path*",
+        destination: `${backendUrl}/api/admin/community/:path*`,
+      },
     ];
   },
   images: {
