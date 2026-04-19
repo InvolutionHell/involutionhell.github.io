@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AdminGuard } from "@/app/admin/events/AdminGuard";
 import type { SharedLinkView } from "@/app/feed/types";
+import { sanitizeExternalUrl } from "@/lib/url-safety";
 import { approveLink, listPendingLinks, rejectLink } from "./lib";
 
 export default function AdminCommunityPage() {
@@ -164,15 +165,30 @@ function AdminCommunityInner() {
                       {link.host}
                     </span>
                   </div>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block mt-2 font-semibold text-base hover:underline truncate"
-                    title={link.ogTitle ?? link.url}
-                  >
-                    {link.ogTitle ?? link.url}
-                  </a>
+                  {(() => {
+                    // defense-in-depth：后端 UrlNormalizer 已拒非 http/https，
+                    // 前端仍用 sanitizeExternalUrl 兜底过滤 javascript:/data: 协议。
+                    const safe = sanitizeExternalUrl(link.url);
+                    const title = link.ogTitle ?? link.url;
+                    return safe ? (
+                      <a
+                        href={safe}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block mt-2 font-semibold text-base hover:underline truncate"
+                        title={title}
+                      >
+                        {title}
+                      </a>
+                    ) : (
+                      <span
+                        className="block mt-2 font-semibold text-base text-neutral-400 truncate"
+                        title="链接协议不安全，已禁用点击"
+                      >
+                        {title} ⚠
+                      </span>
+                    );
+                  })()}
                   {link.ogDescription && (
                     <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">
                       {link.ogDescription}
