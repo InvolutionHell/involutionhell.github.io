@@ -14,7 +14,7 @@
 import { useEffect, useState } from "react";
 import { AdminGuard } from "@/app/admin/events/AdminGuard";
 import type { SharedLinkView } from "@/app/feed/types";
-import { sanitizeExternalUrl } from "@/lib/url-safety";
+import { sanitizeExternalUrl, sanitizeMediaUrl } from "@/lib/url-safety";
 import { approveLink, listPendingLinks, rejectLink } from "./lib";
 
 export default function AdminCommunityPage() {
@@ -134,19 +134,23 @@ function AdminCommunityInner() {
                     图床防盗链会检查 Referer，非本站来源返回"未经允许"裂图。
                     next/image 的 remotePatterns 限制外站域名也一并规避。 */}
                 <div className="w-full md:w-40 aspect-[16/9] flex-shrink-0 bg-neutral-100 dark:bg-neutral-900 relative overflow-hidden">
-                  {link.ogCover ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={link.ogCover}
-                      alt={link.ogTitle ?? link.url}
-                      referrerPolicy="no-referrer"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-neutral-400">
-                      {link.host[0]?.toUpperCase() ?? "?"}
-                    </span>
-                  )}
+                  {(() => {
+                    // defense-in-depth：过 sanitizeMediaUrl 拦 javascript:/data: 协议
+                    const safeCover = sanitizeMediaUrl(link.ogCover);
+                    return safeCover ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={safeCover}
+                        alt={link.ogTitle ?? link.url}
+                        referrerPolicy="no-referrer"
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-neutral-400">
+                        {link.host[0]?.toUpperCase() ?? "?"}
+                      </span>
+                    );
+                  })()}
                 </div>
 
                 {/* 中：元信息 */}

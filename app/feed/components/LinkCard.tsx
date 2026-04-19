@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import type { SharedLinkView } from "@/app/feed/types";
 import { ReportButton } from "@/app/feed/components/ReportButton";
 import { Badge } from "@/components/ui/badge";
+import { sanitizeMediaUrl } from "@/lib/url-safety";
 
 interface LinkCardProps {
   link: SharedLinkView;
@@ -27,6 +28,8 @@ function getHostInitial(host: string): string {
 
 export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
   const t = useTranslations("feed.card");
+  // defense-in-depth：过白名单协议拦 javascript:/data:，后端 UrlNormalizer 是第一道，这里是第二道
+  const safeOgCover = sanitizeMediaUrl(link.ogCover);
 
   return (
     <li className="group border border-[var(--foreground)] hover:border-[#CC0000] transition-colors duration-150 flex flex-col">
@@ -39,14 +42,14 @@ export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
         aria-label={link.ogTitle ?? link.url}
       >
         {/* OG 封面 / 占位块 */}
-        {link.ogCover && !link.ogFetchFailed ? (
+        {safeOgCover && !link.ogFetchFailed ? (
           // next/image 全站 unoptimized:true，用 img 即可（与 events 页一致）。
           // referrerPolicy="no-referrer"：微信 mmbiz.qpic.cn 防盗链会检查 Referer，
           // 非 mp.weixin.qq.com 来源直接返回"未经允许使用"裂图；不发 Referer 时
           // 反而放行（微信客户端内打开文章浏览器也不发 Referer）。
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={link.ogCover}
+            src={safeOgCover}
             alt={link.ogTitle ?? link.host}
             referrerPolicy="no-referrer"
             className="w-full aspect-[16/9] object-cover border-b border-[var(--foreground)]"

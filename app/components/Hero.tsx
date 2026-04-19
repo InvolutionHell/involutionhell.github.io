@@ -94,29 +94,26 @@ export async function Hero() {
               <p className="font-body text-sm mb-6 opacity-80">
                 {t("join.body")}
               </p>
-              {/* 双阅读入口：严肃文档 + 社区随手分享，视觉同构；投稿动作已在 Hero 左侧 Contribute/ShareLink */}
+              {/* 双阅读入口：严肃文档 + 社区随手分享，视觉同构；投稿动作已在 Hero 左侧 Contribute/ShareLink。
+                  直接把 <Link> 渲染成按钮样式，避免 <a><button> 嵌套交互元素（HTML 无效 + 键盘/a11y 问题）。 */}
               <div className="flex flex-col gap-3">
                 <Link
                   href="/docs/learn/ai"
-                  className="block w-full"
+                  className="block w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest text-center hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer"
                   data-umami-event="navigation_click"
                   data-umami-event-region="hero_cta"
                   data-umami-event-label="Access Articles"
                 >
-                  <button className="w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer">
-                    {t("cta.access")}
-                  </button>
+                  {t("cta.access")}
                 </Link>
                 <Link
                   href="/feed"
-                  className="block w-full"
+                  className="block w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest text-center hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer"
                   data-umami-event="navigation_click"
                   data-umami-event-region="hero_cta"
                   data-umami-event-label="Community Feed"
                 >
-                  <button className="w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer">
-                    {t("cta.feed")}
-                  </button>
+                  {t("cta.feed")}
                 </Link>
               </div>
             </div>
