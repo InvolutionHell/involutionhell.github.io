@@ -284,6 +284,16 @@ const config = {
         source: "/api/admin/users/:path*",
         destination: `${backendUrl}/api/admin/users/:path*`,
       },
+      {
+        // 社区分享链接公开读 + 提交 + 举报（/api/community/links 及子路径）
+        // 与 Events 模块风格一致：根路径 + 子路径各一条
+        source: "/api/community/links",
+        destination: `${backendUrl}/api/community/links`,
+      },
+      {
+        source: "/api/community/links/:path*",
+        destination: `${backendUrl}/api/community/links/:path*`,
+      },
     ];
   },
   images: {

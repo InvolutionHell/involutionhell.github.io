@@ -9,6 +9,7 @@
   },
   "hero": {
     "mission": "一个由开发者自发组织、免费开放的学习社区。降低门槛，避免无意义内卷，专注真实进步与乐趣。我们相信知识不应成为枷锁，而应是通往自由的阶梯。",
+    "feedLink": "📎 看到好文章？丢个链接 →",
     "cta": {
       "access": "访问文章",
       "guideAriaLabel": "查看投稿指南"
@@ -157,6 +158,49 @@
       "submit": "继续在 GitHub 新建页面"
     },
     "guideAriaLabel": "查看投稿指南"
+  },
+  "feed": {
+    "title": "社区分享墙",
+    "subtitle": "群友精选好文，随手转发，沉淀有价值的信息流。",
+    "empty": "暂无已审核通过的分享，快来第一个投稿吧！",
+    "submit": {
+      "title": "丢个链接",
+      "urlLabel": "文章链接（必填）",
+      "urlPlaceholder": "https://mp.weixin.qq.com/...",
+      "recommendationLabel": "一句话推荐（选填，最多 200 字）",
+      "recommendationPlaceholder": "为什么推荐这篇？",
+      "submitButton": "提交",
+      "submitting": "提交中...",
+      "successToast": "提交成功，AI 正在审核...",
+      "loginRequired": "请先登录再提交",
+      "charCount": "{count}/200"
+    },
+    "card": {
+      "reportButton": "举报",
+      "ogFallback": "封面/摘要未能抓取",
+      "archivedBadge": "原文已失效",
+      "visitLink": "查看原文",
+      "submittedBy": "by"
+    },
+    "report": {
+      "title": "举报这条分享",
+      "reasonLabel": "举报原因（选填）",
+      "reasonPlaceholder": "请描述问题...",
+      "submitButton": "提交举报",
+      "successToast": "举报已提交，感谢反馈",
+      "loginRequired": "请登录后举报"
+    },
+    "category": {
+      "all": "全部",
+      "ai_frontier": "AI 前沿",
+      "engineering": "工程实践",
+      "job": "求职 & 实习",
+      "grad_study": "考研 & 留学",
+      "industry": "行业观察",
+      "learning": "学习方法",
+      "lifestyle": "生活 & 随笔",
+      "other": "其他"
+    }
   },
   "search": {
     "placeholder": "搜索文档...",

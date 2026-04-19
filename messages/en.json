@@ -9,6 +9,7 @@
   },
   "hero": {
     "mission": "A free, open learning community built by developers, for developers. No gatekeeping, no pointless grind — just real progress and the joy of building. Knowledge is a ladder to freedom, not a cage.",
+    "feedLink": "📎 Got a good read? Drop a link →",
     "cta": {
       "access": "Access Articles",
       "guideAriaLabel": "Contribution Guide"
@@ -157,6 +158,49 @@
       "submit": "Continue on GitHub"
     },
     "guideAriaLabel": "Contribution Guide"
+  },
+  "feed": {
+    "title": "Community Feed",
+    "subtitle": "Good reads curated by the community — paste a link, share the knowledge.",
+    "empty": "No approved shares yet. Be the first to submit one!",
+    "submit": {
+      "title": "Drop a Link",
+      "urlLabel": "Article URL (required)",
+      "urlPlaceholder": "https://mp.weixin.qq.com/...",
+      "recommendationLabel": "Why recommend it? (optional, max 200 chars)",
+      "recommendationPlaceholder": "What makes this worth reading?",
+      "submitButton": "Submit",
+      "submitting": "Submitting...",
+      "successToast": "Submitted! AI is reviewing your link...",
+      "loginRequired": "Sign in to submit a link",
+      "charCount": "{count}/200"
+    },
+    "card": {
+      "reportButton": "Report",
+      "ogFallback": "Cover / excerpt unavailable",
+      "archivedBadge": "Link expired",
+      "visitLink": "Visit",
+      "submittedBy": "by"
+    },
+    "report": {
+      "title": "Report this link",
+      "reasonLabel": "Reason (optional)",
+      "reasonPlaceholder": "Describe the issue...",
+      "submitButton": "Submit Report",
+      "successToast": "Report submitted, thanks!",
+      "loginRequired": "Sign in to report"
+    },
+    "category": {
+      "all": "All",
+      "ai_frontier": "AI Frontier",
+      "engineering": "Engineering",
+      "job": "Jobs & Internships",
+      "grad_study": "Grad & Study Abroad",
+      "industry": "Industry",
+      "learning": "Learning",
+      "lifestyle": "Lifestyle",
+      "other": "Other"
+    }
   },
   "search": {
     "placeholder": "Search docs...",

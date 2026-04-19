@@ -66,6 +66,16 @@ export async function Hero() {
 
               <div className="mt-12">
                 <Contribute />
+                {/* 次级文字链：层级明显低于主 CTA，斜体小字，不抢夺视觉焦点 */}
+                <Link
+                  href="/feed"
+                  className="mt-4 inline-block text-sm italic text-muted-foreground hover:text-[var(--foreground)] transition-colors duration-200"
+                  data-umami-event="navigation_click"
+                  data-umami-event-region="hero_feed_entry"
+                  data-umami-event-label="feed link"
+                >
+                  {t("feedLink")}
+                </Link>
               </div>
             </div>
           </div>
