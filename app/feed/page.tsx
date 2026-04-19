@@ -28,40 +28,93 @@ export const metadata: Metadata = {
 };
 
 /**
- * 从后端拉取 APPROVED 的链接列表。
- * category 为空时拉全部，否则按 slug 过滤。
+ * 从后端拉取 APPROVED 的链接列表，带 Cloudflare Managed Challenge 重试。
+ *
+ * 背景：Vercel SSR 出口偶发被 CF 403 挑战（同 fetchProfile 的坑）。
+ * 单次失败就 throw 会让首页/feed 显示 500。
+ *
+ * 策略（对齐 fetchProfile）：
+ *   - 第 1 次：走 Next Data Cache（revalidate: 120），命中快
+ *   - 第 2/3 次：cache: no-store 绕过缓存，分别退避 300ms / 800ms
+ *   - 全败返回 [] 而非抛错——让页面降级展示空态，不崩
+ *   - 每次失败记录 status / cf-ray，便于 Vercel 日志定位
  */
 async function fetchLinks(category?: string): Promise<SharedLinkView[]> {
   const backendUrl = process.env.BACKEND_URL;
   if (!backendUrl) {
-    // 配置缺失时给清晰错误，而非静默空列表
-    throw new Error("BACKEND_URL is not configured");
+    console.error("[feed/page] BACKEND_URL is not configured");
+    return [];
   }
 
-  // 构造查询参数
   const params = new URLSearchParams({ limit: "50", offset: "0" });
   if (category) params.set("category", category);
+  const url = `${backendUrl}/api/community/links?${params.toString()}`;
 
-  const res = await fetch(
-    `${backendUrl}/api/community/links?${params.toString()}`,
-    {
-      next: { revalidate: 120 },
-      headers: {
-        accept: "application/json",
-        "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
-      },
-    },
-  );
+  const attempts: Array<{ revalidate: number } | { noStore: true }> = [
+    { revalidate: 120 },
+    { noStore: true },
+    { noStore: true },
+  ];
 
-  if (!res.ok) {
-    // 后端 5xx / 网络错误才抛，前端会走 error.tsx（如果有的话）
-    throw new Error(
-      `/api/community/links backend ${res.status} ${res.statusText}`,
-    );
+  for (let i = 0; i < attempts.length; i++) {
+    const attempt = attempts[i];
+    const init: RequestInit & { next?: { revalidate: number } } =
+      "noStore" in attempt
+        ? { cache: "no-store" }
+        : { next: { revalidate: attempt.revalidate } };
+    // 显式 UA 降低被 Cloudflare 误判 bot 的概率
+    init.headers = {
+      accept: "application/json",
+      "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
+    };
+
+    let res: Response;
+    try {
+      res = await fetch(url, init);
+    } catch (err) {
+      console.warn("[feed/page] fetch network error", {
+        attempt: i,
+        error: String(err),
+      });
+      if (i === attempts.length - 1) return [];
+      await sleep(i === 0 ? 300 : 800);
+      continue;
+    }
+
+    if (res.ok) {
+      try {
+        const json = (await res.json()) as ApiResponse<SharedLinkView[]>;
+        return json.success && json.data ? json.data : [];
+      } catch (err) {
+        // 2xx 但非 JSON（例如 CF 偶发返回 200 的 challenge HTML）
+        console.warn("[feed/page] non-JSON 2xx response", {
+          attempt: i,
+          cfRay: res.headers.get("cf-ray"),
+          contentType: res.headers.get("content-type"),
+          error: String(err),
+        });
+        if (i === attempts.length - 1) return [];
+        await sleep(i === 0 ? 300 : 800);
+        continue;
+      }
+    }
+
+    // 非 2xx（含 403 CF challenge / 5xx）：记录 + 重试
+    console.warn("[feed/page] backend non-2xx", {
+      attempt: i,
+      status: res.status,
+      cfRay: res.headers.get("cf-ray"),
+      cfMitigated: res.headers.get("cf-mitigated"),
+    });
+    if (i === attempts.length - 1) return [];
+    await sleep(i === 0 ? 300 : 800);
   }
 
-  const json = (await res.json()) as ApiResponse<SharedLinkView[]>;
-  return json.success && json.data ? json.data : [];
+  return [];
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 interface FeedPageProps {
@@ -85,16 +138,16 @@ export default async function FeedPage({ searchParams }: FeedPageProps) {
     console.error("[feed/page] fetchLinks failed:", err);
   }
 
-  /**
-   * 预计算每条链接的分类显示名（i18n）。
-   * 在 server 端翻译，避免 LinkCard（server component）里调 useTranslations（client hook）。
-   */
-  function getCategoryLabel(slug: CategorySlug | null): string {
-    if (!slug) return "";
+  // Server 端预计算 slug → 中文显示名 map。传给 FeedAuthWrapper（client）
+  // 时必须是纯数据（函数 prop 在 Next 16 会报 "Functions cannot be passed to
+  // Client Components"）。8 个 slug 一次翻译完毕，零额外开销。
+  const { CATEGORY_SLUGS } = await import("@/app/feed/types");
+  const categoryLabels: Partial<Record<CategorySlug, string>> = {};
+  for (const slug of CATEGORY_SLUGS) {
     try {
-      return tCategory(slug);
+      categoryLabels[slug] = tCategory(slug);
     } catch {
-      return slug;
+      categoryLabels[slug] = slug;
     }
   }
 
@@ -148,10 +201,7 @@ export default async function FeedPage({ searchParams }: FeedPageProps) {
             </div>
           ) : (
             // FeedAuthWrapper 是 client 组件，负责读取登录态后注入到 LinkCard
-            <FeedAuthWrapper
-              links={links}
-              getCategoryLabel={getCategoryLabel}
-            />
+            <FeedAuthWrapper links={links} categoryLabels={categoryLabels} />
           )}
         </div>
       </main>

@@ -11,7 +11,8 @@
     "mission": "A free, open learning community built by developers, for developers. No gatekeeping, no pointless grind — just real progress and the joy of building. Knowledge is a ladder to freedom, not a cage.",
     "cta": {
       "access": "Access Articles",
-      "guideAriaLabel": "Contribution Guide"
+      "guideAriaLabel": "Contribution Guide",
+      "feed": "What we're reading lately"
     },
     "archivesLabel": "Classified Archives",
     "join": {
@@ -444,7 +445,6 @@
     }
   },
   "shareLink": {
-    "button": "Share Link",
-    "submitAriaLabel": "Quick submit"
+    "button": "Share a Link"
   }
 }

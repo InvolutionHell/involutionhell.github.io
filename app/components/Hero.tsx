@@ -94,17 +94,31 @@ export async function Hero() {
               <p className="font-body text-sm mb-6 opacity-80">
                 {t("join.body")}
               </p>
-              <Link
-                href="/docs/learn/ai"
-                className="block w-full"
-                data-umami-event="navigation_click"
-                data-umami-event-region="hero_cta"
-                data-umami-event-label="Access Articles"
-              >
-                <button className="w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer">
-                  {t("cta.access")}
-                </button>
-              </Link>
+              {/* 双阅读入口：严肃文档 + 社区随手分享，视觉同构；投稿动作已在 Hero 左侧 Contribute/ShareLink */}
+              <div className="flex flex-col gap-3">
+                <Link
+                  href="/docs/learn/ai"
+                  className="block w-full"
+                  data-umami-event="navigation_click"
+                  data-umami-event-region="hero_cta"
+                  data-umami-event-label="Access Articles"
+                >
+                  <button className="w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer">
+                    {t("cta.access")}
+                  </button>
+                </Link>
+                <Link
+                  href="/feed"
+                  className="block w-full"
+                  data-umami-event="navigation_click"
+                  data-umami-event-region="hero_cta"
+                  data-umami-event-label="Community Feed"
+                >
+                  <button className="w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer">
+                    {t("cta.feed")}
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -11,7 +11,8 @@
     "mission": "一个由开发者自发组织、免费开放的学习社区。降低门槛，避免无意义内卷，专注真实进步与乐趣。我们相信知识不应成为枷锁，而应是通往自由的阶梯。",
     "cta": {
       "access": "访问文章",
-      "guideAriaLabel": "查看投稿指南"
+      "guideAriaLabel": "查看投稿指南",
+      "feed": "看看我们最近在读什么"
     },
     "archivesLabel": "归档分类",
     "join": {
@@ -444,7 +445,6 @@
     }
   },
   "shareLink": {
-    "button": "丢个链接",
-    "submitAriaLabel": "快速提交"
+    "button": "丢个链接"
   }
 }
