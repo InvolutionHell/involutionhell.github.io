@@ -9,12 +9,13 @@
  *   proxy.ts (Next 16 middleware) 要在 edge 端 O(1) 查表把旧 URL 301 到正确拼音路径，
  *   又不能把 pinyin-pro 的整本字典塞进 edge bundle，所以构建时先把映射固化成 JSON。
  *
- * 生成规则必须和 lib/source.ts 的 convertSlugToPinyin 完全一致，否则链接对不上。
+ * 算法从 lib/leetcode-slug.ts 里 import，运行时和构建时共用同一实现，
+ * 消除双点维护。脚本必须用 tsx 执行（见 package.json prebuild）。
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { pinyin } from "pinyin-pro";
+import { convertSlugToPinyin } from "../lib/leetcode-slug.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,30 +27,12 @@ const LEETCODE_DIR = path.join(
 const OUTPUT_FILE = path.join(PROJECT_ROOT, "generated/leetcode-slug-map.json");
 
 /**
- * 与 lib/source.ts 中 convertSlugToPinyin 保持同步。
- * 入参：单个 slug 片段（一般是文件名 stem）。
- * 无中文直接原样返回；有中文则按拼音 + 非字母数字清洗 + 连字符拼接。
- */
-function convertSlugToPinyin(text) {
-  const decodedText = decodeURIComponent(text);
-  if (!/[\u4e00-\u9fa5]/.test(decodedText)) return text;
-  return pinyin(decodedText, {
-    toneType: "none",
-    type: "array",
-    nonZh: "consecutive",
-  })
-    .map((t) => t.toLowerCase().replace(/[^a-z0-9]/g, ""))
-    .filter(Boolean)
-    .join("-");
-}
-
-/**
  * 从文件名去掉 locale / 扩展名后缀，还原 Fumadocs 会当 slug 的 stem。
  *   2309兼具大小写的最好英文字母_translated.md          → 2309兼具大小写的最好英文字母_translated
  *   2241-design-an-atm-machine.zh.md                 → 2241-design-an-atm-machine
  *   [146]LRU 缓存_translated.md                       → [146]LRU 缓存_translated
  */
-function stripSuffix(filename) {
+function stripSuffix(filename: string): string {
   let stem = filename.replace(/\.(md|mdx)$/i, "");
   stem = stem.replace(/\.(en|zh)$/i, "");
   return stem;
@@ -65,8 +48,8 @@ function main() {
     .readdirSync(LEETCODE_DIR)
     .filter((f) => /\.(md|mdx)$/i.test(f));
 
-  const map = {};
-  const collisions = [];
+  const map: Record<string, string> = {};
+  const collisions: { stem: string; existing: string; incoming: string }[] = [];
 
   for (const file of files) {
     const stem = stripSuffix(file);

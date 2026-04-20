@@ -18,7 +18,11 @@ import leetcodeSlugMap from "@/generated/leetcode-slug-map.json";
  * 为什么不走 next.config 的 redirects：
  *   path-to-regexp 对方括号 / 空格 / 中文的处理不稳，不如 middleware 字面匹配可靠。
  */
-const SLUG_MAP = leetcodeSlugMap as Record<string, string>;
+// 用 Map 而不是 plain object，杜绝 __proto__ / constructor 这类原型链 key 被当成命中
+// 导致 redirect 目标异常（例如 mapped 返回 Object 构造函数）。
+const SLUG_MAP = new Map<string, string>(
+  Object.entries(leetcodeSlugMap as Record<string, string>),
+);
 const LEETCODE_NEW_BASE = "/docs/career/interview-prep/leetcode";
 const LEETCODE_OLD_BASE = "/docs/CommunityShare/Leetcode";
 
@@ -47,7 +51,7 @@ function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
     rawSlug = rest;
   }
 
-  const mapped = SLUG_MAP[rawSlug];
+  const mapped = SLUG_MAP.get(rawSlug);
   const targetSlug = mapped ?? rawSlug;
 
   // 新路径 + ASCII slug 命中原样：放行，不绕圈

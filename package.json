@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/escape-angles.mjs && tsx scripts/generate-leaderboard.mjs && node scripts/generate-leetcode-slug-map.mjs",
+    "prebuild": "node scripts/escape-angles.mjs && tsx scripts/generate-leaderboard.mjs && node scripts/generate-leetcode-slug-map.mts",
     "build": "next build",
     "start": "next start -p 3000",
     "test": "vitest run",
