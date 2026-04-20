@@ -187,12 +187,10 @@ const config = {
         destination: "/docs/projects/:path*",
         statusCode: 301,
       },
-      // CommunityShare 分家：Leetcode 归求职刷题，其他按主题归 community/*
-      {
-        source: "/docs/CommunityShare/Leetcode/:path*",
-        destination: "/docs/career/interview-prep/leetcode/:path*",
-        statusCode: 301,
-      },
+      // CommunityShare 分家：其他按主题归 community/*
+      // ↑ Leetcode 的 301 从这里挪到 proxy.ts，因为 lib/source.ts 会把中文文件名拼音化，
+      //   前缀替换 wildcard 跳过去的 URL slug 还是中文，目标页仍 404。proxy.ts 改用构建时
+      //   生成的 slug 映射做字面匹配，单跳 301 到正确拼音 URL。
       {
         source: "/docs/CommunityShare/Language/:path*",
         destination: "/docs/community/language/:path*",

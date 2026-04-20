@@ -1,4 +1,63 @@
 import { NextResponse, type NextRequest } from "next/server";
+import leetcodeSlugMap from "@/generated/leetcode-slug-map.json";
+
+/**
+ * Leetcode 旧 URL / 中文 slug 301 到拼音 slug 的新路径。
+ *
+ * 背景：
+ *   lib/source.ts 的 transformer 把 career/interview-prep/leetcode/ 下含中文的文件名转成拼音 slug。
+ *   但 GSC 旧索引里存着 /docs/CommunityShare/Leetcode/<中文原文件名> 的 URL，
+ *   next.config.mjs 的 wildcard 只做前缀替换，没做 slug 拼音化，跳过去依然 404。
+ *   在这里用构建时生成的 slug map 做 O(1) 查表，单跳 301 到正确拼音 URL。
+ *
+ * 覆盖的请求形态：
+ *   1. /docs/CommunityShare/Leetcode/<中文 slug>            → 拼音新路径
+ *   2. /docs/CommunityShare/Leetcode/<拼音或纯 ASCII slug>  → 新路径同 slug（兼容老收藏）
+ *   3. /docs/career/interview-prep/leetcode/<中文 slug>      → 同目录拼音 slug（防止用户手抖）
+ *
+ * 为什么不走 next.config 的 redirects：
+ *   path-to-regexp 对方括号 / 空格 / 中文的处理不稳，不如 middleware 字面匹配可靠。
+ */
+const SLUG_MAP = leetcodeSlugMap as Record<string, string>;
+const LEETCODE_NEW_BASE = "/docs/career/interview-prep/leetcode";
+const LEETCODE_OLD_BASE = "/docs/CommunityShare/Leetcode";
+
+function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
+  const { pathname } = req.nextUrl;
+
+  let baseMatched: "old" | "new" | null = null;
+  let rest = "";
+  if (pathname.startsWith(LEETCODE_OLD_BASE + "/")) {
+    baseMatched = "old";
+    rest = pathname.slice(LEETCODE_OLD_BASE.length + 1);
+  } else if (pathname.startsWith(LEETCODE_NEW_BASE + "/")) {
+    baseMatched = "new";
+    rest = pathname.slice(LEETCODE_NEW_BASE.length + 1);
+  } else {
+    return null;
+  }
+
+  if (!rest) return null;
+
+  // Next.js pathname 已经 decode，但保险起见再 decode 一次，兼容爬虫可能发来的二次编码
+  let rawSlug: string;
+  try {
+    rawSlug = decodeURIComponent(rest);
+  } catch {
+    rawSlug = rest;
+  }
+
+  const mapped = SLUG_MAP[rawSlug];
+  const targetSlug = mapped ?? rawSlug;
+
+  // 新路径 + ASCII slug 命中原样：放行，不绕圈
+  if (baseMatched === "new" && !mapped) return null;
+
+  // 新路径 + 中文 slug / 旧路径任意 slug：301 到新路径 + 拼音（或原 ASCII）slug
+  const url = req.nextUrl.clone();
+  url.pathname = `${LEETCODE_NEW_BASE}/${targetSlug}`;
+  return NextResponse.redirect(url, 301);
+}
 
 /**
  * IP geo 判断默认 locale，并写入 cookie 供 Server Component 读取。
@@ -12,6 +71,10 @@ import { NextResponse, type NextRequest } from "next/server";
  * cookie 有效期 1 年，用户在 /settings 页切换语言时会覆盖此 cookie。
  */
 export function proxy(req: NextRequest) {
+  // Leetcode 老 URL / 中文 slug 优先做 301，避免后续 locale 逻辑给 404 页种 cookie
+  const leetcodeRedirect = redirectLeetcodeIfNeeded(req);
+  if (leetcodeRedirect) return leetcodeRedirect;
+
   // 用户已选过语言，尊重选择不覆盖
   if (req.cookies.get("locale")) {
     return NextResponse.next();
