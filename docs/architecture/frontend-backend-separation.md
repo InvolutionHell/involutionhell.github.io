@@ -101,10 +101,20 @@ involutionhell.com 早期为了快，前端 Next.js 做了不少后端该做的�
 原因：端口不一致（8080/8081/其他）时，fallback 很容易把"漏配"变成"静默请求到错误地址"，
 排查成本更高。新代码应该在 env 缺失时显式报错或返回空结果。
 
-| 变量                      | 前端读取场景                | 设置位置                               |
-| ------------------------- | --------------------------- | -------------------------------------- |
-| `BACKEND_URL`             | Server 端（SSR、API Route） | `.env.local` (dev) / Vercel env (prod) |
-| `NEXT_PUBLIC_BACKEND_URL` | 浏览器端（HotDocsTab 这种） | 同上                                   |
+| 变量                      | 前端读取场景                 | 设置位置                               |
+| ------------------------- | ---------------------------- | -------------------------------------- |
+| `BACKEND_URL`             | Server 端（SSR、API Route）  | `.env.local` (dev) / Vercel env (prod) |
+| `NEXT_PUBLIC_BACKEND_URL` | **不要用**（见下方踩坑说明） | 仅本地 curl 测试时临时设置             |
+
+**`NEXT_PUBLIC_BACKEND_URL` 不再用于客户端 fetch**。客户端一律 fetch 同源相对路径
+（`/analytics/*` / `/auth/*` / `/api/*` 等），由 Next.js rewrite 代理到后端。
+
+踩坑记录（2026-04-20）：之前 `HotDocsTab` 里保留了 `process.env.NEXT_PUBLIC_BACKEND_URL ?? ""`
+作为"本地 Next.js 没起时的逃生门"。结果 Vercel env 被误配成 `https://api.involutionhell.com`，
+客户端 fetch 变跨域 → 后端未发 CORS header → 浏览器 `ERR_FAILED` → `/rank?tab=hot`
+整块"加载失败"。现已从根拔掉这个 fallback（commit `fix: hotdocs cors hardcode`）。
+
+如果某天真要在浏览器跨域直连后端（比如跨站嵌入场景），请先给后端配 CORS 白名单再恢复变量。
 
 `.env.sample` 里保留 `BACKEND_URL=http://localhost:8080` 作为模板，开发者 `cp .env.sample .env.local` 后按自己后端端口改。
 

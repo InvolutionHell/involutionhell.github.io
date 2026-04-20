@@ -27,10 +27,15 @@ function reducer(_: State, action: Action): State {
   return { status: "error" };
 }
 
-// 默认走 Next.js rewrite 同源代理（见 next.config.mjs 的 /analytics/:path*），
-// 若需要跨域直连后端（比如本地 Next.js 未启动但要用 curl/别的客户端测接口），
-// 可设置 NEXT_PUBLIC_BACKEND_URL=http://localhost:8081 覆盖。
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
+// 客户端 fetch 写死同源相对路径，由 Next.js rewrite（见 next.config.mjs 的
+// /analytics/:path*）代理到后端。
+//
+// 踩坑记录（2026-04-20）：之前这里从 NEXT_PUBLIC_BACKEND_URL 读 fallback，
+// 作为"本地 Next.js 没起、单独测 API"的逃生门。结果 Vercel env 被误配成
+// https://api.involutionhell.com，客户端 fetch 变成跨域请求 →
+// 后端未发 CORS header → 浏览器 ERR_FAILED (CORS preflight 失败)
+// → /rank?tab=hot 整块渲染"加载失败"。
+// 从根拔掉逃生门，同源代理永远成立；想 curl 测后端就直连 api 域名。
 
 export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
   const [windowParam, setWindowParam] = useReducer(
@@ -61,7 +66,7 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
     }
 
     dispatch({ type: "fetch" });
-    fetch(`${BACKEND_URL}/analytics/top-docs?window=${windowParam}&limit=20`)
+    fetch(`/analytics/top-docs?window=${windowParam}&limit=20`)
       .then((r) => {
         if (!r.ok) throw new Error();
         return r.json() as Promise<{
