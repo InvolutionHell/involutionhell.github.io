@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Settings",
   description: "Customize theme, language, and AI assistant preferences.",
   alternates: { canonical: "/settings" },
-  robots: { index: false, follow: true },
+  robots: { index: false, follow: false },
 };
 
 export default function SettingsPage() {
