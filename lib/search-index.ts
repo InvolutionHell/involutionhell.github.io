@@ -1,26 +1,19 @@
 import type { AdvancedIndex } from "fumadocs-core/search/server";
+// StructuredData 是 fumadocs-core 的公开导出（从 mdx-plugins 入口），
+// 直接用上游类型，不再在本地维护同形副本以免两边 drift。
+import type { StructuredData } from "fumadocs-core/mdx-plugins";
 import { source } from "@/lib/source";
 import { basename, extname } from "path";
 
 type Page = ReturnType<typeof source.getPages>[number];
 
 /**
- * fumadocs 页面 data 里可能携带的结构化搜索数据。
- * 形状与 fumadocs-core 的 StructuredData 对齐（headings + contents），
- * 但我们从 page.data 运行时读出来，所以显式写成本地类型别名，不依赖内部导出。
- */
-interface PageStructuredData {
-  headings: { id: string; content: string }[];
-  contents: { heading: string | undefined; content: string }[];
-}
-
-/**
  * fumadocs page.data 在构建产物里的 runtime shape。
  * 老路径：structuredData 直接 inline；新路径：通过 load() 异步拉。
  */
 interface PageDataShape {
-  structuredData?: PageStructuredData;
-  load?: () => Promise<{ structuredData: PageStructuredData }>;
+  structuredData?: StructuredData;
+  load?: () => Promise<{ structuredData: StructuredData }>;
   title?: string;
   description?: string;
 }
@@ -32,7 +25,7 @@ interface PageDataShape {
 export async function pageToIndex(page: Page): Promise<AdvancedIndex> {
   const data = page.data as PageDataShape;
 
-  let structuredData: PageStructuredData | undefined;
+  let structuredData: StructuredData | undefined;
   if (data.structuredData) {
     structuredData = data.structuredData;
   } else if (typeof data.load === "function") {
