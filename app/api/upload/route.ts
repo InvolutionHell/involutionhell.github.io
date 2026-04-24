@@ -42,6 +42,19 @@ interface UploadRequest {
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 /**
+ * 从完整的 Content-Type header 值里抽出主 MIME（小写、去空白、丢掉所有参数）。
+ *
+ * 为什么需要：类似 `"image/jpeg; image/svg+xml"` 或 `"image/jpeg; charset=utf-8"`
+ * 这种带参数的值，用 `startsWith("image/")` 校验会过、用 `startsWith("image/svg")`
+ * 拒 SVG 的黑名单又绕得掉（前缀是 `image/jpeg;`），然后原始字符串塞进 R2 的
+ * ContentType 再原样回吐给浏览器，触发 MIME sniffing 把 SVG payload 执行起来。
+ * 所以 SVG 黑名单匹配 + 塞给 R2 的值都必须先收敛到分号前的主 MIME。
+ */
+function extractPrimaryMime(contentType: string): string {
+  return contentType.split(";")[0]!.trim().toLowerCase();
+}
+
+/**
  * @description POST /api/upload - 生成 R2 预签名 URL，用于客户端直接上传图片
  * @param request - NextRequest 对象，请求体包含以下字段：
  *   - filename: 文件名
@@ -121,16 +134,17 @@ export async function POST(request: NextRequest) {
     // 1. 必须是 image/*
     // 2. 显式 block image/svg+xml —— SVG 可以内嵌 <script>，即使走 R2 公开 URL 也会在浏览器里执行 JS，
     //    构成存储型 XSS 向量。我们宁可让用户转成 PNG/JPG 也不放行。
-    const normalizedType = contentType.toLowerCase().trim();
-    if (!normalizedType.startsWith("image/")) {
+    // 注意：所有判断都走 primaryMime（分号前的主 MIME），绕不过 `"image/jpeg; image/svg+xml"` 这种夹带。
+    const primaryMime = extractPrimaryMime(contentType);
+    if (!primaryMime.startsWith("image/")) {
       return NextResponse.json(
         { error: "仅支持图片类型文件" },
         { status: 400 },
       );
     }
     if (
-      normalizedType === "image/svg+xml" ||
-      normalizedType.startsWith("image/svg")
+      primaryMime === "image/svg+xml" ||
+      primaryMime.startsWith("image/svg")
     ) {
       return NextResponse.json(
         { error: "出于安全原因，不接受 SVG 文件（可能包含可执行脚本）" },
@@ -147,13 +161,16 @@ export async function POST(request: NextRequest) {
     const key = `users/${userId}/${sanitizedSlug}/${timestamp}-${sanitizedFilename}`;
 
     // 创建 PutObject 命令
-    // ContentLength 强绑 fileSize —— 上传时客户端必须发送匹配的 Content-Length header，
-    // R2 会 enforce，超过或少于这个数字的 PUT 一律被 R2 拒绝。
-    // 这是预签名 URL 唯一能做服务端大小限制的机制，所以 fileSize 必须必填。
+    // - ContentType 用 primaryMime —— 不能把原始 contentType 原样塞进 R2 对象元数据，
+    //   否则 `"image/jpeg; image/svg+xml"` 之类的分号夹带会跟着落库，R2 回吐给浏览器时
+    //   触发 MIME sniffing。
+    // - ContentLength 强绑 fileSize —— 上传时客户端必须发送匹配的 Content-Length header，
+    //   R2 会 enforce，超过或少于这个数字的 PUT 一律被 R2 拒绝。
+    //   这是预签名 URL 唯一能做服务端大小限制的机制，所以 fileSize 必须必填。
     const command = new PutObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME,
       Key: key,
-      ContentType: contentType,
+      ContentType: primaryMime,
       ContentLength: fileSize,
     });
 
