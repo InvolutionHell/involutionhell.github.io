@@ -18,23 +18,7 @@
  */
 
 import type { MetadataRoute } from "next";
-
-/**
- * 与 app/sitemap.ts 保持同源的站点根 URL。
- * 默认 fallback 到生产域名。
- */
-const RAW_SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://involutionhell.com";
-
-/**
- * 规范化：确保带协议头、去掉尾部斜杠。
- */
-function normalizeSiteUrl(url: string): string {
-  const withProto = /^https?:\/\//i.test(url) ? url : `https://${url}`;
-  return withProto.replace(/\/+$/, "");
-}
-
-const SITE_URL = normalizeSiteUrl(RAW_SITE_URL);
+import { SITE_URL } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
   return {

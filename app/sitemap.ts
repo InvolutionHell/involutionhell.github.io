@@ -21,19 +21,9 @@
 import type { MetadataRoute } from "next";
 import { source } from "@/lib/source";
 import leaderboard from "@/generated/site-leaderboard.json";
-
-/**
- * 从环境变量中读取的站点根 URL。
- * 默认为一个回退地址。
- */
-const RAW_SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://involutionhell.com";
-
-/**
- * 经过规范化处理的站点 URL（确保有协议头，且不带尾部斜杠）。
- * 例如: "https://example.com"
- */
-const SITE_URL = normalizeSiteUrl(RAW_SITE_URL);
+// SITE_URL 由 lib/site-url.ts 统一提供（从 NEXT_PUBLIC_SITE_URL 读 + 归一化），
+// 这里和 app/robots.ts 共用一份，避免两边 drift。
+import { SITE_URL } from "@/lib/site-url";
 
 /** * 定义 `source.getPages()` 返回的单个页面对象的类型别名
  */
@@ -227,14 +217,4 @@ function isDraftOrHidden(page: SourcePage): boolean {
     d.frontmatter?.draft ||
     d.frontmatter?.hidden
   );
-}
-
-/**
- * 规范化站点的 URL。
- * * @param {string} url - 原始 URL 字符串。
- * @returns {string} 规范化后的 URL。
- */
-function normalizeSiteUrl(url: string): string {
-  const withProto = /^https?:\/\//i.test(url) ? url : `https://${url}`;
-  return withProto.replace(/\/+$/, "");
 }
