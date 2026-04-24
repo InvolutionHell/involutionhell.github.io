@@ -127,7 +127,10 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    if (!Number.isFinite(fileSize) || fileSize < 0) {
+    // Content-Length 必须是非负整数。用 isSafeInteger 直接拒 NaN / Infinity / 小数
+    // （原来用 isFinite 会放 10.5 之类过去，然后 R2 在 PUT 时才 reject，变成用户看来
+    // 的静默失败）；同时 isSafeInteger 隐含了上界（<=2^53-1），不会被过大的 number 溢出。
+    if (!Number.isSafeInteger(fileSize) || fileSize < 0) {
       return NextResponse.json({ error: "fileSize 参数无效" }, { status: 400 });
     }
     if (fileSize > MAX_UPLOAD_BYTES) {
