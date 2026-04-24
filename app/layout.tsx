@@ -26,8 +26,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://involutionhell.com";
+import { SITE_URL } from "@/lib/site-url";
 const en_description =
   "内卷地狱（Involution Hell）是一个由开发者发起的开源学习社区，专注算法、系统设计、工程实践与技术分享，帮助华人程序员高效成长，专注真实进步。Involution Hell is an open-source community empowering builders with real-world engineering.";
 

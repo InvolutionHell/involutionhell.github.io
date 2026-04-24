@@ -17,6 +17,7 @@ import { GithubRepos, GithubReposSkeleton } from "./GithubRepos";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { sanitizeExternalUrl } from "@/lib/url-safety";
+import { SITE_URL } from "@/lib/site-url";
 
 interface UserView {
   id: number;
@@ -342,8 +343,7 @@ export default async function UserProfilePage({ params }: Param) {
   });
 
   // Person JSON-LD：让搜索引擎识别这是一个"个人档案"而不是普通页面，有机会走 knowledge panel
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://involutionhell.com";
+  const siteUrl = SITE_URL;
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
