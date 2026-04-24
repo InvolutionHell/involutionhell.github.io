@@ -65,12 +65,21 @@ const MIME_PATTERN = /^[a-z0-9][a-z0-9.+-]*\/[a-z0-9][a-z0-9.+-]*$/;
 
 /**
  * @description POST /api/upload - 生成 R2 预签名 URL，用于客户端直接上传图片
- * @param request - NextRequest 对象，请求体包含以下字段：
+ *
+ * 校验链（顺序敏感）：
+ *   1. x-satoken + 后端 /auth/me 鉴权
+ *   2. fileSize 必填 & Number.isSafeInteger & <= MAX_UPLOAD_BYTES
+ *   3. contentType → extractPrimaryMime → MIME_PATTERN 正则闸 → `image/` 前缀 → SVG 黑名单
+ *   4. ContentType / ContentLength 绑进预签名 URL
+ *
+ * @param request - NextRequest 对象，请求体（UploadRequest）包含以下字段：
  *   - filename: 文件名
- *   - contentType: 文件 MIME 类型
+ *   - contentType: 文件 MIME 类型（可带参数，服务端会抽主 MIME）
  *   - articleSlug: 文章 slug（用于组织文件路径）
+ *   - fileSize: 必填，文件字节数；见 UploadRequest.fileSize 注释，用于把
+ *     ContentLength 绑进预签名 URL 做服务端大小限制
  * @returns NextResponse - 返回 JSON 对象：
- *   - uploadUrl: 预签名上传 URL（用于 PUT 请求）
+ *   - uploadUrl: 预签名上传 URL（用于 PUT 请求；客户端必须发送匹配的 Content-Length / Content-Type header）
  *   - publicUrl: 图片的公开访问 URL
  *   - key: R2 对象键
  */
