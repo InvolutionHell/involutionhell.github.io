@@ -55,6 +55,15 @@ function extractPrimaryMime(contentType: string): string {
 }
 
 /**
+ * 严格 MIME 形状：`type/subtype`，两侧只允许 [a-z0-9.+-]，首字符必须是 [a-z0-9]。
+ *
+ * 用途：拒绝 CR/LF 及其他控制字符，防止注入被 SDK/R2/浏览器当成多个 header。
+ * 虽然下游（AWS SDK / R2 / 浏览器）per RFC 7230 也会拒 header 值里的 CR/LF，
+ * 但入口先收口更便宜也更正确，别依赖下游任何一层。
+ */
+const MIME_PATTERN = /^[a-z0-9][a-z0-9.+-]*\/[a-z0-9][a-z0-9.+-]*$/;
+
+/**
  * @description POST /api/upload - 生成 R2 预签名 URL，用于客户端直接上传图片
  * @param request - NextRequest 对象，请求体包含以下字段：
  *   - filename: 文件名
@@ -136,6 +145,13 @@ export async function POST(request: NextRequest) {
     //    构成存储型 XSS 向量。我们宁可让用户转成 PNG/JPG 也不放行。
     // 注意：所有判断都走 primaryMime（分号前的主 MIME），绕不过 `"image/jpeg; image/svg+xml"` 这种夹带。
     const primaryMime = extractPrimaryMime(contentType);
+    // 拒绝 CR/LF 及其他控制字符，防止注入被 SDK/R2/浏览器当成多个 header
+    if (!MIME_PATTERN.test(primaryMime)) {
+      return NextResponse.json(
+        { error: "contentType 格式非法" },
+        { status: 400 },
+      );
+    }
     if (!primaryMime.startsWith("image/")) {
       return NextResponse.json(
         { error: "仅支持图片类型文件" },
