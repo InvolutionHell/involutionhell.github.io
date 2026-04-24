@@ -21,7 +21,22 @@ interface UploadRequest {
   filename: string;
   contentType: string;
   articleSlug: string;
+  /**
+   * 可选：客户端上传前本地读取到的文件字节数。
+   * 如果带上，服务端会：
+   *   1. 立刻 reject 超过 MAX_UPLOAD_BYTES 的请求（省得签名）
+   *   2. 把 Content-Length 绑进预签名 URL，让 R2 在上传时 enforce 大小上限
+   * 客户端上传时必须带匹配的 Content-Length header，否则 R2 拒签。
+   */
+  fileSize?: number;
 }
+
+/**
+ * 服务端硬上限：单次上传 10 MB。
+ * 注意：因为 R2 走预签名 URL，真正的拦截必须发生在签名阶段（把 ContentLength 绑进 URL），
+ * 不能只在 /api/upload 这里做本地 byte check——这里根本看不到后续的 PUT 流量。
+ */
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 /**
  * @description POST /api/upload - 生成 R2 预签名 URL，用于客户端直接上传图片
@@ -70,7 +85,7 @@ export async function POST(request: NextRequest) {
 
     // 解析请求体
     const body = (await request.json()) as UploadRequest;
-    const { filename, contentType, articleSlug } = body;
+    const { filename, contentType, articleSlug, fileSize } = body;
 
     // 验证请求参数
     if (!filename || !contentType || !articleSlug) {
@@ -80,12 +95,43 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 验证文件类型
-    if (!contentType.startsWith("image/")) {
+    // 验证文件类型：
+    // 1. 必须是 image/*
+    // 2. 显式 block image/svg+xml —— SVG 可以内嵌 <script>，即使走 R2 公开 URL 也会在浏览器里执行 JS，
+    //    构成存储型 XSS 向量。我们宁可让用户转成 PNG/JPG 也不放行。
+    const normalizedType = contentType.toLowerCase().trim();
+    if (!normalizedType.startsWith("image/")) {
       return NextResponse.json(
         { error: "仅支持图片类型文件" },
         { status: 400 },
       );
+    }
+    if (
+      normalizedType === "image/svg+xml" ||
+      normalizedType.startsWith("image/svg")
+    ) {
+      return NextResponse.json(
+        { error: "出于安全原因，不接受 SVG 文件（可能包含可执行脚本）" },
+        { status: 400 },
+      );
+    }
+
+    // 验证文件大小（如果客户端带了 fileSize）
+    if (typeof fileSize === "number") {
+      if (!Number.isFinite(fileSize) || fileSize < 0) {
+        return NextResponse.json(
+          { error: "fileSize 参数无效" },
+          { status: 400 },
+        );
+      }
+      if (fileSize > MAX_UPLOAD_BYTES) {
+        return NextResponse.json(
+          {
+            error: `文件过大：最大允许 ${MAX_UPLOAD_BYTES} 字节（10 MB）`,
+          },
+          { status: 413 },
+        );
+      }
     }
 
     // 生成唯一的对象键
@@ -97,10 +143,14 @@ export async function POST(request: NextRequest) {
     const key = `users/${userId}/${sanitizedSlug}/${timestamp}-${sanitizedFilename}`;
 
     // 创建 PutObject 命令
+    // 关键：如果客户端带了 fileSize，把 ContentLength 绑进签名——
+    // 上传时客户端必须发送匹配的 Content-Length header，R2 会 enforce，
+    // 超过或少于这个数字的 PUT 一律被 R2 拒绝。这是预签名 URL 唯一能做服务端大小限制的机制。
     const command = new PutObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME,
       Key: key,
       ContentType: contentType,
+      ...(typeof fileSize === "number" ? { ContentLength: fileSize } : {}),
     });
 
     // 生成预签名 URL（15 分钟有效期）

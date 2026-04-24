@@ -94,6 +94,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         filename: file.name,
         contentType: file.type,
         articleSlug,
+        fileSize: file.size,
       }),
     });
 
