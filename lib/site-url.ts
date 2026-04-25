@@ -9,18 +9,19 @@
  * `RAW_SITE_URL` / `SITE_URL` 逻辑，完全同形。抽到这里避免两边独立 drift —— 任何
  * 调整（比如以后加 trailing-slash 归一、加端口清洗、换 env 名）只改这一个地方。
  *
- * 关于 fallback（2026 年 Round 4 改）：原实现用 `?? "https://involutionhell.com"`
- * 做生产兜底，违反 `docs/architecture/frontend-backend-separation.md:96-103` 的
- * "生产环境不做硬编码 fallback" 约定 —— 在 preview/staging 漏配 env 时会静默产出
- * 指向 prod 域的 sitemap/robots，典型的"漏配变静默错地址"失败模式。
+ * 策略（实事求是版）：
+ * 1. `NEXT_PUBLIC_SITE_URL` 显式设置 → 用它（保留 override 能力，几乎没人会用）。
+ * 2. Vercel preview / branch deploy → `VERCEL_URL`（系统注入，每个 preview 一个临时域名）。
+ * 3. 本地 dev / test → `http://localhost:3000`（项目里 OAuth 回调、rewrites 都按这个约定）。
+ * 4. 其它（含 prod）→ 硬编码常量 `https://involutionhell.com`。
  *
- * 新策略：
- * - 生产 (VERCEL_ENV === "production" 或裸 NODE_ENV=production)：env 缺失 → 模块加载时抛错，构建/启动失败。
- * - Vercel preview / branch deploy：env 缺失 → 用 Vercel 系统注入的 VERCEL_URL
- *   （形如 myproject-git-branch-team.vercel.app），preview 站本来就是临时域名，不应卡 build。
- * - 开发/测试：env 缺失 → fallback 到 http://localhost:3000（与 next start 默认端口
- *   和项目里 OAuth 回调、rewrites 的 localhost:3000 约定一致），保留本地联调无门槛。
+ * 为什么 prod 不要求 env：这台站 prod 域名永远是 involutionhell.com，是事实而非配置；
+ * `docs/architecture/frontend-backend-separation.md:96-103` 反对的是 "BACKEND_URL ?? localhost"
+ * 那种把内部接口悄悄改路线的兜底，公开站点根 URL 当代码常量更安全（漏配也不会指错地址）。
  */
+
+/** 生产域名常量。Prod 域永远是它，不靠 env。 */
+const PROD_SITE_URL = "https://involutionhell.com";
 
 /**
  * 规范化站点 URL：
@@ -38,32 +39,27 @@ export function normalizeSiteUrl(url: string): string {
 }
 
 /**
- * 解析并校验 NEXT_PUBLIC_SITE_URL。抽成函数纯粹为了把 "prod 必须有 / dev 可 fallback"
- * 逻辑集中在一处。模块加载时调用一次，结果赋给 SITE_URL。
+ * 模块加载时调用一次，结果赋给 SITE_URL。优先级见文件头 docstring。
  */
 function resolveSiteUrl(): string {
+  // 1. 显式 env override（罕用；保留口子方便临时调试 / staging 自定义域名）。
   const raw = process.env.NEXT_PUBLIC_SITE_URL;
   if (raw && raw.trim().length > 0) {
     return normalizeSiteUrl(raw);
   }
 
-  // Vercel preview / branch deploy：用系统注入的 VERCEL_URL（hostname 形式，无协议头）。
-  // VERCEL_ENV 取值 "production" | "preview" | "development"；只在 preview 走这条 fallback。
-  // production 故意不接受 VERCEL_URL，避免漏配 env 时静默用 *.vercel.app 域名替代真域名。
+  // 2. Vercel preview / branch deploy：用系统注入的 VERCEL_URL。
   if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) {
     return normalizeSiteUrl(process.env.VERCEL_URL);
   }
 
-  if (process.env.NODE_ENV === "production") {
-    // 故意抛错：漏配 env 时构建/启动直接失败，比静默产出指向错误域名的 sitemap 安全。
-    throw new Error(
-      "[lib/site-url] NEXT_PUBLIC_SITE_URL is required in production " +
-        "(see docs/architecture/frontend-backend-separation.md:96-103).",
-    );
+  // 3. 本地 dev / test。
+  if (process.env.NODE_ENV !== "production") {
+    return "http://localhost:3000";
   }
 
-  // dev / test：沿用项目里 localhost:3000 的约定（next start 默认端口、OAuth 回调、rewrites 都是 3000）。
-  return "http://localhost:3000";
+  // 4. Prod (含 Vercel production deploy)：硬编码常量。
+  return PROD_SITE_URL;
 }
 
 /**
