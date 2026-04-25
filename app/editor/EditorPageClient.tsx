@@ -82,6 +82,21 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
     file: File,
     articleSlug: string,
   ): Promise<{ blobUrl: string; publicUrl: string }> => {
+    // 规范化 Content-Type：只取主 MIME（分号前）+ trim + 小写。
+    // 服务端预签名 URL 绑的是这个规范化后的 ContentType，客户端 PUT 时的
+    // Content-Type header 必须 byte-exact 对得上，否则 R2 返 403 SignatureDoesNotMatch。
+    // 浏览器 file.type 在极少见情况下可能是 "Image/JPEG" 或 "image/jpeg; foo=bar"，
+    // 不能直接原样透传。
+    const primaryMime = file.type.split(";")[0]!.trim().toLowerCase();
+    if (!primaryMime) {
+      // 浏览器识别不出 MIME（某些冷门类型会给空串）。此时继续走会被服务端 MIME_PATTERN
+      // 正则直接 400，给个本地报错更清晰，和 editor 里其它 throw -> handlePublish alert 的
+      // 链路一致。
+      throw new Error(
+        `无法识别图片类型：${file.name}（浏览器未给出 MIME），请另存为 PNG/JPG/WebP 后重试`,
+      );
+    }
+
     // 1. 获取预签名 URL（带 x-satoken 请求头，供服务端验证身份）
     const token = localStorage.getItem("satoken") ?? "";
     const response = await fetch("/api/upload", {
@@ -92,8 +107,9 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
       },
       body: JSON.stringify({
         filename: file.name,
-        contentType: file.type,
+        contentType: primaryMime,
         articleSlug,
+        fileSize: file.size,
       }),
     });
 
@@ -104,11 +120,11 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
 
     const { uploadUrl, publicUrl } = await response.json();
 
-    // 2. 上传文件到 R2
+    // 2. 上传文件到 R2 —— Content-Type 必须和签名时服务端绑的 primaryMime byte-exact 一致
     const uploadResponse = await fetch(uploadUrl, {
       method: "PUT",
       headers: {
-        "Content-Type": file.type,
+        "Content-Type": primaryMime,
       },
       body: file,
     });

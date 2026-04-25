@@ -1,4 +1,5 @@
 import { source } from "@/lib/source";
+import { SITE_URL } from "@/lib/site-url";
 import { DocsPage, DocsBody } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -94,8 +95,7 @@ export default async function DocPage({ params }: Param) {
   const Mdx = page.data.body;
 
   // SEO 结构化数据
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://involutionhell.com";
+  const siteUrl = SITE_URL;
   const slugPath = (slug ?? []).join("/");
   const docUrl = slugPath ? `${siteUrl}/docs/${slugPath}` : `${siteUrl}/docs`;
 
