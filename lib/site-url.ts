@@ -15,7 +15,9 @@
  * 指向 prod 域的 sitemap/robots，典型的"漏配变静默错地址"失败模式。
  *
  * 新策略：
- * - 生产 (NODE_ENV === "production")：env 缺失 → 模块加载时抛错，构建/启动失败。
+ * - 生产 (VERCEL_ENV === "production" 或裸 NODE_ENV=production)：env 缺失 → 模块加载时抛错，构建/启动失败。
+ * - Vercel preview / branch deploy：env 缺失 → 用 Vercel 系统注入的 VERCEL_URL
+ *   （形如 myproject-git-branch-team.vercel.app），preview 站本来就是临时域名，不应卡 build。
  * - 开发/测试：env 缺失 → fallback 到 http://localhost:3000（与 next start 默认端口
  *   和项目里 OAuth 回调、rewrites 的 localhost:3000 约定一致），保留本地联调无门槛。
  */
@@ -43,6 +45,13 @@ function resolveSiteUrl(): string {
   const raw = process.env.NEXT_PUBLIC_SITE_URL;
   if (raw && raw.trim().length > 0) {
     return normalizeSiteUrl(raw);
+  }
+
+  // Vercel preview / branch deploy：用系统注入的 VERCEL_URL（hostname 形式，无协议头）。
+  // VERCEL_ENV 取值 "production" | "preview" | "development"；只在 preview 走这条 fallback。
+  // production 故意不接受 VERCEL_URL，避免漏配 env 时静默用 *.vercel.app 域名替代真域名。
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) {
+    return normalizeSiteUrl(process.env.VERCEL_URL);
   }
 
   if (process.env.NODE_ENV === "production") {
