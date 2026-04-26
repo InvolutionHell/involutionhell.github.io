@@ -24,35 +24,11 @@ import leaderboard from "@/generated/site-leaderboard.json";
 // SITE_URL 由 lib/site-url.ts 统一提供（从 NEXT_PUBLIC_SITE_URL 读 + 归一化），
 // 这里和 app/robots.ts 共用一份，避免两边 drift。
 import { SITE_URL } from "@/lib/site-url";
+import { type PageData, type DateLike } from "@/app/types/doc";
 
 /** * 定义 `source.getPages()` 返回的单个页面对象的类型别名
  */
 type SourcePage = ReturnType<typeof source.getPages>[number];
-
-/** * 定义可以被解析为日期的宽松类型
- */
-type DateLike = string | number | Date | undefined | null;
-
-/**
- * (FIX) 定义一个用于 page.data 的基础类型，
- * 以避免在 isDraftOrHidden 和 extractDateFromPage 中使用 'any'。
- */
-type PageData = {
-  date?: DateLike;
-  updated?: DateLike;
-  updatedAt?: DateLike;
-  lastUpdated?: DateLike;
-  draft?: boolean;
-  hidden?: boolean;
-  frontmatter?: {
-    date?: DateLike;
-    updated?: DateLike;
-    updatedAt?: DateLike;
-    lastUpdated?: DateLike;
-    draft?: boolean;
-    hidden?: boolean;
-  };
-};
 
 /**
  * Next.js 会调用的默认导出函数，用于生成整个站点的 Sitemap。

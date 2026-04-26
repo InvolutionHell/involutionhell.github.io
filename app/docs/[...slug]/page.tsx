@@ -18,6 +18,7 @@ import { PageFeedback } from "@/app/components/PageFeedback";
 import { DocHistoryPanel } from "@/app/components/DocHistoryPanel";
 import { DocShareButton } from "@/app/components/DocShareButton";
 import { cookies } from "next/headers";
+import { type PageData } from "@/app/types/doc";
 // Extract clean text content from MDX - no longer used on client/page side
 // content fetching moved to API route for performance
 
@@ -51,7 +52,7 @@ function getPageWithLocale(
     return { page: originalPage, isFallback: false };
 
   const originalLang =
-    (originalPage?.data as { lang?: string } | undefined)?.lang ?? null;
+    (originalPage?.data as PageData | undefined)?.lang ?? null;
 
   // 已经是目标语言，直接返回
   if (originalLang === locale) return { page: originalPage, isFallback: false };
@@ -83,11 +84,8 @@ export default async function DocPage({ params }: Param) {
 
   // 统一通过工具函数生成 Edit 链接，内部已处理中文目录编码
   const editUrl = buildDocsEditUrl(page.path);
-  const docIdFromPage =
-    (page.data as { docId?: string; frontmatter?: { docId?: string } })
-      ?.docId ??
-    (page.data as { docId?: string; frontmatter?: { docId?: string } })
-      ?.frontmatter?.docId;
+  const data = page.data as PageData;
+  const docIdFromPage = data.docId ?? data.frontmatter?.docId;
 
   const contributorsEntry =
     getDocContributorsByPath(page.file.path) ||
