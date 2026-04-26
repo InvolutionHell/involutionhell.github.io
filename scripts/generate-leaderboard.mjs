@@ -103,7 +103,15 @@ async function fetchAggregatedFromBackend() {
     const res = await fetch(LEADERBOARD_API_URL, {
       headers: {
         accept: "application/json",
-        "user-agent": "InvolutionHell-build/1.0 (generate-leaderboard.mjs)",
+        // UA 用 Chrome 伪装：API 站点走 Cloudflare，CF 默认 Bot Fight Mode 会
+        // 把任何含 "bot" / "build" / "script" 关键词的 UA 当机器人拦下，回
+        // 403 + "Just a moment..." 挑战页（之前的 UA 就被这么拦了，导致 prod
+        // build 拿到 403 走 fallback 写空 leaderboard，feed 卡片全空）。
+        // 长期方案应是在 CF 给 /api/public/* 加 "Skip Bot Fight" 规则白名单，
+        // 这里的 UA 伪装只是兜底。
+        "user-agent":
+          "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 " +
+          "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       },
       signal: controller.signal,
     });
