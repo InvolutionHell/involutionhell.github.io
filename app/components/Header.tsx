@@ -60,6 +60,15 @@ export async function Header() {
               {t("nav.community")}
             </Link>
             <Link
+              href="/feed"
+              className="hover:text-[#CC0000] transition-colors"
+              data-umami-event="navigation_click"
+              data-umami-event-region="header"
+              data-umami-event-label="feed"
+            >
+              {t("nav.feed")}
+            </Link>
+            <Link
               href="/#contact"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
