@@ -191,6 +191,28 @@ Next 渲染 HTML + Bento Grid + ProfileCard 组件
 
 理由：贡献数据每次 deploy 才变，不需要实时。真要实时化再迁 Java。
 
+#### 数据来源迁移记录（2026-04-26）
+
+`generate-leaderboard.mjs` 之前 prisma 直连 Postgres 5432 拉 `doc_contributors`，
+逼着 DB 端口对公网开放。Vercel preview 凭证一断 build 全军覆没。
+
+现已改走后端 **`GET /api/public/leaderboard`**（backend PR #22）：
+
+- 后端 `LeaderboardService` 做全表聚合（githubId × contributions × docIds × dailyCounts）
+- Caffeine 缓存 10min，build 高频跑也不打 DB
+- 脚本侧拿到聚合数据后，本地 `.source/index.ts` 解析 docId→title/url，git log noreply 反推 login，前 100 名 GitHub API 兜底（这套逻辑没变）
+- 后端不可达时脚本写空数组放行 build（不挂整个 deploy）
+
+环境变量：
+
+- `LEADERBOARD_API_URL`（可选）：完整 URL 覆盖
+- `BACKEND_URL`（推荐）：拼 `${BACKEND_URL}/api/public/leaderboard`
+- 都没配则兜底 `https://api.involutionhell.com/api/public/leaderboard`
+
+副作用：`lib/db.ts`（PrismaClient 单例）已删——前端 runtime 早就不直连 DB 了，
+只剩 `scripts/backfill-contributors.mjs` 等手动维护脚本还引用 `generated/prisma`，
+那些是开发者本地按需跑的，不在 Vercel build 链里。
+
 ---
 
 ## V2 待办

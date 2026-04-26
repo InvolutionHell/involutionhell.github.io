@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 /**
- * @description 从数据库的 doc_contributors 聚合全站贡献者数据，
- * 生成静态的 leaderboard 供排行榜页和首页使用。
+ * @description 从后端 /api/public/leaderboard 拉聚合贡献数据，
+ * 结合本地 .source/index.ts 的 docId→title/url 映射 + git log noreply 反推 login，
+ * 生成静态 leaderboard 供排行榜页和首页使用。
+ *
+ * 历史：早期版本直接 prisma 连 Postgres 5432，逼着 DB 端口公网开放。
+ * 现已改走后端 endpoint，DB 收回内网。详见 backend PR #22。
  *
  * 用法：
  *   node scripts/generate-leaderboard.mjs
@@ -35,7 +39,7 @@ function buildLoginMapFromGitLog() {
     });
     for (const line of out.split("\n")) {
       if (!line) continue;
-      const [email, name] = line.split("\t");
+      const [email] = line.split("\t");
       if (!email) continue;
       // 先匹配带 id 的 noreply： "1234567+alice@users.noreply.github.com"
       const newStyle = email.match(
@@ -61,42 +65,106 @@ function buildLoginMapFromGitLog() {
   return { byId, byLogin };
 }
 
-// 兼容 Prisma client 引入方式
-import * as PrismaModule from "../generated/prisma/client.ts";
-const PrismaClient =
-  PrismaModule.default?.PrismaClient || PrismaModule.PrismaClient;
-import { PrismaPg } from "@prisma/adapter-pg";
-import pg from "pg";
-// 我们使用 node:fs/promises 的 fs 即可
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "..");
 const OUTPUT =
   process.env.LEADERBOARD_OUTPUT || "generated/site-leaderboard.json";
 
+// 后端公开聚合接口。优先 LEADERBOARD_API_URL 完整覆盖，否则用 BACKEND_URL 拼，
+// 最后兜底生产域名（本地构建无 .env 时也能直接跑）。
+const LEADERBOARD_API_URL =
+  process.env.LEADERBOARD_API_URL ||
+  `${process.env.BACKEND_URL || "https://api.involutionhell.com"}/api/public/leaderboard`;
+
 async function ensureParentDir(filePath) {
   const dir = path.dirname(filePath);
   await fs.mkdir(dir, { recursive: true });
 }
 
+// 后端响应超时上限：Vercel build 单步通常 5min 内，给后端 15s 足够
+// （Caffeine 命中是毫秒级，未命中走 JDBC 全表扫描也就秒级）。超时即降级。
+const FETCH_TIMEOUT_MS = 15_000;
+
+/**
+ * 拉后端聚合数据。任何错误（含超时）都返回 null，让调用方决定降级策略
+ * （生成空榜单放行 build vs. 整个失败）。
+ *
+ * 后端 ApiResponse 形如 { success, message, data }，data 是 LeaderboardEntryDto[]。
+ */
+async function fetchAggregatedFromBackend() {
+  console.log(
+    `[generate-leaderboard] 拉聚合数据：${LEADERBOARD_API_URL} | Fetching aggregated contributions from backend...`,
+  );
+  // AbortController 超时：防止后端 TCP 建立后不返回时 build 无限挂起
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(LEADERBOARD_API_URL, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "InvolutionHell-build/1.0 (generate-leaderboard.mjs)",
+      },
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      console.error(
+        `[generate-leaderboard] 后端返回 ${res.status} ${res.statusText}，body 前 200 字符：`,
+        await res.text().then((t) => t.slice(0, 200)),
+      );
+      return null;
+    }
+    const json = await res.json();
+    // 兼容裸数组（防御）和 ApiResponse 包装
+    const data = Array.isArray(json) ? json : json.data;
+    if (!Array.isArray(data)) {
+      console.error("[generate-leaderboard] 后端响应结构异常：data 不是数组");
+      return null;
+    }
+    return data;
+  } catch (err) {
+    if (err && err.name === "AbortError") {
+      console.error(
+        `[generate-leaderboard] 后端响应超时（${FETCH_TIMEOUT_MS}ms），降级为空榜单`,
+      );
+    } else {
+      console.error(
+        "[generate-leaderboard] 调用后端失败：",
+        err instanceof Error ? err.message : err,
+      );
+    }
+    return null;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 async function main() {
   const outputAbs = path.resolve(REPO_ROOT, OUTPUT);
 
-  if (!process.env.DATABASE_URL) {
+  const aggregated = await fetchAggregatedFromBackend();
+
+  if (aggregated === null) {
     console.error(
-      "[generate-leaderboard] 未找到 DATABASE_URL，跳过生成排行榜。正在为您生成空榜单以放行构建... | No DATABASE_URL found. Skipping. Generating an empty leaderboard for build pass...",
+      "[generate-leaderboard] 后端不可用，写入空榜单以放行构建。 | Backend unreachable, writing empty leaderboard to unblock build.",
     );
-    await ensureParentDir(outputAbs);
+    // mkdir + writeFile 必须放同一个 try：任一步失败都意味着 generated/site-leaderboard.json
+    // 不存在，后续 Next 端 import 会抛更难定位的 ENOENT。这种情况 build 必须 fail-fast，
+    // 不能 exit 0 让"看起来一切正常"的 deploy 把站点搞挂。
     try {
-      // 检查是否已经存在，存在则不覆盖（或者为了容错直接写入空的 array 也行）
+      await ensureParentDir(outputAbs);
       await fs.writeFile(outputAbs, "[]", "utf-8");
-    } catch (e) {
-      // Ignore
+      process.exit(0);
+    } catch (err) {
+      console.error(
+        "[generate-leaderboard] 写入空榜单失败，无法继续放行构建：",
+        err instanceof Error ? err.stack || err.message : err,
+      );
+      process.exit(1);
     }
-    process.exit(0);
   }
 
+  // 构建 docId → {title, url} 映射，从 .source/index.ts 提取（Fumadocs 生成的 manifest）
   const rawData = await fs.readFile(
     path.join(__dirname, "../.source/index.ts"),
     "utf-8",
@@ -108,9 +176,7 @@ async function main() {
   // export const docs = _runtime.docs<typeof _source.docs>([{ info: ... }, { info: ... }])
   //
   // 正则解析：
-
   // - `/s`: 允许 `.` 匹配换行符，防备代码被格式化成多行
-
   // - `export const docs.*=\s*.*?docs>\(\[`: 匹配由 Fumadocs 自动生成的固定代码开头，直到方括号 `[`
   const pagesInfoMatch = rawData.match(
     /export const docs.*=\s*.*?docs>\(\[(.*?)\]\)/s,
@@ -166,166 +232,128 @@ async function main() {
     }
   }
 
-  const connectionString = `${process.env.DATABASE_URL}`;
-  const pool = new pg.Pool({ connectionString });
-  const adapter = new PrismaPg(pool);
-  const prisma = new PrismaClient({ adapter });
+  // 把后端聚合数据转成前端 leaderboard JSON 格式
+  // 后端返回：{ githubId, contributions, docIds[], dailyCounts{} }
+  // 前端期望：{ id, name, points, commits, avatarUrl, contributedDocs[], dailyCounts }
+  const leaderboard = aggregated
+    .filter((entry) => entry.contributions > 0)
+    .map((entry) => {
+      const githubId = entry.githubId.toString();
+      const points = entry.contributions * 10; // 每个 commit 暂定 10 分
 
-  console.log(
-    "[generate-leaderboard] 连接数据库以聚合贡献数据... | Connecting to database to aggregate contributions...",
-  );
-
-  try {
-    // 聚合每一个 github_id 的总贡献量和所有贡献的文章
-    const allRecords = await prisma.doc_contributors.findMany();
-
-    const grouped = {};
-    for (const record of allRecords) {
-      const gid = record.github_id.toString();
-      if (!grouped[gid]) {
-        grouped[gid] = {
-          contributions: 0,
-          docs: new Set(),
-          // 按日分桶的贡献次数，用于前端渲染活跃度热力图（GitHub 风格 365 格）
-          dailyCounts: {},
-        };
-      }
-      grouped[gid].contributions += record.contributions;
-      grouped[gid].docs.add(record.doc_id);
-      // last_contributed_at 是 timestamptz，只要精度到日即可
-      const day = record.last_contributed_at
-        ? new Date(record.last_contributed_at).toISOString().slice(0, 10)
-        : null;
-      if (day) {
-        grouped[gid].dailyCounts[day] =
-          (grouped[gid].dailyCounts[day] || 0) + record.contributions;
-      }
-    }
-
-    // 格式化输出榜单
-    const leaderboard = Object.entries(grouped)
-      .filter(([id, data]) => data.contributions > 0)
-      .map(([id, data]) => {
-        const points = data.contributions * 10; // 每个 commit 暂定 10 分
-        const githubId = id;
-
-        const contributedDocsInfo = Array.from(data.docs).map((dbDocId) => {
-          // dbDocId 对应数据库里的 CUID (如 psc0xf6oa1m7g8s9wfwiojkf)
-          // 或之前的路径 (如 path/to/doc.mdx 需要去除后缀匹配)
-          const key = dbDocId.replace(/\.mdx?$/, "");
-          const mappedInfo = docsMap[key];
-
-          return {
-            id: dbDocId,
-            title: mappedInfo ? mappedInfo.title : dbDocId, // 若没有匹配到页面，回退显示 docId
-            url: mappedInfo ? mappedInfo.url : `/docs/${key}`,
-          };
-        });
+      const contributedDocsInfo = entry.docIds.map((dbDocId) => {
+        // dbDocId 对应数据库里的 CUID (如 psc0xf6oa1m7g8s9wfwiojkf)
+        // 或之前的路径 (如 path/to/doc.mdx 需要去除后缀匹配)
+        const key = dbDocId.replace(/\.mdx?$/, "");
+        const mappedInfo = docsMap[key];
 
         return {
-          id: githubId,
-          // 暂时没有办法直接从表中获取 login_name，我们就以此格式保留并前端展示默认占位符或者使用 github username API 换取 (如果需要完全离线，则只展示ID)
-          name: `GitHub User ${githubId}`,
-          points: points,
-          commits: data.contributions,
-          avatarUrl: `https://avatars.githubusercontent.com/u/${githubId}`,
-          contributedDocs: contributedDocsInfo,
-          dailyCounts: data.dailyCounts,
+          id: dbDocId,
+          title: mappedInfo ? mappedInfo.title : dbDocId, // 若没有匹配到页面，回退显示 docId
+          url: mappedInfo ? mappedInfo.url : `/docs/${key}`,
         };
-      })
-      .sort((a, b) => b.points - a.points);
+      });
 
-    // Step 1: 先从本地 git log 的 noreply 邮箱反推 id→login，覆盖绝大多数贡献者。
-    // 这个是纯本地操作，不打 GitHub API，快且免额度。
-    const { byId: loginByGitId } = buildLoginMapFromGitLog();
-    let offlineHits = 0;
-    for (const user of leaderboard) {
-      const login = loginByGitId[user.id];
-      if (login) {
-        user.name = login;
-        offlineHits++;
-      }
+      return {
+        id: githubId,
+        // 暂时没有办法直接从表中获取 login_name，我们就以此格式保留并前端展示默认占位符或者使用 github username API 换取 (如果需要完全离线，则只展示ID)
+        name: `GitHub User ${githubId}`,
+        points: points,
+        commits: entry.contributions,
+        avatarUrl: `https://avatars.githubusercontent.com/u/${githubId}`,
+        contributedDocs: contributedDocsInfo,
+        dailyCounts: entry.dailyCounts || {},
+      };
+    })
+    .sort((a, b) => b.points - a.points);
+
+  // Step 1: 先从本地 git log 的 noreply 邮箱反推 id→login，覆盖绝大多数贡献者。
+  // 这个是纯本地操作，不打 GitHub API，快且免额度。
+  const { byId: loginByGitId } = buildLoginMapFromGitLog();
+  let offlineHits = 0;
+  for (const user of leaderboard) {
+    const login = loginByGitId[user.id];
+    if (login) {
+      user.name = login;
+      offlineHits++;
     }
+  }
+  console.log(
+    `[generate-leaderboard] git log 离线匹配 login：${offlineHits}/${leaderboard.length} 条直接拿到，节省同等数量的 GitHub API 调用`,
+  );
+
+  // Step 2: 仍然是 "GitHub User <id>" 占位符的前 100 名才打 GitHub API 兜底
+  const ghToken = process.env.GITHUB_TOKEN || process.env.GH_PAT || "";
+  const topUsers = leaderboard
+    .slice(0, 100)
+    .filter((u) => u.name === `GitHub User ${u.id}`);
+
+  if (topUsers.length === 0) {
     console.log(
-      `[generate-leaderboard] git log 离线匹配 login：${offlineHits}/${leaderboard.length} 条直接拿到，节省同等数量的 GitHub API 调用`,
+      "[generate-leaderboard] 前 100 名 login 全部命中本地缓存，跳过 GitHub API",
     );
-
-    // Step 2: 仍然是 "GitHub User <id>" 占位符的前 100 名才打 GitHub API 兜底
-    const ghToken = process.env.GITHUB_TOKEN || process.env.GH_PAT || "";
-    const topUsers = leaderboard
-      .slice(0, 100)
-      .filter((u) => u.name === `GitHub User ${u.id}`);
-
-    if (topUsers.length === 0) {
-      console.log(
-        "[generate-leaderboard] 前 100 名 login 全部命中本地缓存，跳过 GitHub API",
+  } else {
+    if (!ghToken) {
+      console.warn(
+        `[generate-leaderboard] 还有 ${topUsers.length} 名用户需要走 GitHub API，但未检测到 GITHUB_TOKEN/GH_PAT，限流 60/hour`,
       );
     } else {
-      if (!ghToken) {
-        console.warn(
-          `[generate-leaderboard] 还有 ${topUsers.length} 名用户需要走 GitHub API，但未检测到 GITHUB_TOKEN/GH_PAT，限流 60/hour`,
-        );
-      } else {
-        console.log(
-          `[generate-leaderboard] 剩余 ${topUsers.length} 名用户走 GitHub API 兜底 login`,
-        );
-      }
-      let successCount = 0;
-      let failureCount = 0;
-      for (const user of topUsers) {
-        try {
-          const headers = {
-            "User-Agent": "involutionhell-leaderboard-script",
-            Accept: "application/vnd.github+json",
-          };
-          if (ghToken) headers.Authorization = `Bearer ${ghToken}`;
-          const ghRes = await fetch(`https://api.github.com/user/${user.id}`, {
-            headers,
-          });
-          if (ghRes.ok) {
-            const data = await ghRes.json();
-            user.name = data.login || data.name || user.name;
-            successCount++;
-          } else {
-            failureCount++;
-            if (failureCount === 1) {
-              console.warn(
-                `[generate-leaderboard] GitHub API 返回 ${ghRes.status}，后续失败将静默计数。示例响应：`,
-                await ghRes.text().then((t) => t.slice(0, 200)),
-              );
-            }
-          }
-        } catch (err) {
+      console.log(
+        `[generate-leaderboard] 剩余 ${topUsers.length} 名用户走 GitHub API 兜底 login`,
+      );
+    }
+    let successCount = 0;
+    let failureCount = 0;
+    for (const user of topUsers) {
+      try {
+        const headers = {
+          "User-Agent": "involutionhell-leaderboard-script",
+          Accept: "application/vnd.github+json",
+        };
+        if (ghToken) headers.Authorization = `Bearer ${ghToken}`;
+        const ghRes = await fetch(`https://api.github.com/user/${user.id}`, {
+          headers,
+        });
+        if (ghRes.ok) {
+          const data = await ghRes.json();
+          user.name = data.login || data.name || user.name;
+          successCount++;
+        } else {
           failureCount++;
           if (failureCount === 1) {
             console.warn(
-              "[generate-leaderboard] GitHub API 请求异常，后续失败将静默计数。示例错误：",
-              err instanceof Error ? err.message : err,
+              `[generate-leaderboard] GitHub API 返回 ${ghRes.status}，后续失败将静默计数。示例响应：`,
+              await ghRes.text().then((t) => t.slice(0, 200)),
             );
           }
         }
+      } catch (err) {
+        failureCount++;
+        if (failureCount === 1) {
+          console.warn(
+            "[generate-leaderboard] GitHub API 请求异常，后续失败将静默计数。示例错误：",
+            err instanceof Error ? err.message : err,
+          );
+        }
       }
-      console.log(
-        `[generate-leaderboard] GitHub API 兜底完成：成功 ${successCount} / 失败 ${failureCount}`,
-      );
     }
-
-    await ensureParentDir(outputAbs);
-
-    await fs.writeFile(outputAbs, JSON.stringify(leaderboard, null, 2), "utf8");
-
     console.log(
-      `[generate-leaderboard] 排行榜数据已成功写入至 ${OUTPUT} | Successfully wrote leaderboard to ${OUTPUT}`,
+      `[generate-leaderboard] GitHub API 兜底完成：成功 ${successCount} / 失败 ${failureCount}`,
     );
-  } catch (error) {
-    console.error(
-      "[generate-leaderboard] 生成排行榜失败： | Failed to generate leaderboard:",
-      error,
-    );
-    process.exit(1);
-  } finally {
-    await prisma.$disconnect();
   }
+
+  await ensureParentDir(outputAbs);
+  await fs.writeFile(outputAbs, JSON.stringify(leaderboard, null, 2), "utf8");
+
+  console.log(
+    `[generate-leaderboard] 排行榜数据已成功写入至 ${OUTPUT} | Successfully wrote leaderboard to ${OUTPUT}`,
+  );
 }
 
-main();
+main().catch((err) => {
+  console.error(
+    "[generate-leaderboard] 主流程异常：",
+    err instanceof Error ? err.stack || err.message : err,
+  );
+  process.exit(1);
+});
