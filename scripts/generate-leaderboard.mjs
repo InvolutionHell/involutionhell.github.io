@@ -82,8 +82,12 @@ async function ensureParentDir(filePath) {
   await fs.mkdir(dir, { recursive: true });
 }
 
+// 后端响应超时上限：Vercel build 单步通常 5min 内，给后端 15s 足够
+// （Caffeine 命中是毫秒级，未命中走 JDBC 全表扫描也就秒级）。超时即降级。
+const FETCH_TIMEOUT_MS = 15_000;
+
 /**
- * 拉后端聚合数据。任何错误都返回 null，让调用方决定降级策略
+ * 拉后端聚合数据。任何错误（含超时）都返回 null，让调用方决定降级策略
  * （生成空榜单放行 build vs. 整个失败）。
  *
  * 后端 ApiResponse 形如 { success, message, data }，data 是 LeaderboardEntryDto[]。
@@ -92,12 +96,16 @@ async function fetchAggregatedFromBackend() {
   console.log(
     `[generate-leaderboard] 拉聚合数据：${LEADERBOARD_API_URL} | Fetching aggregated contributions from backend...`,
   );
+  // AbortController 超时：防止后端 TCP 建立后不返回时 build 无限挂起
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
     const res = await fetch(LEADERBOARD_API_URL, {
       headers: {
         accept: "application/json",
         "user-agent": "InvolutionHell-build/1.0 (generate-leaderboard.mjs)",
       },
+      signal: controller.signal,
     });
     if (!res.ok) {
       console.error(
@@ -115,11 +123,19 @@ async function fetchAggregatedFromBackend() {
     }
     return data;
   } catch (err) {
-    console.error(
-      "[generate-leaderboard] 调用后端失败：",
-      err instanceof Error ? err.message : err,
-    );
+    if (err && err.name === "AbortError") {
+      console.error(
+        `[generate-leaderboard] 后端响应超时（${FETCH_TIMEOUT_MS}ms），降级为空榜单`,
+      );
+    } else {
+      console.error(
+        "[generate-leaderboard] 调用后端失败：",
+        err instanceof Error ? err.message : err,
+      );
+    }
     return null;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -132,13 +148,20 @@ async function main() {
     console.error(
       "[generate-leaderboard] 后端不可用，写入空榜单以放行构建。 | Backend unreachable, writing empty leaderboard to unblock build.",
     );
-    await ensureParentDir(outputAbs);
+    // mkdir + writeFile 必须放同一个 try：任一步失败都意味着 generated/site-leaderboard.json
+    // 不存在，后续 Next 端 import 会抛更难定位的 ENOENT。这种情况 build 必须 fail-fast，
+    // 不能 exit 0 让"看起来一切正常"的 deploy 把站点搞挂。
     try {
+      await ensureParentDir(outputAbs);
       await fs.writeFile(outputAbs, "[]", "utf-8");
-    } catch {
-      // ignore
+      process.exit(0);
+    } catch (err) {
+      console.error(
+        "[generate-leaderboard] 写入空榜单失败，无法继续放行构建：",
+        err instanceof Error ? err.stack || err.message : err,
+      );
+      process.exit(1);
     }
-    process.exit(0);
   }
 
   // 构建 docId → {title, url} 映射，从 .source/index.ts 提取（Fumadocs 生成的 manifest）
