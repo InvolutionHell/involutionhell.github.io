@@ -1,23 +1,14 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@/app/components/ui/button";
+import NotFoundTracker from "./not-found-tracker";
 
-export default function NotFound() {
-  const pathname = usePathname();
-  const t = useTranslations("notFound");
-
-  useEffect(() => {
-    if (window.umami) {
-      window.umami.track("error_404", {
-        path: pathname,
-        referrer: document.referrer || "direct",
-      });
-    }
-  }, [pathname]);
+// 必须是 Server Component：爬虫向 / 发 POST 时 Next 走 Server Action 路径，
+// not-found 渲染不经过 layout，NextIntlClientProvider 不在树里，
+// useTranslations 会抛 "No intl context"。getTranslations 走 server，
+// 直接读 i18n/request.ts，没有 provider 依赖。
+export default async function NotFound() {
+  const t = await getTranslations("notFound");
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center bg-background text-foreground">
@@ -32,6 +23,7 @@ export default function NotFound() {
           <Link href="/">{t("cta")}</Link>
         </Button>
       </div>
+      <NotFoundTracker />
     </div>
   );
 }
