@@ -37,10 +37,10 @@ export interface PageData {
     hidden?: boolean;
     docId?: string;
     lang?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
-  /**
-   * 允许通过索引访问其他动态属性
-   */
-  [key: string]: any;
+  // 故意不挂顶层 [key: string]: unknown 索引签名 —— Fumadocs 的 page.data 由
+  // zod DocOut 推出，没有 index signature；如果在 PageData 上挂一个，as PageData
+  // 会触发 TS2352 "neither type sufficiently overlaps"。所有需要的字段都已
+  // 在上面显式声明；真要拓展加新字段，往这里加显式 ? 字段，别走 escape hatch。
 }
