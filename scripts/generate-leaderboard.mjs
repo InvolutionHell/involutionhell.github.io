@@ -157,25 +157,38 @@ async function main() {
     // 一次 fetch 失败（CF 临时挑战 / Vercel runner IP 信誉低 / 后端短暂抖动）
     // 不应该把 commit 进 git 的好数据冲成空数组上线。
     //
-    // 三种情况：
-    //   1. 文件已存在 + 内容是非空数组 → 保留旧数据 exit 0
-    //   2. 文件已存在但是空数组 / 不是数组 → 维持原状 exit 0（不主动覆盖）
-    //   3. 文件不存在（首次 build / 干净 cache）→ 写空数组兜底 exit 0
+    // 四种情况：
+    //   1. 文件已存在 + 是非空数组       → 保留旧数据 exit 0
+    //   2. 文件已存在 + 是空数组         → 保留空数组 exit 0（语义合法，下游 .filter 不挂）
+    //   3. 文件已存在 + JSON 损坏 / 非数组 → 视为无效，走兜底写 [] 覆盖
+    //   4. 文件不存在（首次 build）       → 走兜底写 [] 覆盖
+    //
+    // 关键约束：下游有多处 import leaderboard 后直接 .filter/.map，
+    // 一旦内容是 null/object 等非数组类型，整个 Next build 会因
+    // "filter is not a function" 挂掉。所以"非数组"必须强制覆盖空数组，
+    // 不能跟"空数组"一样走 preserve 分支。
     let preservedExisting = false;
     try {
       const existing = await fs.readFile(outputAbs, "utf-8");
       try {
         const parsed = JSON.parse(existing);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          console.warn(
-            `[generate-leaderboard] 后端不可用，但保留 ${OUTPUT} 已有 ${parsed.length} 条数据，不覆盖。 | Backend unreachable; keeping existing leaderboard with ${parsed.length} entries.`,
-          );
+        if (Array.isArray(parsed)) {
+          if (parsed.length > 0) {
+            console.warn(
+              `[generate-leaderboard] 后端不可用，但保留 ${OUTPUT} 已有 ${parsed.length} 条数据，不覆盖。 | Backend unreachable; keeping existing leaderboard with ${parsed.length} entries.`,
+            );
+          } else {
+            console.warn(
+              `[generate-leaderboard] 后端不可用，但保留 ${OUTPUT} 的空数组内容。 | Backend unreachable; keeping existing empty leaderboard array.`,
+            );
+          }
+          preservedExisting = true;
         } else {
+          // 非数组（对象、字面量、null 等）→ 不 preserve，走下方兜底覆盖空数组
           console.warn(
-            `[generate-leaderboard] 后端不可用，且 ${OUTPUT} 已有内容非有效非空数组，维持原状。`,
+            `[generate-leaderboard] ${OUTPUT} 已存在但内容不是数组（typeof=${typeof parsed}），按无效数据处理，兜底覆盖为 []。`,
           );
         }
-        preservedExisting = true;
       } catch {
         // 文件存在但 JSON 损坏：当作没有，走下面写空兜底
         console.warn(
