@@ -185,8 +185,10 @@ async function main() {
           preservedExisting = true;
         } else {
           // 非数组（对象、字面量、null 等）→ 不 preserve，走下方兜底覆盖空数组
+          // typeof null === "object" 是 JS 历史包袱，单独标识避免排查时误以为是普通对象
+          const kind = parsed === null ? "null" : typeof parsed;
           console.warn(
-            `[generate-leaderboard] ${OUTPUT} 已存在但内容不是数组（typeof=${typeof parsed}），按无效数据处理，兜底覆盖为 []。`,
+            `[generate-leaderboard] ${OUTPUT} 已存在但内容不是数组（kind=${kind}），按无效数据处理，兜底覆盖为 []。`,
           );
         }
       } catch {
