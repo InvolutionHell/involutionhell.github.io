@@ -153,12 +153,53 @@ async function main() {
   const aggregated = await fetchAggregatedFromBackend();
 
   if (aggregated === null) {
+    // 拉不到后端时优先保留 generated/site-leaderboard.json 旧版本：
+    // 一次 fetch 失败（CF 临时挑战 / Vercel runner IP 信誉低 / 后端短暂抖动）
+    // 不应该把 commit 进 git 的好数据冲成空数组上线。
+    //
+    // 三种情况：
+    //   1. 文件已存在 + 内容是非空数组 → 保留旧数据 exit 0
+    //   2. 文件已存在但是空数组 / 不是数组 → 维持原状 exit 0（不主动覆盖）
+    //   3. 文件不存在（首次 build / 干净 cache）→ 写空数组兜底 exit 0
+    let preservedExisting = false;
+    try {
+      const existing = await fs.readFile(outputAbs, "utf-8");
+      try {
+        const parsed = JSON.parse(existing);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          console.warn(
+            `[generate-leaderboard] 后端不可用，但保留 ${OUTPUT} 已有 ${parsed.length} 条数据，不覆盖。 | Backend unreachable; keeping existing leaderboard with ${parsed.length} entries.`,
+          );
+        } else {
+          console.warn(
+            `[generate-leaderboard] 后端不可用，且 ${OUTPUT} 已有内容非有效非空数组，维持原状。`,
+          );
+        }
+        preservedExisting = true;
+      } catch {
+        // 文件存在但 JSON 损坏：当作没有，走下面写空兜底
+        console.warn(
+          `[generate-leaderboard] ${OUTPUT} 已存在但 JSON 解析失败，按"首次 build"兜底覆盖空数组。`,
+        );
+      }
+    } catch (readErr) {
+      // ENOENT 等：文件不存在，走兜底
+      if (readErr && readErr.code !== "ENOENT") {
+        console.warn(
+          "[generate-leaderboard] 读取既有 leaderboard 失败：",
+          readErr instanceof Error ? readErr.message : readErr,
+        );
+      }
+    }
+
+    if (preservedExisting) {
+      process.exit(0);
+    }
+
+    // 文件不存在 / 损坏：写空兜底，避免后续 Next import 抛 ENOENT
     console.error(
-      "[generate-leaderboard] 后端不可用，写入空榜单以放行构建。 | Backend unreachable, writing empty leaderboard to unblock build.",
+      "[generate-leaderboard] 后端不可用且本地无可保留数据，写入空榜单以放行构建。 | Backend unreachable and no existing data, writing empty leaderboard to unblock build.",
     );
-    // mkdir + writeFile 必须放同一个 try：任一步失败都意味着 generated/site-leaderboard.json
-    // 不存在，后续 Next 端 import 会抛更难定位的 ENOENT。这种情况 build 必须 fail-fast，
-    // 不能 exit 0 让"看起来一切正常"的 deploy 把站点搞挂。
     try {
       await ensureParentDir(outputAbs);
       await fs.writeFile(outputAbs, "[]", "utf-8");
