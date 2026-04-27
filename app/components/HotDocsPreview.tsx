@@ -20,7 +20,17 @@ async function fetchTopDocs(): Promise<TopDocDto[]> {
   try {
     const res = await fetch(
       `${backendUrl}/analytics/top-docs?window=7d&limit=5`,
-      { next: { revalidate: 300 } },
+      {
+        next: { revalidate: 300 },
+        // UA 必须带 "InvolutionHell-SSR" token，否则 Cloudflare Bot Fight Mode
+        // 会按 Vercel runner IP 信誉判定为 bot 拦截（CF Custom Rule 用这个
+        // token 识别"自己人"放行）。其他 SSR fetcher（fetchProfile / events /
+        // feed）都已经带，唯独本组件之前漏了导致首页 "本周最热" 一直空。
+        headers: {
+          accept: "application/json",
+          "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
+        },
+      },
     );
     if (!res.ok) return [];
     const json = await res.json();
