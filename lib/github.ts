@@ -2,7 +2,10 @@
 const GITHUB_OWNER = "InvolutionHell";
 const GITHUB_REPO = "involutionhell";
 const DEFAULT_BRANCH = "main";
-const DOCS_BASE = "app/docs";
+// 历史路径是 "app/docs"；i18n URL 段化改造（2026-05）后 mdx 内容
+// 从 app/docs 迁到 content/docs（与路由文件分离，按 fumadocs 推荐）。
+// GitHub Edit URL 必须与实际仓库结构一致。
+const DOCS_BASE = "content/docs";
 
 const REPO_BASE_URL = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
 

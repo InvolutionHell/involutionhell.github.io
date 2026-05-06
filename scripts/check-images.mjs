@@ -25,7 +25,7 @@ import fs from "fs";
 import path from "path";
 
 const ROOT = process.cwd();
-const DOCS_DIR = path.join(ROOT, "app", "docs");
+const DOCS_DIR = path.join(ROOT, "content", "docs");
 // 允许的绝对路径前缀（站点级 & 组件演示级别）
 const ALLOWED_ABSOLUTE_PREFIXES = ["/images/site/", "/images/components/"];
 

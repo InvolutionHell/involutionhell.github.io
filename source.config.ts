@@ -6,11 +6,18 @@ import type { Root } from "mdast";
 
 /**
  * @description: 定义文档根目录
- * Fumadocs 会从 app/docs 下递归扫描 .mdx 文件，
- * 自动生成 PageTree（用于左侧导航结构）。
+ *
+ * 历史：原先 dir 指 "app/docs"，把 mdx 内容直接放在 app router 树下。
+ * i18n URL 段化改造（2026-05）后路由迁到 app/[locale]/docs，路由文件
+ * （page.tsx / layout.tsx / [...slug]）和 mdx 内容混在 [locale]/docs
+ * 不优雅，按 fumadocs 推荐分到 content/docs。
+ *
+ * Fumadocs 从 content/docs 下递归扫描 .mdx 文件，自动生成 PageTree。
+ * 路由仍由 app/[locale]/docs/[...slug]/page.tsx 渲染，base URL 见
+ * lib/source.ts 的 loader 配置。
  */
 export const docs = defineDocs({
-  dir: "app/docs",
+  dir: "content/docs",
 });
 
 /**

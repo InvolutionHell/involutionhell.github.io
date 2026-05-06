@@ -12,7 +12,7 @@
  *   或直接不出现，同时把异常打到 server log 供排查。不再维护 data/event.json 兜底。
  */
 
-import type { EventView } from "@/app/events/types";
+import type { EventView } from "@/app/[locale]/events/types";
 
 /** Hero / FloatWindow 识别的字段结构 */
 export interface HomepageEvent {
@@ -83,10 +83,12 @@ export async function fetchHomepageEvents(): Promise<HomepageEvent[]> {
       });
       return [];
     }
-    return json.data
-      .map(toHomepageEvent)
-      // 未过期的活动排前面
-      .sort((a, b) => Number(a.deprecated) - Number(b.deprecated));
+    return (
+      json.data
+        .map(toHomepageEvent)
+        // 未过期的活动排前面
+        .sort((a, b) => Number(a.deprecated) - Number(b.deprecated))
+    );
   } catch (err) {
     console.warn("[fetchHomepageEvents] 网络异常:", err);
     return [];

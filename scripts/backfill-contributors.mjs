@@ -90,7 +90,7 @@ const args = Object.fromEntries(
 // 基础配置
 const OWNER = args.owner || process.env.GITHUB_OWNER || "InvolutionHell";
 const REPO = args.repo || process.env.GITHUB_REPO || "involutionhell";
-const DOCS_DIR = args.docs || process.env.DOCS_DIR || "app/docs";
+const DOCS_DIR = args.docs || process.env.DOCS_DIR || "content/docs";
 const OUTPUT =
   args.output || process.env.OUTPUT || "generated/doc-contributors.json";
 const PER_PAGE = Math.min(

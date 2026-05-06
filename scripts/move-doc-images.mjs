@@ -29,7 +29,7 @@ import crypto from "crypto";
 
 // 仓库根目录、文档目录与 public 目录
 const ROOT = process.cwd();
-const DOCS_DIR = path.join(ROOT, "app", "docs");
+const DOCS_DIR = path.join(ROOT, "content", "docs");
 const PUBLIC_DIR = path.join(ROOT, "public");
 
 // 排除不迁移的绝对路径前缀（站点级 & 组件演示级别）

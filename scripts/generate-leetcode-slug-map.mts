@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const LEETCODE_DIR = path.join(
   PROJECT_ROOT,
-  "app/docs/career/interview-prep/leetcode",
+  "content/docs/career/interview-prep/leetcode",
 );
 const OUTPUT_FILE = path.join(PROJECT_ROOT, "generated/leetcode-slug-map.json");
 

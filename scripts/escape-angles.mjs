@@ -12,7 +12,7 @@ import fg from "fast-glob";
  * 2) 仅在普通文本行内转义形如 <数字开头...> 或 <单词里含逗号/空格/数学符号...> 的片段
  * 3) 不动像 <Component> / <div> 这类“正常标签/组件名”的片段
  */
-const files = await fg(["app/docs/**/*.md"], { dot: false });
+const files = await fg(["content/docs/**/*.md"], { dot: false });
 
 for (const file of files) {
   let src = await fs.readFile(file, "utf8");

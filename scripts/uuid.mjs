@@ -19,7 +19,7 @@ import matter from "gray-matter";
 import { createId, isCuid } from "@paralleldrive/cuid2";
 
 // 可通过环境变量覆盖文档目录：DOCS_DIR=content node scripts/add-doc-ids.mjs
-const DOCS_DIR = process.env.DOCS_DIR || "../app/docs";
+const DOCS_DIR = process.env.DOCS_DIR || "../content/docs";
 const GLOBS = [`${DOCS_DIR}/**/*.{md,mdx,markdown}`];
 
 function log(...args) {
