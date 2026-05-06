@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import type { HomepageEvent } from "@/lib/events-fetch";
@@ -10,26 +10,43 @@ import styles from "./FloatWindow.module.css";
 
 /**
  * FloatWindow - 复古报纸风格的活动预告悬浮窗。
- * 仅显示最新的一条活动，仅在首页 (/) 可见。
+ * 仅显示最新的一条活动，仅在首页（locale 段下的 /） 可见。
  *
- * 数据来源：
- * - 之前从 data/event.json 直接 import
- * - 现在由上游 Server Component（app/page.tsx）调 lib/events-fetch.ts 拉 /api/events
- *   后通过 event prop 传进来；后端失败时 fetch 内部会 fallback 到 JSON
+ * 数据来源（i18n 改造收尾，2026-05）：
+ *   - 之前由上游 Server Component（app/page.tsx）调 fetchHomepageEvents
+ *     后通过 event prop 传入；这让首页变 ƒ Dynamic
+ *   - 改为本组件自己 client fetch /api/public/homepage-events，首页可以
+ *     SSG 静态化。组件仍然按"第一条未过期活动"的逻辑挑一条展示。
  */
 
-interface FloatWindowProps {
-  /** 要展示的单条活动；null 或已过期时组件不渲染 */
-  event: HomepageEvent | null;
-}
-
-export function FloatWindow({ event }: FloatWindowProps) {
+export function FloatWindow() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [event, setEvent] = useState<HomepageEvent | null>(null);
 
-  // 仅在首页 (/) 可见
-  const isHomePage = pathname === "/";
+  // 仅在首页（/zh、/en 或裸 /）可见。i18n 段化后 pathname 是 /<locale>。
+  const isHomePage =
+    pathname === "/" || pathname === "/zh" || pathname === "/en";
+
+  useEffect(() => {
+    if (!isHomePage) return;
+    let cancelled = false;
+    fetch("/api/public/homepage-events", { cache: "force-cache" })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: HomepageEvent[]) => {
+        if (cancelled) return;
+        // 未过期的活动排前面（API 已排序），挑第一条非 deprecated
+        const latest = data.find((e) => !e.deprecated) ?? null;
+        setEvent(latest);
+      })
+      .catch(() => {
+        // 静默失败：组件不显示比报错更友好
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isHomePage]);
 
   const handleDismiss = useCallback(() => setIsDismissed(true), []);
   const handleToggle = useCallback(() => setIsCollapsed((prev) => !prev), []);
