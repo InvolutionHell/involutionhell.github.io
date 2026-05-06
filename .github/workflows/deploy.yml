@@ -36,7 +36,7 @@ jobs:
         run: node scripts/check-pnpm-version.mjs
 
       - run: pnpm install --frozen-lockfile
-      
+
       # Verify lockfile wasn't modified by install
       - name: Check lockfile consistency
         run: |
@@ -75,31 +75,36 @@ jobs:
 
           git fetch --depth=2 origin ${{ github.ref }} || true
           CHANGED="$(git diff --name-only HEAD~1 HEAD || true)"
-          CHANGED_DOCS="$(echo "$CHANGED" | grep -E '^(app/docs/|content/docs/).*\.(mdx?|tsx?)$' || true)"
+          CHANGED_DOCS="$(echo "$CHANGED" | grep -E '^content/docs/.*\.(md|mdx)$' || true)"
 
+          # i18n URL 段化（2026-05）后所有 docs URL 都带 /<locale>/ 前缀。
+          # 每篇文档对外有 /zh/docs/<slug> 和 /en/docs/<slug> 两个独立 URL，
+          # 任意文件变更都推送两条让 IndexNow 同时刷新两种语言版本。
+          # 文件命名约定（fumadocs dot parser）：
+          #   xxx.mdx        → 默认 (zh) 原文，slug = xxx
+          #   xxx.en.mdx     → en 翻译，slug = xxx（去 .en 后缀提 base slug）
           URLS=()
-
-          while IFS= read -r f; do
-            [ -z "$f" ] && continue
-            if [[ "$f" =~ ^app/docs/(.*)/page\.(mdx|md|tsx|ts|jsx|js)$ ]]; then
-              slug="${BASH_REMATCH[1]}"
-              URLS+=("$SITE_ORIGIN/docs/$slug")
-            fi
-          done <<< "$CHANGED_DOCS"
 
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             if [[ "$f" =~ ^content/docs/(.*)\.(md|mdx)$ ]]; then
               slug="${BASH_REMATCH[1]}"
+              # 剥离 locale 后缀（.en / .zh），拿到 canonical base slug
+              slug="${slug%.en}"
+              slug="${slug%.zh}"
+              # index.mdx 对应目录本身的 URL（fumadocs 约定）
               slug="${slug%/index}"
-              URLS+=("$SITE_ORIGIN/docs/$slug")
+              URLS+=("$SITE_ORIGIN/zh/docs/$slug")
+              URLS+=("$SITE_ORIGIN/en/docs/$slug")
             fi
           done <<< "$CHANGED_DOCS"
 
           mapfile -t URLS < <(printf "%s\n" "${URLS[@]}" | awk 'NF' | sort -u)
 
           if [ "${#URLS[@]}" -eq 0 ]; then
-            URLS=("$SITE_ORIGIN/")
+            # 没有 docs 改动时（例如改 README / 配置等）仍提交首页让 Bing/Yandex
+            # 知道站点活跃。i18n 段化后首页有两个 URL，分别推送。
+            URLS=("$SITE_ORIGIN/zh" "$SITE_ORIGIN/en")
           fi
 
           echo "✅ Submitting URLs to IndexNow:"

@@ -10,7 +10,8 @@ on:
       - "**/*.md"
       - "**/*.mdx"
       - "source.config.ts"
-      - "app/docs/**"
+      # 2026-05 i18n URL 段化：mdx 内容从 app/docs/ 迁到 content/docs/
+      - "content/docs/**"
       - "data/**"
       - "tests/**"
       - "lib/source.ts"

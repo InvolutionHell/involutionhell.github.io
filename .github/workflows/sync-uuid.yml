@@ -22,7 +22,8 @@ on:
       - main
       - feat/contributor
     paths:
-      - "app/docs/**"
+      # 2026-05 i18n URL 段化：mdx 内容从 app/docs/ 迁到 content/docs/
+      - "content/docs/**"
       - "scripts/uuid.mjs"
       - "scripts/backfill-contributors.mjs"
       - "package.json"
@@ -146,10 +147,10 @@ jobs:
             # 只 commit MDX frontmatter 改动 + 生成的 JSON，不包含任何其他脏文件。
             # [skip ci] 防止自提交再次触发本 workflow 死循环。
             # ============================================================
-            if ! git diff --quiet -- 'app/docs/**/*.md' 'app/docs/**/*.mdx' generated/doc-contributors.json; then
+            if ! git diff --quiet -- 'content/docs/**/*.md' 'content/docs/**/*.mdx' generated/doc-contributors.json; then
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git add 'app/docs/**/*.md' 'app/docs/**/*.mdx' generated/doc-contributors.json
+              git add 'content/docs/**/*.md' 'content/docs/**/*.mdx' generated/doc-contributors.json
               git commit -m "chore(docs): sync doc metadata [skip ci]"
               git push origin "$BRANCH"
             else
