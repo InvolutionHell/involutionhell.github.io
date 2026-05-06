@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://involutionhell.com">
+  <a href="https://involutionhell.com/?utm_source=github&utm_medium=readme&utm_campaign=logo">
     <picture>
       <!-- Dark mode logo -->
       <source media="(prefers-color-scheme: dark)" srcset="./public/logo/logoInDark.svg">
@@ -21,7 +21,7 @@
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
   <img alt="Vercel" src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
   <a href="https://github.com/InvolutionHell/involutionhell/blob/main/LICENSE">
-  <a href="https://involutionhell.com">
+  <a href="https://involutionhell.com/?utm_source=github&utm_medium=readme&utm_campaign=badge">
     <img src="https://img.shields.io/badge/Website-involutionhell.com-blue?style=for-the-badge" alt="Official Website">
   </a>
 </p>

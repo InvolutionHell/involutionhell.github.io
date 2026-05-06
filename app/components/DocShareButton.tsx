@@ -20,7 +20,12 @@ export function DocShareButton() {
   }, []);
 
   const handleCopy = async () => {
-    const url = window.location.href;
+    // 用户点"复制链接"必然是要发到外面（DC/微信/X）
+    // 给链接打上 UTM，回流时能在 GA Source 维度看到 doc_share，区别于 (direct)
+    const target = new URL(window.location.href);
+    target.searchParams.set("utm_source", "doc_share");
+    target.searchParams.set("utm_medium", "user_share");
+    const url = target.toString();
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
