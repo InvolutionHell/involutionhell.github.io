@@ -83,6 +83,15 @@ jobs:
           # 文件命名约定（fumadocs dot parser）：
           #   xxx.mdx        → 默认 (zh) 原文，slug = xxx
           #   xxx.en.mdx     → en 翻译，slug = xxx（去 .en 后缀提 base slug）
+          #
+          # 例外：career/interview-prep/leetcode/ 下含中文的文件名会被
+          # lib/source.ts 的 transformer 拼音化（convertSlugToPinyin），
+          # 实际路由的最后一段是拼音 slug 而不是中文 stem。这里复用
+          # generated/leetcode-slug-map.json （prebuild 时由
+          # scripts/generate-leetcode-slug-map.mts 与 source.ts 同算法生成）
+          # 把中文 stem 映射到拼音 slug，否则推送的 URL 会 404。
+          LEETCODE_PREFIX="career/interview-prep/leetcode/"
+          SLUG_MAP_FILE="generated/leetcode-slug-map.json"
           URLS=()
 
           while IFS= read -r f; do
@@ -94,6 +103,17 @@ jobs:
               slug="${slug%.zh}"
               # index.mdx 对应目录本身的 URL（fumadocs 约定）
               slug="${slug%/index}"
+
+              # leetcode 中文 stem → 拼音 slug 映射（与 source.ts transformer 一致）
+              if [[ "$slug" == "$LEETCODE_PREFIX"* && -f "$SLUG_MAP_FILE" ]]; then
+                stem="${slug##*/}"
+                dir="${slug%/*}"
+                mapped="$(jq -r --arg k "$stem" '.[$k] // empty' "$SLUG_MAP_FILE")"
+                if [ -n "$mapped" ]; then
+                  slug="$dir/$mapped"
+                fi
+              fi
+
               URLS+=("$SITE_ORIGIN/zh/docs/$slug")
               URLS+=("$SITE_ORIGIN/en/docs/$slug")
             fi
