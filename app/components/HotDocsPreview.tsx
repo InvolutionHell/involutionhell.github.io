@@ -1,5 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
 interface TopDocDto {
   path: string;
@@ -7,44 +10,9 @@ interface TopDocDto {
   views: number;
 }
 
-async function fetchTopDocs(): Promise<TopDocDto[]> {
-  const backendUrl = process.env.BACKEND_URL;
-  if (!backendUrl) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        "[HotDocsPreview] BACKEND_URL 未配置，跳过 Top Docs 请求。本地请在 .env.local 设置。",
-      );
-    }
-    return [];
-  }
-  try {
-    const res = await fetch(
-      `${backendUrl}/analytics/top-docs?window=7d&limit=5`,
-      {
-        next: { revalidate: 300 },
-        // UA 必须带 "InvolutionHell-SSR" token，否则 Cloudflare Bot Fight Mode
-        // 会按 Vercel runner IP 信誉判定为 bot 拦截（CF Custom Rule 用这个
-        // token 识别"自己人"放行）。其他 SSR fetcher（fetchProfile / events /
-        // feed）都已经带，唯独本组件之前漏了导致首页 "本周最热" 一直空。
-        headers: {
-          accept: "application/json",
-          "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
-        },
-      },
-    );
-    if (!res.ok) return [];
-    const json = await res.json();
-    return Array.isArray(json?.data) ? json.data : [];
-  } catch {
-    return [];
-  }
-}
-
 /**
  * HotDocsPreview 的骨架屏。
- * 在首页被 <Suspense> 包裹时作为 fallback，让页面 shell 先 stream 给浏览器，
- * 等后端 /analytics/top-docs 返回后再替换成真实内容。
- * 结构刻意贴合真组件（同样的 5 行 + 标题栏），避免 CLS。
+ * 数据加载期间显示，避免 CLS（结构刻意贴合真组件，5 行 + 标题栏）。
  */
 export function HotDocsPreviewSkeleton() {
   return (
@@ -76,9 +44,39 @@ export function HotDocsPreviewSkeleton() {
   );
 }
 
-export async function HotDocsPreview() {
-  const docs = await fetchTopDocs();
-  const t = await getTranslations("hotDocs");
+/**
+ * HotDocsPreview - 首页 "本周最热" 文档榜。
+ *
+ * 客户端化（i18n 改造收尾，2026-05）：
+ *   原来是 async server component（await fetchTopDocs + getTranslations），
+ *   server fetch 让首页 RSC tree 整体 ƒ Dynamic。改 client 后：
+ *   - 数据走 /api/public/top-docs（revalidate=300 ISR + 浏览器 5min 缓存）
+ *   - 翻译用 next-intl 的 useTranslations（client hook）
+ *   - 首屏先显示 Skeleton，hydrate 后 fetch + 替换为真实内容（不影响 LCP）
+ */
+export function HotDocsPreview() {
+  const t = useTranslations("hotDocs");
+  const [docs, setDocs] = useState<TopDocDto[] | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/public/top-docs", { cache: "force-cache" })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: TopDocDto[]) => {
+        if (!cancelled) setDocs(data);
+      })
+      .catch(() => {
+        if (!cancelled) setDocs([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // fetch 未完成：渲染 Skeleton（与 Suspense fallback 同形态）
+  if (docs === null) {
+    return <HotDocsPreviewSkeleton />;
+  }
 
   return (
     <div className="border border-[var(--foreground)] p-6 bg-[var(--background)]">

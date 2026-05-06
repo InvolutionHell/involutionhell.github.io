@@ -1,17 +1,23 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { fetchHomepageEvents, type HomepageEvent } from "@/lib/events-fetch";
+import type { HomepageEvent } from "@/lib/events-fetch";
 
 /**
  * 首页顶部活动轮播。
  *
  * 数据源：后端 /api/events（管理员在 /admin/events 维护）。
- * 后端失败时返回空数组，组件 return null 不渲染轮播（整条不显示）。
  *
- * 为什么是 Server Component：
- * - 没有交互状态（纯 CSS 跑马灯动画）
- * - SSR 时已经能拿到数据，避免 client fetch 造成首屏闪烁
- * - revalidate: 300 让 Neon 压力稳定在每 5min 一次 SSR
+ * 为什么是 Client Component（i18n 改造收尾，2026-05）：
+ *   原来是 async server component，server fetch 让首页 page.tsx 整页变 ƒ
+ *   Dynamic（任何 server fetch 都阻挡 SSG）。改 client + 自家 ISR 代理后：
+ *   - 首页 page.tsx 可以纯静态预渲染，Vercel CPU 归零
+ *   - 数据走 /api/public/homepage-events（revalidate=300，5min 缓存）
+ *   - 浏览器拿到 304 命中本地缓存，不打 Vercel Function
+ *   - 首屏没有 ticker（events 还在 fetch），hydrate 后出现，不影响 LCP
+ *     （ticker 不是 LCP 元素）
  */
 
 const MAX_ITEMS = 3;
@@ -21,9 +27,23 @@ type ActivityTickerProps = {
   className?: string;
 };
 
-export async function ActivityTicker({ className }: ActivityTickerProps) {
-  const all = await fetchHomepageEvents();
-  const events = all.slice(0, MAX_ITEMS);
+export function ActivityTicker({ className }: ActivityTickerProps) {
+  const [events, setEvents] = useState<HomepageEvent[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/public/homepage-events", { cache: "force-cache" })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: HomepageEvent[]) => {
+        if (!cancelled) setEvents(data.slice(0, MAX_ITEMS));
+      })
+      .catch(() => {
+        // 静默失败：ticker 不显示比报错更友好
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   if (events.length === 0) return null;
 
