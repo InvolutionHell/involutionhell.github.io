@@ -1,49 +1,57 @@
 import { NextResponse, type NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
 import leetcodeSlugMap from "@/generated/leetcode-slug-map.json";
+import { routing } from "@/i18n/routing";
 
 /**
- * Leetcode 旧 URL / 中文 slug 301 到拼音 slug 的新路径。
+ * Edge proxy（Next.js 16 旧称 middleware）。
  *
- * 背景：
- *   lib/source.ts 的 transformer 把 career/interview-prep/leetcode/ 下含中文的文件名转成拼音 slug。
- *   但 GSC 旧索引里存着 /docs/CommunityShare/Leetcode/<中文原文件名> 的 URL，
- *   next.config.mjs 的 wildcard 只做前缀替换，没做 slug 拼音化，跳过去依然 404。
- *   在这里用构建时生成的 slug map 做 O(1) 查表，单跳 301 到正确拼音 URL。
+ * 职责：
+ *   1. Leetcode 老 URL / 中文 slug 优先做 301 到拼音 slug（必须排在 i18n
+ *      逻辑前，否则会先被 next-intl 加 locale 前缀，破坏 SLUG_MAP 命中）
+ *   2. 其它请求交给 next-intl 中间件处理 locale 检测 + URL prefix
  *
- * 覆盖的请求形态：
- *   1. /docs/CommunityShare/Leetcode/<中文 slug>            → 拼音新路径
- *   2. /docs/CommunityShare/Leetcode/<拼音或纯 ASCII slug>  → 新路径同 slug（兼容老收藏）
- *   3. /docs/career/interview-prep/leetcode/<中文 slug>      → 同目录拼音 slug（防止用户手抖）
- *
- * 为什么不走 next.config 的 redirects：
- *   path-to-regexp 对方括号 / 空格 / 中文的处理不稳，不如 middleware 字面匹配可靠。
+ * i18n 改造（2026-05）变化：
+ *   - 旧版自己写 IP geo + Accept-Language + cookie 写入逻辑
+ *   - next-intl 的 createMiddleware 已经原生支持 Accept-Language 协商 +
+ *     NEXT_LOCALE cookie 持久化，不需要重复造轮子，所以删掉旧逻辑
+ *   - URL 段化后，匹配规则 matcher 也得放宽到全站（不限于 /docs/:path*）
  */
-// 用 Map 而不是 plain object，杜绝 __proto__ / constructor 这类原型链 key 被当成命中
-// 导致 redirect 目标异常（例如 mapped 返回 Object 构造函数）。
+
 const SLUG_MAP = new Map<string, string>(
   Object.entries(leetcodeSlugMap as Record<string, string>),
 );
-const LEETCODE_NEW_BASE = "/docs/career/interview-prep/leetcode";
-const LEETCODE_OLD_BASE = "/docs/CommunityShare/Leetcode";
+
+// 既要兼容老的不带 locale 前缀的 URL（/docs/...），也要兼容已经带 locale 的
+// （/zh/docs/... 或 /en/docs/...）。
+const LEETCODE_PATH_TAIL = "/docs/career/interview-prep/leetcode";
+const LEETCODE_OLD_PATH_TAIL = "/docs/CommunityShare/Leetcode";
+
+const intlMiddleware = createMiddleware(routing);
 
 function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
   const { pathname } = req.nextUrl;
 
+  // 同时识别带 locale 段（/:locale/docs/...）和不带的（/docs/...）
+  const localePrefixMatch = pathname.match(/^\/(zh|en)(\/.*)$/);
+  const stripped = localePrefixMatch ? localePrefixMatch[2] : pathname;
+  const localePrefix = localePrefixMatch ? `/${localePrefixMatch[1]}` : "";
+
   let baseMatched: "old" | "new" | null = null;
   let rest = "";
-  if (pathname.startsWith(LEETCODE_OLD_BASE + "/")) {
+  if (stripped.startsWith(LEETCODE_OLD_PATH_TAIL + "/")) {
     baseMatched = "old";
-    rest = pathname.slice(LEETCODE_OLD_BASE.length + 1);
-  } else if (pathname.startsWith(LEETCODE_NEW_BASE + "/")) {
+    rest = stripped.slice(LEETCODE_OLD_PATH_TAIL.length + 1);
+  } else if (stripped.startsWith(LEETCODE_PATH_TAIL + "/")) {
     baseMatched = "new";
-    rest = pathname.slice(LEETCODE_NEW_BASE.length + 1);
+    rest = stripped.slice(LEETCODE_PATH_TAIL.length + 1);
   } else {
     return null;
   }
 
   if (!rest) return null;
 
-  // Next.js pathname 已经 decode，但保险起见再 decode 一次，兼容爬虫可能发来的二次编码
+  // pathname 已 decode，再 decode 一次防爬虫二次编码
   let rawSlug: string;
   try {
     rawSlug = decodeURIComponent(rest);
@@ -57,70 +65,25 @@ function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
   // 新路径 + ASCII slug 命中原样：放行，不绕圈
   if (baseMatched === "new" && !mapped) return null;
 
-  // 新路径 + 中文 slug / 旧路径任意 slug：301 到新路径 + 拼音（或原 ASCII）slug
+  // 否则 301 到（带 locale 前缀的）拼音 URL
   const url = req.nextUrl.clone();
-  url.pathname = `${LEETCODE_NEW_BASE}/${targetSlug}`;
+  url.pathname = `${localePrefix}${LEETCODE_PATH_TAIL}/${targetSlug}`;
   return NextResponse.redirect(url, 301);
 }
 
-/**
- * IP geo 判断默认 locale，并写入 cookie 供 Server Component 读取。
- *
- * 优先级：
- *   1. 已有 locale cookie → 尊重用户选择，直接放行
- *   2. Vercel edge runtime 的 request.geo.country（免费，无需第三方服务）
- *   3. Accept-Language header 兜底
- *   4. 以上均无法判断 → 默认 zh（文档主体语言）
- *
- * cookie 有效期 1 年，用户在 /settings 页切换语言时会覆盖此 cookie。
- */
 export function proxy(req: NextRequest) {
-  // Leetcode 老 URL / 中文 slug 优先做 301，避免后续 locale 逻辑给 404 页种 cookie
+  // 1. Leetcode 中文 slug 优先做 301
   const leetcodeRedirect = redirectLeetcodeIfNeeded(req);
   if (leetcodeRedirect) return leetcodeRedirect;
 
-  // 用户已选过语言，尊重选择不覆盖
-  if (req.cookies.get("locale")) {
-    return NextResponse.next();
-  }
-
-  const country =
-    (req as NextRequest & { geo?: { country?: string } }).geo?.country ?? "";
-  const acceptLang = req.headers.get("accept-language") ?? "";
-
-  // 解析 Accept-Language header 按 q 值排序的优先级列表
-  // 例如 "fr-CA,fr;q=0.9,en;q=0.8,zh;q=0.5" → [fr-CA, fr, en, zh]
-  // 之前只 startsWith 判断会忽略 q 值较低但明确列出的语言。
-  const preferred = acceptLang
-    .split(",")
-    .map((part) => {
-      const [tag, ...params] = part.trim().split(";");
-      const qParam = params.find((p) => p.trim().startsWith("q="));
-      const q = qParam ? parseFloat(qParam.slice(2)) : 1;
-      return { tag: tag.toLowerCase(), q: Number.isFinite(q) ? q : 0 };
-    })
-    .filter((item) => item.tag)
-    .sort((a, b) => b.q - a.q);
-
-  const firstMatch = preferred.find((item) =>
-    /^(en|zh)(-|$)/.test(item.tag),
-  )?.tag;
-
-  // 默认中文；只有 Accept-Language 首选为英文且非中国 IP 才切 en
-  const isExplicitlyEnglish =
-    firstMatch?.startsWith("en") === true && country !== "CN";
-  const locale = isExplicitlyEnglish ? "en" : "zh";
-
-  const res = NextResponse.next();
-  res.cookies.set("locale", locale, {
-    maxAge: 60 * 60 * 24 * 365,
-    path: "/",
-    sameSite: "lax",
-  });
-  return res;
+  // 2. 其它请求交给 next-intl 处理 locale routing
+  return intlMiddleware(req);
 }
 
 export const config = {
-  // 只匹配文档页，不需要对 API 路由、静态文件等运行 geo 判断
-  matcher: ["/docs/:path*"],
+  // Match all pathnames except for
+  // - api / trpc：API 路由不进 i18n（无 UI，纯 fetch）
+  // - _next / _vercel：Next.js 内部
+  // - .*\..*：任何带 . 的路径（静态资源 / sitemap.xml / robots.txt 等）
+  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
 };

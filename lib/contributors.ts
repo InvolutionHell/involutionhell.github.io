@@ -41,7 +41,9 @@ for (const result of contributorsDataset.results) {
 
 function normalizeRelativePath(relativePath: string): string {
   const cleaned = relativePath.replace(/^\/+/, "").replace(/\\/g, "/");
-  return `app/docs/${cleaned}`;
+  // 历史路径是 "app/docs"；2026-05 i18n 改造把内容迁到 content/docs。
+  // contributors 库按 file path 索引，路径 prefix 必须与仓库实际结构一致。
+  return `content/docs/${cleaned}`;
 }
 
 export function getContributorsDataset(): ContributorsDataset {

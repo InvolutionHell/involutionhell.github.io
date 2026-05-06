@@ -3,70 +3,31 @@
 /**
  * Header 里的语言切换按钮（匿名也能用）。
  *
- * 为什么要做：
- *   之前切语言的唯一入口在 /settings 页面，UserMenu 里只有登录用户能看到。
- *   访客看到的永远是默认 zh，站点对英语用户非常不友好。
+ * i18n URL 段化改造后实现变化：
+ *   旧版：写 cookie + router.refresh() —— 依赖 RSC 重新读 cookie 切语言，
+ *         代价是全站 RSC 永远 dynamic。
+ *   新版：用 next-intl/navigation 的 useRouter，直接 router.replace 到
+ *         另一个 locale 的同一 pathname，URL 段切换 → next-intl 中间件
+ *         同时同步 cookie + html lang。整站 RSC 可静态化。
  *
- * 实现：
- *   - 写 locale=zh|en 到 document.cookie（path=/，一年有效期，samesite=lax）
- *     字段和格式与 SettingsForm 完全一致，登录用户在设置页改的偏好仍然生效
- *   - 切完 router.refresh() 让 SSR 重新渲染，server component（Hero / docs
- *     详情页等）从 cookie 读新 locale 切文案
- *   - 简单的 ZH / EN 双字母展示，当前语言高亮；button 尺寸与 ThemeToggle 对齐
+ * 显示：双字母 ZH / EN，当前语言高亮；尺寸与 ThemeToggle 对齐。
  */
 
-import { useSyncExternalStore } from "react";
-import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
+import { useRouter, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-
-type Locale = "zh" | "en";
-
-// 自定义事件名：toggle 点击后 dispatch，通知 useSyncExternalStore 重新读取 cookie
-const LOCALE_EVENT = "locale-toggle-change";
-
-function readLocaleCookie(): Locale {
-  if (typeof document === "undefined") return "zh";
-  const m = document.cookie.match(/(?:^|;\s*)locale=([^;]+)/);
-  const v = m?.[1];
-  return v === "en" ? "en" : "zh";
-}
-
-function writeLocaleCookie(next: Locale) {
-  // 一年；samesite=lax 够用（这个 cookie 不涉及跨站 POST）
-  document.cookie = `locale=${next};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`;
-}
-
-// 订阅 LOCALE_EVENT，toggle 时主动 dispatch 让 useSyncExternalStore 重新读 cookie
-function subscribeLocale(callback: () => void) {
-  if (typeof window === "undefined") return () => {};
-  window.addEventListener(LOCALE_EVENT, callback);
-  return () => window.removeEventListener(LOCALE_EVENT, callback);
-}
-
-const emptySubscribe = () => () => {};
+import type { Locale } from "@/i18n/routing";
 
 export function LocaleToggle() {
+  const locale = useLocale() as Locale;
   const router = useRouter();
-  // 用 useSyncExternalStore 替代 useEffect+setState：SSR 返回 "zh"，客户端读 cookie
-  const locale = useSyncExternalStore<Locale>(
-    subscribeLocale,
-    () => readLocaleCookie(),
-    () => "zh",
-  );
-  // ready 表示已 hydrate 到客户端，可以按真实 locale 高亮
-  const ready = useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false,
-  );
+  const pathname = usePathname();
 
   const toggle = () => {
     const next: Locale = locale === "zh" ? "en" : "zh";
-    writeLocaleCookie(next);
-    // 通知所有订阅者（当前组件）重新从 cookie 读取
-    window.dispatchEvent(new Event(LOCALE_EVENT));
-    // 刷新 server component 树，重新按 cookie 渲染各页面
-    router.refresh();
+    // pathname 是去掉 locale 段后的路径，next-intl router.replace 配合
+    // locale 选项会自动加上目标 locale 前缀，并在响应里同步 NEXT_LOCALE cookie。
+    router.replace(pathname, { locale: next });
   };
 
   return (
@@ -80,13 +41,9 @@ export function LocaleToggle() {
       data-umami-event="locale_toggle"
       data-umami-event-locale={locale === "zh" ? "en" : "zh"}
     >
-      <span className={ready && locale === "zh" ? "font-bold" : "opacity-50"}>
-        ZH
-      </span>
+      <span className={locale === "zh" ? "font-bold" : "opacity-50"}>ZH</span>
       <span className="opacity-30 mx-0.5">/</span>
-      <span className={ready && locale === "en" ? "font-bold" : "opacity-50"}>
-        EN
-      </span>
+      <span className={locale === "en" ? "font-bold" : "opacity-50"}>EN</span>
     </Button>
   );
 }

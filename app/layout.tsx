@@ -1,19 +1,10 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { RootProvider } from "fumadocs-ui/provider";
 import Script from "next/script";
 import "./globals.css";
 import "katex/dist/katex.min.css";
-import { ThemeProvider } from "@/app/components/ThemeProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { UmamiIdentity } from "@/app/components/UmamiIdentity";
-import { AuthProvider } from "@/lib/use-auth";
-// import { SearchWrapper } from "@/app/components/SearchWrapper";
-import { CustomSearchDialog } from "@/app/components/CustomSearchDialog";
-import { cookies } from "next/headers";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -66,13 +57,11 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   robots: {
-    // nocache 会抑制 rich snippet / cached page，对 SEO 反而不利；移除
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      // 允许摘要长度，不要限制过短（160 char → -1 让 Google 自行判断）
       "max-image-preview": "large",
       "max-snippet": -1,
       "max-video-preview": -1,
@@ -126,18 +115,28 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+/**
+ * Root layout —— 极简版本（i18n 改造后）。
+ *
+ * 重要变化（why this rewrite）：
+ *   旧版在这里 await cookies() 读 locale，把整棵 RSC 树钉成 dynamic，
+ *   docs/首页/events 全部按需 SSR，Vercel Fluid CPU 月用 4h。
+ *   现在 root layout 完全不读 locale，所有 i18n / Theme / Auth / fumadocs
+ *   provider 都搬到 app/[locale]/layout.tsx，让 [locale] 段下走 SSG。
+ *
+ * 这里只剩：
+ *   - html / body 框架（lang 写死 zh-CN 作为 fallback；[locale]/layout
+ *     在 client 端会按当前 locale 改 documentElement.lang）
+ *   - 全站 metadata（fonts / icons / OpenGraph 等不依赖 locale）
+ *   - 全站 inline scripts（theme 防闪屏、structured data、preconnect）
+ *   - 全站 analytics（GA / Umami / Vercel Speed Insights）
+ *   - 这些都 locale-agnostic，root layout 静态渲染零依赖。
+ */
+export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  // 读取 locale cookie，选对应语言的搜索索引分片。
-  // 分片目的：规避 Vercel 单页 ISR 19.07MB 硬上限（FALLBACK_BODY_TOO_LARGE）。
-  const cookieStore = await cookies();
-  const locale = cookieStore.get("locale")?.value === "en" ? "en" : "zh";
-  const searchApi = `/search.${locale}.json`;
-  const messages = await getMessages();
-  const htmlLang = locale === "en" ? "en" : "zh-CN";
   return (
-    <html lang={htmlLang} suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -217,7 +216,6 @@ export default async function RootLayout({
         {/* 结构化数据：英文主名 + 中文 alternateName */}
         <script
           type="application/ld+json"
-          // 注意：必须在运行时插入字符串
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -240,54 +238,31 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="site-bg site-bg--stars" aria-hidden />
-        {/*
-          NextIntlClientProvider 把服务端选定的 locale 和完整 messages 传给客户端，
-          客户端组件通过 useTranslations('ns') 拿到翻译函数，保持 SSR/CSR 一致，
-          不在客户端重新读 cookie 避免水合抖动。
-        */}
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider defaultTheme="dark" storageKey="ih-theme">
-            <AuthProvider>
-              <RootProvider
-                // 禁用 fumadocs 内置的 next-themes，避免与我们自己的 ThemeProvider（storageKey: ih-theme）
-                // 同时往 <html class> 写 light/dark 导致闪烁和状态不同步
-                theme={{ enabled: false }}
-                search={{
-                  SearchDialog: CustomSearchDialog,
-                  // 使用静态索引，兼容 next export 与本地开发
-                  options: { type: "static", api: searchApi },
-                }}
-              >
-                <main id="main-content" className="relative z-10">
-                  {children}
-                </main>
-                <UmamiIdentity />
-              </RootProvider>
-            </AuthProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
-        {/* 谷歌分析 */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-ED4GVN8YVW"
-          strategy="lazyOnload"
-        />
-        <Script id="gtag-init" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-ED4GVN8YVW');
-          `}
-        </Script>
-        {/* Umami Analytics */}
-        <Script
-          defer
-          src="https://umami.involutionhell.com/script.js"
-          data-website-id="f3aeb896-50b7-4a5d-b37c-270550678c63"
-          strategy="lazyOnload"
-        />
-        {/* User Identification */}
-        {/* moved inside SessionProvider */}
+        {children}
+        {/* 谷歌分析 / Umami：仅 production 加载，避免 dev 环境污染数据
+            （之前 GA Referral 看到 localhost:3010 就是 next dev 在打 prod 同一个 G-ID） */}
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=G-ED4GVN8YVW"
+              strategy="lazyOnload"
+            />
+            <Script id="gtag-init" strategy="lazyOnload">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-ED4GVN8YVW');
+              `}
+            </Script>
+            <Script
+              defer
+              src="https://umami.involutionhell.com/script.js"
+              data-website-id="f3aeb896-50b7-4a5d-b37c-270550678c63"
+              strategy="lazyOnload"
+            />
+          </>
+        )}
         {/* 性能分析 */}
         <SpeedInsights />
       </body>

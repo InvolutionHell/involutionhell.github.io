@@ -152,7 +152,8 @@ export async function POST(req: Request) {
           } else {
             const fullFilePath = path.join(
               process.cwd(),
-              "app/docs",
+              // 2026-05 i18n 改造：mdx 内容从 app/docs 迁到 content/docs
+              "content/docs",
               page.path,
             );
             const rawContent = await fs.readFile(fullFilePath, "utf-8");
