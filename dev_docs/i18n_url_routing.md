@@ -213,6 +213,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 5. **layout.tsx 嵌套时也要调 `setRequestLocale`**。Next.js 独立渲染 layout
    和 page；page 调了 layout 没调照样退化 dynamic。每层都要补。
 
+## 加新 backend rewrite（next.config.mjs）
+
+**⚠️ 任何不带 `/api/` 前缀的 rewrite source，都要同步更新 `proxy.ts` 的
+matcher 排除组**，否则 next-intl middleware 会把请求 redirect 到
+`/<locale>/<your-path>/...`，rewrite source 不匹配带 locale 的 URL，落到
+`[locale]/<your-path>/...` 404。
+
+历史事故（PR #335）：`/oauth/render/github` 被 redirect 到
+`/en/oauth/render/github`，登录炸了 3 分钟。
+
+正确流程：
+
+```ts
+// 1. next.config.mjs
+async rewrites() {
+  return [
+    { source: "/foobar/:path*", destination: `${backendUrl}/foobar/:path*` },
+  ];
+}
+
+// 2. proxy.ts ← 必须同步加 foobar 到排除组
+matcher: "/((?!api|trpc|auth|oauth|analytics|foobar|_next|_vercel|.*\\..*).*)",
+```
+
+`tests/proxy-matcher.test.ts` 静态扫 `next.config.mjs` 所有 rewrite source，
+对每个第一段路径 verify 它在 matcher 排除组里；忘了同步会 CI fail。
+
 ## 切换语言
 
 `<LocaleToggle />` 用 next-intl 的 `useRouter().replace(pathname, { locale })`。
