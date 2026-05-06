@@ -58,6 +58,15 @@ export function EventForm({ initial }: Props) {
       status: (fd.get("status") as EventStatus) ?? "draft",
     };
 
+    // endTime > startTime 客户端校验（issue #302 P2-1）。
+    // 后端有相同校验作为权威，前端这层是防止管理员在 UI 上明显手抖。
+    // 两个 ISO 字符串字典序与时间序一致，可以直接 string compare。
+    if (req.startTime && req.endTime && req.endTime <= req.startTime) {
+      setError("结束时间必须晚于开始时间");
+      setSubmitting(false);
+      return;
+    }
+
     try {
       if (initial) {
         await updateEvent(initial.id, req);
