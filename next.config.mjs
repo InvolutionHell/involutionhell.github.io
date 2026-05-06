@@ -1,7 +1,17 @@
 ﻿// next.config.mjs
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { createMDX } from "fumadocs-mdx/next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { withSentryConfig } from "@sentry/nextjs";
+
+// Next.js 16 detects multi-lockfile environments by searching upward for
+// pnpm-lock.yaml / package-lock.json / yarn.lock. 当父目录意外有 lockfile
+// 时（如开发服务器上 /home/ubuntu/package-lock.json），Next 会把 workspace
+// root 推到上层，turbopack 跟着到错的目录解析 node_modules，
+// 触发 "Can't resolve 'tailwindcss'" 之类报错。
+// 显式锁定到 frontend 自己目录，turbopack + outputFileTracing 双保险。
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * IMPORTANT: remarkImage 配置已移至 source.config.ts 统一管理
@@ -22,6 +32,12 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  // 强制锁定 turbopack 和 SSR file tracing 的根目录到 frontend/ 自己，
+  // 避免上层意外 lockfile 把 root 推错（详见文件顶部注释）。
+  turbopack: {
+    root: projectRoot,
+  },
+  outputFileTracingRoot: projectRoot,
   /**
    * docs 目录整理产生的 URL 变化 → 301 重定向。
    *
