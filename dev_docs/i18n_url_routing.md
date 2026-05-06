@@ -143,6 +143,76 @@ frontmatter 不需要写 `lang` 字段。fumadocs 按文件名后缀识别。
 `lib/source.ts` 配 `fallbackLanguage: "zh"`：访问 `/en/docs/<slug>` 但 `.en.mdx`
 不存在时，自动渲染原文（zh）。文档站合理体验（缺译显示中文 > 显示空白）。
 
+## 加新 user-facing 路由
+
+新建 page 时直接抄这个 boilerplate，就能保证 SSG + i18n 同时正确：
+
+```tsx
+// app/[locale]/<your-route>/page.tsx
+import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+// 没 server fetch 才能加 force-static；如果 page 里有 await fetch(...)
+// 就别加（会和 fetch 冲突报错），靠 setRequestLocale 也能让 RSC 静态化。
+export const dynamic = "force-static";
+
+export default async function Page({ params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale); // ← 必须，且必须排在任何 next-intl hook 之前
+
+  // ... 业务逻辑
+  return <div>...</div>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
+  return {
+    alternates: {
+      canonical: `/${locale}/<your-route>`,
+      languages: {
+        "zh-CN": "/zh/<your-route>",
+        "en-US": "/en/<your-route>",
+        "x-default": "/zh/<your-route>",
+      },
+    },
+  };
+}
+```
+
+**几条容易踩的坑**：
+
+1. **`setRequestLocale` 必须在第一位**。排在 `useTranslations` / `getMessages`
+   / `getTranslations` 之前。否则 next-intl 会回退到从 cookies/headers 推断
+   locale，整页变 dynamic。
+2. **导航 API 用 `@/i18n/navigation` 而不是 `next/navigation`**。在 [locale]
+   段下的客户端组件如果 `import { useRouter } from 'next/navigation'`，
+   `router.push("/foo")` 会跳到 `/foo` 而不是 `/<locale>/foo`，丢 locale 段。
+   ```tsx
+   // ✅ 正确
+   import { useRouter, Link } from "@/i18n/navigation";
+   // ❌ 错误（在 [locale] 段下不要用）
+   import { useRouter } from "next/navigation";
+   import Link from "next/link";
+   ```
+3. **components 在 `app/components/`（不在 [locale] 下）**。组件本身不需要
+   locale 段，导入用 `@/app/components/X`。
+4. **server fetch 让 page 退回 dynamic**。如果非要 fetch backend，参考首页
+   的做法：建一个 `/api/public/<x>` ISR 代理（revalidate=300），组件改 client
+   useEffect fetch，page 本身保持纯静态。
+5. **layout.tsx 嵌套时也要调 `setRequestLocale`**。Next.js 独立渲染 layout
+   和 page；page 调了 layout 没调照样退化 dynamic。每层都要补。
+
 ## 切换语言
 
 `<LocaleToggle />` 用 next-intl 的 `useRouter().replace(pathname, { locale })`。

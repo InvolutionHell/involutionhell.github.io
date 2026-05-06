@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
@@ -40,4 +41,34 @@ export default async function HomePage({ params }: Props) {
       <FloatWindow />
     </>
   );
+}
+
+/**
+ * 首页 metadata：覆盖 root layout 的 alternates。
+ *
+ * canonical 指向当前 locale 的首页（/zh 或 /en），让两个 locale 各自有独立
+ * 的 canonical URL，避免 Google 把它们当成重复内容互相争 PageRank。
+ *
+ * languages（hreflang）三向声明，告诉 Google 同一首页的另一语言版本在哪。
+ */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
+  return {
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        "zh-CN": "/zh",
+        "en-US": "/en",
+        "x-default": "/zh",
+      },
+    },
+    openGraph: {
+      url: `/${locale}`,
+      locale: locale === "en" ? "en_US" : "zh_CN",
+      alternateLocale: locale === "en" ? ["zh_CN"] : ["en_US"],
+    },
+  };
 }
