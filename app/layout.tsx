@@ -53,8 +53,18 @@ export const metadata: Metadata = {
   creator: "longsizhuo",
   publisher: "Involution Hell",
   category: "Technology",
+  // alternates 是 fallback，被 [locale] 段下的 generateMetadata 覆盖。
+  // 默认 canonical 指 /zh（默认 locale 首页），不指 / 因为根路径会被
+  // next-intl middleware 308 redirect，搜索引擎索引到 /zh 更直接。
+  // languages 同时声明 hreflang，让 root metadata 应用到不在 [locale]
+  // 下的路径（如 /sitemap.xml 详情页 fallback 时）也能正确给出语言关系。
   alternates: {
-    canonical: "/",
+    canonical: "/zh",
+    languages: {
+      "zh-CN": "/zh",
+      "en-US": "/en",
+      "x-default": "/zh",
+    },
   },
   robots: {
     index: true,
