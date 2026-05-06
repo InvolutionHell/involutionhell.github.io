@@ -83,7 +83,11 @@ export function proxy(req: NextRequest) {
 export const config = {
   // Match all pathnames except for
   // - api / trpc：API 路由不进 i18n（无 UI，纯 fetch）
+  // - auth / oauth / analytics：next.config rewrites 直通后端的路径
+  //   （登录 / OAuth / 埋点）。被 next-intl 加了 locale 前缀后，
+  //   rewrite source（/oauth/:path*）不匹配带 locale 的版本（/en/oauth/...），
+  //   落到 [locale]/oauth/... 404。所以必须排除掉，让请求直接走 rewrite。
   // - _next / _vercel：Next.js 内部
   // - .*\..*：任何带 . 的路径（静态资源 / sitemap.xml / robots.txt 等）
-  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
+  matcher: "/((?!api|trpc|auth|oauth|analytics|_next|_vercel|.*\\..*).*)",
 };
