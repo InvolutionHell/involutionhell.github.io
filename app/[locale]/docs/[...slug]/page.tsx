@@ -1,4 +1,5 @@
 import { source } from "@/lib/source";
+import { safeJsonLdString } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/site-url";
 import { DocsPage, DocsBody } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
@@ -104,12 +105,12 @@ export default async function DocPage({ params }: Param) {
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdString(articleJsonLd) }}
       />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdString(breadcrumbJsonLd) }}
       />
       <DocsPage toc={page.data.toc}>
         <DocsBody>
