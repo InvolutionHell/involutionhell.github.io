@@ -18,6 +18,7 @@ const geistMono = localFont({
 });
 
 import { SITE_URL } from "@/lib/site-url";
+import { safeJsonLdString } from "@/lib/json-ld";
 const en_description =
   "内卷地狱（Involution Hell）是一个由开发者发起的开源学习社区，专注算法、系统设计、工程实践与技术分享，帮助华人程序员高效成长，专注真实进步。Involution Hell is an open-source community empowering builders with real-world engineering.";
 
@@ -205,7 +206,7 @@ export default function RootLayout({
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLdString({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "Involution Hell",
@@ -227,7 +228,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLdString({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Involution Hell",

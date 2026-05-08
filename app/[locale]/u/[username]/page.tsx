@@ -17,6 +17,7 @@ import { GithubRepos, GithubReposSkeleton } from "./GithubRepos";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { sanitizeExternalUrl } from "@/lib/url-safety";
+import { safeJsonLdString } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/site-url";
 
 interface UserView {
@@ -367,7 +368,7 @@ export default async function UserProfilePage({ params }: Param) {
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdString(personJsonLd) }}
       />
       <Header />
       <main className="pt-32 pb-16 bg-[var(--background)] min-h-screen">
