@@ -1,7 +1,7 @@
 /**
  * 把任意对象序列化为可安全嵌入 <script type="application/ld+json"> 的字符串。
  *
- * 安全不变量 INV-FE-001（见 frontend/SECURITY.md）：
+ * 安全不变量 INV-FE-001（见 SECURITY.md）：
  * 所有 dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} 必须改用本函数。
  *
  * 攻击场景：用户在可控字段（bio / displayName 等 user-generated 字段）填入
@@ -17,7 +17,15 @@
  * ECMAScript 源码上下文会被识别为行终止符破坏外层 JS 语法——defense-in-depth。
  */
 export function safeJsonLdString(payload: unknown): string {
-  return JSON.stringify(payload)
+  let serialized: string | undefined;
+
+  try {
+    serialized = JSON.stringify(payload);
+  } catch {
+    serialized = "null";
+  }
+
+  return (serialized ?? "null")
     .replace(/</g, "\\u003c")
     .replace(/>/g, "\\u003e")
     .replace(/&/g, "\\u0026")

