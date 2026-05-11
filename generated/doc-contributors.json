@@ -1,6 +1,6 @@
 {
   "repo": "InvolutionHell/involutionhell",
-  "generatedAt": "2026-05-08T04:25:16.186Z",
+  "generatedAt": "2026-05-11T15:39:36.193Z",
   "docsDir": "content/docs",
   "totalDocs": 153,
   "results": [
@@ -8,6 +8,7 @@
       "docId": "ld59a8z1v84ig4rlr0p0n2a9",
       "path": "content/docs/career/events/coffee-chat.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -19,6 +20,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -34,6 +43,7 @@
       "docId": "s8w3d2p5k9m4h7z1x0c2a8r6",
       "path": "content/docs/career/events/event-takeway.md",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 1,
         "114939201": 1,
         "163523387": 2
@@ -46,6 +56,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -69,9 +87,18 @@
       "docId": "crr0001index2026041800000001",
       "path": "content/docs/career/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -86,10 +113,19 @@
       "docId": "u68pjetu592c9zvs3f5xa82j",
       "path": "content/docs/career/interview-prep/bq.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -112,6 +148,7 @@
       "docId": "fkk8ghklsr15a0s3vcxnswnj",
       "path": "content/docs/career/interview-prep/interview-tips.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 3
       },
@@ -123,6 +160,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -138,6 +183,7 @@
       "docId": "w9ffo1wycpbz50051cb7lyo5",
       "path": "content/docs/career/interview-prep/leetcode/[121]买卖股票的最佳时期_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -148,6 +194,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -155,6 +209,7 @@
       "docId": "jcqhknk5z2xr3rfqn49me4j9",
       "path": "content/docs/career/interview-prep/leetcode/[1333]餐厅过滤器_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -165,6 +220,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -172,6 +235,7 @@
       "docId": "u0szm4sv8mr3on3ivbfo5r84",
       "path": "content/docs/career/interview-prep/leetcode/[146]LRU 缓存_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -182,6 +246,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -189,6 +261,7 @@
       "docId": "zuoplhoodv7tzfgku0pwzi6w",
       "path": "content/docs/career/interview-prep/leetcode/[1545]找出第 N 个二进制字符串中的第 K 位.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -199,6 +272,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -206,6 +287,7 @@
       "docId": "rv6egbynttb4mt1n0412bue0",
       "path": "content/docs/career/interview-prep/leetcode/[213]打家劫舍 II_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -216,6 +298,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -223,6 +313,7 @@
       "docId": "pe6o8l76945uo7aqv79ddhii",
       "path": "content/docs/career/interview-prep/leetcode/[2490]回环句_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -233,6 +324,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -240,6 +339,7 @@
       "docId": "naxatag8x2nnvkhbwdfc1azc",
       "path": "content/docs/career/interview-prep/leetcode/[2562]找出数组的串联值_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -250,6 +350,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -257,6 +365,7 @@
       "docId": "p9gvb8klqv990cq88j4l76zy",
       "path": "content/docs/career/interview-prep/leetcode/[2582]递枕头_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -267,6 +376,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -274,6 +391,7 @@
       "docId": "ytg2bds2dnhzw37nrb3vassy",
       "path": "content/docs/career/interview-prep/leetcode/1004_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -284,6 +402,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -292,6 +418,7 @@
       "path": "content/docs/career/interview-prep/leetcode/1234. 替换子串得到平衡字符串_translated.md",
       "contributorStats": {
         "7187663": 1,
+        "41898282": 1,
         "114939201": 6
       },
       "contributors": [
@@ -302,6 +429,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "7187663",
@@ -317,6 +452,7 @@
       "docId": "ylpucy1rbbnfpe3t62u8kcfq",
       "path": "content/docs/career/interview-prep/leetcode/142.环形链表II_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 7
       },
       "contributors": [
@@ -327,6 +463,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -334,6 +478,7 @@
       "docId": "bsf0yz1zrmlz7masrdmq8fq6",
       "path": "content/docs/career/interview-prep/leetcode/1653. 使字符串平衡的最少删除次数_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -344,6 +489,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -351,6 +504,7 @@
       "docId": "ska0npc89ja1r4pdt2qow79u",
       "path": "content/docs/career/interview-prep/leetcode/1664生成平衡数组的方案数_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -361,6 +515,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -368,6 +530,7 @@
       "docId": "n38sohi8zlxesl82tgv854kj",
       "path": "content/docs/career/interview-prep/leetcode/1825求出 MK 平均值_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -378,6 +541,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -385,6 +556,7 @@
       "docId": "chb8ee5s38v8gh751n9e5znj",
       "path": "content/docs/career/interview-prep/leetcode/1828统计一个圆中点的数目_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -395,6 +567,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -402,6 +582,7 @@
       "docId": "ksw2vic4alf1tdnnueay81g8",
       "path": "content/docs/career/interview-prep/leetcode/2131. 连接两字母单词得到的最长回文串.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -412,6 +593,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -419,6 +608,7 @@
       "docId": "k4btd9x3l3xnnl4dnr64d8cq",
       "path": "content/docs/career/interview-prep/leetcode/219_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -429,6 +619,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -436,6 +634,7 @@
       "docId": "lzrh7ftq3kegsyx8gimonrfu",
       "path": "content/docs/career/interview-prep/leetcode/2241. Design an ATM Machine.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -446,6 +645,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -453,6 +660,7 @@
       "docId": "a6inw303oslb7i5tcqj5xxx4",
       "path": "content/docs/career/interview-prep/leetcode/2270. Number of Ways to Split Array.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -463,6 +671,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -470,6 +686,7 @@
       "docId": "mssz5wgh368yp55qcvs1op5e",
       "path": "content/docs/career/interview-prep/leetcode/2293_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -480,6 +697,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -487,6 +712,7 @@
       "docId": "fxn6bn619g3a9l98l9vggpg1",
       "path": "content/docs/career/interview-prep/leetcode/2299强密码检验器II_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -497,6 +723,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -504,6 +738,7 @@
       "docId": "mc2rjsq7syibclikyhomsbft",
       "path": "content/docs/career/interview-prep/leetcode/2309兼具大小写的最好英文字母_translated.md",
       "contributorStats": {
+        "41898282": 2,
         "114939201": 5
       },
       "contributors": [
@@ -514,6 +749,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-11T15:28:00.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -521,6 +764,7 @@
       "docId": "hiqhki2z4v6oy0jstrcs7im0",
       "path": "content/docs/career/interview-prep/leetcode/2335. 装满杯子需要的最短总时长_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -531,6 +775,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -538,6 +790,7 @@
       "docId": "s3w19zdm6yhkhj4o0ba3kbal",
       "path": "content/docs/career/interview-prep/leetcode/2341. 数组能形成多少数对_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -548,6 +801,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -555,6 +816,7 @@
       "docId": "lnx1bszj5aqqqfa50sejjv7n",
       "path": "content/docs/career/interview-prep/leetcode/2639. 查询网格图中每一列的宽度_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -565,6 +827,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -572,6 +842,7 @@
       "docId": "clx9mmqqvxipdfamqciuo146",
       "path": "content/docs/career/interview-prep/leetcode/2679.矩阵中的和_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -582,6 +853,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -589,6 +868,7 @@
       "docId": "y0ntwlksnvj7ymuapqvkvmwr",
       "path": "content/docs/career/interview-prep/leetcode/2894. 分类求和并作差.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -599,6 +879,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -606,6 +894,7 @@
       "docId": "r12u8o7j73oxhbvgphi939fb",
       "path": "content/docs/career/interview-prep/leetcode/3072. 将元素分配到两个数组中 II_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 5
       },
       "contributors": [
@@ -616,6 +905,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -623,6 +920,7 @@
       "docId": "o3knuvbpnki6isfjv3g5ohau",
       "path": "content/docs/career/interview-prep/leetcode/3138. Minimum Length of Anagram Concatenation.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -633,6 +931,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -640,6 +946,7 @@
       "docId": "udm0daiek9dr22xq4doep5w4",
       "path": "content/docs/career/interview-prep/leetcode/345. 反转字符串中的元音字母_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -650,6 +957,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -657,6 +972,7 @@
       "docId": "jv8qj3ljyr2uomaehnv0l77k",
       "path": "content/docs/career/interview-prep/leetcode/42.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -667,6 +983,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -674,6 +998,7 @@
       "docId": "mxt0ux1zpbzph4nuxz51eyg7",
       "path": "content/docs/career/interview-prep/leetcode/46.全排列.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -684,6 +1009,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -691,6 +1024,7 @@
       "docId": "wen0bbo8m93oih1mx6sva9sh",
       "path": "content/docs/career/interview-prep/leetcode/538.把二叉搜索树转换为累加树_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 5
       },
       "contributors": [
@@ -701,6 +1035,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -708,6 +1050,7 @@
       "docId": "kw44if3s2zi4w2gs1gfhxvoz",
       "path": "content/docs/career/interview-prep/leetcode/6323. 将钱分给最多的儿童_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 5
       },
       "contributors": [
@@ -718,6 +1061,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -725,6 +1076,7 @@
       "docId": "l358imxaj1mmtth6dydvu54s",
       "path": "content/docs/career/interview-prep/leetcode/76最小覆盖子串_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 5
       },
       "contributors": [
@@ -735,6 +1087,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -742,6 +1102,7 @@
       "docId": "ryp6s59uwc10w2dywgs6f66h",
       "path": "content/docs/career/interview-prep/leetcode/80_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -752,6 +1113,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -759,6 +1128,7 @@
       "docId": "s0cadbu09dgu54q0zxttkx7z",
       "path": "content/docs/career/interview-prep/leetcode/9021_TUT_3_25T1.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -769,6 +1139,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -776,6 +1154,7 @@
       "docId": "d5evrnoglwjvmyginjq84bl0",
       "path": "content/docs/career/interview-prep/leetcode/93复原Ip地址.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -786,6 +1165,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -793,6 +1180,7 @@
       "docId": "axhoyzdtxoc82q58j1os57c8",
       "path": "content/docs/career/interview-prep/leetcode/994.腐烂的橘子_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 5
       },
       "contributors": [
@@ -803,6 +1191,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -810,6 +1206,7 @@
       "docId": "one7va4e0hvbq1eqhm6ww2kd",
       "path": "content/docs/career/interview-prep/leetcode/brief_alternate 作业帮忙_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -820,6 +1217,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -827,6 +1232,7 @@
       "docId": "fostlzqqx6l10qz1egd8dw5m",
       "path": "content/docs/career/interview-prep/leetcode/Counting Stars-Inter-Uni Programming Contest.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -837,6 +1243,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -844,6 +1258,7 @@
       "docId": "aslw60tfyzxqga598pt4ociu",
       "path": "content/docs/career/interview-prep/leetcode/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 5
       },
       "contributors": [
@@ -854,6 +1269,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -861,6 +1284,7 @@
       "docId": "qfvqmc1exp066falnsg97c5m",
       "path": "content/docs/career/interview-prep/leetcode/剑指 Offer II 021. 删除链表的倒数第 n 个结点_translated.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 4
       },
       "contributors": [
@@ -871,6 +1295,14 @@
           "login": "longsizhuo",
           "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
           "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         }
       ]
     },
@@ -878,6 +1310,7 @@
       "docId": "cgo4lweflk5jx1hsncr8hshk",
       "path": "content/docs/career/interview-prep/pre-interview.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -889,6 +1322,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -904,10 +1345,19 @@
       "docId": "pne40puz5alzsf0f5jb0frbm",
       "path": "content/docs/career/interview-prep/preparations-to-get-an-offer-as-a-student.mdx",
       "contributorStats": {
+        "41898282": 1,
         "90535573": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -930,10 +1380,19 @@
       "docId": "gj4bn01un0s0841berfvwrn5",
       "path": "content/docs/community/dev-tips/cloudflare-r2-sharex-free-image-hosting.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "194795025": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -956,10 +1415,19 @@
       "docId": "xqz5iiv3p52h6d9g3c0w2baf",
       "path": "content/docs/community/dev-tips/CommonUsedMarkdown.md",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -982,6 +1450,7 @@
       "docId": "tksz80mfqqyzwzzer5p3uxtg",
       "path": "content/docs/community/dev-tips/git101.mdx",
       "contributorStats": {
+        "41898282": 1,
         "88451018": 1,
         "114939201": 1,
         "163523387": 3
@@ -994,6 +1463,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1017,10 +1494,19 @@
       "docId": "jee9yt8n8tmo8yclqujerw2x",
       "path": "content/docs/community/dev-tips/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1043,10 +1529,19 @@
       "docId": "yxd2qpfl2li6092bjx8bz7vb",
       "path": "content/docs/community/dev-tips/Katex/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1069,6 +1564,7 @@
       "docId": "r0inttjcby48tly602p410vo",
       "path": "content/docs/community/dev-tips/Katex/Seb1.mdx",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 2,
         "114939201": 1
       },
@@ -1080,6 +1576,14 @@
           "login": "TSK-Glofy",
           "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
           "htmlUrl": "https://github.com/TSK-Glofy"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1095,6 +1599,7 @@
       "docId": "khcrztruqdku9fntd3dwzvwe",
       "path": "content/docs/community/dev-tips/Katex/Seb2.mdx",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 2,
         "114939201": 1
       },
@@ -1106,6 +1611,14 @@
           "login": "TSK-Glofy",
           "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
           "htmlUrl": "https://github.com/TSK-Glofy"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1121,6 +1634,7 @@
       "docId": "e6udpzrorhvgeeda6xpy1e0s",
       "path": "content/docs/community/dev-tips/picturecdn.mdx",
       "contributorStats": {
+        "41898282": 1,
         "59130571": 2,
         "114939201": 1
       },
@@ -1132,6 +1646,14 @@
           "login": "RavenCaffeine",
           "avatarUrl": "https://avatars.githubusercontent.com/u/59130571?v=4",
           "htmlUrl": "https://github.com/RavenCaffeine"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1147,10 +1669,19 @@
       "docId": "i0xmpskau105p83vq35wnxls",
       "path": "content/docs/community/dev-tips/raspberry-guide.md",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1173,6 +1704,7 @@
       "docId": "sfzt30mtx0jsuv6esnpm3w8y",
       "path": "content/docs/community/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 2,
         "114939201": 1,
         "194795025": 1
@@ -1185,6 +1717,14 @@
           "login": "TSK-Glofy",
           "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
           "htmlUrl": "https://github.com/TSK-Glofy"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1208,6 +1748,7 @@
       "docId": "m37j6a24hb9mlrm0g6jfcxop",
       "path": "content/docs/community/language/pte-intro.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 4
       },
@@ -1219,6 +1760,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1234,6 +1783,7 @@
       "docId": "jgyg6bp0nceyrxirz5qw3zsv",
       "path": "content/docs/community/life/unsw-student-benefit.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1245,6 +1795,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1260,12 +1818,21 @@
       "docId": "q8d1j9bii2ve2p7pp4xtok79",
       "path": "content/docs/community/mental-health/burnout-guide.mdx",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 1,
         "95595902": 1,
         "114939201": 1,
         "147322547": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1304,10 +1871,19 @@
       "docId": "rxyvvumcvfl2oh3hky8urkfn",
       "path": "content/docs/community/mental-health/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "73457237": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1356,12 +1932,21 @@
       "docId": "l6eepr5ctjgrhdgupy3twr1t",
       "path": "content/docs/community/papers/prompt-repetition-improves-non-reasoning-llms.en.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "128119791": 1,
         "138507318": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1401,9 +1986,18 @@
       "path": "content/docs/community/tools/index.md",
       "contributorStats": {
         "7187663": 1,
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1427,9 +2021,18 @@
       "path": "content/docs/community/tools/perplexity-comet.md",
       "contributorStats": {
         "7187663": 1,
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1452,10 +2055,19 @@
       "docId": "mhyoknm6vj8jmp186oli5f5c",
       "path": "content/docs/community/tools/swanlab.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1478,10 +2090,19 @@
       "docId": "ue27z7z95yzw3lhhfj7nit1c",
       "path": "content/docs/learn/ai/agents-todo/agent-ecosystem.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1504,6 +2125,7 @@
       "docId": "eo5rwumxkh7twfdvlp5po9rc",
       "path": "content/docs/learn/ai/agents-todo/cs294-194-196/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1515,6 +2137,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1530,6 +2160,7 @@
       "docId": "v8m8kdjzzx7uhiz69r5m3m9o",
       "path": "content/docs/learn/ai/ai-math-basics/calculus-optimization/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1541,6 +2172,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1556,6 +2195,7 @@
       "docId": "gpoh50befguf7zgsetzkvbi3",
       "path": "content/docs/learn/ai/ai-math-basics/information-theory/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1567,6 +2207,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1582,6 +2230,7 @@
       "docId": "l1kvojw2gvggxflrmzc7j7sm",
       "path": "content/docs/learn/ai/ai-math-basics/linear-algebra/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1593,6 +2242,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1608,6 +2265,7 @@
       "docId": "ba5lqs2zg1jqc30qzw3osm9v",
       "path": "content/docs/learn/ai/ai-math-basics/linear-algebra/resources/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1619,6 +2277,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1634,6 +2300,7 @@
       "docId": "kzi6k1yg1sehlxidnxdsf59a",
       "path": "content/docs/learn/ai/ai-math-basics/math_books.md",
       "contributorStats": {
+        "41898282": 1,
         "84211946": 3,
         "114939201": 1
       },
@@ -1645,6 +2312,14 @@
           "login": "AudreyYZY",
           "avatarUrl": "https://avatars.githubusercontent.com/u/84211946?v=4",
           "htmlUrl": "https://github.com/AudreyYZY"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1660,10 +2335,19 @@
       "docId": "vcfer8dvlt80se4kmbnshx7x",
       "path": "content/docs/learn/ai/ai-math-basics/math-foundations.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1686,6 +2370,7 @@
       "docId": "ebgss2sa91drisxswsh6iu8x",
       "path": "content/docs/learn/ai/ai-math-basics/numerical-analysis/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1697,6 +2382,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1712,6 +2405,7 @@
       "docId": "d5fya0gd1w8vblv8qeqgnqtu",
       "path": "content/docs/learn/ai/ai-math-basics/probability-statistics/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1723,6 +2417,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1738,6 +2440,7 @@
       "docId": "q7kagbrpnek7b89axvssn4bo",
       "path": "content/docs/learn/ai/ai-math-basics/probability-statistics/resources/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1749,6 +2452,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1764,10 +2475,19 @@
       "docId": "d73h3kyjnzytk1y2nizulyr6",
       "path": "content/docs/learn/ai/compute-platforms/compute-platforms-handbook.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1790,9 +2510,18 @@
       "docId": "ns7q5ehuje6oiua7as6rtnyf",
       "path": "content/docs/learn/ai/compute-platforms/model-compuational-resource-demand.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -1807,6 +2536,7 @@
       "docId": "egpawb1yui58yprrsgxn9qj2",
       "path": "content/docs/learn/ai/foundation-models/datasets/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1818,6 +2548,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1833,6 +2571,7 @@
       "docId": "z157s85hnz1y37tr28y2a8h2",
       "path": "content/docs/learn/ai/foundation-models/deploy-infer/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1844,6 +2583,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1859,6 +2606,7 @@
       "docId": "lndxpf7luoeqwwde4in23xr1",
       "path": "content/docs/learn/ai/foundation-models/evaluation/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1870,6 +2618,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1885,6 +2641,7 @@
       "docId": "l5nes88zd54y6ao64ufkylz2",
       "path": "content/docs/learn/ai/foundation-models/finetune/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1896,6 +2653,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1911,6 +2676,7 @@
       "docId": "i88bna4sg5pr4ekhg32drv2i",
       "path": "content/docs/learn/ai/foundation-models/foundation-models-lifecycle.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1922,6 +2688,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1937,6 +2711,7 @@
       "docId": "h7s6nm7h5oqnhhdq9m1mgwwo",
       "path": "content/docs/learn/ai/foundation-models/qkv-interview/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -1948,6 +2723,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1964,6 +2747,7 @@
       "path": "content/docs/learn/ai/foundation-models/rag/context-engineering-intro.md",
       "contributorStats": {
         "7187663": 2,
+        "41898282": 1,
         "114939201": 1,
         "166212872": 1
       },
@@ -1975,6 +2759,14 @@
           "login": "Crokily",
           "avatarUrl": "https://avatars.githubusercontent.com/u/7187663?v=4",
           "htmlUrl": "https://github.com/Crokily"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -1998,10 +2790,19 @@
       "docId": "eyd32o3ebd5q69hfbb2enxqi",
       "path": "content/docs/learn/ai/foundation-models/rag/embedding.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2024,6 +2825,7 @@
       "docId": "zywri1bs64awfi9utfjy14ll",
       "path": "content/docs/learn/ai/foundation-models/rag/rag.mdx",
       "contributorStats": {
+        "41898282": 1,
         "59130571": 1,
         "114939201": 1,
         "163523387": 1,
@@ -2037,6 +2839,14 @@
           "login": "yoyofancy",
           "avatarUrl": "https://avatars.githubusercontent.com/u/166212872?v=4",
           "htmlUrl": "https://github.com/yoyofancy"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2068,6 +2878,7 @@
       "docId": "jgz0nl0cbd4frj2dg98mdv0x",
       "path": "content/docs/learn/ai/foundation-models/training/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2079,6 +2890,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2094,10 +2913,19 @@
       "docId": "nor5ktairygnt4dorqbddo9n",
       "path": "content/docs/learn/ai/generative-todo/generative-models-plan.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2120,6 +2948,7 @@
       "docId": "ix9azldhgm46j4i1xzgnd26r",
       "path": "content/docs/learn/ai/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 4
       },
@@ -2131,6 +2960,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2146,6 +2983,7 @@
       "docId": "h53uwefhlykt9ietsx9x0vtn",
       "path": "content/docs/learn/ai/Introduction-of-Multi-agents-system/introduction_of_multi-agents_system.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "123258594": 2,
         "166212872": 2
@@ -2168,6 +3006,14 @@
           "htmlUrl": "https://github.com/PenghaoJiang"
         },
         {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
           "githubId": "114939201",
           "contributions": 1,
           "lastContributedAt": "2026-05-06T14:33:51.000Z",
@@ -2181,6 +3027,7 @@
       "docId": "xboc8qj2128aivvt0goo1wow",
       "path": "content/docs/learn/ai/llm-basics/courses/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2192,6 +3039,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2207,6 +3062,7 @@
       "docId": "nwt5322vw4q6sz8ho8qynv28",
       "path": "content/docs/learn/ai/llm-basics/cuda/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2218,6 +3074,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2233,6 +3097,7 @@
       "docId": "dqg4iqz7hgyq38cqz3tg9tlf",
       "path": "content/docs/learn/ai/llm-basics/deep-learning/d2l/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2244,6 +3109,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2259,6 +3132,7 @@
       "docId": "vdclex41huib10ccsqw9u76k",
       "path": "content/docs/learn/ai/llm-basics/deep-learning/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2270,6 +3144,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2285,6 +3167,7 @@
       "docId": "lodydcd211esraq1r55ze9ey",
       "path": "content/docs/learn/ai/llm-basics/deep-learning/misc/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2,
         "166212872": 1
@@ -2297,6 +3180,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2320,6 +3211,7 @@
       "docId": "nrelvvfzq0gma7pqfx9fkfxt",
       "path": "content/docs/learn/ai/llm-basics/deep-learning/nlp/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2331,6 +3223,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2346,6 +3246,7 @@
       "docId": "xnl2yzrb4x748zhhfe26ragt",
       "path": "content/docs/learn/ai/llm-basics/embeddings/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2357,6 +3258,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2372,6 +3281,7 @@
       "docId": "jq6323xynmyapm5vgncmyymh",
       "path": "content/docs/learn/ai/llm-basics/embeddings/qwen3-embedding/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2383,6 +3293,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2398,10 +3316,19 @@
       "docId": "h8awdow89uicdy4kx9iimlta",
       "path": "content/docs/learn/ai/llm-basics/llm-foundations.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2424,6 +3351,7 @@
       "docId": "psc0xf6oa1m7g8s9wfwiojkf",
       "path": "content/docs/learn/ai/llm-basics/pytorch/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 3
       },
@@ -2435,6 +3363,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2450,6 +3386,7 @@
       "docId": "k1owc5kfw3vihc5hnmysqttl",
       "path": "content/docs/learn/ai/llm-basics/transformer/ai-by-hand/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2461,6 +3398,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2476,6 +3421,7 @@
       "docId": "lsokl8ofmo7msxlqyvihbhz5",
       "path": "content/docs/learn/ai/llm-basics/transformer/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2487,6 +3433,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2502,10 +3456,19 @@
       "docId": "r68izu11bkrkk6st194kwk80",
       "path": "content/docs/learn/ai/methodology/research-methodology.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2528,6 +3491,7 @@
       "docId": "uguqyqpacxyj5irjickbt8n9",
       "path": "content/docs/learn/ai/misc-tools/learning-toolkit.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 3
       },
@@ -2539,6 +3503,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2554,10 +3526,19 @@
       "docId": "x3xs4hk0mc7lxlgbgskti5qk",
       "path": "content/docs/learn/ai/model-datasets-platforms/platform-and-datasets.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2580,9 +3561,18 @@
       "docId": "qftv72k0kzwiz8ddksbcl2aw",
       "path": "content/docs/learn/ai/MoE/MOE-intro.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2597,11 +3587,20 @@
       "docId": "db3qwg25h6l0bh8f2sdabdqc",
       "path": "content/docs/learn/ai/MoE/moe-update.md",
       "contributorStats": {
+        "41898282": 1,
         "76551253": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2632,6 +3631,7 @@
       "docId": "qaezsrj15sudk796r5otne36",
       "path": "content/docs/learn/ai/Multi-agents-system-on-Code-Translation/code-translation-intro.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2643,6 +3643,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2658,6 +3666,7 @@
       "docId": "pmrtokz6393ywte5zqeskpm0",
       "path": "content/docs/learn/ai/multimodal/courses/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2669,6 +3678,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2684,6 +3701,7 @@
       "docId": "pffzdgytknyhaywar8uzyf2e",
       "path": "content/docs/learn/ai/multimodal/llava/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2695,6 +3713,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2710,6 +3736,7 @@
       "docId": "gc6tdzkkwxn5t90nw69fibl6",
       "path": "content/docs/learn/ai/multimodal/mllm/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 3
       },
@@ -2721,6 +3748,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2736,6 +3771,7 @@
       "docId": "zte4s8s8ls4cs25mfrzyepfl",
       "path": "content/docs/learn/ai/multimodal/multimodal-overview.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2747,6 +3783,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2762,6 +3806,7 @@
       "docId": "ybczrbgxo5t4pl0erce7qz6w",
       "path": "content/docs/learn/ai/multimodal/qwenvl/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2773,6 +3818,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2788,11 +3841,20 @@
       "docId": "pqplmwaj5o5aszydqo1drzrj",
       "path": "content/docs/learn/ai/multimodal/RQVAE/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2823,11 +3885,20 @@
       "docId": "k6cgwcc28l9iap5s5oyjbjwo",
       "path": "content/docs/learn/ai/multimodal/VAE/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2858,6 +3929,7 @@
       "docId": "ssrhm03fw9sbogk78dmy92ml",
       "path": "content/docs/learn/ai/multimodal/video-mm-todo/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 3
       },
@@ -2869,6 +3941,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2884,6 +3964,7 @@
       "docId": "xd3q72ubqzlesz8x4gewhi5r",
       "path": "content/docs/learn/ai/multimodal/vit/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 2
       },
@@ -2895,6 +3976,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2910,11 +3999,20 @@
       "docId": "otfiks0uz3aue1bdvlyqmj3e",
       "path": "content/docs/learn/ai/multimodal/VQVAE/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2945,10 +4043,19 @@
       "docId": "as876rdhtmpnyyeclxt226s1",
       "path": "content/docs/learn/ai/recommender-systems/recommender-roadmap.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2971,10 +4078,19 @@
       "docId": "hajz43iblku13mmevia8zrhv",
       "path": "content/docs/learn/ai/recommender-systems/wangshusen_recommend_crossing.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -2997,11 +4113,20 @@
       "docId": "bvccoatft6y7bph83oivdcfe",
       "path": "content/docs/learn/ai/recommender-systems/wangshusen_recommend_note_coldstart.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3032,11 +4157,20 @@
       "docId": "qmy3p4vc45ek61ce4n62fpxy",
       "path": "content/docs/learn/ai/recommender-systems/wangshusen_recommend_note_improvement.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3067,11 +4201,20 @@
       "docId": "vjwogf9afghpbvi71e4dfsgj",
       "path": "content/docs/learn/ai/recommender-systems/wangshusen_recommend_note_rank.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3102,10 +4245,19 @@
       "docId": "ol03smbujgwztho45ycj52ah",
       "path": "content/docs/learn/ai/recommender-systems/wangshusen_recommend_note_rerank.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "188854497": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3128,6 +4280,7 @@
       "docId": "c3a4nmid9plytif5ameigj7d",
       "path": "content/docs/learn/ai/recommender-systems/wangshusen_recommend_note/wangshusen_recommend_note_retrieval.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1,
         "188854497": 2
@@ -3140,6 +4293,14 @@
           "login": "0dysseus13",
           "avatarUrl": "https://avatars.githubusercontent.com/u/188854497?v=4",
           "htmlUrl": "https://github.com/0dysseus13"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -3163,6 +4324,7 @@
       "docId": "zf8zk108oqbsg56xjyqb5txk",
       "path": "content/docs/learn/ai/reinforcement-learning/ppo.md",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "206296353": 4
       },
@@ -3174,6 +4336,14 @@
           "login": "codemanQAQ",
           "avatarUrl": "https://avatars.githubusercontent.com/u/206296353?v=4",
           "htmlUrl": "https://github.com/codemanQAQ"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -3189,10 +4359,19 @@
       "docId": "s4fuhmdf6hj49jx1l7k87d4p",
       "path": "content/docs/learn/ai/reinforcement-learning/reinforcement-learning-overview.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3215,10 +4394,19 @@
       "docId": "totx4pej5lhyt1nl4anwhakj",
       "path": "content/docs/learn/cs/cpp-backend/easy-compile/1-cpp-libs.md",
       "contributorStats": {
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3241,10 +4429,19 @@
       "docId": "kyu85av71b4n07hbdycbhvj9",
       "path": "content/docs/learn/cs/cpp-backend/easy-compile/2-base-gcc.md",
       "contributorStats": {
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3268,10 +4465,19 @@
       "path": "content/docs/learn/cs/cpp-backend/easy-compile/3-make.md",
       "contributorStats": {
         "7187663": 1,
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3302,10 +4508,19 @@
       "docId": "xk44lx4q1gpcm1uqk8nnbg7q",
       "path": "content/docs/learn/cs/cpp-backend/easy-compile/4-cmake.md",
       "contributorStats": {
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3328,10 +4543,19 @@
       "docId": "gtqamuq3tftmvzstbunkgbo5",
       "path": "content/docs/learn/cs/cpp-backend/easy-compile/5-vcpkg.md",
       "contributorStats": {
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3354,10 +4578,19 @@
       "docId": "mnjkrtrs7xk3fq538eqreuge",
       "path": "content/docs/learn/cs/cpp-backend/handwritten-pool-components/1-handwritten-threadpool.md",
       "contributorStats": {
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3380,10 +4613,19 @@
       "docId": "xgxqqvglxyauoeh8eye7lzu6",
       "path": "content/docs/learn/cs/cpp-backend/handwritten-pool-components/2-handwritten-mempool1.md",
       "contributorStats": {
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3406,10 +4648,19 @@
       "docId": "q8290wmhyofuiskzn1ph63ta",
       "path": "content/docs/learn/cs/cpp-backend/mempool-simple.mdx",
       "contributorStats": {
+        "41898282": 1,
         "100033202": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3485,9 +4736,18 @@
       "path": "content/docs/learn/cs/data-structures/array/index.en.mdx",
       "contributorStats": {
         "7187663": 1,
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3511,9 +4771,18 @@
       "path": "content/docs/learn/cs/data-structures/index.en.mdx",
       "contributorStats": {
         "7187663": 1,
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3588,11 +4857,20 @@
       "docId": "uzoqs57kwc4tfut4wvgnbjhf",
       "path": "content/docs/learn/cs/frontend/frontend-learning/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "104760545": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3623,11 +4901,20 @@
       "docId": "y3xkz4kituc738jwsojo7cml",
       "path": "content/docs/learn/cs/frontend/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "104760545": 1,
         "114939201": 1,
         "163523387": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3659,6 +4946,7 @@
       "path": "content/docs/learn/cs/index.mdx",
       "contributorStats": {
         "7187663": 3,
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
@@ -3669,6 +4957,14 @@
           "login": "Crokily",
           "avatarUrl": "https://avatars.githubusercontent.com/u/7187663?v=4",
           "htmlUrl": "https://github.com/Crokily"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -3684,9 +4980,18 @@
       "docId": "lrn0001index2026041800000001",
       "path": "content/docs/learn/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3701,6 +5006,7 @@
       "docId": "bkxwg1m9p9rnm8062wsm020w",
       "path": "content/docs/projects/ai-town.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "163523387": 3
       },
@@ -3712,6 +5018,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -3727,9 +5041,18 @@
       "docId": "prj0001index2026041800000001",
       "path": "content/docs/projects/index.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "114939201",
           "contributions": 1,
@@ -3744,6 +5067,7 @@
       "docId": "ifwz8sqxqsgjrafa79pycrcm",
       "path": "content/docs/projects/multimodal-rl.mdx",
       "contributorStats": {
+        "41898282": 1,
         "114939201": 1,
         "150361711": 1,
         "163523387": 3
@@ -3756,6 +5080,14 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
