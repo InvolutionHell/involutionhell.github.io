@@ -1,8 +1,8 @@
 {
   "repo": "InvolutionHell/involutionhell",
-  "generatedAt": "2026-05-11T15:39:36.193Z",
+  "generatedAt": "2026-05-11T19:01:05.941Z",
   "docsDir": "content/docs",
-  "totalDocs": 153,
+  "totalDocs": 148,
   "results": [
     {
       "docId": "ld59a8z1v84ig4rlr0p0n2a9",
@@ -258,32 +258,6 @@
       ]
     },
     {
-      "docId": "zuoplhoodv7tzfgku0pwzi6w",
-      "path": "content/docs/career/interview-prep/leetcode/[1545]找出第 N 个二进制字符串中的第 K 位.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 4
-      },
-      "contributors": [
-        {
-          "githubId": "114939201",
-          "contributions": 4,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        }
-      ]
-    },
-    {
       "docId": "rv6egbynttb4mt1n0412bue0",
       "path": "content/docs/career/interview-prep/leetcode/[213]打家劫舍 II_translated.md",
       "contributorStats": {
@@ -475,6 +449,32 @@
       ]
     },
     {
+      "docId": "zuoplhoodv7tzfgku0pwzi6w",
+      "path": "content/docs/career/interview-prep/leetcode/1545-find-kth-bit-in-nth-binary-string.zh.md",
+      "contributorStats": {
+        "41898282": 2,
+        "114939201": 4
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 4,
+          "lastContributedAt": "2026-05-06T14:33:51.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-11T16:37:55.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        }
+      ]
+    },
+    {
       "docId": "bsf0yz1zrmlz7masrdmq8fq6",
       "path": "content/docs/career/interview-prep/leetcode/1653. 使字符串平衡的最少删除次数_translated.md",
       "contributorStats": {
@@ -580,9 +580,9 @@
     },
     {
       "docId": "ksw2vic4alf1tdnnueay81g8",
-      "path": "content/docs/career/interview-prep/leetcode/2131. 连接两字母单词得到的最长回文串.md",
+      "path": "content/docs/career/interview-prep/leetcode/2131-longest-palindrome-by-concatenating-two-letter-words.zh.md",
       "contributorStats": {
-        "41898282": 1,
+        "41898282": 2,
         "114939201": 4
       },
       "contributors": [
@@ -596,8 +596,8 @@
         },
         {
           "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-11T16:37:55.000Z",
           "login": "github-actions[bot]",
           "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
           "htmlUrl": "https://github.com/apps/github-actions"
@@ -607,58 +607,6 @@
     {
       "docId": "k4btd9x3l3xnnl4dnr64d8cq",
       "path": "content/docs/career/interview-prep/leetcode/219_translated.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 4
-      },
-      "contributors": [
-        {
-          "githubId": "114939201",
-          "contributions": 4,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        }
-      ]
-    },
-    {
-      "docId": "lzrh7ftq3kegsyx8gimonrfu",
-      "path": "content/docs/career/interview-prep/leetcode/2241. Design an ATM Machine.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 4
-      },
-      "contributors": [
-        {
-          "githubId": "114939201",
-          "contributions": 4,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        }
-      ]
-    },
-    {
-      "docId": "a6inw303oslb7i5tcqj5xxx4",
-      "path": "content/docs/career/interview-prep/leetcode/2270. Number of Ways to Split Array.md",
       "contributorStats": {
         "41898282": 1,
         "114939201": 4
@@ -917,32 +865,6 @@
       ]
     },
     {
-      "docId": "o3knuvbpnki6isfjv3g5ohau",
-      "path": "content/docs/career/interview-prep/leetcode/3138. Minimum Length of Anagram Concatenation.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 4
-      },
-      "contributors": [
-        {
-          "githubId": "114939201",
-          "contributions": 4,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        }
-      ]
-    },
-    {
       "docId": "udm0daiek9dr22xq4doep5w4",
       "path": "content/docs/career/interview-prep/leetcode/345. 反转字符串中的元音字母_translated.md",
       "contributorStats": {
@@ -970,9 +892,9 @@
     },
     {
       "docId": "jv8qj3ljyr2uomaehnv0l77k",
-      "path": "content/docs/career/interview-prep/leetcode/42.md",
+      "path": "content/docs/career/interview-prep/leetcode/42-trapping-rain-water.zh.md",
       "contributorStats": {
-        "41898282": 1,
+        "41898282": 2,
         "114939201": 4
       },
       "contributors": [
@@ -986,34 +908,8 @@
         },
         {
           "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        }
-      ]
-    },
-    {
-      "docId": "mxt0ux1zpbzph4nuxz51eyg7",
-      "path": "content/docs/career/interview-prep/leetcode/46.全排列.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 4
-      },
-      "contributors": [
-        {
-          "githubId": "114939201",
-          "contributions": 4,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-11T16:37:55.000Z",
           "login": "github-actions[bot]",
           "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
           "htmlUrl": "https://github.com/apps/github-actions"
@@ -1127,32 +1023,6 @@
     {
       "docId": "s0cadbu09dgu54q0zxttkx7z",
       "path": "content/docs/career/interview-prep/leetcode/9021_TUT_3_25T1.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 4
-      },
-      "contributors": [
-        {
-          "githubId": "114939201",
-          "contributions": 4,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        }
-      ]
-    },
-    {
-      "docId": "d5evrnoglwjvmyginjq84bl0",
-      "path": "content/docs/career/interview-prep/leetcode/93复原Ip地址.md",
       "contributorStats": {
         "41898282": 1,
         "114939201": 4
@@ -2265,11 +2135,19 @@
       "docId": "ba5lqs2zg1jqc30qzw3osm9v",
       "path": "content/docs/learn/ai/ai-math-basics/linear-algebra/resources/index.mdx",
       "contributorStats": {
-        "41898282": 1,
+        "41898282": 2,
         "114939201": 1,
         "163523387": 2
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-11T16:37:55.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "163523387",
           "contributions": 2,
@@ -2277,14 +2155,6 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
@@ -2440,11 +2310,19 @@
       "docId": "q7kagbrpnek7b89axvssn4bo",
       "path": "content/docs/learn/ai/ai-math-basics/probability-statistics/resources/index.mdx",
       "contributorStats": {
-        "41898282": 1,
+        "41898282": 2,
         "114939201": 1,
         "163523387": 2
       },
       "contributors": [
+        {
+          "githubId": "41898282",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-11T16:37:55.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
         {
           "githubId": "163523387",
           "contributions": 2,
@@ -2452,14 +2330,6 @@
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
         },
         {
           "githubId": "114939201",
