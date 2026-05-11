@@ -69,7 +69,7 @@
     "motion": "^12.23.16",
     "next": "16.2.3",
     "next-auth": "5.0.0-beta.30",
-    "next-intl": "^4.9.1",
+    "next-intl": "^4.9.2",
     "pg": "^8.18.0",
     "pinyin-pro": "^3.28.0",
     "react": "19.2.3",
