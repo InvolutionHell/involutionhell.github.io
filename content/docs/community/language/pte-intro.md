@@ -1,6 +1,6 @@
 ---
 title: PTE-Academic题型与题量介绍
-description: PTE-Academic题型与题量介绍
+description: "PTE Academic题型与题量介绍：详解口语、写作、阅读、听力四大模块及交叉评分机制，重点覆盖WFD、RS、RA、DI等高优先级题型，适合计划留学或移民、希望快速提分的雅思/托福转考考生及PTE新手阅读。"
 date: "2025-09-19"
 tags:
   - pte

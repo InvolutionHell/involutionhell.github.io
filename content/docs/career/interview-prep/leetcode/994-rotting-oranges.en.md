@@ -1,5 +1,6 @@
 ---
 title: "994. Rotting Oranges"
+description: "LeetCode 994. Rotting Oranges — BFS multi-source approach to simulate minute-by-minute spread, tracking time and checking unreachable fresh oranges."
 date: "2024.05.14 0:00"
 tags:
   - Python

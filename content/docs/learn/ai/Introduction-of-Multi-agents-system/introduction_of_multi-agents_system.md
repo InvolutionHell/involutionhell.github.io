@@ -1,6 +1,6 @@
 ---
 title: Introduction of Multi-agents system(In any task you want)
-description: ""
+description: "多智能体系统（MAS）入门：多个自治智能体在共享环境中交互、协作或竞争，产生单个智能体无法完成的涌现行为。关键技术点包括智能体的感知-决策-行动循环与环境类型（完全/部分可观测、静态/动态等）。适合AI学习者、系统设计工程师及求职者快速掌握群体协作与分布式问题解决思路。"
 date: "2025-09-29"
 tags:
   - multi-agent-systems

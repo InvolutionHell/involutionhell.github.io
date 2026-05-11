@@ -1,5 +1,6 @@
 ---
 title: One question daily 2299. Code inspection device II
+description: "LeetCode 2299. 强密码检验器 II 题解 — 模拟与位运算检查密码强度，使用掩码 mask 记录是否包含小写字母、大写字母、数字和特殊字符，并确保无连续相同字符。适合刷题求职者、准备算法面试的 CS 学生。"
 date: "2024.01.01 0:00"
 tags:
   - - Python

@@ -1,5 +1,6 @@
 ---
 title: 1664. Number of schemes to generate balance numbers One question daily
+description: "LeetCode 1664. 生成平衡数组的方案数 题解 — 使用动态规划与奇偶性分析，核心技巧是预处理前缀奇偶和与后缀奇偶和，在枚举删除每个元素时 O(1) 判断剩余数组奇偶下标和是否相等。适合准备算法面试、刷 LeetCode 中等题的求职者和 CS 学生。"
 date: "2024.01.01 0:00"
 tags:
   - - Python

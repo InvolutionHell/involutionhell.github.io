@@ -1,6 +1,6 @@
 ---
 title: Senior Tech-Industry Engineer Coffee Chat Recap
-description: ""
+description: "Senior backend engineer shares Australian programmer job search strategies, big company career planning, and platform resources for early-career tech professionals."
 date: "2025-11-01"
 tags:
   - career

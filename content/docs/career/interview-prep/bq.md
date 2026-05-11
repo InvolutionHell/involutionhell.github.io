@@ -1,6 +1,6 @@
 ---
 title: 行为面
-description: First page
+description: "行为面十题万能思路覆盖合作沟通、领导组织、学习成长与挑战应对四大类，详解Teamwork、Conflict、Leadership、Planning、Multitasking、Learn new skills、Motivation、Challenge、Failure等关键技术点，适合求职面试者、CS/AI从业者及准备行为面（BQ）的候选人阅读。"
 date: "2025-09-11"
 tags:
   - intro

@@ -1,6 +1,6 @@
 ---
 title: Recommended Books on Mathematics and Data Science
-description: ""
+description: "Discover top math & data science books for all levels—from ML beginners to advanced researchers—covering probability, statistics, and foundations."
 date: "2025-10-06"
 tags:
   - math-textbooks

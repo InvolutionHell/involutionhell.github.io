@@ -1,5 +1,6 @@
 ---
 title: 219.Existing duplicate elements II Hash table graphics
+description: "LeetCode 219. 存在重复元素 II 题解 — 使用哈希表与滑动窗口双指针解法，核心技巧是维护一个长度不超过 k+1 的窗口，在窗口内快速检测重复元素。适合正在刷 LeetCode 数组与哈希表题目的求职者或算法学习者。"
 date: "2024.01.01 0:00"
 categories:
   - - Python

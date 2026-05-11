@@ -1,6 +1,6 @@
 ---
 title: C++ Libraries on Linux/Windows
-description: ""
+description: "Learn how C++ libraries work on Linux and Windows: static vs dynamic linking, header-only libraries, and how to obtain third-party libs for devs and CS learners."
 date: "2025-09-29"
 tags:
   - cpp-backend

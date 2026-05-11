@@ -1,5 +1,6 @@
 ---
 title: "2335. Minimum Amount of Time to Fill Cups — Daily Problem"
+description: "LeetCode 2335. Minimum Amount of Time to Fill Cups — Greedy approach: always serve the two largest counts first, using sorting or a max-heap; alternatively, a mathematical formula handles edge cases efficiently for developers preparing for interviews."
 date: "2024.01.01 0:00"
 tags:
   - - Python

@@ -1,5 +1,6 @@
 ---
 title: "2582. Pass the Pillow"
+description: "LeetCode 2582. Pass the Pillow — Math pattern solution using period (n-1) and full cycles to determine forward/backward position, ideal for coding interview prep."
 date: "2024.01.01 0:00"
 tags:
   - Python

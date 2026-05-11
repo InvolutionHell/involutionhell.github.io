@@ -1,5 +1,6 @@
 ---
 title: 76Minimum cover string.md
+description: "LeetCode 76. 最小覆盖子串 题解 — 滑动窗口 + 双指针 + 哈希表计数，通过右指针扩展窗口、左指针收缩窗口，动态维护字符频次字典以判断是否覆盖目标串 t。适合准备面试、刷 LeetCode 的 CS/AI 求职者与算法学习者阅读。"
 date: "2024.01.01 0:00"
 tags:
   - - Python

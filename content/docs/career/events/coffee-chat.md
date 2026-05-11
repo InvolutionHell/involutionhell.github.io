@@ -1,6 +1,6 @@
 ---
 title: 资深科技大厂程序员Coffee Chat回顾
-description: ""
+description: "资深科技大厂程序员Coffee Chat回顾：澳洲程序员求职与职业规划分享会，聚焦大公司作为职业跳板的核心策略与SRE入门路径，详解K8s自动化项目优先于安全背景的实战建议。适合CS/AI求职者、海外程序员及准备回国发展的技术从业者阅读。"
 date: "2025-11-01"
 tags:
   - career

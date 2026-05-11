@@ -1,5 +1,6 @@
 ---
 title: 1828. Statistics the number of a circle mid -point One question daily
+description: "LeetCode 1828. 统计一个圆中点的数目 题解 — 使用欧几里得距离公式计算每个点与圆心的距离，判断是否小于等于半径，时间复杂度 O(n^2)。关键技巧是直接遍历所有点与所有圆，无需优化。适合正在刷 LeetCode 每日一题、入门数学类模拟题的求职者和算法初学者。"
 date: "2024.01.01 0:00"
 tags:
   - - Python

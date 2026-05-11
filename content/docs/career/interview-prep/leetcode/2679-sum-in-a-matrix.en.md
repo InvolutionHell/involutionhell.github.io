@@ -1,5 +1,6 @@
 ---
 title: "2679. Sum in a Matrix"
+description: "LeetCode 2679. Sum in a Matrix — Sort each row, then use zip and max to find the column-wise maximums and sum them. For Python developers learning matrix traversal tricks."
 date: "2024.01.01 0:00"
 tags:
   - - Python

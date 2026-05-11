@@ -1,5 +1,6 @@
 ---
 title: "1664. Ways to Make a Fair Array — Daily Problem"
+description: "LeetCode 1664. Ways to Make a Fair Array — Use prefix/suffix sums to track even/odd index parity shifts after deletion, for O(n) solution. Ideal for intermediate coders learning DP optimization."
 date: "2024.01.01 0:00"
 tags:
   - - Python

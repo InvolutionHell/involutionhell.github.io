@@ -1,5 +1,6 @@
 ---
 title: 121.The best time for buying and selling stocks
+description: "LeetCode 121. 买卖股票的最佳时机 题解 — 使用动态规划（DP）求解单次交易最大利润，核心技巧是维护历史最低股价并实时计算当日卖出收益。适合准备算法面试、刷 LeetCode 数组与 DP 题的求职者和 CS 学生。"
 date: "2024.01.01 0:00"
 tags:
   - Python

@@ -1,5 +1,6 @@
 ---
 title: "1004. Max Consecutive Ones III"
+description: "LeetCode 1004. Max Consecutive Ones III — sliding window with at most k zeros flipped, using two pointers to track the longest subarray; for intermediate learners."
 date: "2022.12.07-01:15"
 tags:
   - - Python

@@ -1,5 +1,6 @@
 ---
 title: One question daily 2293. Great mini game
+description: "LeetCode 2293. 极大极小游戏 题解 — 通过递归思想将一维数组不断转化为二维数组操作，避免索引变化混乱；利用 flag 计数交替取最大值与最小值，适合正在刷简单题、巩固递归与数组处理技巧的算法初学者。"
 date: "2024.01.01 0:00"
 tags:
   - - Python

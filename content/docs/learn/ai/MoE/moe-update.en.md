@@ -1,6 +1,6 @@
 ---
 title: "Theory of MoE"
-description: ""
+description: "Learn MoE theory with asymptotic notation (Ω, Θ, O, o) and key assumptions for closed-form forgetting formulas—ideal for CS/AI learners."
 date: "2025-10-05"
 tags:
   - mixture-of-experts

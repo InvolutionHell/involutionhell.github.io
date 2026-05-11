@@ -1,5 +1,6 @@
 ---
 title: "121. Best Time to Buy and Sell Stock"
+description: "LeetCode 121. Best Time to Buy and Sell Stock — DP approach tracking min price and max profit in one pass, O(n) time and O(1) space, for coding interview prep."
 date: "2024.01.01 0:00"
 tags:
   - Python

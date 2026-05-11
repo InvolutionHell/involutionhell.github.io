@@ -1,6 +1,6 @@
 ---
 title: Behavioral Interview
-description: First page
+description: "Master behavioral interviews with 10 universal angles—prepare one story per angle for collaboration, conflict, and client service. For CS/AI job seekers."
 date: "2025-09-11"
 tags:
   - intro

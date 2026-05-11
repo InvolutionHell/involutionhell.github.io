@@ -1,6 +1,6 @@
 ---
 title: 算力需求指南
-description: 如何计算训练大模型所需显存大小
+description: "大模型多卡训练显存计算与优化指南，详解BF16/FP32参数存储、梯度与Adam优化器状态占用公式，适合准备大模型训练、面临显存瓶颈的AI工程师与求职者阅读。"
 date: "2025-09-20"
 tags:
   - compute-platforms

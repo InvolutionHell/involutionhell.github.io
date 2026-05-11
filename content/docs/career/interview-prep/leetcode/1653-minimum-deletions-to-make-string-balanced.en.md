@@ -1,5 +1,6 @@
 ---
 title: "1653. Minimum Deletions to Make String Balanced"
+description: "LeetCode 1653. Minimum Deletions to Make String Balanced — DP and stack-free counting with two passes, tracking 'a' and 'b' counts to minimize deletions for CS learners."
 date: "2024.01.01 0:00"
 tags:
   - - Python

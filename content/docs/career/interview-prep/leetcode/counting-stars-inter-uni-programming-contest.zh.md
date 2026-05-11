@@ -1,5 +1,6 @@
 ---
 title: "Counting Stars — 校际编程竞赛"
+description: "LeetCode 题解 — Counting Stars 校际编程竞赛题解。使用贪心算法与二分查找维护链尾 y 坐标列表，通过排序后遍历点集并利用 bisect_left 寻找可容纳当前点的链，求解最少流星数量。适合准备算法竞赛、学习贪心与二分查找技巧的 CS 学生阅读。"
 date: 22/9/2024
 tags:
   - Contest

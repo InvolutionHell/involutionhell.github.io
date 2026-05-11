@@ -1,5 +1,6 @@
 ---
 title: "2490. Circular Sentence"
+description: "LeetCode 2490. Circular Sentence — Check if a sentence is circular by splitting into words and verifying each word's last character matches the next word's first character, wrapping around. For beginners."
 date: "2024.01.01 0:00"
 tags:
   - - Python

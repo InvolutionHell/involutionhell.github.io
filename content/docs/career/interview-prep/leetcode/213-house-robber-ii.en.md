@@ -1,5 +1,6 @@
 ---
 title: "213. House Robber II"
+description: "LeetCode 213. House Robber II — Dynamic programming with circular array handling; split into two linear DP runs (skip first or last house) to break the cycle. For intermediate learners."
 date: "2024.01.01 0:00"
 tags:
   - Python

@@ -62,3 +62,6 @@ AGENTS.md
 
 .npmrc
 /.env.*
+
+# scripts/generate-descriptions.mjs 的 dry-run / apply 报表（产物，不进 git）
+scripts/.descriptions-report.json

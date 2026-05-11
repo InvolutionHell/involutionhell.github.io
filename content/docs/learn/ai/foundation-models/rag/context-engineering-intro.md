@@ -1,6 +1,6 @@
 ---
 title: context engineering 快速了解
-description: ""
+description: "Context engineering 快速了解：解决大模型上下文窗口有限、输入杂乱影响理解及高 token 成本问题。核心方法包括保存、选择与压缩 context，如 RAG 动态选择相关输入、Claude 自动压缩总结。适合 AI 开发者、Agent 构建者及希望优化模型输入效率的求职学习者。"
 date: "2025-10-03"
 tags:
   - context-engineering

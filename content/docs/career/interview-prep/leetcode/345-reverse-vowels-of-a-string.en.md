@@ -1,5 +1,6 @@
 ---
 title: "345. Reverse Vowels of a String"
+description: "LeetCode 345. Reverse Vowels of a String — Two-pointer approach to swap vowels from both ends, using a hash set for O(1) vowel lookup. For intermediate Python/Java developers."
 date: "2024.01.01 0:00"
 tags:
   - - Python

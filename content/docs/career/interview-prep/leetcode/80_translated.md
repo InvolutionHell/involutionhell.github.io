@@ -1,5 +1,6 @@
 ---
 title: Python beat98.40% collectionsofCounter method！
+description: "LeetCode 80. 删除有序数组中的重复项 II 题解 — 使用双指针原地修改数组，允许每个元素最多出现两次，关键技巧是维护慢指针控制写入位置与快指针遍历数组，适合准备面试、需要掌握数组去重与双指针技巧的求职者与算法学习者。"
 date: "2024.01.01 0:00"
 tags:
   - - Python

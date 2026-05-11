@@ -1,5 +1,6 @@
 ---
 title: "42. Trapping Rain Water"
+description: "LeetCode 42. Trapping Rain Water — two-pointer approach using bucket theory, tracking left/right max heights to calculate trapped water per bar; for intermediate algorithm learners."
 date: "2025/3/27-19:56"
 tags:
   - - Python

@@ -1,6 +1,6 @@
 ---
 title: linux/win上的c++库
-description: ""
+description: "Linux/Windows 上 C++ 库的组成、获取与使用全解，涵盖头文件库、静态库与动态库的区别，以及通过源码编译、vcpkg、apt 等包管理器安装第三方库的方法。适合 C++ 初学者、跨平台开发者及求职备考学生阅读。"
 date: "2025-09-29"
 tags:
   - cpp-backend

@@ -1,5 +1,6 @@
 ---
 title: "142. Linked List Cycle II"
+description: "LeetCode 142. Linked List Cycle II — Two-pointer technique to detect cycle entrance using Floyd’s algorithm; find first meeting point, then reset one pointer to head and move both one step until they meet. For developers preparing for coding interviews."
 date: "2024.01.01 0:00"
 tags:
   - - Python

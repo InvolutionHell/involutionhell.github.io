@@ -1,5 +1,6 @@
 ---
 title: "538. Convert BST to Greater Sum Tree"
+description: "LeetCode 538. Convert BST to Greater Sum Tree — reverse in-order traversal with cumulative sum, updating each node to the sum of all greater values; for developers preparing for tree manipulation and BST problems."
 date: "2024.01.01 0:00"
 tags:
   - - Python

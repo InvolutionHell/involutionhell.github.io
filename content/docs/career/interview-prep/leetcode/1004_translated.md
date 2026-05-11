@@ -1,5 +1,6 @@
 ---
 title: 1004.Maximum continuity1Number III Maximum continuity1Number III
+description: "LeetCode 1004. 最大连续1的个数 III 题解 — 滑动窗口与双指针解法，核心技巧在于维护窗口内最多翻转 K 个 0，通过动态调整左右指针实现最长连续 1 子数组。适合准备算法面试、刷题进阶的 CS 求职者与 AI 学习者。"
 date: "2022.12.07-01:15"
 tags:
   - - Python

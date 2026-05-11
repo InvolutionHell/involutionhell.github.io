@@ -1,6 +1,6 @@
 ---
 title: 基础gcc/g++
-description: ""
+description: "基础gcc/g++编译工具入门，涵盖Linux与Windows双平台安装配置，重点解决MinGW下thread库的踩坑修复（需补充mingw-std-threads头文件并添加-D_WIN32_WINNT=0x0501编译参数），适合刚接触C++编程、需要搭建本地编译环境并解决常见兼容性问题的初学者与求职备考者。"
 date: "2025-09-29"
 tags:
   - cpp-backend

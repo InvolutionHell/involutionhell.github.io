@@ -1,6 +1,6 @@
 ---
 title: Introduction of Multi-Agent Systems (For Any Task You Want)
-description: ""
+description: "Learn how Multi-Agent Systems (MAS) enable autonomous agents to cooperate and compete for emergent group intelligence, ideal for AI engineers and developers exploring distributed coordination."
 date: "2025-09-29"
 tags:
   - multi-agent-systems

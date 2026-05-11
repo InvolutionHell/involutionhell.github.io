@@ -1,6 +1,6 @@
 ---
 title: Prompt Repetition Improves Non-Reasoning LLMs
-description: 复读机或可提高大模型能力
+description: "内卷地狱技术文档：Prompt Repetition Improves Non-Reasoning LLMs 探讨通过重复输入提示词提升主流模型（Gemini、GPT、Claude、DeepSeek）表现的方法，无需推理模式、不增加生成 token 或延迟。适合 AI 研究者、大模型应用开发者及求职者阅读。"
 date: "2026-03-05"
 tags:
   - AI

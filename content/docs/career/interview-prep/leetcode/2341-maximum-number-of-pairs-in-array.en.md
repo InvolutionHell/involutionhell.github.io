@@ -1,5 +1,6 @@
 ---
 title: "2341. Maximum Number of Pairs in Array — Daily Problem"
+description: "LeetCode 2341. Maximum Number of Pairs in Array — Hash table or sorting approach to count pairs and leftovers, for developers practicing array frequency problems."
 tags:
   - - Python
   - - answer

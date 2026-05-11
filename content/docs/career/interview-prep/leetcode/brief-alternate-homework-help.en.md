@@ -1,5 +1,6 @@
 ---
 title: "Brief Alternate Assignment Help"
+description: "LeetCode 0. Brief Alternate Assignment Help — Use pandas for data processing: `read_csv` auto-assigns headers, `idxmax`/`max` for row/value extraction, `loc` for label-based selection, and `nunique` for unique counts. For self-taught learners."
 date: "2024.01.01 0:00"
 tags:
   - - Python

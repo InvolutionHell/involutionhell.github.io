@@ -1,5 +1,6 @@
 ---
 title: 1825. Seek out MK average value
+description: "LeetCode 1825. 求出 MK 平均值 题解 — 使用三个 multiset 维护滑动窗口中的最小值、中间值和最大值集合，通过平衡插入与删除操作保持 lower 和 upper 各含 k 个元素，并实时维护 middle 的元素和以 O(log n) 计算剔除首尾 k 个后的平均值。适合准备系统设计面试或需要掌握有序集合与滑动窗口技巧的算法学习者。"
 date: "2024.01.01 0:00"
 tags:
   - - Python

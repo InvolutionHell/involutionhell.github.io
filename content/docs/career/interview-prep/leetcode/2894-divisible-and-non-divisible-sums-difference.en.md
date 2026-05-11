@@ -1,5 +1,6 @@
 ---
 title: "2894. Divisible and Non-divisible Sums Difference"
+description: "LeetCode 2894. Divisible and Non-divisible Sums Difference — O(1) math solution using arithmetic series formulas to compute the difference without loops, ideal for beginners learning number theory."
 date: "2025.05.27 23:52"
 tags:
   - - Python

@@ -1,6 +1,6 @@
 ---
 title: 手写定长内存池
-description: ""
+description: "手写定长内存池技术文档详解内存池结构体mempool_s设计与实现，涵盖memp_create创建、memp_alloc分配、memp_free回收及memp_destory销毁等核心接口。适合C/C++开发者、系统编程学习者及追求高性能内存管理的求职者阅读。"
 date: "2025-09-29"
 tags:
   - cpp-backend

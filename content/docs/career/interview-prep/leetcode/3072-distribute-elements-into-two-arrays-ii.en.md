@@ -1,5 +1,6 @@
 ---
 title: "3072. Distribute Elements into Two Arrays II"
+description: "LeetCode 3072. Distribute Elements into Two Arrays II — Use Fenwick tree for O(n log n) counting of greater elements; reverse array and process from left to right, applying tie-breaking rules to distribute into two arrays. For intermediate learners."
 date: "2024.01.01 0:00"
 tags:
   - - Python

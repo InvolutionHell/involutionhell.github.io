@@ -1,6 +1,6 @@
 ---
 title: GCC/G++ Basics
-description: ""
+description: "Learn GCC/G++ basics: install on Linux or Windows with MinGW, plus fix threading issues with mingw-std-threads. For new C++ developers."
 date: "2025-09-29"
 tags:
   - cpp-backend
