@@ -6,6 +6,7 @@ import { Footer } from "@/app/components/Footer";
 import type { EventDetailResponse, EventView } from "../types";
 import { InterestButton } from "./InterestButton";
 import { sanitizeExternalUrl, sanitizeMediaUrl } from "@/lib/url-safety";
+import { ensureSeoDescription } from "@/lib/seo-description";
 
 /**
  * /events/[id] 详情页。SSR 拉 /api/events/{id}。
@@ -57,10 +58,26 @@ interface Param {
 export async function generateMetadata({ params }: Param): Promise<Metadata> {
   const { id } = await params;
   const data = await fetchDetail(id);
-  if (!data) return { title: `活动 #${id} · Involution Hell` };
+  if (!data) {
+    // 没拿到 event 也兜底 description（404 前的过渡态）
+    return {
+      title: `活动 #${id} · Involution Hell`,
+      description: ensureSeoDescription({
+        title: `活动 #${id}`,
+        sectionPath: ["events"],
+        locale: "zh",
+      }),
+    };
+  }
+  // event.description 由用户/管理员录入，长度不可控；走兜底防短。
   return {
     title: `${data.event.title} · Involution Hell`,
-    description: data.event.description || "Involution Hell 社群活动详情。",
+    description: ensureSeoDescription({
+      description: data.event.description,
+      title: data.event.title,
+      sectionPath: ["events"],
+      locale: "zh",
+    }),
   };
 }
 

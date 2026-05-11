@@ -19,12 +19,20 @@ import { FeedAuthWrapper } from "@/app/[locale]/feed/components/FeedAuthWrapper"
 import type { SharedLinkView, CategorySlug } from "@/app/[locale]/feed/types";
 import type { ApiResponse } from "@/app/[locale]/feed/types";
 import Link from "next/link";
+import { ensureSeoDescription } from "@/lib/seo-description";
 
 export const revalidate = 120;
 
+// 原 description 只有 24 字符（远低于 Bing 推荐的 150-160），统一走 ensureSeoDescription
+// 兜底到 80+ 字符。社区分享墙是公开 SEO 页，搜索摘要质量直接影响 CTR。
 export const metadata: Metadata = {
   title: "社区分享墙 · Involution Hell",
-  description: "群友精选好文，随手转发，沉淀有价值的信息流。",
+  description: ensureSeoDescription({
+    description: "群友精选好文，随手转发，沉淀有价值的信息流。",
+    title: "社区分享墙",
+    sectionPath: ["feed"],
+    locale: "zh",
+  }),
 };
 
 /**
