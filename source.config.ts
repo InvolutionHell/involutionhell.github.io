@@ -58,9 +58,12 @@ function remarkNormalizeCodeLang() {
  */
 function remarkShiftHeadingIfH1() {
   return (tree: Root) => {
-    const hasH1 = tree.children.some(
-      (n) => n.type === "heading" && n.depth === 1,
-    );
+    // 用 visit 遍历整树检测 h1：h1 可能嵌套在 blockquote / list 里
+    // （markdown 语法允许 `> # title`），只看 tree.children 顶级会漏掉
+    let hasH1 = false;
+    visit(tree, "heading", (node) => {
+      if (node.depth === 1) hasH1 = true;
+    });
     if (!hasH1) return;
     visit(tree, "heading", (node) => {
       if (node.depth < 6) node.depth += 1;
