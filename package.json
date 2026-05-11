@@ -67,7 +67,7 @@
     "fumadocs-ui": "15.7.13",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.16",
-    "next": "16.2.3",
+    "next": "16.2.6",
     "next-auth": "5.0.0-beta.30",
     "next-intl": "^4.9.2",
     "pg": "^8.18.0",
