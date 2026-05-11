@@ -76,3 +76,10 @@ jobs:
 
       - name: Lint image references (non-blocking)
         run: pnpm lint:images || echo "[warn] image lint found issues (non-blocking)"
+
+      # Block PR if newly added/modified MDX is missing a proper description.
+      # Old files are grandfathered via lib/seo-description.ts (Layer 1 fallback);
+      # this check only fires on changed files in the PR (uses GITHUB_BASE_REF diff).
+      # leetcode/ and _translated.md are exempt — see scripts/check-frontmatter-description.mjs
+      - name: Check MDX frontmatter description
+        run: pnpm check:frontmatter
