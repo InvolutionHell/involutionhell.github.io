@@ -37,6 +37,41 @@ function remarkNormalizeCodeLang() {
 }
 
 /**
+ * Remark 插件：避免双 h1
+ *
+ * 背景：Bing Webmaster 2026-05 报告 4 个页面有多个 <h1>，仓库里其实
+ * 181 / 324 个 MDX 正文都写了 `# 一级标题`。page.tsx 已经渲染了
+ * `<h1>{frontmatter.title}</h1>` 作为页面唯一 h1，MDX 正文里再写 `# x`
+ * 就形成双 h1，对 SEO/无障碍都是反模式。
+ *
+ * 不能要求贡献者注意这个约束（markdown 习惯就是 # 当顶级标题），所以
+ * 在 build 阶段自动 shift：如果 MDX 含 h1，整树 heading 降一级
+ * （h1→h2 / h2→h3 / ... / h5→h6）。这样：
+ *   - 贡献者照常写 `# 标题`、`## 章节`、`### 子节`
+ *   - 渲染出来变 `<h2>` / `<h3>` / `<h4>`，保持层级关系
+ *   - page.tsx 的 `<h1>` 是页面唯一 h1
+ *
+ * 如果 MDX 不含 h1（作者已经从 ## 开始）就不动 —— 这种文档天然合规。
+ *
+ * 副作用：MDX 用到 h5 时会被降到 h6；h6 已是 markdown 最大深度无法再降，
+ * 这里保留为 h6（罕见，CS/AI 技术文档基本不到 5 层）。
+ */
+function remarkShiftHeadingIfH1() {
+  return (tree: Root) => {
+    // 用 visit 遍历整树检测 h1：h1 可能嵌套在 blockquote / list 里
+    // （markdown 语法允许 `> # title`），只看 tree.children 顶级会漏掉
+    let hasH1 = false;
+    visit(tree, "heading", (node) => {
+      if (node.depth === 1) hasH1 = true;
+    });
+    if (!hasH1) return;
+    visit(tree, "heading", (node) => {
+      if (node.depth < 6) node.depth += 1;
+    });
+  };
+}
+
+/**
  * CRITICAL: Fumadocs 图片处理配置
  *
  * 为什么禁用远程图片尺寸探测（external: false）：
@@ -86,13 +121,18 @@ const imageOptions = {
  * 包含：
  * - remarkMath：启用 Markdown 数学语法支持 ($...$, $$...$$)
  * - remarkNormalizeCodeLang：将代码块语言标识符转为小写（解决 Shiki 大小写问题）
+ * - remarkShiftHeadingIfH1：mdx 含 h1 时整树 heading 降一级，避免与 page.tsx 的 h1 冲突
  * - rehypeKatex：使用 KaTeX 将数学公式渲染为 HTML（strict:false 更宽松）
  * - remarkImageOptions：图片处理配置（禁用远程尺寸探测，见上方注释）
  */
 export default defineConfig({
   mdxOptions: {
-    // 支持 LaTeX 公式 + 规范化代码块语言标识符
-    remarkPlugins: [remarkMath, remarkNormalizeCodeLang],
+    // 支持 LaTeX 公式 + 规范化代码块 + h1 降级避免双 h1
+    remarkPlugins: [
+      remarkMath,
+      remarkNormalizeCodeLang,
+      remarkShiftHeadingIfH1,
+    ],
 
     // 宽松的 KaTeX 渲染，不因轻微语法错误中断
     rehypePlugins: (v) => [[rehypeKatex, { strict: false }], ...v],
