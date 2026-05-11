@@ -122,8 +122,13 @@ function cleanBody(body) {
   s = s.replace(/```[\s\S]*?```/g, "");
   // 行内代码
   s = s.replace(/`[^`\n]+`/g, "");
-  // MDX/HTML 标签（粗暴去掉所有 <...>）
-  s = s.replace(/<[^>]+>/g, "");
+  // MDX/HTML 标签：循环 replace 直到 stable，避免嵌套残留如 "<<script>>"
+  // (单次 replace 后剩 "<script>" 仍含 < — CodeQL js/incomplete-multi-character-sanitization)
+  let prev;
+  do {
+    prev = s;
+    s = s.replace(/<[^<>]*>/g, "");
+  } while (s !== prev);
   // 图片/链接的 markdown 语法，保留可读文本
   s = s.replace(/!\[[^\]]*\]\([^)]*\)/g, "");
   s = s.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
@@ -423,28 +428,53 @@ function writeFrontmatterDescription(relPath, newDescription) {
 
   const [, open, body, close, rest] = fmMatch;
 
-  // 在 body 里定位 description 块：
-  //   "description:" 起头行 + 0 或多个缩进续行（YAML block scalar 或 quoted multi-line）
-  //   终止于下一个顶级 yaml 键（行首匹配 `\w+:`）或 body 结尾
-  const descriptionBlockRe =
-    /^description:.*(?:\n(?:[ \t]+.*|\s*))*?(?=\n[\w-]+:|$)/m;
+  // 在 body 里定位 description 块用**逐行扫描**，不用单一巨型正则：
+  // 之前用 /^description:.*(?:\n(?:[ \t]+.*|\s*))*?(?=\n[\w-]+:|$)/m 触发了
+  // CodeQL js/redos —— 内层 (?:[ \t]+.*|\s*) 在 \n 上 ambiguous，指数回溯。
+  // 改逐行：找 "description:" 起始行，往下吃缩进续行（YAML block scalar /
+  // multi-line quoted），遇到下一个顶级 yaml 键（行首 `\w+:`）或 body 结尾停。
+  const lines = body.split("\n");
+  const TOP_LEVEL_KEY_RE = /^[\w-]+:/; // 顶级 yaml 键的标志
+  let descStart = -1;
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].startsWith("description:")) {
+      descStart = i;
+      break;
+    }
+  }
 
   let newBody;
-  if (descriptionBlockRe.test(body)) {
-    newBody = body.replace(descriptionBlockRe, newLine);
+  if (descStart >= 0) {
+    // 找 description 块结束：descStart+1 起，第一行命中顶级键或空行段后再命中顶级键的位置
+    let descEnd = descStart;
+    for (let i = descStart + 1; i < lines.length; i++) {
+      const line = lines[i];
+      // 缩进/空行视为 description 续行
+      if (line === "" || /^[ \t]/.test(line)) {
+        descEnd = i;
+        continue;
+      }
+      // 顶级键出现：description 块到 descEnd 为止
+      if (TOP_LEVEL_KEY_RE.test(line)) break;
+      // 其他情况（理论上不应该出现）：也归 description 续行兜底
+      descEnd = i;
+    }
+    // 替换 [descStart, descEnd] 这段为单行 newLine
+    const before = lines.slice(0, descStart);
+    const after = lines.slice(descEnd + 1);
+    newBody = [...before, newLine, ...after].join("\n");
   } else {
-    // 没有 description 字段，插在首行（一般 title 后）
-    const lines = body.split("\n");
-    // 找到第一个非空 yaml 键行后插入（保持 title 在前的常见风格）
+    // 没有 description 字段，插在首个顶级 yaml 键行后（一般是 title 后）
     let insertAt = 1;
     for (let i = 0; i < lines.length; i++) {
-      if (/^[\w-]+:/.test(lines[i])) {
+      if (TOP_LEVEL_KEY_RE.test(lines[i])) {
         insertAt = i + 1;
         break;
       }
     }
-    lines.splice(insertAt, 0, newLine);
-    newBody = lines.join("\n");
+    const newLines = [...lines];
+    newLines.splice(insertAt, 0, newLine);
+    newBody = newLines.join("\n");
   }
 
   fs.writeFileSync(abs, open + newBody + close + rest, "utf-8");
