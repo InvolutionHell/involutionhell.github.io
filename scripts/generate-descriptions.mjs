@@ -464,11 +464,29 @@ function writeFrontmatterDescription(relPath, newDescription) {
     const after = lines.slice(descEnd + 1);
     newBody = [...before, newLine, ...after].join("\n");
   } else {
-    // 没有 description 字段，插在首个顶级 yaml 键行后（一般是 title 后）
+    // 没有 description 字段，插在首个顶级 yaml 键 + 它的所有续行 之后。
+    // 必须跳过续行，否则 title 用 ">-"/"|" 多行 block scalar 时，把
+    // description 插到续行中间会破坏 yaml（CodeQL 测过的 case）：
+    //   title: >-                    ← 我们找到这行
+    //     line 1 of title             ← 续行（缩进）
+    //     line 2 of title             ← 续行
+    //   description: "新"             ← 必须插这里，不是 title 行后
+    //   date: "..."
     let insertAt = 1;
     for (let i = 0; i < lines.length; i++) {
       if (TOP_LEVEL_KEY_RE.test(lines[i])) {
-        insertAt = i + 1;
+        let endOfFirstKey = i;
+        for (let j = i + 1; j < lines.length; j++) {
+          const line = lines[j];
+          // 缩进或空行视为当前键的续行（block scalar / multi-line quoted）
+          if (line === "" || /^[ \t]/.test(line)) {
+            endOfFirstKey = j;
+            continue;
+          }
+          // 下一个顶级键出现 → 停
+          break;
+        }
+        insertAt = endOfFirstKey + 1;
         break;
       }
     }
