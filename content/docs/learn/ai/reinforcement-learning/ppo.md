@@ -1,6 +1,6 @@
 ---
 title: PPO
-description: ""
+description: "内卷地狱 PPO 算法技术文档：详解完整训练链路（prompt batch→actor→reward model→critic）与核心实现方式，包括重要性采样、裁剪与KL约束机制。适合强化学习入门者、AI求职面试者及CS算法学习者阅读。"
 date: "2025-10-03"
 tags:
   - tag-one

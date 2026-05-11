@@ -1,5 +1,6 @@
 ---
 title: "Sword Offer II 021. Remove the Nth Node From End of List"
+description: "LeetCode Sword Offer II 021. Remove the Nth Node From End of List — Two pointers sliding window with dummy head node to delete nth node from end in one pass, for Python/Java/C++ coders."
 date: "2024.01.01 0:00"
 tags:
   - - Python

@@ -1,6 +1,6 @@
 ---
 title: CMake
-description: ""
+description: "CMake 编译 C++ 项目核心指令详解，覆盖从 CMakeLists.txt 配置、构建目录隔离到生成可执行文件与静态/动态库的完整流程，适合 C++ 初学者、求职准备者及希望系统掌握 CMake 构建工具的开发者阅读。"
 date: "2025-09-29"
 tags:
   - cpp-backend

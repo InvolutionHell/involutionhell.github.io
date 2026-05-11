@@ -1,0 +1,92 @@
+---
+title: "46. Permutations"
+description: "LeetCode 46. Permutations — solution using backtracking with element swapping to generate all permutations via recursion and state restoration (backtracking), enabling full permutation output for arrays without duplicate numbers. Suitable for algorithm learners and job seekers preparing for interviews who want to reinforce backtracking and DFS skills."
+date: 24/3/2025
+tags:
+  - Python
+  - "9021"
+  - tree
+abbrlink: d567a4cd
+docId: mxt0ux1zpbzph4nuxz51eyg7
+lang: en
+translatedFrom: zh
+translatedAt: 2026-05-11T00:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Problem Description
+
+Given an array `nums` of distinct integers, return all the possible permutations. You can return the answer in any order.
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+Example 2:
+
+Input: nums = [0,1]
+Output: [[0,1],[1,0]]
+
+Example 3:
+
+Input: nums = [1]
+Output: [[1]]
+
+# Approach
+
+This problem is more like a tree problem — it can be understood with the following tree structure:
+
+```shell
+dfs(0): nums = [1,2,3]
+|
+|-- i=0: swap(0,0) -> [1,2,3]
+|   |
+|   |-- dfs(1)
+|       |-- i=1: swap(1,1) -> [1,2,3]
+|       |   |-- dfs(2): append [1,2,3]
+|       |-- i=2: swap(1,2) -> [1,3,2]
+|           |-- dfs(2): append [1,3,2]
+|
+|-- i=1: swap(0,1) -> [2,1,3]
+|   |
+|   |-- dfs(1)
+|       |-- i=1: swap(1,1) -> [2,1,3]
+|       |   |-- dfs(2): append [2,1,3]
+|       |-- i=2: swap(1,2) -> [2,3,1]
+|           |-- dfs(2): append [2,3,1]
+|
+|-- i=2: swap(0,2) -> [3,2,1]
+    |
+    |-- dfs(1)
+        |-- i=1: swap(1,1) -> [3,2,1]
+        |   |-- dfs(2): append [3,2,1]
+        |-- i=2: swap(1,2) -> [3,1,2]
+            |-- dfs(2): append [3,1,2]
+
+```
+
+We swap the current position `index` with each candidate position `i` from `index` to the end. Think of `index` and `i` as left and right pointers: `index` determines which slot we're filling, and `i` tries placing different numbers in that slot.
+
+Before the recursive call, we swap `nums[i]` and `nums[index]` to try placing a new number at position `index`. When we reach the last position (`index == len(nums) - 1`), we add the current permutation to the result list. After the recursive call returns, we swap back to restore the original state — this is the backtracking step.
+
+# Code
+
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        # index
+        def dfs(index):
+            # Reach the last element
+            if index == len(nums) - 1:
+                res.append(list(nums))
+                return
+            for i in range(index, len(nums)):
+                nums[i], nums[index] = nums[index], nums[i]
+                dfs(index + 1)
+                nums[i], nums[index] = nums[index], nums[i]
+
+        res = []
+        dfs(0)
+        return res
+```

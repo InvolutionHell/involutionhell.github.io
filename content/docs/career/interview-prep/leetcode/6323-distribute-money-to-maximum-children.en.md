@@ -1,5 +1,6 @@
 ---
 title: "6323. Distribute Money to Maximum Children"
+description: "LeetCode 6323. Distribute Money to Maximum Children — Math problem maximizing children receiving $8, handling remainders and avoiding $4 with greedy adjustments for contest-level logic."
 date: "2024.01.01 0:00"
 tags:
   - - Python

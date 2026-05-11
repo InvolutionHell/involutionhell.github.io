@@ -1,5 +1,6 @@
 ---
 title: Counting Stars-Inter-Uni Programming Contest.md
+description: "LeetCode 题解 — 基于排序与贪心策略的流星轨迹还原问题。通过按 x 坐标递增排序后维护当前链的最后 y 坐标，判断新点能否接续已有流星路径，从而计算最少所需恒星数量。适合备战算法竞赛、练习贪心与排序技巧的 CS 学习者。"
 date: 22/9/2024
 tags:
   - Contest

@@ -1,5 +1,6 @@
 ---
 title: "1828. Queries on Number of Points Inside a Circle — Daily Problem"
+description: "LeetCode 1828. Queries on Number of Points Inside a Circle — O(n²) Euclidean distance solution for counting points inside each circle, ideal for beginners learning geometry in coding problems."
 date: "2024.01.01 0:00"
 tags:
   - - Python

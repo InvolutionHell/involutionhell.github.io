@@ -1,6 +1,6 @@
 ---
 title: 求职活动回放站
-description: Career Events Recap Introduction Page
+description: "求职活动回放站系统整理社区往期活动精华，涵盖Coffee Chat问答、面试实录与技巧总结、岗位经验分享等核心内容。适合正在求职或准备转行的CS/AI学生与职场新人，通过真实案例拆解与成长路径参考，帮助高效复用社区沉淀的面试与职业发展干货。"
 date: "2025-10-26"
 tags:
   - intro

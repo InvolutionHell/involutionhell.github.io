@@ -1,6 +1,6 @@
 ---
 title: Make编译
-description: ""
+description: "Make编译详解：基于依赖关系与时间戳的自动化构建工具，通过检查源文件与目标文件的修改时间差智能触发重新编译。适合CS/AI方向求职者、C++项目开发者及希望提升构建效率的工程师阅读，掌握Makefile基本语法与规则配置。"
 date: "2025-09-29"
 tags:
   - cpp-backend

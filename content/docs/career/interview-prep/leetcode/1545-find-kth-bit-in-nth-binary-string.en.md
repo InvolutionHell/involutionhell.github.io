@@ -1,5 +1,6 @@
 ---
 title: "1545. Find Kth Bit in Nth Binary String"
+description: "LeetCode 1545. Find Kth Bit in Nth Binary String — recursive approach using string length rules and bit inversion to locate the kth bit without building the full string, for intermediate algorithm learners."
 date: "2026.03.04 00:46"
 tags:
   - Leetcode

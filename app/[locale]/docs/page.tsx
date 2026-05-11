@@ -5,6 +5,7 @@ import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { SectionIndex } from "@/app/components/docs/SectionIndex";
 import { routing } from "@/i18n/routing";
+import { ensureSeoDescription } from "@/lib/seo-description";
 
 /**
  * /[locale]/docs 根路由的 landing。Header 的 "文档 / Docs" 链接指到 /docs，
@@ -49,11 +50,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
+  // 走统一兜底：原文本只 ~60 字符，被 Bing 判定为太短。ensureSeoDescription
+  // 会自动补足到 80+ 字符，并保持中英分别的 tagline。
   return {
     title: locale === "en" ? "Docs" : "文档",
-    description:
-      locale === "en"
-        ? "Involution Hell community knowledge base — AI, CS, jobs, community shares."
-        : "Involution Hell 社区知识库 — AI、计算机基础、求职、群友分享等分区总览。",
+    description: ensureSeoDescription({
+      description:
+        locale === "en"
+          ? "Involution Hell community knowledge base — AI, CS, jobs, community shares."
+          : "Involution Hell 社区知识库 — AI、计算机基础、求职、群友分享等分区总览。",
+      title: locale === "en" ? "Docs" : "文档",
+      locale,
+    }),
   };
 }

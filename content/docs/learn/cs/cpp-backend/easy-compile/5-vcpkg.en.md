@@ -1,6 +1,6 @@
 ---
 title: vcpkg Package Manager
-description: ""
+description: "Learn vcpkg's Classic and Manifest modes for C++ dependency management, plus CMake integration setup for open-source developers."
 date: "2025-09-29"
 tags:
   - cpp-backend

@@ -1,5 +1,6 @@
 ---
 title: "2299. Strong Password Checker II — Daily Problem"
+description: "LeetCode 2299. Strong Password Checker II — Simulate password validation with bitmask tracking lowercase, uppercase, digit, and special characters; O(n) time, for LeetCode solvers."
 date: "2024.01.01 0:00"
 tags:
   - - Python

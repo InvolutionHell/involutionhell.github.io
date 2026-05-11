@@ -1,5 +1,6 @@
 ---
 title: "80. Remove Duplicates from Sorted Array II — Python beats 98.40% using collections.Counter!"
+description: "LeetCode 80. Remove Duplicates from Sorted Array II — Uses collections.Counter to cap element frequencies at 2, then modifies the array in-place. For Python developers seeking an O(n) time, O(1) space solution."
 date: "2024.01.01 0:00"
 tags:
   - - Python

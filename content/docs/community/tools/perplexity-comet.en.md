@@ -1,6 +1,6 @@
 ---
 title: "Perplexity Comet: The AI Browser That Acts Like a Personal Assistant"
-description: ""
+description: "Get a free year of Perplexity Pro with Comet, an AI browser acting as a personal assistant for students and developers seeking deep research and task automation."
 date: "2025-10-03"
 tags:
   - perlexity

@@ -1,5 +1,6 @@
 ---
 title: "146. LRU Cache"
+description: "LeetCode 146. LRU Cache — Simulates LRU with a dictionary for O(1) get/put; no linked list needed. For developers learning caching strategies."
 date: "2024.01.01 0:00"
 tags:
   - Python

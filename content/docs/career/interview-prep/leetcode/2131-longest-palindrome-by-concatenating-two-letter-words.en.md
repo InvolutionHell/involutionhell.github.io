@@ -1,5 +1,6 @@
 ---
 title: "2131. Longest Palindrome by Concatenating Two Letter Words"
+description: "LeetCode 2131. Longest Palindrome by Concatenating Two Letter Words — hash map approach to pair words with their reverses, plus a center check for palindromic words; for intermediate algorithm learners."
 date: "2025/5/25-2:33"
 tags:
   - - Python

@@ -1,5 +1,6 @@
 ---
 title: "2639. Find the Width of Columns of a Grid"
+description: "LeetCode 2639. Find the Width of Columns of a Grid — compute max digit length per column in O(n²) using string conversion and column-wise iteration, ideal for grid traversal practice."
 date: "2024.01.01 0:00"
 tags:
   - - Python

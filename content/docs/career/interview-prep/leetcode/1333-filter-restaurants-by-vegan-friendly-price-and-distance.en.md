@@ -1,5 +1,6 @@
 ---
 title: "1333. Filter Restaurants by Vegan-Friendly, Price, and Distance"
+description: "LeetCode 1333. Filter Restaurants by Vegan-Friendly, Price, and Distance — Sort and filter restaurants using list comprehension with lambda for multi-key sorting by rating then ID, for Python developers."
 date: "2024.01.01 0:00"
 tags:
   - Python

@@ -1,5 +1,6 @@
 ---
 title: 用闲置树莓派搭建一个Minecraft服务器
+description: "用闲置树莓派搭建Minecraft服务器完整教程，涵盖FRP内网穿透配置、Java环境安装与Fabric服务端部署，适合有树莓派和VPS的玩家、想利用旧设备搭建联机服务器的CS/AI学习者及自建游戏社区的技术爱好者。"
 date: 2025-08-05T18:53:40.000Z
 tags: null
 docId: i0xmpskau105p83vq35wnxls

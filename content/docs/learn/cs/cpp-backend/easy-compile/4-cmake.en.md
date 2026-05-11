@@ -1,6 +1,6 @@
 ---
 title: CMake
-description: ""
+description: "Learn CMake for C++ projects: compile executables or libraries, keep build files separate from source. For CS learners & developers."
 date: "2025-09-29"
 tags:
   - cpp-backend

@@ -1,6 +1,6 @@
 ---
 title: Prompt Repetition Improves Non-Reasoning LLMs
-description: 复读机或可提高大模型能力
+description: "Learn how repeating input prompts boosts accuracy for non-reasoning LLMs like GPT, Gemini, and Claude without extra latency—ideal for AI engineers and researchers."
 date: "2026-03-05"
 tags:
   - AI

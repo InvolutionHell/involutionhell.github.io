@@ -1,6 +1,6 @@
 ---
 title: 学生邮箱能免费领的AI提效工具系列
-description: ""
+description: "学生邮箱免费领取的AI提效工具系列，详解Perplexity Comet、Cursor、V0.dev三款产品的高频使用技巧，覆盖AI搜索、代码生成与前端开发场景，适合在校学生、求职开发者及想用免费资源提升效率的CS/AI学习者。"
 date: "2025-10-03"
 tags:
   - edu-email

@@ -18,7 +18,9 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "typecheck": "tsc --noEmit",
     "check:pnpm-version": "node scripts/check-pnpm-version.mjs",
-    "check:lockfile": "node scripts/check-lockfile.mjs"
+    "check:lockfile": "node scripts/check-lockfile.mjs",
+    "check:frontmatter": "node scripts/check-frontmatter-description.mjs",
+    "check:frontmatter:all": "node scripts/check-frontmatter-description.mjs --all"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.14",

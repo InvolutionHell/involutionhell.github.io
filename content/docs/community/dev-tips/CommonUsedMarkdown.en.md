@@ -1,5 +1,6 @@
 ---
 title: Common Markdown Syntax
+description: "Learn Markdown syntax for headings, bold, italic, lists, tables, links, and images—perfect for beginners on involutionhell.com."
 date: 2025-09-20T14:25:39.000Z
 docId: xqz5iiv3p52h6d9g3c0w2baf
 lang: en

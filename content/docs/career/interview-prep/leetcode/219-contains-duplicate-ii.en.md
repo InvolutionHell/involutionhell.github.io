@@ -1,5 +1,6 @@
 ---
 title: "219. Contains Duplicate II — Hash Table Approach"
+description: "LeetCode 219. Contains Duplicate II — Sliding window and hash set approach to check if any duplicate exists within k distance, for coding interview prep."
 date: "2024.01.01 0:00"
 categories:
   - - Python

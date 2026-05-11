@@ -1,6 +1,6 @@
 ---
 title: Building with Make
-description: ""
+description: "Learn how Make manages file dependencies and timestamps for automated builds — essential for developers and CS learners on involutionhell.com."
 date: "2025-09-29"
 tags:
   - cpp-backend

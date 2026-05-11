@@ -1,5 +1,6 @@
 ---
 title: "2562. Find the Array Concatenation Value"
+description: "LeetCode 2562. Find the Array Concatenation Value — two-pointer approach to concatenate first and last numbers as strings and sum them, for intermediate Python learners."
 date: "2024.01.01 0:00"
 tags:
   - Python

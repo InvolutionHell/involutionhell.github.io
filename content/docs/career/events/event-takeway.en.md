@@ -1,6 +1,6 @@
 ---
 title: Career Events Recap Hub
-description: Career Events Recap Introduction Page
+description: "Explore career event takeaways on involutionhell.com: interview tips, resume optimization, and role-specific growth insights for job seekers."
 date: "2025-10-26"
 tags:
   - intro

@@ -1,5 +1,6 @@
 ---
 title: Building a Minecraft Server on an Idle Raspberry Pi
+description: "Set up a Raspberry Pi Minecraft server with FRP port forwarding using an idle Pi and a VPS—perfect for self-hosters and open-source enthusiasts."
 date: 2025-08-05T18:53:40.000Z
 tags: null
 docId: i0xmpskau105p83vq35wnxls

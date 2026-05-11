@@ -1,6 +1,6 @@
 ---
 title: vcpkg包管理器
-description: ""
+description: "vcpkg包管理器详解：经典模式直接安装库并手动配置CMake包含目录，清单模式通过vcpkg.json自动管理依赖并集成CMake工具链。适合C++开发者、使用CMake构建系统的项目团队，以及需要统一管理第三方库或创建私有注册表的开发者。"
 date: "2025-09-29"
 tags:
   - cpp-backend

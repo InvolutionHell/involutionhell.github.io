@@ -1,5 +1,6 @@
 ---
 title: "76. Minimum Window Substring"
+description: "LeetCode 76. Minimum Window Substring — Two-pointer sliding window with dictionary-based character count tracking to find the smallest substring containing all target characters; for developers preparing for coding interviews."
 date: "2024.01.01 0:00"
 tags:
   - - Python

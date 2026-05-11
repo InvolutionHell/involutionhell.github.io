@@ -1,6 +1,6 @@
 ---
 title: Handwritten Fixed-Size Memory Pool
-description: ""
+description: "Learn to build a fixed-size memory pool from scratch in C, covering struct design and block allocation/freeing—ideal for systems programmers and CS learners."
 date: "2025-09-29"
 tags:
   - cpp-backend

@@ -1,6 +1,6 @@
 ---
 title: Perplexity Comet 浏览器：能当私人管家的自动化浏览器
-description: ""
+description: "Perplexity Comet 浏览器深度解析：一款能自动操作浏览器、整合邮件与日程的AI个人管家。核心技术点包括后台自动访问页面执行任务（如查邮件、查课程成绩）和前台实时自动化操作（如购物下单）。适合AI学习者、效率工具爱好者及希望用AI替代重复性工作的学生与开发者阅读。"
 date: "2025-10-03"
 tags:
   - perlexity

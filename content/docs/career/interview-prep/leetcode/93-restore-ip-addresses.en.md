@@ -1,0 +1,62 @@
+---
+title: "93. Restore IP Addresses"
+description: "LeetCode 93. Restore IP Addresses — backtracking algorithm (DFS) with recursion over all possible IP segment combinations. Focuses on pointer movement, substring slicing, and the implementation detail that pass-by-value with list concatenation eliminates the need to manually undo state. Suitable for CS/AI job seekers preparing for big-tech algorithm interviews who are grinding backtracking problems on LeetCode."
+date: "2025/3/25-14:03"
+tags:
+  - - Python
+  - - Answer
+abbrlink: 9d0d3b9c
+docId: d5evrnoglwjvmyginjq84bl0
+lang: en
+translatedFrom: zh
+translatedAt: 2026-05-11T00:00:00Z
+translatorAgent: claude-sonnet-4-6
+---
+
+# Problem
+
+[93. Restore IP Addresses](https://leetcode.cn/problems/restore-ip-addresses/description/?envType=company&envId=mihoyo&favoriteSlug=mihoyo-all)
+
+# Approach
+
+This MiHoYo coding test question is very similar to LeetCode 46 (Permutations), and both rely on the backtracking approach.
+
+As shown in the code, during the first traversal, we may get something like `['2', '5', '5', '2']` as our initial parts, but at this point we haven't traversed the entire string yet.
+
+When we enter the next level of DFS, the pointer moves forward by `+length`, effectively pointing to the far right of the current segment. If the pointer has reached the end of the string, it means we've visited all characters — we've found one valid answer and can add it to the result list.
+
+One important note: `parts + [part]` is pass-by-value, not by reference like in LeetCode 46. This means we don't need to manually undo changes (no need to backtrack with `pop()`), because each recursive call creates a new list.
+
+# Code
+
+```python
+from typing import List
+
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        res = []
+
+        def backtrack(start: int, parts: List[str]):
+            # 终止条件：正好4段且用完所有字符
+            # Stop condition: exactly 4 segments and all characters used up
+            if len(parts) == 4:
+                if start == len(s):
+                    res.append(".".join(parts))
+                return
+
+            for length in range(1, 4):  # 每段长度1~3 Each segment length 1~3
+                if start + length > len(s):
+                    break
+                part = s[start:start+length]
+
+                # 前导0非法，但0本身合法
+                # Leading 0 is illegal, but 0 itself is legal
+                if len(part) > 1 and part[0] == '0':
+                    continue
+
+                if int(part) <= 255:
+                    backtrack(start + length, parts + [part])  # 注意用 + 避免污染 We need to use + to avoid pollution
+
+        backtrack(0, [])
+        return res
+```

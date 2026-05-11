@@ -11,5 +11,11 @@ pnpm test || exit 1
 pnpm check:pnpm-version || true
 pnpm check:lockfile || true
 
-# 5) 其余按 lint-staged 处理（如 Prettier）
+# 5) 校验新增/修改的 docs MDX 必须有 description（>= 60 字符）
+#    Bing 2026-05 报告 118 个页面 description 太短，老内容由 lib/seo-description.ts
+#    代码层兜底，但新增/修改必须手写，避免再积累低质量 SEO 内容。
+#    leetcode/ 和 _translated 自动豁免，详见 scripts/check-frontmatter-description.mjs
+pnpm check:frontmatter || exit 1
+
+# 6) 其余按 lint-staged 处理（如 Prettier）
 pnpm exec lint-staged

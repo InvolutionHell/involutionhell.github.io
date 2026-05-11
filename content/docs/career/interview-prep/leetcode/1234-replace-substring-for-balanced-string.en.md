@@ -1,5 +1,6 @@
 ---
 title: "1234. Replace the Substring for Balanced String — Daily Problem"
+description: 'LeetCode 1234. Replace the Substring for Balanced String — two-pointer sliding window approach to find minimal substring where outside characters exceed n/4, using frequency counting and the "at most m" trick for O(n) solution. For intermediate algorithm learners.'
 date: "2024.01.01 0:00"
 tags:
   - - Python

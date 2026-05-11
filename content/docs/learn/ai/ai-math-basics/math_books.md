@@ -1,6 +1,6 @@
 ---
 title: Recommended Books on Mathematics and Data Science
-description: ""
+description: "内卷地狱数学与数据科学推荐书单，覆盖机器学习、概率统计、贝叶斯推理、线性代数及数学史。关键技术点包括鸢尾花丛书系列（数学要素、矩阵力量、统计至简）及概率论沉思录。适合AI/CS求职者、数据科学初学者、研究者及数学爱好者。"
 date: "2025-10-06"
 tags:
   - math-textbooks

@@ -1,6 +1,6 @@
 ---
 title: A Quick Introduction to Context Engineering
-description: ""
+description: "Learn to optimize AI model inputs by managing context windows, reducing noise, and cutting token costs—for developers and prompt engineers on involutionhell.com."
 date: "2025-10-03"
 tags:
   - context-engineering

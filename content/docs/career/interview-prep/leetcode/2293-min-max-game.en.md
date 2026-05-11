@@ -1,5 +1,6 @@
 ---
 title: "2293. Min Max Game — Daily Problem"
+description: "LeetCode 2293. Min Max Game — Recursively reduce an array by pairing elements and alternating min/max comparisons, using a 2D list to avoid index confusion. For intermediate developers."
 date: "2024.01.01 0:00"
 tags:
   - - Python

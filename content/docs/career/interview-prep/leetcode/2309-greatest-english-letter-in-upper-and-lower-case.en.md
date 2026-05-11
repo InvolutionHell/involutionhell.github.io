@@ -1,5 +1,6 @@
 ---
 title: "2309. Greatest English Letter in Upper and Lower Case — Daily Problem"
+description: "LeetCode 2309. Greatest English Letter in Upper and Lower Case — Hash table or bit manipulation to find the highest letter appearing in both cases; for developers preparing for coding interviews."
 date: "2024.01.01 0:00"
 tags:
   - - Python

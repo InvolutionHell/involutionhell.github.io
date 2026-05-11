@@ -1,6 +1,6 @@
 ---
 title: MOE 浅谈
-description: "混合专家（Mixture of Experts, MoE）架构的简要介绍"
+description: "混合专家（MoE）架构详解：如何通过门控机制与条件计算在不显著增加算力下扩展大模型参数规模。涵盖传统MoE替换FFN层原理、Dense与Sparse路由机制差异。适合AI研究者、大模型开发者及对高效模型架构感兴趣的求职者。"
 tags:
   - MoE
   - AI

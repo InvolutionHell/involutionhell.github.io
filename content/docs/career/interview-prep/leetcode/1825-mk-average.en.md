@@ -1,5 +1,6 @@
 ---
 title: "1825. Find MK Average"
+description: "LeetCode 1825. Find MK Average — Maintain three multisets for smallest k, middle, and largest k elements; track middle sum for O(1) average queries. Ideal for engineers mastering data structure design."
 date: "2024.01.01 0:00"
 tags:
   - - Python

@@ -1,6 +1,6 @@
 ---
 title: "Theory of MoE"
-description: ""
+description: "MoE（混合专家模型）理论详解：从基础公式定义出发，涵盖O/Ω/Θ/o渐近符号与线性模型简化假设，并解析task-wised路由方法及含噪声数据集的生成规则。适合希望理解MoE数学原理、闭式遗忘公式推导及路由机制的AI研究者与算法工程师。"
 date: "2025-10-05"
 tags:
   - mixture-of-experts

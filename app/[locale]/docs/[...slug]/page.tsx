@@ -1,6 +1,7 @@
 import { source } from "@/lib/source";
 import { safeJsonLdString } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/site-url";
+import { ensureSeoDescription } from "@/lib/seo-description";
 import { DocsPage, DocsBody } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -65,12 +66,23 @@ export default async function DocPage({ params }: Param) {
     ? `${SITE_URL}/${locale}/docs/${slugPath}`
     : `${SITE_URL}/${locale}/docs`;
 
+  // JSON-LD description 同步走兜底：避免结构化数据里出现空字符串，否则
+  // Google Rich Results 测试会 warning。与 generateMetadata 里的逻辑一致。
+  const sectionPathForJsonLd =
+    (slug ?? []).length > 1 ? (slug ?? []).slice(0, -1) : [];
+  const articleDescription = ensureSeoDescription({
+    description: page.data.description,
+    title: page.data.title,
+    sectionPath: sectionPathForJsonLd,
+    locale,
+  });
+
   // TechArticle: 让 docs 在 Google 搜索结果上更可能展示为技术文章卡片
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     headline: page.data.title,
-    description: page.data.description,
+    description: articleDescription,
     url: docUrl,
     inLanguage: locale === "en" ? "en-US" : "zh-CN",
     publisher: {
@@ -190,21 +202,35 @@ export async function generateMetadata({ params }: Param): Promise<Metadata> {
     "",
   );
 
+  // SEO description 兜底：page.data.description 可能为 undefined/空/极短
+  // （96 个 leetcode 题解完全没 description，67 个空，35 个 < 20 字符）。
+  // 用 ensureSeoDescription 拼 title + 面包屑 + 站点 tagline 补到 80+ 字符，
+  // 让 Bing/Google 拿到完整摘要而不是从正文随便抓一段。
+  // sectionPath 取 slug 除末段外的所有段（末段是当前页本身，已在 title 里）。
+  const slugArr = slug ?? [];
+  const sectionPath = slugArr.length > 1 ? slugArr.slice(0, -1) : [];
+  const safeDescription = ensureSeoDescription({
+    description: page.data.description,
+    title: page.data.title,
+    sectionPath,
+    locale,
+  });
+
   return {
     title: page.data.title,
-    description: page.data.description,
+    description: safeDescription,
     alternates: { canonical, languages: langs },
     openGraph: {
       type: "article",
       title: page.data.title,
-      description: page.data.description,
+      description: safeDescription,
       url: canonical,
       locale: locale === "en" ? "en_US" : "zh_CN",
     },
     twitter: {
       card: "summary_large_image",
       title: page.data.title,
-      description: page.data.description,
+      description: safeDescription,
     },
   };
 }

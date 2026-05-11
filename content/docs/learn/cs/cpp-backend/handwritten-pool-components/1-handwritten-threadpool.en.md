@@ -1,6 +1,6 @@
 ---
 title: Handwritten Thread Pool
-description: ""
+description: "Learn how to build a handwritten thread pool with blocking queues (single & double-queue versions), covering constructor, post, and destructor interfaces for CS/AI developers."
 date: "2025-09-29"
 tags:
   - cpp-backend

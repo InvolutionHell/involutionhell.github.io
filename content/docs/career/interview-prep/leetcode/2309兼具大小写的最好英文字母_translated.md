@@ -2,6 +2,7 @@
 title: >-
   2309. The best English letters with both appropriates and lowercases One
   question daily
+description: "LeetCode 2309. 兼具大小写的最好英文字母 题解 — 使用哈希表与位运算两种解法，哈希表法从 Z 开始逆序查找字母是否同时出现大小写，位运算法用两个整数掩码分别记录小写和大写字母出现情况，再通过与运算找出最高位对应字母。适合正在刷 LeetCode 每日一题、想掌握哈希表与位运算技巧的求职者和算法学习者。"
 date: "2024.01.01 0:00"
 tags:
   - - Python
