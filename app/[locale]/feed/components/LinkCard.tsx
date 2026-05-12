@@ -33,7 +33,6 @@ export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
 
   return (
     <li className="group border border-[var(--foreground)] hover:border-[#CC0000] transition-colors duration-150 flex flex-col">
-      {/* 整卡可点击区域，跳到原文 */}
       <a
         href={link.url}
         target="_blank"
@@ -41,7 +40,6 @@ export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
         className="flex flex-col flex-1"
         aria-label={link.ogTitle ?? link.url}
       >
-        {/* OG 封面 / 占位块 */}
         {safeOgCover && !link.ogFetchFailed ? (
           // next/image 全站 unoptimized:true，用 img 即可（与 events 页一致）。
           // referrerPolicy="no-referrer"：微信 mmbiz.qpic.cn 防盗链会检查 Referer，
@@ -55,7 +53,6 @@ export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
             className="w-full aspect-[16/9] object-cover border-b border-[var(--foreground)]"
           />
         ) : (
-          // 无封面：显示 host 首字母占位
           <div className="w-full aspect-[16/9] bg-neutral-100 dark:bg-neutral-900 border-b border-[var(--foreground)] flex flex-col items-center justify-center gap-1">
             <span className="font-serif text-4xl font-black text-neutral-400 select-none">
               {getHostInitial(link.host)}
@@ -72,22 +69,17 @@ export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
           </div>
         )}
 
-        {/* 卡片内容区 */}
         <div className="p-4 flex flex-col gap-2 flex-1">
-          {/* 标题 */}
           <h3 className="font-serif text-base font-black leading-snug group-hover:text-[#CC0000] transition-colors line-clamp-2 text-[var(--foreground)]">
             {link.ogTitle ?? link.url}
           </h3>
 
-          {/* OG 描述 / 用户推荐语 */}
           {(link.recommendation || link.ogDescription) && (
             <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-3 leading-relaxed">
-              {/* 用户推荐语优先展示，没有则展示 OG description */}
               {link.recommendation ?? link.ogDescription}
             </p>
           )}
 
-          {/* 分类 badge + 失效标记 */}
           <div className="flex items-center gap-2 flex-wrap mt-auto pt-2">
             {link.category && (
               <Badge
@@ -107,7 +99,6 @@ export function LinkCard({ link, categoryLabel, isLoggedIn }: LinkCardProps) {
             )}
           </div>
 
-          {/* 提交人 + host 来源 */}
           <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 pt-1">
             <span className="truncate max-w-[60%]">{link.host}</span>
           </div>

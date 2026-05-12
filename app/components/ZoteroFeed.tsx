@@ -1,8 +1,6 @@
 "use client";
 import * as React from "react";
 
-// Debug helpers (removed in production)
-
 type ZoteroItem = {
   key: string;
   data?: {
@@ -36,7 +34,6 @@ export function ZoteroFeed({
       .then(async (r) => {
         if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
         const data: ZoteroItem[] = await r.json();
-        // No debug exposure in production
         setItems(data);
       })
       .catch((e: unknown) => {

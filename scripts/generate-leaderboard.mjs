@@ -4,9 +4,6 @@
  * 结合本地 .source/index.ts 的 docId→title/url 映射 + git log noreply 反推 login，
  * 生成静态 leaderboard 供排行榜页和首页使用。
  *
- * 历史：早期版本直接 prisma 连 Postgres 5432，逼着 DB 端口公网开放。
- * 现已改走后端 endpoint，DB 收回内网。详见 backend PR #22。
- *
  * 用法：
  *   node scripts/generate-leaderboard.mjs
  */

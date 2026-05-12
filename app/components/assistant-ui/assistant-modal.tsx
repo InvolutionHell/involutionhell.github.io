@@ -30,8 +30,7 @@ export const AssistantModal: FC<AssistantModalProps> = ({
   isLoadingWelcome,
 }) => {
   const [showBubble, setShowBubble] = useState(false);
-  // 受控状态：允许模态框内部的 X 按钮主动关闭窗口
-  // issue #285: 原先只能靠 Trigger/点击外部/Esc 关闭，用户反馈不知道怎么关窗
+  // 受控 open：让模态框右上角的 X 按钮能主动关闭；非受控时只能靠 Trigger/点外部/Esc
   const [open, setOpen] = useState(false);
 
   const handleCloseModal = useCallback(() => {
@@ -70,7 +69,6 @@ export const AssistantModal: FC<AssistantModalProps> = ({
   return (
     <AssistantModalPrimitive.Root open={open} onOpenChange={setOpen}>
       <AssistantModalPrimitive.Anchor className="aui-root aui-modal-anchor fixed right-4 bottom-4 size-14">
-        {/* 自定义气泡组件 */}
         {showBubble && (
           <div
             className="absolute bottom-17 right-0 z-40 animate-in fade-in-0 slide-in-from-bottom-2 duration-500"
@@ -97,7 +95,6 @@ export const AssistantModal: FC<AssistantModalProps> = ({
         sideOffset={16}
         className="aui-root aui-modal-content relative z-50 h-[500px] w-[400px] overflow-clip rounded-xl border bg-popover p-0 text-popover-foreground shadow-md outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-1/2 data-[state=closed]:slide-out-to-right-1/2 data-[state=closed]:zoom-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=open]:slide-in-from-right-1/2 data-[state=open]:zoom-in [&>.aui-thread-root]:bg-inherit"
       >
-        {/* 右上角关闭按钮，issue #285：用户找不到关闭模态框的显式入口 */}
         <button
           type="button"
           onClick={handleCloseModal}
@@ -134,17 +131,15 @@ const AssistantModalButton = forwardRef<
   const tooltip = state === "open" ? "Close Assistant" : "Open Assistant";
 
   const handleClick = (e: React.MouseEvent) => {
-    // 当点击open按钮时，关闭气泡对话
     if (onCloseBubble) {
       onCloseBubble();
     }
 
-    // 如果当前是关闭状态，说明即将打开，记录埋点
+    // 仅在 closed → open 时埋点，避免关闭动作也计一次 open
     if (state === "closed" && window.umami) {
       window.umami.track("ai_assistant_open");
     }
 
-    // 继续执行原有的点击事件
     if (rest.onClick) {
       rest.onClick(e);
     }
