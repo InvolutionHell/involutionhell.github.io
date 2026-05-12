@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import type { EventView } from "./types";
 import { sanitizeMediaUrl } from "@/lib/url-safety";
+import { routing } from "@/i18n/routing";
 
-/**
- * /events 列表页。
- *
- * SSR 直连后端（BACKEND_URL）拉 published + archived 活动。
- * 错误策略参考 /u/[username]/page.tsx：只有网络 / 5xx 才抛，空列表不是错误。
- *
- * revalidate: 300 把 Neon 打压力压到每 5min 一次 SSR，和 PR #286 的 profile 策略一致。
- */
-
+// ISR 5min：和 profile/feed 同一节流策略，控后端 QPS。
+// setRequestLocale + generateStaticParams 是 next-intl SSG 的必要条件，
+// 缺任一项会让 next-intl 退回 cookies() 把这条路由钉成 ƒ Dynamic。
 export const revalidate = 300;
 
 interface ApiResponse<T> {
@@ -22,24 +20,50 @@ interface ApiResponse<T> {
   message?: string;
 }
 
+// 只在 build 阶段允许 fetch 失败降级（让 SSG 不挂），运行时仍 throw 给 Sentry。
+const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
+
 async function fetchEvents(): Promise<EventView[]> {
   const backendUrl = process.env.BACKEND_URL;
   if (!backendUrl) {
-    // 开发环境或 misconfig 时给一个清晰报错，而不是静默空列表
+    if (IS_BUILD) {
+      console.warn(
+        "[events] BACKEND_URL not set at build, rendering empty shell; ISR will fetch real data after deploy",
+      );
+      return [];
+    }
     throw new Error("BACKEND_URL is not configured");
   }
-  const res = await fetch(`${backendUrl}/api/events`, {
-    next: { revalidate: 300 },
-    headers: {
-      accept: "application/json",
-      "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
-    },
-  });
-  if (!res.ok) {
-    throw new Error(`/api/events backend ${res.status} ${res.statusText}`);
+  try {
+    const res = await fetch(`${backendUrl}/api/events`, {
+      next: { revalidate: 300 },
+      headers: {
+        accept: "application/json",
+        "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
+      },
+    });
+    if (!res.ok) {
+      if (IS_BUILD) {
+        console.warn(
+          `[events] backend ${res.status} at build, rendering empty shell`,
+        );
+        return [];
+      }
+      throw new Error(`/api/events backend ${res.status} ${res.statusText}`);
+    }
+    const json = (await res.json()) as ApiResponse<EventView[]>;
+    return json.success && json.data ? json.data : [];
+  } catch (err) {
+    if (IS_BUILD) {
+      console.warn(
+        "[events] fetch failed at build, rendering empty shell:",
+        err,
+      );
+      return [];
+    }
+    // 运行时失败仍然 throw —— Sentry 抓到，错误页正常显示，不掩盖故障
+    throw err;
   }
-  const json = (await res.json()) as ApiResponse<EventView[]>;
-  return json.success && json.data ? json.data : [];
 }
 
 export const metadata: Metadata = {
@@ -48,7 +72,15 @@ export const metadata: Metadata = {
     "Coffee Chat、Mock Interview、Career Journey、Open.Onion 等社群活动汇总，直播入口和历史回放一站式。",
 };
 
-export default async function EventsListPage() {
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function EventsListPage({ params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
   const all = await fetchEvents();
   // 按时间划分：进行中 / 即将开始 / 已结束。ongoing + past 由后端标记，剩下的归"即将开始"
   const ongoing = all.filter((e) => e.ongoing);
@@ -203,4 +235,8 @@ function formatDate(iso: string): string {
   } catch {
     return iso;
   }
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
 import { SignInButton } from "@/app/components/SignInButton";
+import { routing } from "@/i18n/routing";
 
 // SEO: 登录页不参与 index（搜索引擎不需要收录登录入口）
 export const metadata: Metadata = {
@@ -10,7 +13,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default async function LoginPage() {
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function LoginPage({ params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
   const t = await getTranslations("login");
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -25,4 +36,8 @@ export default async function LoginPage() {
       </div>
     </div>
   );
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }

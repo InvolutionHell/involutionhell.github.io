@@ -15,6 +15,7 @@ const dsn = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN;
 Sentry.init({
   dsn,
   enabled: process.env.NODE_ENV === "production" && !!dsn,
+  // 10% 是有意为之，server/edge/client 三处必须一致才能跨 runtime 串 trace。
   tracesSampleRate: 0.1,
   debug: false,
   beforeSend(event) {

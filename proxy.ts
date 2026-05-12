@@ -29,6 +29,32 @@ const LEETCODE_OLD_PATH_TAIL = "/docs/CommunityShare/Leetcode";
 
 const intlMiddleware = createMiddleware(routing);
 
+// Bot / vulnerability scanner path patterns —— 在 edge 早返 404，不让进 Fluid。
+// 维护约束：
+//   1. 只放 100% 业务用不到的指纹（不要加 admin / login，业务有真路由）
+//   2. **不要放含 `.` 的路径**：下面 matcher 用 `.*\\..*` 排除所有 dot-path，
+//      middleware 根本不会被调起。带点的 scanner（.env / .php / .git/ / .war
+//      等）会直接走到 Next 默认 404 → 命中我们的 ○ Static `/_not-found`，
+//      已经是 CDN-served，不烧 Fluid。重复在这里写 dot-path 是死代码。
+const BOT_PATH_PATTERNS = [
+  // wp-* 系列：WordPress 扫描
+  /\/wp-(admin|content|includes|login|json|config)(?:$|[/?#])/i,
+  // GraphQL / GQL endpoint 扫描（本站没 GraphQL）
+  /\/(graphql|gql|api\/graphql|v\d+\/graphql)(?:$|[/?#])/i,
+  // Werkzeug / Flask debug console
+  /\/werkzeug\/console/i,
+  // 常见 admin / debug panels 探测路径（本站 admin 在 /[locale]/admin，
+  // 这些是其他平台特有路径，扫到必是 bot）
+  /\/(phpmyadmin|adminer|pma|dbadmin|mysqladmin)(?:$|[/?#])/i,
+];
+
+function isBotScanPath(pathname: string): boolean {
+  for (const re of BOT_PATH_PATTERNS) {
+    if (re.test(pathname)) return true;
+  }
+  return false;
+}
+
 function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
   const { pathname } = req.nextUrl;
 
@@ -72,6 +98,14 @@ function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
 }
 
 export function proxy(req: NextRequest) {
+  // Scanner 路径 0 函数调用直接 404，no-store 避免攻击者拿 200 当命中信号。
+  if (isBotScanPath(req.nextUrl.pathname)) {
+    return new NextResponse(null, {
+      status: 404,
+      headers: { "cache-control": "no-store" },
+    });
+  }
+
   // 1. Leetcode 中文 slug 优先做 301
   const leetcodeRedirect = redirectLeetcodeIfNeeded(req);
   if (leetcodeRedirect) return leetcodeRedirect;

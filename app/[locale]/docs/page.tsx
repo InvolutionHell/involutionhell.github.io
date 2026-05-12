@@ -17,6 +17,10 @@ import { ensureSeoDescription } from "@/lib/seo-description";
  * 件，避免 drift。
  */
 
+// force-static 必需：SectionIndex 内部用 getLocale()，Next 16 会按"可能 dynamic"
+// 处理，加这条显式 opt-in 静态化（pageTree 是 build-time 数据，无运行时依赖）。
+export const dynamic = "force-static";
+
 interface Props {
   params: Promise<{ locale: string }>;
 }
@@ -63,4 +67,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale,
     }),
   };
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }
