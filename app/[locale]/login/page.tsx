@@ -13,14 +13,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-/**
- * /[locale]/login —— SSG 化（dev_docs/vercel-cpu-overage-2026-05.md H2）。
- *
- * 之前没 setRequestLocale，next-intl 退回 cookies() 推断 locale，整页 ƒ
- * Dynamic。login 是纯静态卡片 + 一个 client 按钮，没有理由每请求都 SSR。
- * 加 params + setRequestLocale + generateStaticParams 让两个 locale build 时
- * 预渲染，登录页所有访问都从 CDN 出。
- */
 interface Props {
   params: Promise<{ locale: string }>;
 }

@@ -20,9 +20,7 @@ const dsn = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN;
 Sentry.init({
   dsn,
   enabled: process.env.NODE_ENV === "production" && !!dsn,
-  // 10% 采样：行业标准，足以发现 P95/P99 慢请求 + 偶发错误关联的请求链路。
-  // （曾试过 2% 想省 Vercel CPU，但 trace overhead 占比远小于 SEO 重抓带来的
-  // crawler 流量，2% 是省芝麻丢西瓜的 hack —— observability 不能为这点 CPU 让步。）
+  // 10% 是有意为之，server/edge/client 三处必须一致才能跨 runtime 串 trace。
   tracesSampleRate: 0.1,
   debug: false,
   beforeSend(event) {

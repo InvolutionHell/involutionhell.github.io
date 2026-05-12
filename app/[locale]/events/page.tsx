@@ -9,19 +9,9 @@ import type { EventView } from "./types";
 import { sanitizeMediaUrl } from "@/lib/url-safety";
 import { routing } from "@/i18n/routing";
 
-/**
- * /events 列表页。
- *
- * ISR 化（dev_docs/vercel-cpu-overage-2026-05.md H2）：
- *   原版 export const revalidate = 300 但 build 输出仍是 ƒ Dynamic —— 因为
- *   没 setRequestLocale，next-intl 退回 cookies() 推断 locale，整页变 dynamic。
- *   每条访问 = 1 Fluid 调用。加 params + setRequestLocale + generateStaticParams
- *   让 revalidate=300 真正生效：build 时各 locale 预渲染一份，5min 内访问
- *   直接命中 CDN，过期时后台静默更新。
- *
- * revalidate: 300 把 Neon 打压力压到每 5min 一次 SSR，和 PR #286 的 profile 策略一致。
- */
-
+// ISR 5min：和 profile/feed 同一节流策略，控后端 QPS。
+// setRequestLocale + generateStaticParams 是 next-intl SSG 的必要条件，
+// 缺任一项会让 next-intl 退回 cookies() 把这条路由钉成 ƒ Dynamic。
 export const revalidate = 300;
 
 interface ApiResponse<T> {
@@ -30,12 +20,7 @@ interface ApiResponse<T> {
   message?: string;
 }
 
-/**
- * 在 build 阶段才允许"后端不可达就降级返空"。Next 16 用 NEXT_PHASE 标记
- * phase-production-build，build 时返空让 generateStaticParams 能跑完不挂；
- * 运行时仍然 throw，Sentry / 错误页才能感知真故障，不至于把 prod backend
- * 挂了误显示成"暂无活动"。
- */
+// 只在 build 阶段允许 fetch 失败降级（让 SSG 不挂），运行时仍 throw 给 Sentry。
 const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
 
 async function fetchEvents(): Promise<EventView[]> {
