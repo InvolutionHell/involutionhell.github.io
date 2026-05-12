@@ -49,9 +49,20 @@ export function sanitizeExternalUrl(
  * 媒体（<img src> / <video src> / <iframe src>）场景：只允许 http(s)。
  * mailto 无意义；data: 虽然对 <img> 较常用但体积和审计风险高，默认不放；
  * 站内相对路径允许（/logo.png、/event/cover.webp 这些）。
+ *
+ * 自动 http -> https 升级：后端 OgFetchService 已在抓取阶段做一次升级，
+ * 这里是 defense-in-depth —— 万一某条历史数据漏网（或 LLM 兜底回填了
+ * http:// 的封面），前端再升一次。HTTPS 页面加载 http:// 图片会被
+ * mixed-content policy 拦掉，宁可不显示也别让浏览器报黄锁。
  */
 export function sanitizeMediaUrl(
   raw: string | undefined | null,
 ): string | null {
-  return sanitize(raw, SAFE_MEDIA_PROTOCOLS, true);
+  const safe = sanitize(raw, SAFE_MEDIA_PROTOCOLS, true);
+  if (!safe) return null;
+  // 显式判前缀避免误升级相对路径（"/x.jpg" 不会进这里，但保险）
+  if (safe.toLowerCase().startsWith("http://")) {
+    return "https://" + safe.substring(7);
+  }
+  return safe;
 }
