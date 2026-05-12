@@ -15,9 +15,9 @@ const dsn = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN;
 Sentry.init({
   dsn,
   enabled: process.env.NODE_ENV === "production" && !!dsn,
-  // 10% → 2%（dev_docs/vercel-cpu-overage-2026-05.md H3）。Edge middleware
-  // 每条请求都过这里，10% trace 直接叠在 Fluid CPU 上。降到 2% 显著省 CPU。
-  tracesSampleRate: 0.02,
+  // 10% 采样：与 server config 对齐，保证 client/server/edge 三处 trace 比例一致，
+  // 跨 runtime 串联请求链路才完整。省 CPU 的 hack 撤回，observability 优先。
+  tracesSampleRate: 0.1,
   debug: false,
   beforeSend(event) {
     if (event.request?.headers) {

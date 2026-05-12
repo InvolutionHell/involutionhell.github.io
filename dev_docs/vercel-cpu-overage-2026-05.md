@@ -4,12 +4,30 @@
 > Fast Origin Transfer 12.04 GB / 10 GB（120%）。用户报告"之前做过 SSR
 > 优化但情况更糟"。本文档记录调查方法、根因、修复、验证手段。
 
-## TL;DR
+## TL;DR（看完 Vercel dashboard 30 天图表后的修订诊断）
 
-之前的 SSG 优化（2026-05-06 commit `8517332`）**只翻转了 1 条路由**（/[locale]
-首页）。`next build` 输出显示**还剩 18 条 ƒ Dynamic**，其中最致命的是
-`/_not-found`：所有漏洞扫描器（.env / wp-admin / php-info / graphql）和真实
-404 全落到这条 dynamic 路由。
+**真正的元凶**：5/11 一天里 PR #341（253 MDX descriptions backfill + 32 新 EN
+翻译页）+ PR #342（remark h1 plugin）+ PR #343（escape-angles）连续 4 次
+deploy。每次 deploy 自动 ping IndexNow → Bing/Google 5/10-5/12 大规模重抓 +
+索引 32 个新 URL。Dashboard 30 天曲线显示 5/11 CPU 峰值 80-90min（pre-spike
+基线 5-15min/day），完美对应 SEO PR 落地时间。
+
+**这是 SEO 工作 successful 的代价，不是 bug**。流量是真实的搜索引擎 + 真实
+用户增长，付费 Pro plan 阈值就是这么到的。
+
+**本 PR 做的事是真实 waste 的清理**（不是 hack）：
+
+- `/_not-found` 之前是 ƒ Dynamic（每条 scanner 都烧 Fluid）→ ○ Static
+- `proxy.ts` 加 bot path 早返 404，scanner 不再进 Fluid
+- `/[locale]/docs` `/events` `/login` 缺 setRequestLocale 导致退回 dynamic →
+  补上 + generateStaticParams 让 SSG/ISR 真正工作
+
+**撤回的"省 CPU hack"（写完才意识到丢了西瓜）**：
+
+- ~~Sentry tracesSampleRate 0.1 → 0.02~~：保持 10%。observability 不能为这
+  点 CPU 让步，10% 是行业标准
+- ~~fetchEvents 失败一律返空~~：改成只在 `NEXT_PHASE === "phase-production-build"`
+  时返空，运行时仍然 throw 让 Sentry 抓到真故障
 
 本次修复在 `next build` 输出层面把 6 条路由从 ƒ 翻成 ● / ○：
 
@@ -152,16 +170,33 @@ x-vercel-cache: HIT    # ← CDN 命中
 age: 142
 ```
 
-### H3：Sentry tracesSampleRate 0.1（10%）叠在每次调用上
+### H3：~~Sentry tracesSampleRate 0.1 → 0.02~~（撤回）
 
-**证据**：`sentry.server.config.ts:23` 和 `sentry.edge.config.ts:18` 都写
-`tracesSampleRate: 0.1`。在 368K 月度 invocations 下 = ~37K traces，每条
-trace 含 span 序列化 + 异步上报，叠加在每次 Fluid 调用 + 每次 edge middleware
-上。
+最初打算改 10% → 2% 省 CPU。CR 后撤回——Sentry trace 在 30 天 CPU 占比远不及
+crawler 流量，2% 省的是芝麻丢的是西瓜（observability）。10% 是行业标准，
+client/server/edge 三处必须一致才能跨 runtime 串联请求链路。
 
-**修复**：0.1 → 0.02。日均仍能采到几千条 trace 监控 P95 性能趋势。
+**结论**：保持 0.1，不动 Sentry config。
 
-**验证**：Sentry dashboard `Performance` tab，Events / 24h 应该下降 5×。
+### H4：dashboard 数据让根因更清晰（SEO 重抓风暴）
+
+补观察后修订：
+
+| 日期                 | CPU          | 主要 deploy                                              |
+| -------------------- | ------------ | -------------------------------------------------------- |
+| 4/14 - 5/5           | 5-15min/day  | 普通流量 + 周期扫描 baseline                             |
+| 5/11 15:01-15:39 UTC | 30 → 50min   | PR #341：253 MDX descriptions backfill + 32 新 EN 翻译   |
+| 5/11 16:02-18:41 UTC | 50 → 80min   | PR #342：remark heading shift + leetcode dedup           |
+| 5/11 19:01-19:27 UTC | **90min 峰** | PR #343 + #340 deps，4 小时内 4 次 deploy ISR cache wipe |
+| 5/12                 | ~45min       | crawler 余波未消，但日益下降                             |
+
+`.github/workflows/deploy.yml` 的 `INDEXNOW_API` 让每次 deploy 都**主动告诉**
+Bing / Google "URL 变了，快重抓"。PR #341 一次性改 253 个 MDX + 加 32 个新
+URL，触发的就是这一波重抓。
+
+**结论**：5.11 之后激增是真实流量。本 PR 修的是**不该花的 CPU**（scanner /
+缺 SSG 的路由），让真实流量的边际成本最小化，但解决不了"SEO 太成功"这件事。
+长期路径：上 Pro plan 或 Cloudflare proxy 挡 crawler。
 
 ## 还没修但记录在案的问题
 

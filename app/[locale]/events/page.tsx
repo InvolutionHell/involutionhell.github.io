@@ -30,15 +30,24 @@ interface ApiResponse<T> {
   message?: string;
 }
 
+/**
+ * 在 build 阶段才允许"后端不可达就降级返空"。Next 16 用 NEXT_PHASE 标记
+ * phase-production-build，build 时返空让 generateStaticParams 能跑完不挂；
+ * 运行时仍然 throw，Sentry / 错误页才能感知真故障，不至于把 prod backend
+ * 挂了误显示成"暂无活动"。
+ */
+const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
+
 async function fetchEvents(): Promise<EventView[]> {
   const backendUrl = process.env.BACKEND_URL;
-  // 改成"失败降级返回空"而非 throw：build 时 SSG（generateStaticParams 触发预渲染）
-  // 如果后端不可达，throw 会让整次 build 失败。返回空数组让页面 build 出"暂无活动"
-  // 的静态壳，等 revalidate=300 到点后台刷新拿到真数据。
-  // 同步好处：Vercel CF 偶发挡 build IP / 后端临时挂时不再 break deploy。
   if (!backendUrl) {
-    console.warn("[events] BACKEND_URL not set, rendering empty list");
-    return [];
+    if (IS_BUILD) {
+      console.warn(
+        "[events] BACKEND_URL not set at build, rendering empty shell; ISR will fetch real data after deploy",
+      );
+      return [];
+    }
+    throw new Error("BACKEND_URL is not configured");
   }
   try {
     const res = await fetch(`${backendUrl}/api/events`, {
@@ -49,16 +58,26 @@ async function fetchEvents(): Promise<EventView[]> {
       },
     });
     if (!res.ok) {
-      console.warn(
-        `[events] backend ${res.status} ${res.statusText}, rendering empty list`,
-      );
-      return [];
+      if (IS_BUILD) {
+        console.warn(
+          `[events] backend ${res.status} at build, rendering empty shell`,
+        );
+        return [];
+      }
+      throw new Error(`/api/events backend ${res.status} ${res.statusText}`);
     }
     const json = (await res.json()) as ApiResponse<EventView[]>;
     return json.success && json.data ? json.data : [];
   } catch (err) {
-    console.warn("[events] fetch failed, rendering empty list:", err);
-    return [];
+    if (IS_BUILD) {
+      console.warn(
+        "[events] fetch failed at build, rendering empty shell:",
+        err,
+      );
+      return [];
+    }
+    // 运行时失败仍然 throw —— Sentry 抓到，错误页正常显示，不掩盖故障
+    throw err;
   }
 }
 

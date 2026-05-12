@@ -20,10 +20,10 @@ const dsn = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN;
 Sentry.init({
   dsn,
   enabled: process.env.NODE_ENV === "production" && !!dsn,
-  // 10% → 2%（dev_docs/vercel-cpu-overage-2026-05.md H3）。
-  // 10% 在月百万级请求量下产生 10w+ traces，每条 trace 上报又叠加 Fluid CPU。
-  // 2% 仍能日采几千条覆盖 P95 性能趋势，trace 配额也更宽裕。
-  tracesSampleRate: 0.02,
+  // 10% 采样：行业标准，足以发现 P95/P99 慢请求 + 偶发错误关联的请求链路。
+  // （曾试过 2% 想省 Vercel CPU，但 trace overhead 占比远小于 SEO 重抓带来的
+  // crawler 流量，2% 是省芝麻丢西瓜的 hack —— observability 不能为这点 CPU 让步。）
+  tracesSampleRate: 0.1,
   debug: false,
   beforeSend(event) {
     if (event.request?.headers) {
