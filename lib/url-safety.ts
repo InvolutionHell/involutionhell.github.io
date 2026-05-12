@@ -54,15 +54,27 @@ export function sanitizeExternalUrl(
  * 这里是 defense-in-depth —— 万一某条历史数据漏网（或 LLM 兜底回填了
  * http:// 的封面），前端再升一次。HTTPS 页面加载 http:// 图片会被
  * mixed-content policy 拦掉，宁可不显示也别让浏览器报黄锁。
+ *
+ * 实现历史：最初版本用字符串拼接 `"https://" + safe.substring(7)`，被 CR
+ * (#345) 指出会保留显式端口 —— `http://x.com:80/` 升成 `https://x.com:80/`
+ * 后浏览器拿 80 端口走 TLS 必失败。改成走 URL 对象重写 protocol，
+ * 并在 port === "80" 时清空端口（http 默认端口在 https 里没意义）。
  */
 export function sanitizeMediaUrl(
   raw: string | undefined | null,
 ): string | null {
   const safe = sanitize(raw, SAFE_MEDIA_PROTOCOLS, true);
   if (!safe) return null;
-  // 显式判前缀避免误升级相对路径（"/x.jpg" 不会进这里，但保险）
-  if (safe.toLowerCase().startsWith("http://")) {
-    return "https://" + safe.substring(7);
+  // 相对路径（"/x.jpg"）走不到协议升级，原样返回
+  if (!safe.toLowerCase().startsWith("http://")) return safe;
+  try {
+    const u = new URL(safe);
+    u.protocol = "https:";
+    // 显式 :80 在 https 下会让浏览器拿 80 端口握手 TLS，必挂；清空让它走默认 443
+    if (u.port === "80") u.port = "";
+    return u.toString();
+  } catch {
+    // 理论上 sanitize 已经保证 URL 合法可解析，走到这只是兜底
+    return safe;
   }
-  return safe;
 }
