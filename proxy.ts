@@ -30,16 +30,15 @@ const LEETCODE_OLD_PATH_TAIL = "/docs/CommunityShare/Leetcode";
 const intlMiddleware = createMiddleware(routing);
 
 // Bot / vulnerability scanner path patterns —— 在 edge 早返 404，不让进 Fluid。
-// 维护约束：只能放 100% 业务用不到的指纹（不要加 admin / login，业务有真路由）。
-// 参考 OWASP top-10 + nikto / dirbuster 常见探测字串。
+// 维护约束：
+//   1. 只放 100% 业务用不到的指纹（不要加 admin / login，业务有真路由）
+//   2. **不要放含 `.` 的路径**：下面 matcher 用 `.*\\..*` 排除所有 dot-path，
+//      middleware 根本不会被调起。带点的 scanner（.env / .php / .git/ / .war
+//      等）会直接走到 Next 默认 404 → 命中我们的 ○ Static `/_not-found`，
+//      已经是 CDN-served，不烧 Fluid。重复在这里写 dot-path 是死代码。
 const BOT_PATH_PATTERNS = [
-  // PHP / 老 CMS：本站根本没装 PHP，所有 *.php 都是扫描
-  /\.php(?:$|[?#/])/i,
   // wp-* 系列：WordPress 扫描
   /\/wp-(admin|content|includes|login|json|config)(?:$|[/?#])/i,
-  // .env / config 文件直接探测
-  /\.env(?:\.[a-z]+)?(?:$|[?#/])/i,
-  /\/(config|settings|secrets|credentials)\.(yml|yaml|json|ini|toml|xml)(?:$|[?#])/i,
   // GraphQL / GQL endpoint 扫描（本站没 GraphQL）
   /\/(graphql|gql|api\/graphql|v\d+\/graphql)(?:$|[/?#])/i,
   // Werkzeug / Flask debug console
@@ -47,10 +46,6 @@ const BOT_PATH_PATTERNS = [
   // 常见 admin / debug panels 探测路径（本站 admin 在 /[locale]/admin，
   // 这些是其他平台特有路径，扫到必是 bot）
   /\/(phpmyadmin|adminer|pma|dbadmin|mysqladmin)(?:$|[/?#])/i,
-  // git / svn 仓库文件暴露探测
-  /\/\.(git|svn|hg|bzr)\/(?:config|HEAD|entries)/i,
-  // 已知敏感文件（war/jar/key/pem）扫描
-  /\.(war|jar|sql|bak|key|pem|pfx)$/i,
 ];
 
 function isBotScanPath(pathname: string): boolean {
