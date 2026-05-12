@@ -112,6 +112,7 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
 
   return (
     <div>
+      {/* 窗口切换 */}
       <div className="flex gap-0 mb-8 border border-[var(--foreground)]">
         {windowOptions.map((opt) => (
           <button
@@ -128,6 +129,7 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
         ))}
       </div>
 
+      {/* 加载状态 */}
       {state.status === "loading" && (
         <div className="flex flex-col gap-3">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -139,6 +141,7 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
         </div>
       )}
 
+      {/* 错误状态 */}
       {state.status === "error" && (
         <div className="border border-[var(--foreground)] p-8 text-center">
           <p className="font-mono text-sm uppercase tracking-widest text-neutral-500">
@@ -147,6 +150,7 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
         </div>
       )}
 
+      {/* 空状态 */}
       {state.status === "ok" && state.docs.length === 0 && (
         <div className="border border-[var(--foreground)] p-8 text-center">
           <p className="font-mono text-sm uppercase tracking-widest text-neutral-500">
@@ -155,6 +159,7 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
         </div>
       )}
 
+      {/* 列表 */}
       {state.status === "ok" && state.docs.length > 0 && (
         <div className="flex flex-col gap-3">
           {state.docs.map((doc, idx) => (

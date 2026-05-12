@@ -106,12 +106,14 @@ function DocsAssistantInner({ pageContext }: DocsAssistantProps) {
   );
 
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  // 仅标志后台是否正在获取建议（用于逻辑判断）
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
-  // 仅在主回答结束后、建议仍未返回时展示骨架屏；这与 isFetchingSuggestions 解耦，避免在流式过程中提前出现 loader
+  // 控制 UI 上是否显示“正在思考...”加载状态（只有主回答结束后，由于建议还在获取，才显示骨架屏）
   const [showSuggestionsLoader, setShowSuggestionsLoader] = useState(false);
-  // 先缓存预取建议，等主回答 onFinish 后再推给 Thread，避免与流式回复抢渲染
+  // 缓存获取好的建议，等待主回答结束后才推给 Thread 渲染
   const [pendingSuggestions, setPendingSuggestions] = useState<string[]>([]);
 
+  // 欢迎页建议相关的 state
   const [welcomeSuggestions, setWelcomeSuggestions] = useState<
     WelcomeSuggestion[]
   >([]);
@@ -177,6 +179,7 @@ function DocsAssistantInner({ pageContext }: DocsAssistantProps) {
     status: chatStatus,
     messages,
     clearError: clearChatError,
+    // 其他需要的属性...
   } = chat;
 
   // 初次加载欢迎建议的 Effect
@@ -266,6 +269,7 @@ function DocsAssistantInner({ pageContext }: DocsAssistantProps) {
       })();
     }
 
+    // 监控 AI 主流程是否结束：当从 'streaming' 变为 'submitted' / 结束状态时
     const isChatFinished =
       prevStatus === "streaming" &&
       chatStatus !== "streaming" &&

@@ -45,12 +45,19 @@ export interface WelcomeSuggestion {
 }
 
 interface ThreadProps {
+  // 错误信息
   errorMessage?: string;
+  // 是否显示设置操作按钮
   showSettingsAction?: boolean;
+  // 清除错误的回调函数
   onClearError?: () => void;
+  // AI 生成的后续问题建议
   suggestions?: string[];
+  // 是否正在加载建议
   isLoadingSuggestions?: boolean;
+  // AI 生成的欢迎问题建议
   welcomeSuggestions?: WelcomeSuggestion[];
+  // 是否正在加载欢迎建议
   isLoadingWelcome?: boolean;
 }
 
@@ -63,6 +70,7 @@ export const Thread: FC<ThreadProps> = ({
   welcomeSuggestions,
   isLoadingWelcome,
 }) => {
+  // 控制设置对话框是否打开的状态
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const handleSettingsChange = useCallback(
@@ -75,6 +83,7 @@ export const Thread: FC<ThreadProps> = ({
     [onClearError],
   );
 
+  // 打开设置对话框的处理函数
   const handleOpenSettings = useCallback(() => {
     handleSettingsChange(true);
   }, [handleSettingsChange]);
@@ -197,6 +206,7 @@ const ThreadScrollToBottom: FC = () => {
   );
 };
 
+// 欢迎界面组件
 const ThreadWelcome: FC = () => {
   return (
     <ThreadPrimitive.Empty>
@@ -227,6 +237,7 @@ const ThreadWelcome: FC = () => {
   );
 };
 
+// 欢迎页面的初始建议组件
 interface ThreadWelcomeSuggestionsProps {
   suggestions?: WelcomeSuggestion[];
   isLoading?: boolean;
@@ -319,12 +330,14 @@ const ThreadWelcomeSuggestions: FC<ThreadWelcomeSuggestionsProps> = ({
   );
 };
 
+// 输入框组件 Props
 interface ComposerProps {
   isSettingsOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onClearError?: () => void;
 }
 
+// 输入框组件，负责处理用户输入和发送消息
 const Composer: FC<ComposerProps> = ({
   isSettingsOpen,
   onOpenChange,
@@ -353,6 +366,7 @@ const Composer: FC<ComposerProps> = ({
   return (
     <div className="aui-composer-wrapper sticky bottom-0 mx-auto flex w-full max-w-[var(--thread-max-width)] flex-col gap-4 overflow-visible bg-[var(--background)] pb-4 md:pb-6 pt-2 border-t border-[var(--foreground)]">
       <ThreadScrollToBottom />
+      {/* 当没有消息时，显示空状态内容（现已经移到上面的Viewport内以统一滑动，这里可以置空或保留其它用途）*/}
       <ComposerPrimitive.Root
         className="aui-composer-root relative flex w-full flex-col rounded-none border border-[var(--foreground)] bg-[var(--background)] px-1 pt-2 shadow-none"
         aria-disabled={!hasActiveKey}
@@ -404,6 +418,7 @@ interface ComposerActionProps {
   onClearError?: () => void;
 }
 
+// 输入框操作按钮组件（发送、设置、取消）
 const ComposerAction: FC<ComposerActionProps> = ({
   canSend,
   isSettingsOpen,
@@ -645,6 +660,7 @@ const EditComposer: FC = () => {
   );
 };
 
+// 分支切换组件（用于在多次生成的回复之间切换）
 const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
   className,
   ...rest
@@ -675,11 +691,13 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
   );
 };
 
+// 后续问题建议组件 Props
 interface ThreadFollowupSuggestionsProps {
   suggestions?: string[];
   isLoading?: boolean;
 }
 
+// 后续问题建议组件，显示 AI 生成的建议问题
 const ThreadFollowupSuggestions: FC<ThreadFollowupSuggestionsProps> = ({
   suggestions,
   isLoading,
