@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import type { EventView } from "./types";
 import { sanitizeMediaUrl } from "@/lib/url-safety";
+import { routing } from "@/i18n/routing";
 
 /**
  * /events 列表页。
  *
- * SSR 直连后端（BACKEND_URL）拉 published + archived 活动。
- * 错误策略参考 /u/[username]/page.tsx：只有网络 / 5xx 才抛，空列表不是错误。
+ * ISR 化（dev_docs/vercel-cpu-overage-2026-05.md H2）：
+ *   原版 export const revalidate = 300 但 build 输出仍是 ƒ Dynamic —— 因为
+ *   没 setRequestLocale，next-intl 退回 cookies() 推断 locale，整页变 dynamic。
+ *   每条访问 = 1 Fluid 调用。加 params + setRequestLocale + generateStaticParams
+ *   让 revalidate=300 真正生效：build 时各 locale 预渲染一份，5min 内访问
+ *   直接命中 CDN，过期时后台静默更新。
  *
  * revalidate: 300 把 Neon 打压力压到每 5min 一次 SSR，和 PR #286 的 profile 策略一致。
  */
@@ -24,22 +32,34 @@ interface ApiResponse<T> {
 
 async function fetchEvents(): Promise<EventView[]> {
   const backendUrl = process.env.BACKEND_URL;
+  // 改成"失败降级返回空"而非 throw：build 时 SSG（generateStaticParams 触发预渲染）
+  // 如果后端不可达，throw 会让整次 build 失败。返回空数组让页面 build 出"暂无活动"
+  // 的静态壳，等 revalidate=300 到点后台刷新拿到真数据。
+  // 同步好处：Vercel CF 偶发挡 build IP / 后端临时挂时不再 break deploy。
   if (!backendUrl) {
-    // 开发环境或 misconfig 时给一个清晰报错，而不是静默空列表
-    throw new Error("BACKEND_URL is not configured");
+    console.warn("[events] BACKEND_URL not set, rendering empty list");
+    return [];
   }
-  const res = await fetch(`${backendUrl}/api/events`, {
-    next: { revalidate: 300 },
-    headers: {
-      accept: "application/json",
-      "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
-    },
-  });
-  if (!res.ok) {
-    throw new Error(`/api/events backend ${res.status} ${res.statusText}`);
+  try {
+    const res = await fetch(`${backendUrl}/api/events`, {
+      next: { revalidate: 300 },
+      headers: {
+        accept: "application/json",
+        "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
+      },
+    });
+    if (!res.ok) {
+      console.warn(
+        `[events] backend ${res.status} ${res.statusText}, rendering empty list`,
+      );
+      return [];
+    }
+    const json = (await res.json()) as ApiResponse<EventView[]>;
+    return json.success && json.data ? json.data : [];
+  } catch (err) {
+    console.warn("[events] fetch failed, rendering empty list:", err);
+    return [];
   }
-  const json = (await res.json()) as ApiResponse<EventView[]>;
-  return json.success && json.data ? json.data : [];
 }
 
 export const metadata: Metadata = {
@@ -48,7 +68,15 @@ export const metadata: Metadata = {
     "Coffee Chat、Mock Interview、Career Journey、Open.Onion 等社群活动汇总，直播入口和历史回放一站式。",
 };
 
-export default async function EventsListPage() {
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function EventsListPage({ params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
   const all = await fetchEvents();
   // 按时间划分：进行中 / 即将开始 / 已结束。ongoing + past 由后端标记，剩下的归"即将开始"
   const ongoing = all.filter((e) => e.ongoing);
@@ -203,4 +231,8 @@ function formatDate(iso: string): string {
   } catch {
     return iso;
   }
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }

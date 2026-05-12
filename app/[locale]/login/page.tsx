@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
 import { SignInButton } from "@/app/components/SignInButton";
+import { routing } from "@/i18n/routing";
 
 // SEO: 登录页不参与 index（搜索引擎不需要收录登录入口）
 export const metadata: Metadata = {
@@ -10,7 +13,23 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default async function LoginPage() {
+/**
+ * /[locale]/login —— SSG 化（dev_docs/vercel-cpu-overage-2026-05.md H2）。
+ *
+ * 之前没 setRequestLocale，next-intl 退回 cookies() 推断 locale，整页 ƒ
+ * Dynamic。login 是纯静态卡片 + 一个 client 按钮，没有理由每请求都 SSR。
+ * 加 params + setRequestLocale + generateStaticParams 让两个 locale build 时
+ * 预渲染，登录页所有访问都从 CDN 出。
+ */
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function LoginPage({ params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
   const t = await getTranslations("login");
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -25,4 +44,8 @@ export default async function LoginPage() {
       </div>
     </div>
   );
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }

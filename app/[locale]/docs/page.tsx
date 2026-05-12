@@ -15,7 +15,15 @@ import { ensureSeoDescription } from "@/lib/seo-description";
  * 内容交给 `<SectionIndex />`（root 不传 → 渲染 pageTree 顶层分区）。所有
  * 渲染逻辑和 community / career/interview-prep/leetcode 两处共用同一个组
  * 件，避免 drift。
+ *
+ * SSG 化（dev_docs/vercel-cpu-overage-2026-05.md H2）：
+ *   原版 build 表里是 ƒ Dynamic，即便 setRequestLocale 都加了。原因是 page
+ *   没显式 `dynamic = "force-static"`，Next 16 默认让带 await fetch 或 RSC
+ *   getLocale 的 [locale] page 跑 dynamic。SectionIndex 内部用的 getLocale()
+ *   只读静态 pageTree（无 IO），所以加 force-static 不会丢任何东西。
  */
+
+export const dynamic = "force-static";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -63,4 +71,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale,
     }),
   };
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }

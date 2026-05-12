@@ -29,6 +29,46 @@ const LEETCODE_OLD_PATH_TAIL = "/docs/CommunityShare/Leetcode";
 
 const intlMiddleware = createMiddleware(routing);
 
+/**
+ * Bot / vulnerability scanner path patterns —— 在 edge 早返 404，
+ * 不让请求穿透到 Fluid 函数（dev_docs/vercel-cpu-overage-2026-05.md 的 H1b）。
+ *
+ * 背景：Vercel runtime 日志显示线上有持续的漏洞扫描（.env / wp-admin /
+ * php-info / werkzeug / graphql 等）。原来这些路径会被 next-intl 加 /zh 前缀
+ * 后落到 [locale]/[...slug] 或根 /_not-found，每条扫描 ≈ 1 Fluid 调用。
+ * 整理列表参考 OWASP top-10 + 主流 scanner（nikto / nmap / dirbuster）的指纹。
+ *
+ * 注意：列表里**不要**放可能跟真实业务路径重名的 segment（不要加 admin、login
+ * 这些，admin 路由是有的）。只放 100% 业务用不到的字符串。
+ */
+const BOT_PATH_PATTERNS = [
+  // PHP / 老 CMS：本站根本没装 PHP，所有 *.php 都是扫描
+  /\.php(?:$|[?#/])/i,
+  // wp-* 系列：WordPress 扫描
+  /\/wp-(admin|content|includes|login|json|config)(?:$|[/?#])/i,
+  // .env / config 文件直接探测
+  /\.env(?:\.[a-z]+)?(?:$|[?#/])/i,
+  /\/(config|settings|secrets|credentials)\.(yml|yaml|json|ini|toml|xml)(?:$|[?#])/i,
+  // GraphQL / GQL endpoint 扫描（本站没 GraphQL）
+  /\/(graphql|gql|api\/graphql|v\d+\/graphql)(?:$|[/?#])/i,
+  // Werkzeug / Flask debug console
+  /\/werkzeug\/console/i,
+  // 常见 admin / debug panels 探测路径（本站 admin 在 /[locale]/admin，
+  // 这些是其他平台特有路径，扫到必是 bot）
+  /\/(phpmyadmin|adminer|pma|dbadmin|mysqladmin)(?:$|[/?#])/i,
+  // git / svn 仓库文件暴露探测
+  /\/\.(git|svn|hg|bzr)\/(?:config|HEAD|entries)/i,
+  // 已知敏感文件（war/jar/key/pem）扫描
+  /\.(war|jar|sql|bak|key|pem|pfx)$/i,
+];
+
+function isBotScanPath(pathname: string): boolean {
+  for (const re of BOT_PATH_PATTERNS) {
+    if (re.test(pathname)) return true;
+  }
+  return false;
+}
+
 function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
   const { pathname } = req.nextUrl;
 
@@ -72,6 +112,17 @@ function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
 }
 
 export function proxy(req: NextRequest) {
+  // 0. Bot / scanner path 早返 404 —— 拦在 edge，不让进 Fluid 函数。
+  //    放在最前面是因为 Leetcode redirect 和 i18n middleware 都会让请求
+  //    穿到 [...slug] / not-found，烧 Fluid CPU。这里 0 函数调用直接挡。
+  if (isBotScanPath(req.nextUrl.pathname)) {
+    // 显式 404 + no-cache：返回 200 的话攻击者会以为命中漏洞继续扫
+    return new NextResponse(null, {
+      status: 404,
+      headers: { "cache-control": "no-store" },
+    });
+  }
+
   // 1. Leetcode 中文 slug 优先做 301
   const leetcodeRedirect = redirectLeetcodeIfNeeded(req);
   if (leetcodeRedirect) return leetcodeRedirect;

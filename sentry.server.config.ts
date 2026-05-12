@@ -20,7 +20,10 @@ const dsn = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN;
 Sentry.init({
   dsn,
   enabled: process.env.NODE_ENV === "production" && !!dsn,
-  tracesSampleRate: 0.1,
+  // 10% → 2%（dev_docs/vercel-cpu-overage-2026-05.md H3）。
+  // 10% 在月百万级请求量下产生 10w+ traces，每条 trace 上报又叠加 Fluid CPU。
+  // 2% 仍能日采几千条覆盖 P95 性能趋势，trace 配额也更宽裕。
+  tracesSampleRate: 0.02,
   debug: false,
   beforeSend(event) {
     if (event.request?.headers) {
