@@ -61,6 +61,39 @@ const config = {
     // 英语用户由站内 <LocaleToggle /> 切到 /en/docs/...，cookie 同步偏好。
     // source 保持不带 locale 形式（匹配老 URL）。
     return [
+      // ============= i18n 段化前的 .en/.zh locale 文件后缀 → 段化 canonical =============
+      // 段化（2026-05）前 locale 是文件后缀（/docs/foo.en），段化后变成 URL 段前缀
+      // （/en/docs/foo）。GSC 里仍存着上百条 .en/.zh 旧 URL（最大一类 404）。
+      //
+      // 为什么放在这里而不是 proxy.ts：proxy 的 matcher 排除了 `.*\..*`，任何带点
+      // 路径（.en/.zh 后缀全带点）根本不进中间件。next.config redirects 跑在路由层，
+      // 不受该排除影响，是带点旧 URL 唯一能 301 兜住的地方。
+      //
+      // 必须排在 IA wildcard 之前：先剥 locale 后缀 / index，命中即单跳到位。
+      // :slug(.*) 贪婪吃掉含 `/` 的多级路径，结尾的 \.en / \.zh 做字面锚定。
+      {
+        source: "/docs/:slug(.*)/index.en",
+        destination: "/en/docs/:slug",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/:slug(.*)/index.zh",
+        destination: "/zh/docs/:slug",
+        statusCode: 301,
+      },
+      { source: "/docs/index.en", destination: "/en/docs", statusCode: 301 },
+      { source: "/docs/index.zh", destination: "/zh/docs", statusCode: 301 },
+      {
+        source: "/docs/:slug(.*)\\.en",
+        destination: "/en/docs/:slug",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/:slug(.*)\\.zh",
+        destination: "/zh/docs/:slug",
+        statusCode: 301,
+      },
+
       // ============= 特殊路径（必须在 wildcard 之前） =============
       // CommunityShare/RAG → learn/ai/foundation-models/rag （RAG 文件归 ai 主题）
       {
@@ -237,6 +270,23 @@ const config = {
       {
         source: "/docs/CommunityShare/Amazing-AI-Tools/:path*",
         destination: "/zh/docs/community/tools/:path*",
+        statusCode: 301,
+      },
+
+      // 段化前没有 /docs 前缀的更老 URL（GSC 里还有 /computer-science/...）
+      {
+        source: "/computer-science/:path*",
+        destination: "/zh/docs/learn/cs/:path*",
+        statusCode: 301,
+      },
+
+      // ============= 兜底：no-locale /docs 一律送默认 locale =============
+      // 段化后 canonical 必带 locale 前缀，任何裸 /docs/... 都是旧链接（外链 /
+      // GSC / 热榜 DB 旧路径）。必须排在所有具体规则之后，让特化规则先命中。
+      // 目的地带 /zh 前缀，不会再被本规则匹配，无重定向环。
+      {
+        source: "/docs/:path*",
+        destination: "/zh/docs/:path*",
         statusCode: 301,
       },
     ];

@@ -17,7 +17,78 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import dotenv from "dotenv";
+import { convertSlugToPinyin } from "../lib/leetcode-slug.ts";
 dotenv.config({ path: [".env.local", ".env"] });
+
+// 默认语言（lib/source.ts defineI18n defaultLanguage），不带后缀的 .mdx 视为 zh
+const DEFAULT_LOCALE = "zh";
+const LEETCODE_PREFIX = "career/interview-prep/leetcode/";
+const LEETCODE_DIR_REL = "content/docs/career/interview-prep/leetcode";
+
+/**
+ * leetcode 题号 → 该题英文命名文件的 ASCII slug。
+ *
+ * 为什么需要：同一道题常有英文版（1234-replace-substring....en.md）和中文翻译版
+ * （"1234. 替换...＿translated.md" / "[121]买卖..._translated.md"）。中文文件名经
+ * fumadocs i18n 解析后的真实 slug 不可预测：带 `. ` 点空格的会塌缩到英文 slug、
+ * 带方括号的又能独立成拼音页。手搓拼音对不齐真实路由（proxy.ts 的 slug-map 也踩同样的坑）。
+ * 英文命名文件的 ASCII slug 一定能被 fumadocs 解析、一定在 sitemap 里。
+ * 所以排行榜里任何 leetcode 贡献都指向该题英文 slug，保证 200。
+ */
+const leetcodeAsciiSlugByNumber = new Map();
+
+async function buildLeetcodeAsciiSlugMap() {
+  const dir = path.join(REPO_ROOT, LEETCODE_DIR_REL);
+  let files = [];
+  try {
+    files = await fs.readdir(dir);
+  } catch {
+    return;
+  }
+  for (const f of files) {
+    if (!/\.(md|mdx)$/i.test(f)) continue;
+    const stem = f.replace(/\.(md|mdx)$/i, "").replace(/\.(en|zh)$/i, "");
+    if (/[^\x00-\x7f]/.test(stem)) continue; // 含非 ASCII = 中文命名，跳过
+    if (/_translated$/i.test(stem)) continue; // 英文名也带 _translated 的极少数，跳过
+    const num = stem.match(/(\d+)/); // 题号（取第一段数字，兼容 1234- / sword-offer-ii-021）
+    if (!num) continue;
+    if (!leetcodeAsciiSlugByNumber.has(num[1])) {
+      leetcodeAsciiSlugByNumber.set(num[1], stem);
+    }
+  }
+}
+
+/**
+ * 把 .source 里的原始文件路径转成站点真实 canonical URL：/<locale>/docs/<slug>。
+ *
+ * 必须和三件事对齐，否则排行榜链接全部 404：
+ *   1. i18n 段化（2026-05）：locale 是 URL 段前缀（/zh、/en），不再是文件后缀
+ *   2. fumadocs i18n parser='dot'：foo.mdx→zh，foo.en.mdx→en
+ *   3. lib/source.ts 的 transformer：leetcode 目录下的 slug 逐段拼音化
+ */
+function buildCanonicalDocUrl(docPath) {
+  let stem = docPath.replace(/\.mdx?$/i, ""); // 去 .md / .mdx
+  let locale = DEFAULT_LOCALE;
+  const localeSuffix = stem.match(/\.(en|zh)$/i); // .en / .zh locale 后缀 → URL 前缀
+  if (localeSuffix) {
+    locale = localeSuffix[1].toLowerCase();
+    stem = stem.slice(0, -3);
+  }
+  const isLeetcode = stem.startsWith(LEETCODE_PREFIX);
+  if (isLeetcode) {
+    const dirRoot = LEETCODE_PREFIX.replace(/\/$/, "");
+    const filename = stem.slice(LEETCODE_PREFIX.length);
+    if (filename === "index") return `/${DEFAULT_LOCALE}/docs/${dirRoot}`;
+    const num = filename.match(/(\d+)/);
+    const asciiSlug = num && leetcodeAsciiSlugByNumber.get(num[1]);
+    // 题号对到英文文件 → 英文页落在 /en（.en.md，zh 不回退 en），一定 200。
+    if (asciiSlug) return `/en/docs/${dirRoot}/${asciiSlug}`;
+    // 无英文兄弟 → 中文翻译版走 zh 拼音（bracket-form 文件名能被 fumadocs 解析）
+    return `/${locale}/docs/${dirRoot}/${convertSlugToPinyin(filename)}`;
+  }
+  const slug = stem.replace(/\/index$/i, ""); // index.mdx 对应目录根，去掉尾部 /index
+  return slug ? `/${locale}/docs/${slug}` : `/${locale}/docs`;
+}
 
 /**
  * 从仓库 git log 反推 GitHub id → login 映射，优先走 noreply 邮箱（GitHub 默认启用 privacy）。
@@ -228,6 +299,9 @@ async function main() {
     }
   }
 
+  // leetcode 题号 → 英文 ASCII slug，给 buildCanonicalDocUrl 把翻译版指向英文 canonical
+  await buildLeetcodeAsciiSlugMap();
+
   // 构建 docId → {title, url} 映射，从 .source/index.ts 提取（Fumadocs 生成的 manifest）
   const rawData = await fs.readFile(
     path.join(__dirname, "../.source/index.ts"),
@@ -257,9 +331,7 @@ async function main() {
       if (pathMatch && pathMatch[1]) {
         const docPath = pathMatch[1];
         let title = docPath.replace(/\.mdx?$/, "");
-        // 对于 Fumadocs 以及 Next.js 路由，以 index.md/mdx 结尾的文件实际上对应着目录的根路径
-        // 所以我们把拼接出的 `/docs/xxx/index` 最后的 `/index` 去掉
-        const url = `/docs/${title}`.replace(/\/index$/, "") || "/docs";
+        const url = buildCanonicalDocUrl(docPath);
 
         let docIdFromFm = null;
         // 为了获取确切的 title 和 docId，我们需要打开实际的文件获取 frontmatter，
@@ -305,18 +377,18 @@ async function main() {
       const githubId = entry.githubId.toString();
       const points = entry.contributions * 10; // 每个 commit 暂定 10 分
 
-      const contributedDocsInfo = entry.docIds.map((dbDocId) => {
-        // dbDocId 对应数据库里的 CUID (如 psc0xf6oa1m7g8s9wfwiojkf)
-        // 或之前的路径 (如 path/to/doc.mdx 需要去除后缀匹配)
-        const key = dbDocId.replace(/\.mdx?$/, "");
-        const mappedInfo = docsMap[key];
-
-        return {
-          id: dbDocId,
-          title: mappedInfo ? mappedInfo.title : dbDocId, // 若没有匹配到页面，回退显示 docId
-          url: mappedInfo ? mappedInfo.url : `/docs/${key}`,
-        };
-      });
+      const contributedDocsInfo = entry.docIds
+        .map((dbDocId) => {
+          // dbDocId 对应数据库里的 CUID (如 psc0xf6oa1m7g8s9wfwiojkf)
+          // 或之前的路径 (如 path/to/doc.mdx 需要去除后缀匹配)
+          const key = dbDocId.replace(/\.mdx?$/, "");
+          const mappedInfo = docsMap[key];
+          // 内容树里找不到对应页面 = 孤儿 docId（文档已删除 / 改名后 docId 没续上）。
+          // 不产出链接，否则排行榜会渲染一个必 404 的死链。
+          if (!mappedInfo) return null;
+          return { id: dbDocId, title: mappedInfo.title, url: mappedInfo.url };
+        })
+        .filter((d) => d !== null);
 
       return {
         id: githubId,
