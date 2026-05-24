@@ -46,7 +46,7 @@ export function buildLeetcodeAsciiSlugByNumber(
   for (const f of filenames) {
     if (!/\.(md|mdx)$/i.test(f)) continue;
     const stem = f.replace(/\.(md|mdx)$/i, "").replace(/\.(en|zh)$/i, "");
-    if (/[^\x00-\x7f]/.test(stem)) continue; // 含非 ASCII = 中文命名，不是 canonical 来源
+    if (/[^ -~]/.test(stem)) continue; // 含非 ASCII（中文）= 不是 canonical 来源
     if (/_translated$/i.test(stem)) continue; // 英文名也带 _translated 的极少数
     const num = stem.match(/(\d+)/); // 题号（取第一段数字，兼容 1234- / sword-offer-ii-021）
     if (!num) continue;

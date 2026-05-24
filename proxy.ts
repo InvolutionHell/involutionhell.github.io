@@ -100,7 +100,7 @@ function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
   // 合法的拼音页都是纯 ASCII，若也按题号重定向会把英文页指向自己造成 301 死循环、
   // 或把合法 /zh 英文命名页强行打到 /en。中文旧 URL 才需要这层兜底。
   const numMatch = rawSlug.match(/(\d+)/);
-  const hasNonAscii = /[^\x00-\x7f]/.test(rawSlug);
+  const hasNonAscii = /[^ -~]/.test(rawSlug);
   const mapped =
     SLUG_BY_NAME.get(rawSlug) ??
     (hasNonAscii && numMatch ? SLUG_BY_NUMBER.get(numMatch[1]) : undefined);

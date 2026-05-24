@@ -62,7 +62,7 @@ function main() {
     const stem = stripSuffix(file);
     // 只给中文命名文件建映射：英文命名文件本身就是 canonical 目标，不必重定向自己；
     // 纯 ASCII 的 _translated（如 219_translated）真实 slug == stem，旧 URL 直达即可。
-    if (!/[^\x00-\x7f]/.test(stem)) continue;
+    if (!/[^ -~]/.test(stem)) continue;
     byName[stem] = leetcodeCanonicalUrl(stem, asciiByNumber);
   }
 
