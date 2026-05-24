@@ -45,6 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run backfill on server via SSH
+        id: ssh_backfill
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -97,11 +98,24 @@ jobs:
             # 生成的 JSON 内容是"本轮快照"而非"DB 累计值"，覆盖 commit 回仓
             # 会把累计呈现变成单次快照——**视觉上像数据丢了**但 DB 没动。
             # 直接 fail 不给它走降级路径。
+            #
+            # DATABASE_URL 合并策略：
+            #   .env 文件里可能只有分量（PGHOST/PGUSER/PGPASSWORD/PGDATABASE/PGPORT），
+            #   不一定有合并好的 DATABASE_URL（Prisma 格式）。
+            #   优先用 .env 里的 DATABASE_URL；缺失时从分量动态拼出来。
+            #   分量都在 .env 里，所以 source 之后两种路径都能走。
             # ============================================================
             set -a && . ./.env && set +a
             if [[ -z "${DATABASE_URL:-}" ]]; then
-              echo "::error::DATABASE_URL 未配置，拒绝运行以免 JSON 降级成本轮快照"
-              exit 1
+              # 从 PG 分量拼 Prisma connection string
+              # 格式：postgresql://user:password@host:port/database?sslmode=disable
+              if [[ -n "${PGUSER:-}" && -n "${PGPASSWORD:-}" && -n "${PGHOST:-}" && -n "${PGDATABASE:-}" ]]; then
+                export DATABASE_URL="postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT:-5432}/${PGDATABASE}?sslmode=${PGSSLMODE:-disable}"
+                echo "DATABASE_URL 从 PG 分量拼出：postgresql://${PGUSER}:***@${PGHOST}:${PGPORT:-5432}/${PGDATABASE}"
+              else
+                echo "::error::DATABASE_URL 未配置，且 PG 分量（PGUSER/PGPASSWORD/PGHOST/PGDATABASE）不完整，拒绝运行"
+                exit 1
+              fi
             fi
             if [[ -z "${GITHUB_TOKEN:-}" ]]; then
               echo "::warning::GITHUB_TOKEN 未配置，GitHub API rate limit 60/h 会打爆"
@@ -156,3 +170,16 @@ jobs:
             else
               echo "No metadata changes to commit."
             fi
+
+      # 失败时在 Actions summary 里打印醒目错误，避免静默 rot。
+      # 此前两轮失败都因为没有失败告警而被遗漏直到人工检查。
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error title=Docs Backfill 失败::sync-uuid workflow 在 ${{ github.sha }} 上失败。"
+          echo "::error::DB 自本次 push 起将不再同步，doc_paths / path_current 将漂移。"
+          echo "::error::请检查 Actions 日志，修复后手动触发 workflow_dispatch 补跑。"
+          echo ""
+          echo "触发 commit：${{ github.sha }}"
+          echo "触发分支：${{ github.ref_name }}"
+          echo "触发 actor：${{ github.actor }}"
