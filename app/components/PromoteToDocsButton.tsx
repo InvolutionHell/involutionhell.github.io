@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { DocsDestinationForm } from "@/app/components/DocsDestinationForm";
 import { buildDocsNewUrl } from "@/lib/github";
-import { buildFrontmatter } from "@/app/[locale]/editor/EditorPageClient";
+import { buildFrontmatter } from "@/lib/frontmatter";
 
 interface Props {
   postId: number;
@@ -114,8 +114,8 @@ export function PromoteToDocsButton({
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  // rewrite 透传：后端读 satoken，不是 x-satoken
-                  satoken: token,
+                  // rewrite 透传：后端读 satoken，不是 x-satoken；空 token 不发 header
+                  ...(token ? { satoken: token } : {}),
                 },
                 body: JSON.stringify({ prUrl: githubUrl }),
               }).catch((err) => {

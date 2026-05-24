@@ -22,10 +22,9 @@ interface EditorPageClientProps {
   user: UserView;
 }
 
-/**
- * 从文章标题生成 slug 候选值，和后端生成逻辑保持一致（kebab-case，纯 ASCII）。
- * 后端会做唯一性去重，前端只是提前填充 filename input 用，不是最终 slug。
- */
+// titleToSlug：从文章标题生成 slug 候选值，供前端预填 filename input。
+// 保留 Unicode 字母/数字（\p{L}\p{N}），允许中文 slug 候选，和后端 sanitizeSlug 对齐。
+// 后端会做唯一性去重，前端候选值不是最终 slug。
 function titleToSlug(title: string): string {
   return title
     .toLowerCase()
@@ -35,44 +34,6 @@ function titleToSlug(title: string): string {
     .replace(/-{2,}/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 128);
-}
-
-// buildFrontmatter 仅在「收录进知识库」（PromoteToDocsButton）路径使用，
-// 这里为 PromoteToDocsButton 单独导出，editor 直发不再拼 frontmatter。
-export function buildFrontmatter({
-  title,
-  description,
-  tags,
-}: {
-  title: string;
-  description?: string;
-  tags?: string[];
-}) {
-  const safeTitle = JSON.stringify(title);
-  const safeDescription = JSON.stringify(description ?? "");
-  const date = new Date().toISOString().slice(0, 10);
-  const normalizedTags = (tags ?? [])
-    .map((tag) => tag.trim())
-    .filter((tag) => tag.length > 0);
-
-  const lines = [
-    "---",
-    `title: ${safeTitle}`,
-    `description: ${safeDescription}`,
-    `date: "${date}"`,
-  ];
-
-  if (normalizedTags.length > 0) {
-    lines.push(
-      "tags:",
-      ...normalizedTags.map((tag) => `  - ${JSON.stringify(tag)}`),
-    );
-  } else {
-    lines.push("tags: []");
-  }
-
-  lines.push("---");
-  return lines.join("\n");
 }
 
 export function EditorPageClient({ user }: EditorPageClientProps) {
@@ -195,15 +156,16 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         });
       }
 
-      // POST /api/posts 直发落库
-      // TODO(backend-contract): 等后端 #2 完成后确认 BACKEND_URL 路由 rewrite 情况；
-      // 目前后端路由走 next.config.mjs rewrites 同源代理（参考 /api/community/links），
-      // 若 posts 同样走代理则直接 fetch "/api/posts"，否则需要带 BACKEND_URL。
       const token = localStorage.getItem("satoken") ?? "";
+      if (!token) {
+        throw new Error("请先登录后再发布");
+      }
+
       const postRequest: PostRequest = {
         title: title.trim(),
         description: description.trim() || undefined,
-        tags: tags.filter((t) => t.trim().length > 0),
+        // trim + filter 保证后端收到的 tags 无空白项
+        tags: tags.map((t) => t.trim()).filter(Boolean),
         contentMd: finalMarkdown,
         // 有用户填的 slug 就带上，后端会去重；没有则不传，后端从 title 自动生成
         ...(rawSlug ? { slug: rawSlug } : {}),
@@ -214,7 +176,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         headers: {
           "Content-Type": "application/json",
           // rewrite 透传：后端 sa-token.token-name=satoken，需用 satoken 而非 x-satoken
-          satoken: token,
+          ...(token ? { satoken: token } : {}),
         },
         body: JSON.stringify(postRequest),
         signal: AbortSignal.timeout(30_000),
