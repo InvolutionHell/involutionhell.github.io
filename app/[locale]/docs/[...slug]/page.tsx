@@ -126,17 +126,6 @@ export default async function DocPage({ params }: Param) {
       />
       <DocsPage toc={page.data.toc}>
         <DocsBody>
-          {data.syncedFromPosts && data.syncedPostsUrl && (
-            <p className="font-mono text-[10px] uppercase tracking-widest text-neutral-500 mb-4">
-              此文同步自作者主页 →{" "}
-              <a
-                href={data.syncedPostsUrl}
-                className="underline hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
-              >
-                {data.syncedAuthor ? `${data.syncedAuthor} 的文章` : "原文"}
-              </a>
-            </p>
-          )}
           <div className="mb-6 flex flex-col gap-3 border-b border-border pb-6 md:mb-8 md:flex-row md:items-start md:justify-between">
             <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">
               {page.data.title}

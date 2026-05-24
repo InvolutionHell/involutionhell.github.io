@@ -227,13 +227,23 @@ const config = {
         destination: "/zh/docs/learn/cs/dev-tips/:path*",
         statusCode: 301,
       },
-      // language（语言考试）→ career/language
+      // language（语言考试）→ career/language；精确 index + wildcard 各一条，防空路径双跳
+      {
+        source: "/docs/community/language",
+        destination: "/zh/docs/career/language",
+        statusCode: 301,
+      },
       {
         source: "/docs/community/language/:path*",
         destination: "/zh/docs/career/language/:path*",
         statusCode: 301,
       },
-      // papers（AI 论文读书笔记）→ learn/ai/papers
+      // papers（AI 论文读书笔记）→ learn/ai/papers；同上
+      {
+        source: "/docs/community/papers",
+        destination: "/zh/docs/learn/ai/papers",
+        statusCode: 301,
+      },
       {
         source: "/docs/community/papers/:path*",
         destination: "/zh/docs/learn/ai/papers/:path*",
