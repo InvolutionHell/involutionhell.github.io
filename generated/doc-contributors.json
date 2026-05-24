@@ -1,8 +1,8 @@
 {
   "repo": "InvolutionHell/involutionhell",
-  "generatedAt": "2026-05-24T13:51:46.600Z",
+  "generatedAt": "2026-05-24T18:10:03.885Z",
   "docsDir": "content/docs",
-  "totalDocs": 148,
+  "totalDocs": 144,
   "results": [
     {
       "docId": "ld59a8z1v84ig4rlr0p0n2a9",
@@ -1247,379 +1247,11 @@
       ]
     },
     {
-      "docId": "gj4bn01un0s0841berfvwrn5",
-      "path": "content/docs/community/dev-tips/cloudflare-r2-sharex-free-image-hosting.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 1,
-        "194795025": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "194795025",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-27T05:22:14.000Z",
-          "login": "LynPtl",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/194795025?v=4",
-          "htmlUrl": "https://github.com/LynPtl"
-        }
-      ]
-    },
-    {
-      "docId": "xqz5iiv3p52h6d9g3c0w2baf",
-      "path": "content/docs/community/dev-tips/CommonUsedMarkdown.md",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 1,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "73457237",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-20T05:09:13.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        }
-      ]
-    },
-    {
-      "docId": "tksz80mfqqyzwzzer5p3uxtg",
-      "path": "content/docs/community/dev-tips/git101.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "88451018": 1,
-        "114939201": 1,
-        "163523387": 3
-      },
-      "contributors": [
-        {
-          "githubId": "163523387",
-          "contributions": 3,
-          "lastContributedAt": "2025-10-15T04:14:47.000Z",
-          "login": "Mira190",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
-          "htmlUrl": "https://github.com/Mira190"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "88451018",
-          "contributions": 1,
-          "lastContributedAt": "2025-10-15T03:17:10.000Z",
-          "login": "richardkkk",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/88451018?v=4",
-          "htmlUrl": "https://github.com/richardkkk"
-        }
-      ]
-    },
-    {
-      "docId": "jee9yt8n8tmo8yclqujerw2x",
-      "path": "content/docs/community/dev-tips/index.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 1,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "73457237",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-18T10:22:50.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        }
-      ]
-    },
-    {
-      "docId": "yxd2qpfl2li6092bjx8bz7vb",
-      "path": "content/docs/community/dev-tips/Katex/index.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 1,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "73457237",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-20T05:09:13.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        }
-      ]
-    },
-    {
-      "docId": "r0inttjcby48tly602p410vo",
-      "path": "content/docs/community/dev-tips/Katex/Seb1.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 2,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "73457237",
-          "contributions": 2,
-          "lastContributedAt": "2025-09-20T05:15:02.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        }
-      ]
-    },
-    {
-      "docId": "khcrztruqdku9fntd3dwzvwe",
-      "path": "content/docs/community/dev-tips/Katex/Seb2.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 2,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "73457237",
-          "contributions": 2,
-          "lastContributedAt": "2025-09-20T05:15:02.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        }
-      ]
-    },
-    {
-      "docId": "e6udpzrorhvgeeda6xpy1e0s",
-      "path": "content/docs/community/dev-tips/picturecdn.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "59130571": 2,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "59130571",
-          "contributions": 2,
-          "lastContributedAt": "2025-09-27T07:16:02.000Z",
-          "login": "RavenCaffeine",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/59130571?v=4",
-          "htmlUrl": "https://github.com/RavenCaffeine"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        }
-      ]
-    },
-    {
-      "docId": "i0xmpskau105p83vq35wnxls",
-      "path": "content/docs/community/dev-tips/raspberry-guide.md",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 1,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "73457237",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-18T10:22:50.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        }
-      ]
-    },
-    {
-      "docId": "sfzt30mtx0jsuv6esnpm3w8y",
-      "path": "content/docs/community/index.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 2,
-        "114939201": 1,
-        "194795025": 1
-      },
-      "contributors": [
-        {
-          "githubId": "73457237",
-          "contributions": 2,
-          "lastContributedAt": "2025-09-18T10:22:50.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        },
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "194795025",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-21T11:31:51.000Z",
-          "login": "LynPtl",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/194795025?v=4",
-          "htmlUrl": "https://github.com/LynPtl"
-        }
-      ]
-    },
-    {
       "docId": "m37j6a24hb9mlrm0g6jfcxop",
-      "path": "content/docs/community/language/pte-intro.md",
+      "path": "content/docs/career/language/pte-intro.md",
       "contributorStats": {
         "41898282": 1,
-        "114939201": 1,
+        "114939201": 2,
         "163523387": 4
       },
       "contributors": [
@@ -1632,39 +1264,12 @@
           "htmlUrl": "https://github.com/Mira190"
         },
         {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
           "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        }
-      ]
-    },
-    {
-      "docId": "jgyg6bp0nceyrxirz5qw3zsv",
-      "path": "content/docs/community/life/unsw-student-benefit.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 1,
-        "163523387": 2
-      },
-      "contributors": [
-        {
-          "githubId": "163523387",
           "contributions": 2,
-          "lastContributedAt": "2025-10-03T06:25:47.000Z",
-          "login": "Mira190",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
-          "htmlUrl": "https://github.com/Mira190"
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
         },
         {
           "githubId": "41898282",
@@ -1673,286 +1278,6 @@
           "login": "github-actions[bot]",
           "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
           "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        }
-      ]
-    },
-    {
-      "docId": "q8d1j9bii2ve2p7pp4xtok79",
-      "path": "content/docs/community/mental-health/burnout-guide.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 1,
-        "95595902": 1,
-        "114939201": 1,
-        "147322547": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "147322547",
-          "contributions": 1,
-          "lastContributedAt": "2025-10-14T07:38:40.000Z",
-          "login": "LunaHeluo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/147322547?v=4",
-          "htmlUrl": "https://github.com/LunaHeluo"
-        },
-        {
-          "githubId": "95595902",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-26T02:44:25.000Z",
-          "login": "YBJ0000",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/95595902?v=4",
-          "htmlUrl": "https://github.com/YBJ0000"
-        },
-        {
-          "githubId": "73457237",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-18T10:22:50.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        }
-      ]
-    },
-    {
-      "docId": "rxyvvumcvfl2oh3hky8urkfn",
-      "path": "content/docs/community/mental-health/index.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "73457237": 1,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "73457237",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-18T10:22:50.000Z",
-          "login": "TSK-Glofy",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
-          "htmlUrl": "https://github.com/TSK-Glofy"
-        }
-      ]
-    },
-    {
-      "docId": "boo70qqm8nos8b0q9h7zjrki",
-      "path": "content/docs/community/papers/leworldmodel.en.md",
-      "contributorStats": {
-        "114939201": 1,
-        "128119791": 1
-      },
-      "contributors": [
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "128119791",
-          "contributions": 1,
-          "lastContributedAt": "2026-04-15T03:05:45.000Z",
-          "login": "CeitherNSW",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/128119791?v=4",
-          "htmlUrl": "https://github.com/CeitherNSW"
-        }
-      ]
-    },
-    {
-      "docId": "l6eepr5ctjgrhdgupy3twr1t",
-      "path": "content/docs/community/papers/prompt-repetition-improves-non-reasoning-llms.en.md",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 1,
-        "128119791": 1,
-        "138507318": 1,
-        "163523387": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "138507318",
-          "contributions": 1,
-          "lastContributedAt": "2026-04-09T16:29:54.000Z",
-          "login": "TinyAlmond",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/138507318?v=4",
-          "htmlUrl": "https://github.com/TinyAlmond"
-        },
-        {
-          "githubId": "163523387",
-          "contributions": 1,
-          "lastContributedAt": "2026-04-01T04:11:16.000Z",
-          "login": "Mira190",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
-          "htmlUrl": "https://github.com/Mira190"
-        },
-        {
-          "githubId": "128119791",
-          "contributions": 1,
-          "lastContributedAt": "2026-03-05T01:19:27.000Z",
-          "login": "CeitherNSW",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/128119791?v=4",
-          "htmlUrl": "https://github.com/CeitherNSW"
-        }
-      ]
-    },
-    {
-      "docId": "mgb41edhi9cz1kxzae074an0",
-      "path": "content/docs/community/tools/index.md",
-      "contributorStats": {
-        "7187663": 1,
-        "41898282": 1,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "7187663",
-          "contributions": 1,
-          "lastContributedAt": "2025-10-03T13:14:06.000Z",
-          "login": "Crokily",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/7187663?v=4",
-          "htmlUrl": "https://github.com/Crokily"
-        }
-      ]
-    },
-    {
-      "docId": "eej2awin6irhbdgcy8vvs3xb",
-      "path": "content/docs/community/tools/perplexity-comet.md",
-      "contributorStats": {
-        "7187663": 1,
-        "41898282": 1,
-        "114939201": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "7187663",
-          "contributions": 1,
-          "lastContributedAt": "2025-10-03T13:14:06.000Z",
-          "login": "Crokily",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/7187663?v=4",
-          "htmlUrl": "https://github.com/Crokily"
-        }
-      ]
-    },
-    {
-      "docId": "mhyoknm6vj8jmp186oli5f5c",
-      "path": "content/docs/community/tools/swanlab.mdx",
-      "contributorStats": {
-        "41898282": 1,
-        "114939201": 1,
-        "163523387": 1
-      },
-      "contributors": [
-        {
-          "githubId": "41898282",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-11T15:02:08.000Z",
-          "login": "github-actions[bot]",
-          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
-          "htmlUrl": "https://github.com/apps/github-actions"
-        },
-        {
-          "githubId": "114939201",
-          "contributions": 1,
-          "lastContributedAt": "2026-05-06T14:33:51.000Z",
-          "login": "longsizhuo",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
-          "htmlUrl": "https://github.com/longsizhuo"
-        },
-        {
-          "githubId": "163523387",
-          "contributions": 1,
-          "lastContributedAt": "2025-09-23T23:30:07.000Z",
-          "login": "Mira190",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
-          "htmlUrl": "https://github.com/Mira190"
         }
       ]
     },
@@ -3910,6 +3235,85 @@
       ]
     },
     {
+      "docId": "boo70qqm8nos8b0q9h7zjrki",
+      "path": "content/docs/learn/ai/papers/leworldmodel.en.md",
+      "contributorStats": {
+        "114939201": 2,
+        "128119791": 1
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "128119791",
+          "contributions": 1,
+          "lastContributedAt": "2026-04-15T03:05:45.000Z",
+          "login": "CeitherNSW",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/128119791?v=4",
+          "htmlUrl": "https://github.com/CeitherNSW"
+        }
+      ]
+    },
+    {
+      "docId": "l6eepr5ctjgrhdgupy3twr1t",
+      "path": "content/docs/learn/ai/papers/prompt-repetition-improves-non-reasoning-llms.en.md",
+      "contributorStats": {
+        "41898282": 1,
+        "114939201": 2,
+        "128119791": 1,
+        "138507318": 1,
+        "163523387": 1
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "138507318",
+          "contributions": 1,
+          "lastContributedAt": "2026-04-09T16:29:54.000Z",
+          "login": "TinyAlmond",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/138507318?v=4",
+          "htmlUrl": "https://github.com/TinyAlmond"
+        },
+        {
+          "githubId": "163523387",
+          "contributions": 1,
+          "lastContributedAt": "2026-04-01T04:11:16.000Z",
+          "login": "Mira190",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
+          "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "128119791",
+          "contributions": 1,
+          "lastContributedAt": "2026-03-05T01:19:27.000Z",
+          "login": "CeitherNSW",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/128119791?v=4",
+          "htmlUrl": "https://github.com/CeitherNSW"
+        }
+      ]
+    },
+    {
       "docId": "as876rdhtmpnyyeclxt226s1",
       "path": "content/docs/learn/ai/recommender-systems/recommender-roadmap.mdx",
       "contributorStats": {
@@ -4254,6 +3658,111 @@
           "githubId": "163523387",
           "contributions": 1,
           "lastContributedAt": "2025-09-17T23:05:47.000Z",
+          "login": "Mira190",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
+          "htmlUrl": "https://github.com/Mira190"
+        }
+      ]
+    },
+    {
+      "docId": "mgb41edhi9cz1kxzae074an0",
+      "path": "content/docs/learn/ai/tools/index.md",
+      "contributorStats": {
+        "7187663": 1,
+        "41898282": 1,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "7187663",
+          "contributions": 1,
+          "lastContributedAt": "2025-10-03T13:14:06.000Z",
+          "login": "Crokily",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/7187663?v=4",
+          "htmlUrl": "https://github.com/Crokily"
+        }
+      ]
+    },
+    {
+      "docId": "eej2awin6irhbdgcy8vvs3xb",
+      "path": "content/docs/learn/ai/tools/perplexity-comet.md",
+      "contributorStats": {
+        "7187663": 1,
+        "41898282": 1,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "7187663",
+          "contributions": 1,
+          "lastContributedAt": "2025-10-03T13:14:06.000Z",
+          "login": "Crokily",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/7187663?v=4",
+          "htmlUrl": "https://github.com/Crokily"
+        }
+      ]
+    },
+    {
+      "docId": "mhyoknm6vj8jmp186oli5f5c",
+      "path": "content/docs/learn/ai/tools/swanlab.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "114939201": 2,
+        "163523387": 1
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "163523387",
+          "contributions": 1,
+          "lastContributedAt": "2025-09-23T23:30:07.000Z",
           "login": "Mira190",
           "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
           "htmlUrl": "https://github.com/Mira190"
@@ -4720,6 +4229,330 @@
           "login": "Crokily",
           "avatarUrl": "https://avatars.githubusercontent.com/u/7187663?v=4",
           "htmlUrl": "https://github.com/Crokily"
+        }
+      ]
+    },
+    {
+      "docId": "gj4bn01un0s0841berfvwrn5",
+      "path": "content/docs/learn/cs/dev-tips/cloudflare-r2-sharex-free-image-hosting.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "114939201": 2,
+        "194795025": 1
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "194795025",
+          "contributions": 1,
+          "lastContributedAt": "2025-09-27T05:22:14.000Z",
+          "login": "LynPtl",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/194795025?v=4",
+          "htmlUrl": "https://github.com/LynPtl"
+        }
+      ]
+    },
+    {
+      "docId": "xqz5iiv3p52h6d9g3c0w2baf",
+      "path": "content/docs/learn/cs/dev-tips/CommonUsedMarkdown.md",
+      "contributorStats": {
+        "41898282": 1,
+        "73457237": 1,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "73457237",
+          "contributions": 1,
+          "lastContributedAt": "2025-09-20T05:09:13.000Z",
+          "login": "TSK-Glofy",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
+          "htmlUrl": "https://github.com/TSK-Glofy"
+        }
+      ]
+    },
+    {
+      "docId": "tksz80mfqqyzwzzer5p3uxtg",
+      "path": "content/docs/learn/cs/dev-tips/git101.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "88451018": 1,
+        "114939201": 2,
+        "163523387": 3
+      },
+      "contributors": [
+        {
+          "githubId": "163523387",
+          "contributions": 3,
+          "lastContributedAt": "2025-10-15T04:14:47.000Z",
+          "login": "Mira190",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/163523387?v=4",
+          "htmlUrl": "https://github.com/Mira190"
+        },
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "88451018",
+          "contributions": 1,
+          "lastContributedAt": "2025-10-15T03:17:10.000Z",
+          "login": "richardkkk",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/88451018?v=4",
+          "htmlUrl": "https://github.com/richardkkk"
+        }
+      ]
+    },
+    {
+      "docId": "jee9yt8n8tmo8yclqujerw2x",
+      "path": "content/docs/learn/cs/dev-tips/index.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "73457237": 1,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "73457237",
+          "contributions": 1,
+          "lastContributedAt": "2025-09-18T10:22:50.000Z",
+          "login": "TSK-Glofy",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
+          "htmlUrl": "https://github.com/TSK-Glofy"
+        }
+      ]
+    },
+    {
+      "docId": "yxd2qpfl2li6092bjx8bz7vb",
+      "path": "content/docs/learn/cs/dev-tips/Katex/index.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "73457237": 1,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "73457237",
+          "contributions": 1,
+          "lastContributedAt": "2025-09-20T05:09:13.000Z",
+          "login": "TSK-Glofy",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
+          "htmlUrl": "https://github.com/TSK-Glofy"
+        }
+      ]
+    },
+    {
+      "docId": "r0inttjcby48tly602p410vo",
+      "path": "content/docs/learn/cs/dev-tips/Katex/Seb1.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "73457237": 2,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "73457237",
+          "contributions": 2,
+          "lastContributedAt": "2025-09-20T05:15:02.000Z",
+          "login": "TSK-Glofy",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
+          "htmlUrl": "https://github.com/TSK-Glofy"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        }
+      ]
+    },
+    {
+      "docId": "khcrztruqdku9fntd3dwzvwe",
+      "path": "content/docs/learn/cs/dev-tips/Katex/Seb2.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "73457237": 2,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "73457237",
+          "contributions": 2,
+          "lastContributedAt": "2025-09-20T05:15:02.000Z",
+          "login": "TSK-Glofy",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
+          "htmlUrl": "https://github.com/TSK-Glofy"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        }
+      ]
+    },
+    {
+      "docId": "e6udpzrorhvgeeda6xpy1e0s",
+      "path": "content/docs/learn/cs/dev-tips/picturecdn.mdx",
+      "contributorStats": {
+        "41898282": 1,
+        "59130571": 2,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "59130571",
+          "contributions": 2,
+          "lastContributedAt": "2025-09-27T07:16:02.000Z",
+          "login": "RavenCaffeine",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/59130571?v=4",
+          "htmlUrl": "https://github.com/RavenCaffeine"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        }
+      ]
+    },
+    {
+      "docId": "i0xmpskau105p83vq35wnxls",
+      "path": "content/docs/learn/cs/dev-tips/raspberry-guide.md",
+      "contributorStats": {
+        "41898282": 1,
+        "73457237": 1,
+        "114939201": 2
+      },
+      "contributors": [
+        {
+          "githubId": "114939201",
+          "contributions": 2,
+          "lastContributedAt": "2026-05-24T17:37:38.000Z",
+          "login": "longsizhuo",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/114939201?v=4",
+          "htmlUrl": "https://github.com/longsizhuo"
+        },
+        {
+          "githubId": "41898282",
+          "contributions": 1,
+          "lastContributedAt": "2026-05-11T15:02:08.000Z",
+          "login": "github-actions[bot]",
+          "avatarUrl": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "htmlUrl": "https://github.com/apps/github-actions"
+        },
+        {
+          "githubId": "73457237",
+          "contributions": 1,
+          "lastContributedAt": "2025-09-18T10:22:50.000Z",
+          "login": "TSK-Glofy",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/73457237?v=4",
+          "htmlUrl": "https://github.com/TSK-Glofy"
         }
       ]
     },
