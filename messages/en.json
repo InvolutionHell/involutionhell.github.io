@@ -34,8 +34,8 @@
         "desc": "Give me a job. I'll do anything."
       },
       "community": {
-        "title": "Community Creations",
-        "desc": "Original posts from community members — no PR review needed, live the moment you publish. Topics range from bug diaries to technical essays."
+        "title": "Community Posts",
+        "desc": "Articles written by community members — published instantly, no PR review needed. Topics range from dev notes to technical deep-dives."
       }
     }
   },
