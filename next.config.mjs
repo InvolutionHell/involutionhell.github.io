@@ -205,7 +205,7 @@ const config = {
       // CommunityShare / Amazing-AI-Tools index 顶层
       {
         source: "/docs/CommunityShare",
-        destination: "/zh/docs/community",
+        destination: "/zh/docs/learn",
         statusCode: 301,
       },
       {
