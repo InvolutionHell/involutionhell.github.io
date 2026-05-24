@@ -156,6 +156,27 @@ jobs:
             pnpm exec tsx scripts/backfill-contributors.mjs
 
             # ============================================================
+            # 4.5 清 resolver 缓存
+            # ------------------------------------------------------------
+            # backfill 更新了 path_current 后，后端 Caffeine 的 doc-resolve 缓存
+            # 可能持有旧的 canonical（TTL 10min）。doc mv 后最多 10min 内旧 URL
+            # 还是 301 到旧路径——自愈失效。
+            # 直接重启 backend 容器是最简可靠的清缓存方式：无状态 JVM，
+            # docker restart 约 10s 内重新 up，不影响正在处理的请求（Caddy 会重试）。
+            # ============================================================
+            echo "Restarting backend to evict doc-resolve cache..."
+            docker restart involution-hell-backend
+            # 等待后端重新 healthy（最多 30s），避免 workflow 结束后请求打到启动中的容器
+            for i in $(seq 1 6); do
+              STATUS=$(docker inspect --format='{{.State.Health.Status}}' involution-hell-backend 2>/dev/null || echo "unknown")
+              if [[ "$STATUS" == "healthy" ]]; then
+                echo "Backend healthy after ${i}×5s"
+                break
+              fi
+              sleep 5
+            done
+
+            # ============================================================
             # 5. 自动提交
             # ------------------------------------------------------------
             # 只 commit MDX frontmatter 改动 + 生成的 JSON，不包含任何其他脏文件。
