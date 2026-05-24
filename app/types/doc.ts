@@ -39,6 +39,11 @@ export interface PageData {
     lang?: string;
     [key: string]: unknown;
   };
+  // docs 文章同步自作者 posts 主页时在 frontmatter 设置，
+  // 渲染层据此在文章顶部加「此文同步自作者主页 →」导航提示。
+  syncedFromPosts?: boolean;
+  syncedAuthor?: string;
+  syncedPostsUrl?: string;
   // 故意不挂顶层 [key: string]: unknown 索引签名 —— Fumadocs 的 page.data 由
   // zod DocOut 推出，没有 index signature；如果在 PageData 上挂一个，as PageData
   // 会触发 TS2352 "neither type sufficiently overlaps"。所有需要的字段都已

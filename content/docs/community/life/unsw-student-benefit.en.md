@@ -12,6 +12,9 @@ lang: en
 translatedFrom: zh
 translatedAt: 2026-05-11T00:00:00Z
 translatorAgent: claude-sonnet-4-6
+syncedFromPosts: true
+syncedAuthor: "Mira"
+syncedPostsUrl: "/u/mira/posts/unsw-student-benefit"
 ---
 
 Recently chatting with classmates, I discovered that our university offers a wealth of hidden benefits that many students are completely unaware of — not just career-related, but also academic. So today I'm here to close the information gap and compile a collection of these hidden campus perks. Feel free to add more in the comments!

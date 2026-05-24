@@ -8,6 +8,9 @@ tags:
   - student-resources
   - australia-study
 docId: jgyg6bp0nceyrxirz5qw3zsv
+syncedFromPosts: true
+syncedAuthor: "Mira"
+syncedPostsUrl: "/u/mira/posts/unsw-student-benefit"
 ---
 
 最近和同学聊天，发现学校有好多隐藏福利很多同学都不知道，不光是就业方面还有学业方面的各种福利。那么今天学姐就来打破信息差，为大家整理一个校园隐藏福利福利合集，还有其他更多隐藏福利欢迎大家评论区补充哦。

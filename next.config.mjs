@@ -113,23 +113,23 @@ const config = {
           "/zh/docs/learn/ai/foundation-models/rag/context-engineering-intro",
         statusCode: 301,
       },
-      // CommunityShare/Geek/leworldmodel → community/papers（paper summary 归社区论文）
+      // CommunityShare/Geek/leworldmodel → learn/ai/papers（community 重归类）
       {
         source: "/docs/CommunityShare/Geek/leworldmodel",
-        destination: "/zh/docs/community/papers/leworldmodel",
+        destination: "/zh/docs/learn/ai/papers/leworldmodel",
         statusCode: 301,
       },
-      // CommunityShare/Amazing-AI-Tools 下两篇分家：tool review 归 tools，paper 归 papers
+      // CommunityShare/Amazing-AI-Tools 下两篇分家：tool review 归 learn/ai/tools，paper 归 learn/ai/papers
       {
         source: "/docs/CommunityShare/Amazing-AI-Tools/perplexity-comet",
-        destination: "/zh/docs/community/tools/perplexity-comet",
+        destination: "/zh/docs/learn/ai/tools/perplexity-comet",
         statusCode: 301,
       },
       {
         source:
           "/zh/docs/CommunityShare/Amazing-AI-Tools/prompt-repetition-improves-non-reasoning-llms",
         destination:
-          "/zh/docs/community/papers/prompt-repetition-improves-non-reasoning-llms",
+          "/zh/docs/learn/ai/papers/prompt-repetition-improves-non-reasoning-llms",
         statusCode: 301,
       },
       // PPO 强化学习主题 → learn/ai/reinforcement-learning
@@ -139,10 +139,10 @@ const config = {
         destination: "/zh/docs/learn/ai/reinforcement-learning/ppo",
         statusCode: 301,
       },
-      // swanlab 之前 test run 已移到 ai/misc-tools/（main commit d6d0a3d），现改到 community/tools
+      // swanlab 之前 test run 已移到 ai/misc-tools/，后归 community/tools，现再归 learn/ai/tools
       {
         source: "/docs/ai/misc-tools/swanlab",
-        destination: "/zh/docs/community/tools/swanlab",
+        destination: "/zh/docs/learn/ai/tools/swanlab",
         statusCode: 301,
       },
       // cpp_backend 老命名（下划线 / 大驼峰）→ learn/cs/cpp-backend/ (kebab-case)
@@ -210,7 +210,50 @@ const config = {
       },
       {
         source: "/docs/CommunityShare/Amazing-AI-Tools",
-        destination: "/zh/docs/community/tools",
+        destination: "/zh/docs/learn/ai/tools",
+        statusCode: 301,
+      },
+
+      // ============= community 子目录重归类（2026-05 docs IA 整理）=============
+      // dev-tips（开发工具/技巧）→ learn/cs/dev-tips
+      // index 单独列出以保证精确匹配先于 :path* wildcard 命中
+      {
+        source: "/docs/community/dev-tips",
+        destination: "/zh/docs/learn/cs/dev-tips",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/community/dev-tips/:path*",
+        destination: "/zh/docs/learn/cs/dev-tips/:path*",
+        statusCode: 301,
+      },
+      // language（语言考试）→ career/language
+      {
+        source: "/docs/community/language/:path*",
+        destination: "/zh/docs/career/language/:path*",
+        statusCode: 301,
+      },
+      // papers（AI 论文读书笔记）→ learn/ai/papers
+      {
+        source: "/docs/community/papers/:path*",
+        destination: "/zh/docs/learn/ai/papers/:path*",
+        statusCode: 301,
+      },
+      // tools（AI 工具）→ learn/ai/tools
+      {
+        source: "/docs/community/tools",
+        destination: "/zh/docs/learn/ai/tools",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/community/tools/:path*",
+        destination: "/zh/docs/learn/ai/tools/:path*",
+        statusCode: 301,
+      },
+      // community 根（内容搬空后）→ learn（泛学习入口）
+      {
+        source: "/docs/community",
+        destination: "/zh/docs/learn",
         statusCode: 301,
       },
 
@@ -249,7 +292,7 @@ const config = {
       //   生成的 slug 映射做字面匹配，单跳 301 到正确拼音 URL。
       {
         source: "/docs/CommunityShare/Language/:path*",
-        destination: "/zh/docs/community/language/:path*",
+        destination: "/zh/docs/career/language/:path*",
         statusCode: 301,
       },
       {
@@ -264,12 +307,12 @@ const config = {
       },
       {
         source: "/docs/CommunityShare/Geek/:path*",
-        destination: "/zh/docs/community/dev-tips/:path*",
+        destination: "/zh/docs/learn/cs/dev-tips/:path*",
         statusCode: 301,
       },
       {
         source: "/docs/CommunityShare/Amazing-AI-Tools/:path*",
-        destination: "/zh/docs/community/tools/:path*",
+        destination: "/zh/docs/learn/ai/tools/:path*",
         statusCode: 301,
       },
 
