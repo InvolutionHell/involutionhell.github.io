@@ -1,21 +1,26 @@
 /**
- * 构建时扫描 app/docs/career/interview-prep/leetcode/*.md(x)，
- * 把「中文/含特殊字符的文件名」→「拼音 slug」的映射写进 generated/leetcode-slug-map.json。
+ * 构建时扫描 content/docs/career/interview-prep/leetcode/*.md(x)，把「中文文件名」→
+ * 「真实 canonical URL」的映射写进 generated/leetcode-slug-map.json。
  *
  * 为什么要这个 map：
- *   lib/source.ts 里的 transformer 会把 leetcode 目录下含中文的文件名转成拼音 slug（对外 URL）。
- *   GSC 旧索引里还存着 /docs/CommunityShare/Leetcode/<中文原文件名> 这类 URL，
- *   next.config.mjs 只做了前缀替换 wildcard，slug 没拼音化，跳过去还是 404。
- *   proxy.ts (Next 16 middleware) 要在 edge 端 O(1) 查表把旧 URL 301 到正确拼音路径，
- *   又不能把 pinyin-pro 的整本字典塞进 edge bundle，所以构建时先把映射固化成 JSON。
+ *   GSC 旧索引里还存着 /docs/CommunityShare/Leetcode/<中文原文件名> 和
+ *   /docs/career/interview-prep/leetcode/<中文文件名> 这类 URL。中文文件名经
+ *   fumadocs i18n 解析后的真实 slug 不可预测（带 `. ` 的会塌缩到英文 slug、带方括号
+ *   的能独立成拼音页），手搓拼音对不齐。proxy.ts 要在 edge 端 O(1) 查表把旧 URL
+ *   301 到真实页面，又不能把 pinyin-pro 字典塞进 edge bundle，所以构建时固化成 JSON。
  *
- * 算法从 lib/leetcode-slug.ts 里 import，运行时和构建时共用同一实现，
- * 消除双点维护。脚本必须用 tsx 执行（见 package.json prebuild）。
+ * value 是完整 canonical 路径（含 locale 前缀）：按题号优先指向英文版 /en
+ * （.en.md 一定 200），无英文兄弟才退回 /zh 拼音页。算法从 lib/leetcode-slug.ts
+ * import，与运行时 transformer / 排行榜生成共用同一真源。
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { convertSlugToPinyin } from "../lib/leetcode-slug.ts";
+import {
+  LEETCODE_DIR_SLUG,
+  buildLeetcodeAsciiSlugByNumber,
+  leetcodeCanonicalUrl,
+} from "../lib/leetcode-slug.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,31 +53,35 @@ function main() {
     .readdirSync(LEETCODE_DIR)
     .filter((f) => /\.(md|mdx)$/i.test(f));
 
-  const map: Record<string, string> = {};
-  const collisions: { stem: string; existing: string; incoming: string }[] = [];
+  // 题号 → 英文 ASCII slug，给 leetcodeCanonicalUrl 把中文旧 URL 指向英文 canonical
+  const asciiByNumber = buildLeetcodeAsciiSlugByNumber(files);
 
+  // byName：当前中文命名文件的精确映射（覆盖无英文兄弟、只能走 zh 拼音页的情况）。
+  const byName: Record<string, string> = {};
   for (const file of files) {
     const stem = stripSuffix(file);
-    const pinyinSlug = convertSlugToPinyin(stem);
-    if (pinyinSlug === stem) continue; // 无中文，不需要映射
-    if (map[stem] && map[stem] !== pinyinSlug) {
-      collisions.push({ stem, existing: map[stem], incoming: pinyinSlug });
-    }
-    map[stem] = pinyinSlug;
+    // 只给中文命名文件建映射：英文命名文件本身就是 canonical 目标，不必重定向自己；
+    // 纯 ASCII 的 _translated（如 219_translated）真实 slug == stem，旧 URL 直达即可。
+    if (!/[^\x00-\x7f]/.test(stem)) continue;
+    byName[stem] = leetcodeCanonicalUrl(stem, asciiByNumber);
   }
 
-  if (collisions.length) {
-    console.warn(
-      `[leetcode-slug-map] 检测到 slug 冲突 ${collisions.length} 条:`,
-      collisions,
-    );
+  // byNumber：题号 → 英文页。兜住「中文文件已改名成英文、原中文 URL 在 GSC 里还活着」
+  // 的情况（如 46.全排列 → 文件已是 46-permutations，byName 里没有，但题号 46 能命中）。
+  const byNumber: Record<string, string> = {};
+  for (const [num, ascii] of asciiByNumber) {
+    byNumber[num] = `/en/docs/${LEETCODE_DIR_SLUG}/${ascii}`;
   }
 
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(map, null, 2) + "\n", "utf8");
+  fs.writeFileSync(
+    OUTPUT_FILE,
+    JSON.stringify({ byName, byNumber }, null, 2) + "\n",
+    "utf8",
+  );
 
   console.log(
-    `[leetcode-slug-map] 生成 ${Object.keys(map).length} 条映射 → ${path.relative(PROJECT_ROOT, OUTPUT_FILE)}`,
+    `[leetcode-slug-map] 生成 byName ${Object.keys(byName).length} 条 + byNumber ${Object.keys(byNumber).length} 条 → ${path.relative(PROJECT_ROOT, OUTPUT_FILE)}`,
   );
 }
 

@@ -28,3 +28,46 @@ export function convertSlugToPinyin(text: string): string {
     .filter(Boolean)
     .join("-");
 }
+
+/** leetcode 目录相对 content/docs 的路径（= 对外 URL 里 /docs 之后的固定段）。*/
+export const LEETCODE_DIR_SLUG = "career/interview-prep/leetcode";
+
+/**
+ * 从 leetcode 目录的文件名列表构建「题号 → 英文 ASCII slug」映射。
+ *
+ * 英文命名文件（`1234-replace-....en.md`）的 ASCII slug 一定能被 fumadocs 解析、
+ * 一定 200；中文翻译文件名经 i18n 解析后的真实 slug 不可预测（带 `. ` 的会塌缩、
+ * 带方括号的能独立成拼音页）。所以同一题优先用英文 slug 当 canonical。
+ */
+export function buildLeetcodeAsciiSlugByNumber(
+  filenames: string[],
+): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const f of filenames) {
+    if (!/\.(md|mdx)$/i.test(f)) continue;
+    const stem = f.replace(/\.(md|mdx)$/i, "").replace(/\.(en|zh)$/i, "");
+    if (/[^\x00-\x7f]/.test(stem)) continue; // 含非 ASCII = 中文命名，不是 canonical 来源
+    if (/_translated$/i.test(stem)) continue; // 英文名也带 _translated 的极少数
+    const num = stem.match(/(\d+)/); // 题号（取第一段数字，兼容 1234- / sword-offer-ii-021）
+    if (!num) continue;
+    if (!map.has(num[1])) map.set(num[1], stem);
+  }
+  return map;
+}
+
+/**
+ * 给一个 leetcode 文件的 stem（已去 locale / 扩展名后缀），算它的真实 canonical URL。
+ *
+ * 英文页只在 `/en` 渲染（`.en.md`，zh 不回退 en），所以按题号命中英文 slug 时一律
+ * 指向 `/en`；命不中（无英文兄弟）才退回 `/zh` 拼音页。`index` 对应目录根。
+ */
+export function leetcodeCanonicalUrl(
+  stem: string,
+  asciiByNumber: Map<string, string>,
+): string {
+  if (stem === "index") return `/zh/docs/${LEETCODE_DIR_SLUG}`;
+  const num = stem.match(/(\d+)/);
+  const ascii = num ? asciiByNumber.get(num[1]) : undefined;
+  if (ascii) return `/en/docs/${LEETCODE_DIR_SLUG}/${ascii}`;
+  return `/zh/docs/${LEETCODE_DIR_SLUG}/${convertSlugToPinyin(stem)}`;
+}

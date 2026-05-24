@@ -280,15 +280,11 @@ const config = {
         statusCode: 301,
       },
 
-      // ============= 兜底：no-locale /docs 一律送默认 locale =============
-      // 段化后 canonical 必带 locale 前缀，任何裸 /docs/... 都是旧链接（外链 /
-      // GSC / 热榜 DB 旧路径）。必须排在所有具体规则之后，让特化规则先命中。
-      // 目的地带 /zh 前缀，不会再被本规则匹配，无重定向环。
-      {
-        source: "/docs/:path*",
-        destination: "/zh/docs/:path*",
-        statusCode: 301,
-      },
+      // 注意：不要在这里加 `/docs/:path*` → `/zh/docs/:path*` 的 no-locale 兜底。
+      // 那是个 301（永久），会抢在 next-intl middleware 之前把所有无前缀 /docs
+      // 链接（Hero / Footer 站内链接 + 外链）强制钉到 zh，英文用户再也协商不到
+      // /en（且被浏览器/Google 缓存）。无前缀路径交给 next-intl 按 Accept-Language
+      // / NEXT_LOCALE 协商（307，单跳到 /zh 或 /en）才是对的。
     ];
   },
   async rewrites() {

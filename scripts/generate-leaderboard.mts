@@ -17,44 +17,32 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import dotenv from "dotenv";
-import { convertSlugToPinyin } from "../lib/leetcode-slug.ts";
+import {
+  LEETCODE_DIR_SLUG,
+  buildLeetcodeAsciiSlugByNumber,
+  leetcodeCanonicalUrl,
+} from "../lib/leetcode-slug.ts";
 dotenv.config({ path: [".env.local", ".env"] });
 
 // 默认语言（lib/source.ts defineI18n defaultLanguage），不带后缀的 .mdx 视为 zh
 const DEFAULT_LOCALE = "zh";
-const LEETCODE_PREFIX = "career/interview-prep/leetcode/";
-const LEETCODE_DIR_REL = "content/docs/career/interview-prep/leetcode";
+const LEETCODE_PREFIX = `${LEETCODE_DIR_SLUG}/`;
+const LEETCODE_DIR_REL = `content/docs/${LEETCODE_DIR_SLUG}`;
 
-/**
- * leetcode 题号 → 该题英文命名文件的 ASCII slug。
- *
- * 为什么需要：同一道题常有英文版（1234-replace-substring....en.md）和中文翻译版
- * （"1234. 替换...＿translated.md" / "[121]买卖..._translated.md"）。中文文件名经
- * fumadocs i18n 解析后的真实 slug 不可预测：带 `. ` 点空格的会塌缩到英文 slug、
- * 带方括号的又能独立成拼音页。手搓拼音对不齐真实路由（proxy.ts 的 slug-map 也踩同样的坑）。
- * 英文命名文件的 ASCII slug 一定能被 fumadocs 解析、一定在 sitemap 里。
- * 所以排行榜里任何 leetcode 贡献都指向该题英文 slug，保证 200。
- */
-const leetcodeAsciiSlugByNumber = new Map();
+// 题号 → 英文 ASCII slug。leetcode 中文翻译文件名经 fumadocs 解析后真实 slug 不可预测，
+// 统一按题号指向英文版 /en（详见 lib/leetcode-slug.ts）。proxy.ts 的 slug-map 同源。
+const leetcodeAsciiSlugByNumber = new Map<string, string>();
 
-async function buildLeetcodeAsciiSlugMap() {
+async function loadLeetcodeAsciiSlugMap() {
   const dir = path.join(REPO_ROOT, LEETCODE_DIR_REL);
-  let files = [];
+  let files: string[] = [];
   try {
     files = await fs.readdir(dir);
   } catch {
     return;
   }
-  for (const f of files) {
-    if (!/\.(md|mdx)$/i.test(f)) continue;
-    const stem = f.replace(/\.(md|mdx)$/i, "").replace(/\.(en|zh)$/i, "");
-    if (/[^\x00-\x7f]/.test(stem)) continue; // 含非 ASCII = 中文命名，跳过
-    if (/_translated$/i.test(stem)) continue; // 英文名也带 _translated 的极少数，跳过
-    const num = stem.match(/(\d+)/); // 题号（取第一段数字，兼容 1234- / sword-offer-ii-021）
-    if (!num) continue;
-    if (!leetcodeAsciiSlugByNumber.has(num[1])) {
-      leetcodeAsciiSlugByNumber.set(num[1], stem);
-    }
+  for (const [k, v] of buildLeetcodeAsciiSlugByNumber(files)) {
+    leetcodeAsciiSlugByNumber.set(k, v);
   }
 }
 
@@ -74,17 +62,11 @@ function buildCanonicalDocUrl(docPath) {
     locale = localeSuffix[1].toLowerCase();
     stem = stem.slice(0, -3);
   }
-  const isLeetcode = stem.startsWith(LEETCODE_PREFIX);
-  if (isLeetcode) {
-    const dirRoot = LEETCODE_PREFIX.replace(/\/$/, "");
+  if (stem.startsWith(LEETCODE_PREFIX)) {
+    // leetcode 的 slug 解析复杂（中文塌缩 / 拼音 / 英文 canonical），统一走共享实现，
+    // 与 proxy.ts slug-map 和运行时 transformer 同源。
     const filename = stem.slice(LEETCODE_PREFIX.length);
-    if (filename === "index") return `/${DEFAULT_LOCALE}/docs/${dirRoot}`;
-    const num = filename.match(/(\d+)/);
-    const asciiSlug = num && leetcodeAsciiSlugByNumber.get(num[1]);
-    // 题号对到英文文件 → 英文页落在 /en（.en.md，zh 不回退 en），一定 200。
-    if (asciiSlug) return `/en/docs/${dirRoot}/${asciiSlug}`;
-    // 无英文兄弟 → 中文翻译版走 zh 拼音（bracket-form 文件名能被 fumadocs 解析）
-    return `/${locale}/docs/${dirRoot}/${convertSlugToPinyin(filename)}`;
+    return leetcodeCanonicalUrl(filename, leetcodeAsciiSlugByNumber);
   }
   const slug = stem.replace(/\/index$/i, ""); // index.mdx 对应目录根，去掉尾部 /index
   return slug ? `/${locale}/docs/${slug}` : `/${locale}/docs`;
@@ -300,7 +282,7 @@ async function main() {
   }
 
   // leetcode 题号 → 英文 ASCII slug，给 buildCanonicalDocUrl 把翻译版指向英文 canonical
-  await buildLeetcodeAsciiSlugMap();
+  await loadLeetcodeAsciiSlugMap();
 
   // 构建 docId → {title, url} 映射，从 .source/index.ts 提取（Fumadocs 生成的 manifest）
   const rawData = await fs.readFile(
