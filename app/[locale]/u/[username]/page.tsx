@@ -11,6 +11,7 @@ import { AdminLinkIfOwnerAdmin } from "./AdminLinkIfOwnerAdmin";
 import { DeveloperToolsIfOwner } from "./DeveloperToolsIfOwner";
 import { SharesLinkIfOwner } from "./SharesLinkIfOwner";
 import { SharesOnProfile } from "./SharesOnProfile";
+import { PostsLinkOnProfile } from "./PostsLinkOnProfile";
 import { ActivityHeatmap } from "./ActivityHeatmap";
 import { FollowButton } from "./FollowButton";
 import { GithubRepos, GithubReposSkeleton } from "./GithubRepos";
@@ -460,6 +461,12 @@ export default async function UserProfilePage({ params }: Param) {
                 <Stat label={t("stats.commits")} value={commits} />
                 <Stat label={t("stats.points")} value={points} />
               </div>
+              {/* 文章入口：stats 下方独立链接行，client 组件动态拉计数 */}
+              <PostsLinkOnProfile
+                ownerGithubId={user.githubId ?? null}
+                ownerUsername={user.username}
+                identifier={username}
+              />
               {/* 关注按钮 + 粉丝/关注数，客户端动态拉 */}
               <FollowButton identifier={username} targetUserId={user.id} />
               {links.length > 0 && (
