@@ -13,7 +13,7 @@
     "cta": {
       "access": "Access Articles",
       "guideAriaLabel": "Contribution Guide",
-      "feed": "See what we're writing"
+      "feed": "See what the community is writing →"
     },
     "archivesLabel": "Classified Archives",
     "join": {
@@ -34,7 +34,7 @@
         "desc": "Give me a job. I'll do anything."
       },
       "community": {
-        "title": "Community Notes",
+        "title": "Community Creations",
         "desc": "Original posts from community members"
       }
     }

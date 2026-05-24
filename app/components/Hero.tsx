@@ -32,7 +32,7 @@ export async function Hero() {
     {
       title: t("categories.jobs.title"),
       desc: t("categories.jobs.desc"),
-      href: "/docs/career",
+      href: "/docs/career/interview-prep/bq",
     },
     {
       title: t("categories.community.title"),

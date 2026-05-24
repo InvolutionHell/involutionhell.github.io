@@ -13,7 +13,7 @@
     "cta": {
       "access": "访问文章",
       "guideAriaLabel": "查看投稿指南",
-      "feed": "看看群友在写什么"
+      "feed": "去看群友在写什么 →"
     },
     "archivesLabel": "归档分类",
     "join": {
@@ -34,7 +34,7 @@
         "desc": "可以给我一份工作吗？我什么都可以做！"
       },
       "community": {
-        "title": "群友分享",
+        "title": "群友创作",
         "desc": "群友原创文章，不定期更新"
       }
     }
