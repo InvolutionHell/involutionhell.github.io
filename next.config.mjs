@@ -250,6 +250,17 @@ const config = {
         destination: "/zh/docs/learn/ai/tools/:path*",
         statusCode: 301,
       },
+      // 叙事文章（已搬入作者 posts 主页，/docs 原文删除）→ 对应 posts URL
+      {
+        source: "/docs/community/life/unsw-student-benefit",
+        destination: "/zh/u/github_163523387/posts/unsw-student-benefit",
+        statusCode: 301,
+      },
+      {
+        source: "/docs/community/mental-health/burnout-guide",
+        destination: "/zh/u/github_114939201/posts/burnout-guide",
+        statusCode: 301,
+      },
       // community 根（内容搬空后）→ learn（泛学习入口）
       {
         source: "/docs/community",
@@ -296,13 +307,15 @@ const config = {
         statusCode: 301,
       },
       {
+        // life/ 下只有 unsw，已有精确 slug 301；wildcard 兜底指 learn 防其他旧 URL 404
         source: "/docs/CommunityShare/Life/:path*",
-        destination: "/zh/docs/community/life/:path*",
+        destination: "/zh/docs/learn",
         statusCode: 301,
       },
       {
+        // mental-health/ 下只有 burnout，已有精确 slug 301；wildcard 兜底指 learn
         source: "/docs/CommunityShare/MentalHealth/:path*",
-        destination: "/zh/docs/community/mental-health/:path*",
+        destination: "/zh/docs/learn",
         statusCode: 301,
       },
       {
