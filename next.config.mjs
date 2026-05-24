@@ -445,6 +445,12 @@ const config = {
         source: "/api/posts/:path*",
         destination: `${backendUrl}/api/posts/:path*`,
       },
+      {
+        // docs 历史路径解析器：not-found.tsx 查询旧 URL 是否有现行映射
+        // 后端查 doc_paths 表，返回 301+Location（找到）或 404（不认识）
+        source: "/api/docs/resolve",
+        destination: `${backendUrl}/api/docs/resolve`,
+      },
     ];
   },
   images: {
