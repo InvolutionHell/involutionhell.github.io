@@ -83,3 +83,10 @@ jobs:
       # leetcode/ and _translated.md are exempt — see scripts/check-frontmatter-description.mjs
       - name: Check MDX frontmatter description
         run: pnpm check:frontmatter
+
+      # 拦截性检查：PR 中 content/docs/** 被 rename/delete 时，要求旧路径在 next.config.mjs
+      # 有对应 redirect source 覆盖。未覆盖 → exit 1 阻断合并。
+      - name: Check doc path coverage (301 redirect)
+        run: node scripts/check-doc-paths.mjs
+        env:
+          GITHUB_BASE_REF: ${{ github.base_ref }}
