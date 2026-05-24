@@ -3,7 +3,7 @@ import { safeJsonLdString } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/site-url";
 import { ensureSeoDescription } from "@/lib/seo-description";
 import { DocsPage, DocsBody } from "fumadocs-ui/page";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
@@ -24,6 +24,39 @@ import { DocShareButton } from "@/app/components/DocShareButton";
 import { routing } from "@/i18n/routing";
 import { type PageData } from "@/app/types/doc";
 
+const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8080";
+
+/**
+ * 查询后端 resolve 端点，未知路径可能是历史重命名路径。
+ * 返回 canonical URL（如 /docs/learn/cs/dev-tips/git101）或 null。
+ * 后端 Caffeine 缓存 TTL=600s，命中率高，延迟可控。
+ */
+async function resolveDocPath(
+  locale: string,
+  slug: string[],
+): Promise<string | null> {
+  const strippedPath = `/docs/${slug.join("/")}`;
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 400);
+    const res = await fetch(
+      `${BACKEND_URL}/api/docs/resolve?path=${encodeURIComponent(strippedPath)}`,
+      { redirect: "manual", signal: controller.signal, cache: "no-store" },
+    );
+    clearTimeout(timeout);
+    if (res.status === 301 || res.status === 308) {
+      const loc = res.headers.get("Location");
+      // loc === strippedPath 意味着当前路径已是 canonical，不跳
+      if (loc && loc !== strippedPath) {
+        return `/${locale}${loc}`;
+      }
+    }
+  } catch {
+    // 超时或后端不可达：降级到 notFound()
+  }
+  return null;
+}
+
 interface Param {
   params: Promise<{
     locale: string;
@@ -31,11 +64,10 @@ interface Param {
   }>;
 }
 
-// 显式声明 force-static：让 Next.js 严格按 generateStaticParams 预渲染
-// 所有 (locale, slug) 组合，未列出的不允许动态生成。
-// 没有这条时，build 表里 ƒ Dynamic 标签会让 docs 走运行时渲染（即使加了
-// setRequestLocale 也不一定 prerender）。
-export const dynamic = "force-static";
+// dynamicParams=true（默认值）：generateStaticParams 列出的路径 SSG 预渲染，
+// 未列出的路径（包括历史旧路径）走运行时 SSR，在 DocPage 里做 resolve → permanentRedirect。
+// 不写 dynamic="force-static"：让未知路径能够 SSR，而不是直接 404。
+// 已知路径仍然走 SSG（generateStaticParams 命中），正常页面 TTFB 不受影响。
 
 export default async function DocPage({ params }: Param) {
   const { locale, slug } = await params;
@@ -47,6 +79,11 @@ export default async function DocPage({ params }: Param) {
   // 找不到时按 source.ts 配的 fallbackLanguage='zh' 回退到原文。
   const page = source.getPage(slug, locale);
   if (page == null) {
+    // slug 不在 SSG 列表里：查历史路径表，命中则服务端 308（Googlebot 可跟）
+    const redirectTarget = await resolveDocPath(locale, slug ?? []);
+    if (redirectTarget) {
+      permanentRedirect(redirectTarget);
+    }
     notFound();
   }
 
@@ -181,6 +218,11 @@ export async function generateMetadata({ params }: Param): Promise<Metadata> {
 
   const page = source.getPage(slug, locale);
   if (page == null) {
+    // generateMetadata 同步 page.tsx 的跳转逻辑，避免 metadata 和页面不一致
+    const redirectTarget = await resolveDocPath(locale, slug ?? []);
+    if (redirectTarget) {
+      permanentRedirect(redirectTarget);
+    }
     notFound();
   }
 
