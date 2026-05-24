@@ -233,9 +233,8 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         throw new Error(body.message ?? "发布失败，请重试");
       }
 
-      const { slug: finalSlug } = body.data;
-      // 跳到文章详情页
-      router.push(`/u/${user.username}/posts/${finalSlug}`);
+      const { slug: finalSlug, authorUsername } = body.data;
+      router.push(`/u/${authorUsername}/posts/${finalSlug}`);
     } catch (error) {
       console.error("发布失败:", error);
       alert(`发布失败：${error instanceof Error ? error.message : "未知错误"}`);
