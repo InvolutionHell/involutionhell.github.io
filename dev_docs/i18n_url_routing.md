@@ -280,6 +280,36 @@ languages:
 
 `disallow` 用 wildcard 形式 `/*/admin/` 等匹配两种 locale 前缀。
 
+### 段化前旧 URL 的 301（`.en` / `.zh` 后缀）
+
+段化前 locale 是**文件后缀**（`/docs/foo.en`、`/docs/bar.zh`），段化后变成
+**URL 段前缀**（`/en/docs/foo`）。GSC 里还存着上百条 `.en`/`.zh` 旧 URL，是最大
+一类 404。重定向规则放在 **`next.config.mjs` 的 `redirects()`**，不是 `proxy.ts`：
+
+> `proxy.ts` 的 matcher 排除了 `.*\..*`（任何带点路径都不进中间件），而 `.en`/
+> `.zh` 后缀全带点 → 中间件根本碰不到。`next.config` 的 `redirects()` 跑在路由层，
+> 不受该排除影响，是带点旧 URL 唯一能 301 兜住的地方。
+
+规则顺序敏感（首匹配命中）：`.en`/`.zh` 后缀剥离 + `/index` 剥离排在 IA wildcard
+之前；末尾一条 no-locale `/docs/:path*` → `/zh/docs/:path*` 兜底（段化后 canonical
+必带 locale 前缀，任何裸 `/docs/...` 都是旧链接）。`:slug(.*)\\.en` 用贪婪捕获吃掉
+含 `/` 的多级路径，结尾 `\.en` 做字面锚定。
+
+### 排行榜 / 热榜链接的 canonical URL
+
+`scripts/generate-leaderboard.mts` 从后端 docId 反查 `.source` 文件路径拼 URL。
+段化后必须产出 `/<locale>/docs/<slug>`，否则排行榜每条链接都 404。`buildCanonicalDocUrl`
+做三件事和路由对齐：① 剥 `.en`/`.zh` 后缀并据此选 locale 前缀；② 去 `/index`；
+③ leetcode 走特殊处理。
+
+**leetcode 的坑**：同一题常有英文版（`1234-xxx.en.md`）+ 中文翻译版
+（`1234. 中文_translated.md` / `[121]中文_translated.md`）。中文文件名经 fumadocs
+i18n 解析后的真实 slug **不可预测**——带 `. ` 点空格的会塌缩、带方括号的能独立成
+拼音页，手搓拼音对不齐（`proxy.ts` 的 leetcode slug-map 也踩同样的坑）。而英文文件的
+ASCII slug 一定能解析、且只在 `/en` 渲染（`.en.md`，zh 不回退 en）。所以脚本按**题号**
+把任何 leetcode 贡献指向英文版 `/en/docs/.../<ascii-slug>`（保证 200），无英文兄弟时
+才退回 zh 拼音。改 leetcode 文件命名后，这套靠 `pnpm build` 重新生成。
+
 ## proxy 流程
 
 每个请求 → `proxy.ts` →

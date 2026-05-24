@@ -17,7 +17,60 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import dotenv from "dotenv";
+import {
+  LEETCODE_DIR_SLUG,
+  buildLeetcodeAsciiSlugByNumber,
+  leetcodeCanonicalUrl,
+} from "../lib/leetcode-slug.ts";
 dotenv.config({ path: [".env.local", ".env"] });
+
+// 默认语言（lib/source.ts defineI18n defaultLanguage），不带后缀的 .mdx 视为 zh
+const DEFAULT_LOCALE = "zh";
+const LEETCODE_PREFIX = `${LEETCODE_DIR_SLUG}/`;
+const LEETCODE_DIR_REL = `content/docs/${LEETCODE_DIR_SLUG}`;
+
+// 题号 → 英文 ASCII slug。leetcode 中文翻译文件名经 fumadocs 解析后真实 slug 不可预测，
+// 统一按题号指向英文版 /en（详见 lib/leetcode-slug.ts）。proxy.ts 的 slug-map 同源。
+const leetcodeAsciiSlugByNumber = new Map<string, string>();
+
+async function loadLeetcodeAsciiSlugMap() {
+  const dir = path.join(REPO_ROOT, LEETCODE_DIR_REL);
+  let files: string[] = [];
+  try {
+    files = await fs.readdir(dir);
+  } catch {
+    return;
+  }
+  for (const [k, v] of buildLeetcodeAsciiSlugByNumber(files)) {
+    leetcodeAsciiSlugByNumber.set(k, v);
+  }
+}
+
+/**
+ * 把 .source 里的原始文件路径转成站点真实 canonical URL：/<locale>/docs/<slug>。
+ *
+ * 必须和三件事对齐，否则排行榜链接全部 404：
+ *   1. i18n 段化（2026-05）：locale 是 URL 段前缀（/zh、/en），不再是文件后缀
+ *   2. fumadocs i18n parser='dot'：foo.mdx→zh，foo.en.mdx→en
+ *   3. lib/source.ts 的 transformer：leetcode 目录下的 slug 逐段拼音化
+ */
+function buildCanonicalDocUrl(docPath) {
+  let stem = docPath.replace(/\.mdx?$/i, ""); // 去 .md / .mdx
+  let locale = DEFAULT_LOCALE;
+  const localeSuffix = stem.match(/\.(en|zh)$/i); // .en / .zh locale 后缀 → URL 前缀
+  if (localeSuffix) {
+    locale = localeSuffix[1].toLowerCase();
+    stem = stem.slice(0, -3);
+  }
+  if (stem.startsWith(LEETCODE_PREFIX)) {
+    // leetcode 的 slug 解析复杂（中文塌缩 / 拼音 / 英文 canonical），统一走共享实现，
+    // 与 proxy.ts slug-map 和运行时 transformer 同源。
+    const filename = stem.slice(LEETCODE_PREFIX.length);
+    return leetcodeCanonicalUrl(filename, leetcodeAsciiSlugByNumber);
+  }
+  const slug = stem.replace(/\/index$/i, ""); // index.mdx 对应目录根，去掉尾部 /index
+  return slug ? `/${locale}/docs/${slug}` : `/${locale}/docs`;
+}
 
 /**
  * 从仓库 git log 反推 GitHub id → login 映射，优先走 noreply 邮箱（GitHub 默认启用 privacy）。
@@ -228,6 +281,9 @@ async function main() {
     }
   }
 
+  // leetcode 题号 → 英文 ASCII slug，给 buildCanonicalDocUrl 把翻译版指向英文 canonical
+  await loadLeetcodeAsciiSlugMap();
+
   // 构建 docId → {title, url} 映射，从 .source/index.ts 提取（Fumadocs 生成的 manifest）
   const rawData = await fs.readFile(
     path.join(__dirname, "../.source/index.ts"),
@@ -257,9 +313,7 @@ async function main() {
       if (pathMatch && pathMatch[1]) {
         const docPath = pathMatch[1];
         let title = docPath.replace(/\.mdx?$/, "");
-        // 对于 Fumadocs 以及 Next.js 路由，以 index.md/mdx 结尾的文件实际上对应着目录的根路径
-        // 所以我们把拼接出的 `/docs/xxx/index` 最后的 `/index` 去掉
-        const url = `/docs/${title}`.replace(/\/index$/, "") || "/docs";
+        const url = buildCanonicalDocUrl(docPath);
 
         let docIdFromFm = null;
         // 为了获取确切的 title 和 docId，我们需要打开实际的文件获取 frontmatter，
@@ -305,18 +359,18 @@ async function main() {
       const githubId = entry.githubId.toString();
       const points = entry.contributions * 10; // 每个 commit 暂定 10 分
 
-      const contributedDocsInfo = entry.docIds.map((dbDocId) => {
-        // dbDocId 对应数据库里的 CUID (如 psc0xf6oa1m7g8s9wfwiojkf)
-        // 或之前的路径 (如 path/to/doc.mdx 需要去除后缀匹配)
-        const key = dbDocId.replace(/\.mdx?$/, "");
-        const mappedInfo = docsMap[key];
-
-        return {
-          id: dbDocId,
-          title: mappedInfo ? mappedInfo.title : dbDocId, // 若没有匹配到页面，回退显示 docId
-          url: mappedInfo ? mappedInfo.url : `/docs/${key}`,
-        };
-      });
+      const contributedDocsInfo = entry.docIds
+        .map((dbDocId) => {
+          // dbDocId 对应数据库里的 CUID (如 psc0xf6oa1m7g8s9wfwiojkf)
+          // 或之前的路径 (如 path/to/doc.mdx 需要去除后缀匹配)
+          const key = dbDocId.replace(/\.mdx?$/, "");
+          const mappedInfo = docsMap[key];
+          // 内容树里找不到对应页面 = 孤儿 docId（文档已删除 / 改名后 docId 没续上）。
+          // 不产出链接，否则排行榜会渲染一个必 404 的死链。
+          if (!mappedInfo) return null;
+          return { id: dbDocId, title: mappedInfo.title, url: mappedInfo.url };
+        })
+        .filter((d) => d !== null);
 
       return {
         id: githubId,

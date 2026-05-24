@@ -18,8 +18,16 @@ import { routing } from "@/i18n/routing";
  *   - URL 段化后，匹配规则 matcher 也得放宽到全站（不限于 /docs/:path*）
  */
 
-const SLUG_MAP = new Map<string, string>(
-  Object.entries(leetcodeSlugMap as Record<string, string>),
+// generated/leetcode-slug-map.json：
+//   byName   中文文件名（decode 后）→ 完整 canonical 路径（含无英文兄弟时的 zh 拼音页）
+//   byNumber 题号 → 英文页，兜住「中文文件已改名成英文、旧中文 URL 在 GSC 还活着」
+const slugMap = leetcodeSlugMap as {
+  byName: Record<string, string>;
+  byNumber: Record<string, string>;
+};
+const SLUG_BY_NAME = new Map<string, string>(Object.entries(slugMap.byName));
+const SLUG_BY_NUMBER = new Map<string, string>(
+  Object.entries(slugMap.byNumber),
 );
 
 // 既要兼容老的不带 locale 前缀的 URL（/docs/...），也要兼容已经带 locale 的
@@ -85,15 +93,29 @@ function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
     rawSlug = rest;
   }
 
-  const mapped = SLUG_MAP.get(rawSlug);
-  const targetSlug = mapped ?? rawSlug;
+  // value 是完整 canonical 路径（含 locale 前缀）。先按文件名精确查（覆盖只有 zh
+  // 拼音页的情况），命不中再按题号查（兜住已改名成英文、旧中文 URL 仍存活的题）。
+  //
+  // 题号兜底只对“含中文的 slug”生效：canonical 英文 slug（46-permutations）和
+  // 合法的拼音页都是纯 ASCII，若也按题号重定向会把英文页指向自己造成 301 死循环、
+  // 或把合法 /zh 英文命名页强行打到 /en。中文旧 URL 才需要这层兜底。
+  const numMatch = rawSlug.match(/(\d+)/);
+  const hasNonAscii = /[^ -~]/.test(rawSlug);
+  const mapped =
+    SLUG_BY_NAME.get(rawSlug) ??
+    (hasNonAscii && numMatch ? SLUG_BY_NUMBER.get(numMatch[1]) : undefined);
+  if (mapped) {
+    const url = req.nextUrl.clone();
+    url.pathname = mapped;
+    url.search = "";
+    return NextResponse.redirect(url, 301);
+  }
 
-  // 新路径 + ASCII slug 命中原样：放行，不绕圈
-  if (baseMatched === "new" && !mapped) return null;
-
-  // 否则 301 到（带 locale 前缀的）拼音 URL
+  // 未映射 = 英文 / ASCII slug，真实 slug == rawSlug：
+  // 新前缀已经正确，放行不绕圈；老前缀只换前缀（默认 zh，_translated 等都是 zh 文件）。
+  if (baseMatched === "new") return null;
   const url = req.nextUrl.clone();
-  url.pathname = `${localePrefix}${LEETCODE_PATH_TAIL}/${targetSlug}`;
+  url.pathname = `${localePrefix || `/${routing.defaultLocale}`}${LEETCODE_PATH_TAIL}/${rawSlug}`;
   return NextResponse.redirect(url, 301);
 }
 
@@ -122,6 +144,10 @@ export const config = {
   //   rewrite source（/oauth/:path*）不匹配带 locale 的版本（/en/oauth/...），
   //   落到 [locale]/oauth/... 404。所以必须排除掉，让请求直接走 rewrite。
   // - _next / _vercel：Next.js 内部
-  // - .*\..*：任何带 . 的路径（静态资源 / sitemap.xml / robots.txt 等）
-  matcher: "/((?!api|trpc|auth|oauth|analytics|_next|_vercel|.*\\..*).*)",
+  // - (?!.*[Ll]eetcode).*\..*：带 . 的路径（静态资源 / sitemap.xml 等）一律排除，
+  //   但 leetcode 例外——GSC 旧 URL 里有大量带点的中文题名（"46.全排列"、
+  //   "1234. 替换…"），不放进来就触不到上面的 slug-map 301，只能硬 404。
+  //   leetcode 目录下不存在带点的静态资源，开这个口子安全。
+  matcher:
+    "/((?!api|trpc|auth|oauth|analytics|_next|_vercel|(?!.*[Ll]eetcode).*\\..*).*)",
 };
