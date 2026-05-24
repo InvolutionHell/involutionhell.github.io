@@ -37,7 +37,7 @@ export async function Hero() {
     {
       title: t("categories.community.title"),
       desc: t("categories.community.desc"),
-      href: "/docs/community",
+      href: "/feed?tab=posts",
     },
   ];
 
@@ -107,11 +107,11 @@ export async function Hero() {
                   {t("cta.access")}
                 </Link>
                 <Link
-                  href="/feed"
+                  href="/feed?tab=posts"
                   className="block w-full py-3 border border-[var(--background)] font-sans text-xs uppercase tracking-widest text-center hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-all cursor-pointer"
                   data-umami-event="navigation_click"
                   data-umami-event-region="hero_cta"
-                  data-umami-event-label="Community Feed"
+                  data-umami-event-label="Community Posts"
                 >
                   {t("cta.feed")}
                 </Link>

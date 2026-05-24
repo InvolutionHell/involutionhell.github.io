@@ -370,6 +370,15 @@ const config = {
         source: "/api/admin/community/:path*",
         destination: `${backendUrl}/api/admin/community/:path*`,
       },
+      {
+        // 用户原创文章（posts 模块）：公开读 + 登录写，根路径 + 子路径各一条
+        source: "/api/posts",
+        destination: `${backendUrl}/api/posts`,
+      },
+      {
+        source: "/api/posts/:path*",
+        destination: `${backendUrl}/api/posts/:path*`,
+      },
     ];
   },
   images: {

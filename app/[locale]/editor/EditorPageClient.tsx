@@ -2,16 +2,16 @@
 
 import { useEditorStore } from "@/lib/editor-store";
 import { EditorMetadataForm } from "@/app/components/EditorMetadataForm";
-import { DocsDestinationForm } from "@/app/components/DocsDestinationForm";
 import {
   MarkdownEditor,
   type MarkdownEditorHandle,
 } from "@/app/components/MarkdownEditor";
 import { Button } from "@/app/components/ui/button";
 import { useCallback, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { UserView } from "@/lib/use-auth";
-import { buildDocsNewUrl } from "@/lib/github";
+import type { PostRequest, ApiResponse, PostView } from "@/app/types/post";
 import {
   FILENAME_PATTERN,
   normalizeMarkdownFilename,
@@ -22,7 +22,24 @@ interface EditorPageClientProps {
   user: UserView;
 }
 
-function buildFrontmatter({
+/**
+ * 从文章标题生成 slug 候选值，和后端生成逻辑保持一致（kebab-case，纯 ASCII）。
+ * 后端会做唯一性去重，前端只是提前填充 filename input 用，不是最终 slug。
+ */
+function titleToSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^\p{L}\p{N}-]/gu, "")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 128);
+}
+
+// buildFrontmatter 仅在「收录进知识库」（PromoteToDocsButton）路径使用，
+// 这里为 PromoteToDocsButton 单独导出，editor 直发不再拼 frontmatter。
+export function buildFrontmatter({
   title,
   description,
   tags,
@@ -58,46 +75,36 @@ function buildFrontmatter({
   return lines.join("\n");
 }
 
-/**
- * 编辑器页面客户端组件
- * 包含表单、编辑器和发布按钮
- */
 export function EditorPageClient({ user }: EditorPageClientProps) {
+  const router = useRouter();
   const [isPublishing, setIsPublishing] = useState(false);
   const [imageCount, setImageCount] = useState(0);
-  const [destinationPath, setDestinationPath] = useState("");
   const editorRef = useRef<MarkdownEditorHandle | null>(null);
   const { title, description, tags, filename, markdown, setFilename } =
     useEditorStore();
   const handleImageCountChange = useCallback((count: number) => {
     setImageCount(count);
   }, []);
-  const previewFilename = filename ? normalizeMarkdownFilename(filename) : "";
+  const previewSlug = filename
+    ? stripMarkdownExtension(normalizeMarkdownFilename(filename))
+    : "";
 
-  /**
-   * 上传单个图片到 R2
-   */
+  // 上传单个图片到 R2，返回 { blobUrl, publicUrl }
   const uploadImage = async (
     blobUrl: string,
     file: File,
     articleSlug: string,
   ): Promise<{ blobUrl: string; publicUrl: string }> => {
     // 规范化 Content-Type：只取主 MIME（分号前）+ trim + 小写。
-    // 服务端预签名 URL 绑的是这个规范化后的 ContentType，客户端 PUT 时的
-    // Content-Type header 必须 byte-exact 对得上，否则 R2 返 403 SignatureDoesNotMatch。
-    // 浏览器 file.type 在极少见情况下可能是 "Image/JPEG" 或 "image/jpeg; foo=bar"，
-    // 不能直接原样透传。
+    // 服务端预签名 URL 绑的是规范化后的 ContentType，客户端 PUT 时必须 byte-exact 一致，
+    // 否则 R2 返 403 SignatureDoesNotMatch。
     const primaryMime = file.type.split(";")[0]!.trim().toLowerCase();
     if (!primaryMime) {
-      // 浏览器识别不出 MIME（某些冷门类型会给空串）。此时继续走会被服务端 MIME_PATTERN
-      // 正则直接 400，给个本地报错更清晰，和 editor 里其它 throw -> handlePublish alert 的
-      // 链路一致。
       throw new Error(
         `无法识别图片类型：${file.name}（浏览器未给出 MIME），请另存为 PNG/JPG/WebP 后重试`,
       );
     }
 
-    // 1. 获取预签名 URL（带 x-satoken 请求头，供服务端验证身份）
     const token = localStorage.getItem("satoken") ?? "";
     const response = await fetch("/api/upload", {
       method: "POST",
@@ -120,12 +127,10 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
 
     const { uploadUrl, publicUrl } = await response.json();
 
-    // 2. 上传文件到 R2 —— Content-Type 必须和签名时服务端绑的 primaryMime byte-exact 一致
+    // Content-Type 必须和签名时绑的 primaryMime byte-exact 一致，否则 R2 返 403
     const uploadResponse = await fetch(uploadUrl, {
       method: "PUT",
-      headers: {
-        "Content-Type": primaryMime,
-      },
+      headers: { "Content-Type": primaryMime },
       body: file,
     });
 
@@ -145,117 +150,91 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         return;
       }
 
-      if (!filename.trim()) {
-        alert("请输入文件名");
-        return;
-      }
+      // filename 字段作为 slug 来源；为空时用 title 自动生成
+      const rawSlug = filename.trim()
+        ? stripMarkdownExtension(normalizeMarkdownFilename(filename))
+        : titleToSlug(title);
 
-      if (!destinationPath) {
-        alert("请选择投稿目录");
-        return;
-      }
-
-      const normalizedFilename = normalizeMarkdownFilename(filename);
-      const filenameBase = stripMarkdownExtension(normalizedFilename);
-      if (!filenameBase || !FILENAME_PATTERN.test(filenameBase)) {
+      if (rawSlug && !FILENAME_PATTERN.test(rawSlug)) {
         alert(
           "文件名仅支持字母、数字、连字符或下划线，并需以字母或数字开头（已自动清洗空格和特殊符号）。",
         );
         return;
       }
 
-      if (normalizedFilename !== filename) {
-        setFilename(normalizedFilename);
+      if (filename.trim()) {
+        const normalized = normalizeMarkdownFilename(filename);
+        if (normalized !== filename) setFilename(normalized);
       }
-
-      let githubDraftWindow: Window | null = null;
-      try {
-        githubDraftWindow = window.open("", "_blank");
-        if (githubDraftWindow) {
-          githubDraftWindow.document.title = "正在生成稿件…";
-          githubDraftWindow.document.body.innerHTML =
-            '<p style="font-family:system-ui;padding:16px;">正在生成 GitHub 草稿，请稍候…</p>';
-          githubDraftWindow.opener = null;
-        }
-      } catch {
-        githubDraftWindow = null;
-      }
-
-      console.group("发布流程：上传图片并生成 GitHub 草稿");
-      console.log("文章标题:", title);
-      console.log("文件名:", normalizedFilename);
-      console.log("投稿目录:", destinationPath);
-      console.log("图片数量:", imageCount);
 
       let finalMarkdown = markdown;
-      const articleSlug = filenameBase;
+      const articleSlug = rawSlug || "draft";
 
-      // 如果有图片，上传到 R2 并替换 URL
       const editorHandle = editorRef.current;
       if (!editorHandle) {
         throw new Error("编辑器尚未就绪，无法上传图片");
       }
 
+      // 清理编辑器中未被 Markdown 正文引用的孤儿图片
       const removedImages = editorHandle.removeUnreferencedImages(markdown);
       if (removedImages > 0) {
-        console.log(`已清理 ${removedImages} 个未在 Markdown 中引用的图片`);
+        console.log(`已清理 ${removedImages} 个未引用的图片`);
       }
 
       const imageEntries = Array.from(editorHandle.getImages().entries());
 
       if (imageEntries.length > 0) {
-        console.log("开始上传图片...");
-
-        // 并发上传所有图片
         const uploadPromises = imageEntries.map(([blobUrl, file]) =>
           uploadImage(blobUrl, file, articleSlug),
         );
-
         const uploadResults = await Promise.all(uploadPromises);
 
-        console.log("所有图片上传完成！");
-        console.group("图片 URL 映射");
-        uploadResults.forEach(({ blobUrl, publicUrl }) => {
-          console.log(`${blobUrl} -> ${publicUrl}`);
-        });
-        console.groupEnd();
-
-        // 替换 Markdown 中的 blob URL 为公开 URL
+        // 用 R2 公开 URL 替换 blob URL
         uploadResults.forEach(({ blobUrl, publicUrl }) => {
           finalMarkdown = finalMarkdown.replaceAll(blobUrl, publicUrl);
         });
-
-        console.log("Markdown 中的 blob URL 已替换为公开 URL");
       }
 
-      console.group("最终 Markdown 内容");
-      console.log(finalMarkdown);
-      console.groupEnd();
+      // POST /api/posts 直发落库
+      // TODO(backend-contract): 等后端 #2 完成后确认 BACKEND_URL 路由 rewrite 情况；
+      // 目前后端路由走 next.config.mjs rewrites 同源代理（参考 /api/community/links），
+      // 若 posts 同样走代理则直接 fetch "/api/posts"，否则需要带 BACKEND_URL。
+      const token = localStorage.getItem("satoken") ?? "";
+      const postRequest: PostRequest = {
+        title: title.trim(),
+        description: description.trim() || undefined,
+        tags: tags.filter((t) => t.trim().length > 0),
+        contentMd: finalMarkdown,
+        // 有用户填的 slug 就带上，后端会去重；没有则不传，后端从 title 自动生成
+        ...(rawSlug ? { slug: rawSlug } : {}),
+      };
 
-      console.groupEnd();
-
-      const frontmatter = buildFrontmatter({
-        title,
-        description,
-        tags,
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // rewrite 透传：后端 sa-token.token-name=satoken，需用 satoken 而非 x-satoken
+          satoken: token,
+        },
+        body: JSON.stringify(postRequest),
+        signal: AbortSignal.timeout(30_000),
       });
-      const markdownBody = finalMarkdown.trimStart();
-      const finalContent =
-        markdownBody.length > 0
-          ? `${frontmatter}\n\n${markdownBody}`
-          : `${frontmatter}\n`;
 
-      const params = new URLSearchParams({
-        filename: normalizedFilename,
-        value: finalContent,
-      });
-      const githubUrl = buildDocsNewUrl(destinationPath, params);
-      if (githubDraftWindow) {
-        githubDraftWindow.location.href = githubUrl;
-      } else {
-        window.open(githubUrl, "_blank", "noopener,noreferrer");
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(
+          (body as { message?: string }).message ??
+            `发布失败（HTTP ${res.status}）`,
+        );
       }
-      alert("图片已上传并生成 GitHub 草稿，请在新标签页完成提交。");
+
+      const body = (await res.json()) as ApiResponse<PostView>;
+      if (!body.success || !body.data) {
+        throw new Error(body.message ?? "发布失败，请重试");
+      }
+
+      const { slug: finalSlug, authorUsername } = body.data;
+      router.push(`/u/${authorUsername}/posts/${finalSlug}`);
     } catch (error) {
       console.error("发布失败:", error);
       alert(`发布失败：${error instanceof Error ? error.message : "未知错误"}`);
@@ -264,14 +243,16 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
     }
   };
 
+  const canPublish = title.trim().length > 0 && !isPublishing;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       {/* 头部 */}
       <header className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">创作新文章</h1>
+          <h1 className="text-3xl font-bold">写篇文章</h1>
           <p className="text-muted-foreground mt-1">
-            欢迎，{user.displayName || user.username}
+            写完直接发布，想进知识库再一键投稿。
           </p>
         </div>
         <Link href="/">
@@ -281,9 +262,8 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
 
       {/* 主要内容区域 */}
       <div className="space-y-6">
-        {/* 元数据表单 */}
+        {/* 元数据表单（标题/描述/标签/文件名） */}
         <EditorMetadataForm />
-        <DocsDestinationForm onChange={setDestinationPath} />
 
         {/* Markdown 编辑器 */}
         <div>
@@ -299,24 +279,20 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
           />
         </div>
 
-        {/* 操作按钮 */}
+        {/* 操作区 */}
         <div className="flex items-center justify-between rounded-lg border border-border bg-card p-4">
           <div className="text-sm text-muted-foreground">
-            {!title.trim() || !filename.trim() ? (
-              <span className="text-destructive">请填写标题和文件名</span>
-            ) : !destinationPath ? (
-              <span className="text-destructive">请选择投稿目录</span>
-            ) : (
+            {!title.trim() ? (
+              <span className="text-destructive">请填写标题</span>
+            ) : previewSlug ? (
               <span>
-                将在{" "}
+                将发布到{" "}
                 <code className="font-mono text-foreground">
-                  {destinationPath}
-                </code>{" "}
-                下创建{" "}
-                <code className="font-mono text-foreground">
-                  {previewFilename}
+                  /u/{user.username}/posts/{previewSlug}
                 </code>
               </span>
+            ) : (
+              <span>发布后 slug 由标题自动生成</span>
             )}
           </div>
 
@@ -333,29 +309,19 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
               清空
             </Button>
 
-            <Button
-              onClick={handlePublish}
-              disabled={
-                !title.trim() ||
-                !filename.trim() ||
-                !destinationPath ||
-                isPublishing
-              }
-            >
-              {isPublishing ? "处理中..." : "发布文章"}
+            <Button onClick={handlePublish} disabled={!canPublish}>
+              {isPublishing ? "发布中..." : "发布文章"}
             </Button>
           </div>
         </div>
 
-        {/* 提示信息 */}
+        {/* 流程提示 */}
         <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm dark:border-green-900 dark:bg-green-950">
-          <h3 className="font-medium mb-2">发布流程提示</h3>
+          <h3 className="font-medium mb-2">写完直接发</h3>
           <ul className="space-y-1 text-muted-foreground list-disc list-inside">
-            <li>填写标题、描述、标签与文件名，自动补全 .md 后缀</li>
-            <li>选择或新建投稿目录，目录结构与现有投稿机制一致</li>
-            <li>点击“发布文章”将自动上传图片并替换为线上 URL</li>
-            <li>系统会生成标准 Frontmatter，并打开 GitHub 新建页面</li>
-            <li>在 GitHub 页面确认内容后提交 PR 即可完成投稿</li>
+            <li>图片粘贴后自动上传到 CDN，发布时无需额外处理</li>
+            <li>发布即可见，链接可直接分享，不等 review</li>
+            <li>想进知识库？发布后点「收录进知识库」一键投稿</li>
           </ul>
         </div>
       </div>

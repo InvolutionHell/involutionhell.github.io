@@ -37,6 +37,8 @@ export default function robots(): MetadataRoute.Robots {
           "/*/settings/",
           "/*/login",
           "/api/",
+          // posts 详情页元数据已设 noindex，robots.txt 双重保险
+          "/*/u/*/posts/",
         ],
       },
     ],
