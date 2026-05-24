@@ -24,7 +24,8 @@ import { DocShareButton } from "@/app/components/DocShareButton";
 import { routing } from "@/i18n/routing";
 import { type PageData } from "@/app/types/doc";
 
-const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8080";
+// 优先用 BACKEND_URL（本地开发/Vercel 配置），兜底用生产地址避免 localhost 连不上
+const BACKEND_URL = process.env.BACKEND_URL ?? "https://api.involutionhell.com";
 
 /**
  * 查询后端 resolve 端点，未知路径可能是历史重命名路径。
