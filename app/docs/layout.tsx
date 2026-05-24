@@ -7,6 +7,7 @@ import type { PageTree } from "fumadocs-core/server";
 import { CopyTracking } from "@/app/components/CopyTracking";
 import { DocsPageViewTracker } from "@/app/components/DocsPageViewTracker";
 import { cookies } from "next/headers";
+import { type PageData } from "@/app/types/doc";
 
 type Locale = "zh" | "en";
 type SourcePage = ReturnType<typeof source.getPages>[number];
@@ -77,7 +78,7 @@ function chooseVariant(variants: SourcePage[], locale: Locale): SourcePage {
   const originalMatching = variants.find((p) => {
     const { suffix } = stripLocaleSuffix(p.slugs);
     if (suffix !== null) return false;
-    const lang = (p.data as { lang?: string }).lang;
+    const lang = (p.data as PageData).lang;
     return lang === locale;
   });
   if (originalMatching) return originalMatching;

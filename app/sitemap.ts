@@ -127,8 +127,8 @@ function buildDocsEntry(page: SourcePage): MetadataRoute.Sitemap[number] {
  * @returns {Date | undefined} 解析后的 Date 对象，如果找不到或无效则返回 undefined。
  */
 function extractDateFromPage(page: SourcePage): Date | undefined {
-  // (FIX) 使用我们定义的 PageData 类型，而不是 'as' 一个匿名对象
-  const data = (page.data ?? {}) as PageData;
+  // 使用我们定义的 PageData 类型
+  const data = page.data as PageData;
 
   const candidates: DateLike[] = [
     data?.updatedAt,
@@ -183,8 +183,8 @@ function sanitizeSlugPath(slugs: string[]): string {
  * @returns {boolean} 如果是草稿或隐藏，返回 true。
  */
 function isDraftOrHidden(page: SourcePage): boolean {
-  // [BUILD 修复] 使用我们定义的 PageData 类型来代替 'any'
-  const d = (page.data ?? {}) as PageData;
+  // 使用我们定义的 PageData 类型
+  const d = page.data as PageData;
 
   // 检查顶层或 'frontmatter' 嵌套下的 'draft' 或 'hidden' 标志
   return !!(
