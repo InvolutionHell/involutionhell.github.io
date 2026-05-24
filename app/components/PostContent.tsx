@@ -49,8 +49,12 @@ const sanitizeSchema = {
   ],
   attributes: {
     ...defaultSchema.attributes,
-    // 允许所有元素携带 className（rehype-katex / rehype-autolink-headings 需要）
-    "*": [...(defaultSchema.attributes?.["*"] ?? []), "className", "style"],
+    // className 全局允许（rehype-katex / rehype-autolink-headings 均需要）
+    // style 不全局放行（XSS via CSS），只给 KaTeX 渲染必须的元素开放
+    "*": [...(defaultSchema.attributes?.["*"] ?? []), "className"],
+    // KaTeX span/svg 需要 style 控制数学符号排版，普通 UGC 元素不需要
+    span: [...(defaultSchema.attributes?.["span"] ?? []), "style"],
+    svg: [...(defaultSchema.attributes?.["svg"] ?? []), "style"],
     // KaTeX math 元素的专有属性
     math: ["xmlns", "display"],
     annotation: ["encoding"],

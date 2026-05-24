@@ -55,10 +55,10 @@ export function PostDetailOwnerActions({
       const token = localStorage.getItem("satoken") ?? "";
       const res = await fetch(`/api/posts/${postId}`, {
         method: "DELETE",
-        // rewrite 透传：后端读 satoken，不是 x-satoken
-        headers: { satoken: token },
+        // rewrite 透传：后端读 satoken，不是 x-satoken；空 token 不发 header
+        headers: { ...(token ? { satoken: token } : {}) },
       });
-      const body = (await res.json()) as ApiResponse<void>;
+      const body = (await res.json().catch(() => ({}))) as ApiResponse<void>;
       if (res.ok && body.success) {
         router.replace(`/u/${authorUsername}/posts`);
       } else {
