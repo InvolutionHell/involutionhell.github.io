@@ -8,26 +8,18 @@ import { Github as GithubIcon } from "./icons/Github";
 import { AuthNav } from "./AuthNav";
 import { BrandMark } from "./BrandMark";
 import { LiveEditionLabel } from "./LiveEditionLabel";
+import { LiveDate } from "./LiveDate";
 
 export async function Header() {
   const t = await getTranslations("header");
-  const now = new Date();
-  const editionTimestampMs = now.getTime();
-  const formattedDate = now.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "Australia/Sydney",
-  });
+  const editionTimestampMs = Date.now();
   return (
     <header className="fixed top-0 w-full z-50 bg-[var(--background)] border-b border-[var(--foreground)] py-2 transition-colors duration-300">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between border-b border-[var(--foreground)] pb-2 mb-2 transition-colors duration-300">
           <LiveEditionLabel initialTimestamp={editionTimestampMs} />
           <BrandMark priority />
-          <div className="font-mono text-[10px] uppercase tracking-widest text-neutral-500">
-            {formattedDate}
-          </div>
+          <LiveDate initialTimestamp={editionTimestampMs} />
         </div>
 
         <div className="flex items-center justify-end md:justify-between h-10">
