@@ -12,7 +12,7 @@ import { LiveDate } from "./LiveDate";
 
 export async function Header() {
   const t = await getTranslations("header");
-  const editionTimestampMs = Date.now();
+  const editionTimestampMs = new Date().getTime();
   return (
     <header className="fixed top-0 w-full z-50 bg-[var(--background)] border-b border-[var(--foreground)] py-2 transition-colors duration-300">
       <div className="container mx-auto px-6">
