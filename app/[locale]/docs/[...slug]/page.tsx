@@ -39,10 +39,20 @@ async function resolveDocPath(
   const strippedPath = `/docs/${slug.join("/")}`;
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 400);
+    // 跨区（Vercel→CF→Oracle）+ 后端冷缓存可能 >1s，400ms 太紧会误降级 404
+    const timeout = setTimeout(() => controller.abort(), 2500);
     const res = await fetch(
       `${BACKEND_URL}/api/docs/resolve?path=${encodeURIComponent(strippedPath)}`,
-      { redirect: "manual", signal: controller.signal, cache: "no-store" },
+      {
+        redirect: "manual",
+        signal: controller.signal,
+        cache: "no-store",
+        // 显式 UA：Vercel SSR 默认出口 UA 可能被 CF bot filter 拦（对齐 feed/page fetchLinks）
+        headers: {
+          accept: "application/json",
+          "user-agent": "InvolutionHell-SSR/1.0 (+https://involutionhell.com)",
+        },
+      },
     );
     clearTimeout(timeout);
     if (res.status === 301 || res.status === 308) {
@@ -51,9 +61,21 @@ async function resolveDocPath(
       if (loc && loc !== strippedPath) {
         return `/${locale}${loc}`;
       }
+      return null;
     }
-  } catch {
-    // 超时或后端不可达：降级到 notFound()
+    // 非 3xx：记录真实状态，便于从 Vercel 日志定位（CF 403 / 后端异常等）
+    console.error("[docs/resolve] non-redirect status", {
+      path: strippedPath,
+      status: res.status,
+      cfRay: res.headers.get("cf-ray"),
+    });
+  } catch (err) {
+    // 超时（AbortError）或后端不可达：记录后降级 notFound()
+    console.error("[docs/resolve] fetch failed", {
+      path: strippedPath,
+      backend: BACKEND_URL,
+      error: err instanceof Error ? `${err.name}: ${err.message}` : String(err),
+    });
   }
   return null;
 }
