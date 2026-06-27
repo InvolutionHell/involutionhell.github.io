@@ -193,7 +193,7 @@ export function ContributorRow({
                       data-umami-event-doc={doc.title}
                       data-umami-event-user={user.name}
                     >
-                      <span className="font-mono text-sm text-[#111111] dark:text-neutral-200 group-hover/link:underline decoration-2 decoration-[#CC0000] underline-offset-4 truncate pr-4">
+                      <span className="font-mono text-sm text-[#111111] dark:text-neutral-200 group-hover/link:underline decoration-2 decoration-[#CC0000] underline-offset-4 truncate pr-4 min-w-0">
                         {doc.title}
                       </span>
                       <ExternalLink className="h-4 w-4 text-[#111111]/50 dark:text-neutral-400 group-hover/link:text-[#CC0000] transition-colors shrink-0" />
