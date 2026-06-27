@@ -67,7 +67,7 @@ export function ContributorRow({
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/60 z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-[50%] outline-none top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-2 border-[var(--foreground)] bg-[var(--background)] p-6 sm:p-8 shadow-[8px_8px_0px_0px_var(--foreground)] duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] max-h-[85vh] flex col">
+        <Dialog.Content className="fixed left-[50%] outline-none top-[50%] z-50 flex flex-col w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-2 border-[var(--foreground)] bg-[var(--background)] p-6 sm:p-8 shadow-[8px_8px_0px_0px_var(--foreground)] duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] max-h-[85vh]">
           {/* 弹窗核心内容：左侧头像，右侧个人基础信息 */}
           <div className="flex justify-between items-start border-b-4 border-[var(--foreground)] pb-6 mb-4 shrink-0 relative">
             <div className="flex gap-5 md:gap-6 items-start w-full pr-12">
@@ -164,7 +164,7 @@ export function ContributorRow({
           </div>
 
           {/* 文章贡献历史列表展示 */}
-          <div className="overflow-y-auto pr-2 flex-grow min-h-[150px] relative">
+          <div className="overflow-y-auto pr-2 flex-grow min-h-0 relative">
             <h4 className="font-mono text-xs uppercase tracking-widest mb-3 text-[#111111]/70 dark:text-neutral-400 flex items-center gap-2">
               Document History
             </h4>
