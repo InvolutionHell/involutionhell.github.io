@@ -2,6 +2,8 @@
 
 import { useReducer, useEffect } from "react";
 import Link from "next/link";
+import { useLocale } from "next-intl";
+import { topDocHref } from "@/lib/top-doc-href";
 
 type HotDoc = {
   path: string;
@@ -38,6 +40,7 @@ function reducer(_: State, action: Action): State {
 // 从根拔掉逃生门，同源代理永远成立；想 curl 测后端就直连 api 域名。
 
 export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
+  const locale = useLocale();
   const [windowParam, setWindowParam] = useReducer(
     (_: WindowParam, next: WindowParam) => next,
     initialWindow,
@@ -165,7 +168,7 @@ export function HotDocsTab({ initialWindow }: { initialWindow: WindowParam }) {
           {state.docs.map((doc, idx) => (
             <Link
               key={doc.path}
-              href={doc.path}
+              href={topDocHref(locale, doc.path)}
               className="group w-full flex items-center gap-4 border border-[var(--foreground)] p-4 bg-[var(--background)] hard-shadow-hover transition-all"
             >
               <div className="font-mono text-2xl font-bold w-12 text-center text-[var(--foreground)] shrink-0">

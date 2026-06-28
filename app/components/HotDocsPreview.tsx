@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { topDocHref } from "@/lib/top-doc-href";
 
 interface TopDocDto {
   path: string;
@@ -56,6 +57,7 @@ export function HotDocsPreviewSkeleton() {
  */
 export function HotDocsPreview() {
   const t = useTranslations("hotDocs");
+  const locale = useLocale();
   const [docs, setDocs] = useState<TopDocDto[] | null>(null);
 
   useEffect(() => {
@@ -114,7 +116,7 @@ export function HotDocsPreview() {
               </span>
               <div className="flex-1 min-w-0">
                 <Link
-                  href={doc.path}
+                  href={topDocHref(locale, doc.path)}
                   className="font-serif text-sm font-bold uppercase text-[var(--foreground)] hover:text-[#CC0000] transition-colors leading-tight line-clamp-2 block"
                   data-umami-event="navigation_click"
                   data-umami-event-region="hot_docs_preview"
