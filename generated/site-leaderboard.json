@@ -2,8 +2,8 @@
   {
     "id": "114939201",
     "name": "longsizhuo",
-    "points": 3090,
-    "commits": 309,
+    "points": 3240,
+    "commits": 324,
     "avatarUrl": "https://avatars.githubusercontent.com/u/114939201",
     "contributedDocs": [
       {
@@ -44,7 +44,7 @@
       {
         "id": "boo70qqm8nos8b0q9h7zjrki",
         "title": "LeWorldModel",
-        "url": "/zh/docs/community/papers/leworldmodel"
+        "url": "/zh/docs/learn/ai/papers/leworldmodel"
       },
       {
         "id": "bsf0yz1zrmlz7masrdmq8fq6",
@@ -109,7 +109,7 @@
       {
         "id": "e6udpzrorhvgeeda6xpy1e0s",
         "title": "如何部署你自己的Github图床-PictureCDN",
-        "url": "/zh/docs/community/dev-tips/picturecdn"
+        "url": "/zh/docs/learn/cs/dev-tips/picturecdn"
       },
       {
         "id": "ebgss2sa91drisxswsh6iu8x",
@@ -119,7 +119,7 @@
       {
         "id": "eej2awin6irhbdgcy8vvs3xb",
         "title": "Perplexity Comet 浏览器：能当私人管家的自动化浏览器",
-        "url": "/zh/docs/community/tools/perplexity-comet"
+        "url": "/zh/docs/learn/ai/tools/perplexity-comet"
       },
       {
         "id": "egpawb1yui58yprrsgxn9qj2",
@@ -164,7 +164,7 @@
       {
         "id": "gj4bn01un0s0841berfvwrn5",
         "title": "使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床",
-        "url": "/zh/docs/community/dev-tips/cloudflare-r2-sharex-free-image-hosting"
+        "url": "/zh/docs/learn/cs/dev-tips/cloudflare-r2-sharex-free-image-hosting"
       },
       {
         "id": "gkjk6stzpb44n9lv8u2ij7xx",
@@ -214,7 +214,7 @@
       {
         "id": "i0xmpskau105p83vq35wnxls",
         "title": "用闲置树莓派搭建一个Minecraft服务器",
-        "url": "/zh/docs/community/dev-tips/raspberry-guide"
+        "url": "/zh/docs/learn/cs/dev-tips/raspberry-guide"
       },
       {
         "id": "i88bna4sg5pr4ekhg32drv2i",
@@ -239,12 +239,7 @@
       {
         "id": "jee9yt8n8tmo8yclqujerw2x",
         "title": "技术分享",
-        "url": "/zh/docs/community/dev-tips"
-      },
-      {
-        "id": "jgyg6bp0nceyrxirz5qw3zsv",
-        "title": "UNSW学费回收计划-那些你还不知道的隐藏福利",
-        "url": "/zh/docs/community/life/unsw-student-benefit"
+        "url": "/zh/docs/learn/cs/dev-tips"
       },
       {
         "id": "jgz0nl0cbd4frj2dg98mdv0x",
@@ -279,7 +274,7 @@
       {
         "id": "khcrztruqdku9fntd3dwzvwe",
         "title": "数学公式语法",
-        "url": "/zh/docs/community/dev-tips/Katex/Seb2"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex/Seb2"
       },
       {
         "id": "ksjj9shalh6hqezx6t6am5vw",
@@ -324,7 +319,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/zh/docs/community/papers/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/zh/docs/learn/ai/papers/prompt-repetition-improves-non-reasoning-llms"
       },
       {
         "id": "ld59a8z1v84ig4rlr0p0n2a9",
@@ -369,7 +364,7 @@
       {
         "id": "m37j6a24hb9mlrm0g6jfcxop",
         "title": "PTE-Academic题型与题量介绍",
-        "url": "/zh/docs/community/language/pte-intro"
+        "url": "/zh/docs/career/language/pte-intro"
       },
       {
         "id": "mc2rjsq7syibclikyhomsbft",
@@ -379,12 +374,12 @@
       {
         "id": "mgb41edhi9cz1kxzae074an0",
         "title": "学生邮箱能免费领的AI提效工具系列",
-        "url": "/zh/docs/community/tools"
+        "url": "/zh/docs/learn/ai/tools"
       },
       {
         "id": "mhyoknm6vj8jmp186oli5f5c",
         "title": "swanlab快速上手指南",
-        "url": "/zh/docs/community/tools/swanlab"
+        "url": "/zh/docs/learn/ai/tools/swanlab"
       },
       {
         "id": "mnjkrtrs7xk3fq538eqreuge",
@@ -512,11 +507,6 @@
         "url": "/zh/docs/learn/cs/cpp-backend/mempool-simple"
       },
       {
-        "id": "q8d1j9bii2ve2p7pp4xtok79",
-        "title": "程序员 Burnout 自救指南",
-        "url": "/zh/docs/community/mental-health/burnout-guide"
-      },
-      {
         "id": "qaezsrj15sudk796r5otne36",
         "title": "Code translation入门推荐必读",
         "url": "/zh/docs/learn/ai/Multi-agents-system-on-Code-Translation/code-translation-intro"
@@ -539,7 +529,7 @@
       {
         "id": "r0inttjcby48tly602p410vo",
         "title": "个人常用字符",
-        "url": "/zh/docs/community/dev-tips/Katex/Seb1"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex/Seb1"
       },
       {
         "id": "r12u8o7j73oxhbvgphi939fb",
@@ -555,11 +545,6 @@
         "id": "rv6egbynttb4mt1n0412bue0",
         "title": "213.Hiccup II",
         "url": "/en/docs/career/interview-prep/leetcode/213-house-robber-ii"
-      },
-      {
-        "id": "rxyvvumcvfl2oh3hky8urkfn",
-        "title": "心理健康",
-        "url": "/zh/docs/community/mental-health"
       },
       {
         "id": "ryp6s59uwc10w2dywgs6f66h",
@@ -587,11 +572,6 @@
         "url": "/zh/docs/career/events/event-takeway"
       },
       {
-        "id": "sfzt30mtx0jsuv6esnpm3w8y",
-        "title": "群友分享",
-        "url": "/zh/docs/community"
-      },
-      {
         "id": "ska0npc89ja1r4pdt2qow79u",
         "title": "1664. Number of schemes to generate balance numbers One question daily",
         "url": "/en/docs/career/interview-prep/leetcode/1664-ways-to-make-a-fair-array"
@@ -604,7 +584,7 @@
       {
         "id": "tksz80mfqqyzwzzer5p3uxtg",
         "title": "Git入门操作指南-程序员必会的git小技巧",
-        "url": "/zh/docs/community/dev-tips/git101"
+        "url": "/zh/docs/learn/cs/dev-tips/git101"
       },
       {
         "id": "totx4pej5lhyt1nl4anwhakj",
@@ -714,7 +694,7 @@
       {
         "id": "xqz5iiv3p52h6d9g3c0w2baf",
         "title": "常用Markdown语法",
-        "url": "/zh/docs/community/dev-tips/CommonUsedMarkdown"
+        "url": "/zh/docs/learn/cs/dev-tips/CommonUsedMarkdown"
       },
       {
         "id": "y0ntwlksnvj7ymuapqvkvmwr",
@@ -744,7 +724,7 @@
       {
         "id": "yxd2qpfl2li6092bjx8bz7vb",
         "title": "常用Katex语法",
-        "url": "/zh/docs/community/dev-tips/Katex"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex"
       },
       {
         "id": "z157s85hnz1y37tr28y2a8h2",
@@ -773,8 +753,9 @@
       }
     ],
     "dailyCounts": {
-      "2026-05-06": 294,
+      "2026-05-06": 279,
       "2025-12-04": 3,
+      "2026-05-24": 30,
       "2025-12-05": 8,
       "2025-09-26": 0,
       "2025-12-06": 3,
@@ -886,7 +867,7 @@
       {
         "id": "e6udpzrorhvgeeda6xpy1e0s",
         "title": "如何部署你自己的Github图床-PictureCDN",
-        "url": "/zh/docs/community/dev-tips/picturecdn"
+        "url": "/zh/docs/learn/cs/dev-tips/picturecdn"
       },
       {
         "id": "ebgss2sa91drisxswsh6iu8x",
@@ -896,7 +877,7 @@
       {
         "id": "eej2awin6irhbdgcy8vvs3xb",
         "title": "Perplexity Comet 浏览器：能当私人管家的自动化浏览器",
-        "url": "/zh/docs/community/tools/perplexity-comet"
+        "url": "/zh/docs/learn/ai/tools/perplexity-comet"
       },
       {
         "id": "egpawb1yui58yprrsgxn9qj2",
@@ -941,7 +922,7 @@
       {
         "id": "gj4bn01un0s0841berfvwrn5",
         "title": "使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床",
-        "url": "/zh/docs/community/dev-tips/cloudflare-r2-sharex-free-image-hosting"
+        "url": "/zh/docs/learn/cs/dev-tips/cloudflare-r2-sharex-free-image-hosting"
       },
       {
         "id": "gpoh50befguf7zgsetzkvbi3",
@@ -981,7 +962,7 @@
       {
         "id": "i0xmpskau105p83vq35wnxls",
         "title": "用闲置树莓派搭建一个Minecraft服务器",
-        "url": "/zh/docs/community/dev-tips/raspberry-guide"
+        "url": "/zh/docs/learn/cs/dev-tips/raspberry-guide"
       },
       {
         "id": "i88bna4sg5pr4ekhg32drv2i",
@@ -1006,12 +987,7 @@
       {
         "id": "jee9yt8n8tmo8yclqujerw2x",
         "title": "技术分享",
-        "url": "/zh/docs/community/dev-tips"
-      },
-      {
-        "id": "jgyg6bp0nceyrxirz5qw3zsv",
-        "title": "UNSW学费回收计划-那些你还不知道的隐藏福利",
-        "url": "/zh/docs/community/life/unsw-student-benefit"
+        "url": "/zh/docs/learn/cs/dev-tips"
       },
       {
         "id": "jgz0nl0cbd4frj2dg98mdv0x",
@@ -1046,7 +1022,7 @@
       {
         "id": "khcrztruqdku9fntd3dwzvwe",
         "title": "数学公式语法",
-        "url": "/zh/docs/community/dev-tips/Katex/Seb2"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex/Seb2"
       },
       {
         "id": "ksjj9shalh6hqezx6t6am5vw",
@@ -1091,7 +1067,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/zh/docs/community/papers/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/zh/docs/learn/ai/papers/prompt-repetition-improves-non-reasoning-llms"
       },
       {
         "id": "ld59a8z1v84ig4rlr0p0n2a9",
@@ -1131,7 +1107,7 @@
       {
         "id": "m37j6a24hb9mlrm0g6jfcxop",
         "title": "PTE-Academic题型与题量介绍",
-        "url": "/zh/docs/community/language/pte-intro"
+        "url": "/zh/docs/career/language/pte-intro"
       },
       {
         "id": "mc2rjsq7syibclikyhomsbft",
@@ -1141,12 +1117,12 @@
       {
         "id": "mgb41edhi9cz1kxzae074an0",
         "title": "学生邮箱能免费领的AI提效工具系列",
-        "url": "/zh/docs/community/tools"
+        "url": "/zh/docs/learn/ai/tools"
       },
       {
         "id": "mhyoknm6vj8jmp186oli5f5c",
         "title": "swanlab快速上手指南",
-        "url": "/zh/docs/community/tools/swanlab"
+        "url": "/zh/docs/learn/ai/tools/swanlab"
       },
       {
         "id": "mnjkrtrs7xk3fq538eqreuge",
@@ -1269,11 +1245,6 @@
         "url": "/zh/docs/learn/cs/cpp-backend/mempool-simple"
       },
       {
-        "id": "q8d1j9bii2ve2p7pp4xtok79",
-        "title": "程序员 Burnout 自救指南",
-        "url": "/zh/docs/community/mental-health/burnout-guide"
-      },
-      {
         "id": "qaezsrj15sudk796r5otne36",
         "title": "Code translation入门推荐必读",
         "url": "/zh/docs/learn/ai/Multi-agents-system-on-Code-Translation/code-translation-intro"
@@ -1296,7 +1267,7 @@
       {
         "id": "r0inttjcby48tly602p410vo",
         "title": "个人常用字符",
-        "url": "/zh/docs/community/dev-tips/Katex/Seb1"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex/Seb1"
       },
       {
         "id": "r12u8o7j73oxhbvgphi939fb",
@@ -1312,11 +1283,6 @@
         "id": "rv6egbynttb4mt1n0412bue0",
         "title": "213.Hiccup II",
         "url": "/en/docs/career/interview-prep/leetcode/213-house-robber-ii"
-      },
-      {
-        "id": "rxyvvumcvfl2oh3hky8urkfn",
-        "title": "心理健康",
-        "url": "/zh/docs/community/mental-health"
       },
       {
         "id": "ryp6s59uwc10w2dywgs6f66h",
@@ -1344,11 +1310,6 @@
         "url": "/zh/docs/career/events/event-takeway"
       },
       {
-        "id": "sfzt30mtx0jsuv6esnpm3w8y",
-        "title": "群友分享",
-        "url": "/zh/docs/community"
-      },
-      {
         "id": "ska0npc89ja1r4pdt2qow79u",
         "title": "1664. Number of schemes to generate balance numbers One question daily",
         "url": "/en/docs/career/interview-prep/leetcode/1664-ways-to-make-a-fair-array"
@@ -1361,7 +1322,7 @@
       {
         "id": "tksz80mfqqyzwzzer5p3uxtg",
         "title": "Git入门操作指南-程序员必会的git小技巧",
-        "url": "/zh/docs/community/dev-tips/git101"
+        "url": "/zh/docs/learn/cs/dev-tips/git101"
       },
       {
         "id": "totx4pej5lhyt1nl4anwhakj",
@@ -1471,7 +1432,7 @@
       {
         "id": "xqz5iiv3p52h6d9g3c0w2baf",
         "title": "常用Markdown语法",
-        "url": "/zh/docs/community/dev-tips/CommonUsedMarkdown"
+        "url": "/zh/docs/learn/cs/dev-tips/CommonUsedMarkdown"
       },
       {
         "id": "y0ntwlksnvj7ymuapqvkvmwr",
@@ -1501,7 +1462,7 @@
       {
         "id": "yxd2qpfl2li6092bjx8bz7vb",
         "title": "常用Katex语法",
-        "url": "/zh/docs/community/dev-tips/Katex"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex"
       },
       {
         "id": "z157s85hnz1y37tr28y2a8h2",
@@ -1651,11 +1612,6 @@
         "url": "/zh/docs/learn/ai"
       },
       {
-        "id": "jgyg6bp0nceyrxirz5qw3zsv",
-        "title": "UNSW学费回收计划-那些你还不知道的隐藏福利",
-        "url": "/zh/docs/community/life/unsw-student-benefit"
-      },
-      {
         "id": "jgz0nl0cbd4frj2dg98mdv0x",
         "title": "模型训练",
         "url": "/zh/docs/learn/ai/foundation-models/training"
@@ -1688,7 +1644,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/zh/docs/community/papers/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/zh/docs/learn/ai/papers/prompt-repetition-improves-non-reasoning-llms"
       },
       {
         "id": "ld59a8z1v84ig4rlr0p0n2a9",
@@ -1713,12 +1669,12 @@
       {
         "id": "m37j6a24hb9mlrm0g6jfcxop",
         "title": "PTE-Academic题型与题量介绍",
-        "url": "/zh/docs/community/language/pte-intro"
+        "url": "/zh/docs/career/language/pte-intro"
       },
       {
         "id": "mhyoknm6vj8jmp186oli5f5c",
         "title": "swanlab快速上手指南",
-        "url": "/zh/docs/community/tools/swanlab"
+        "url": "/zh/docs/learn/ai/tools/swanlab"
       },
       {
         "id": "nor5ktairygnt4dorqbddo9n",
@@ -1798,7 +1754,7 @@
       {
         "id": "tksz80mfqqyzwzzer5p3uxtg",
         "title": "Git入门操作指南-程序员必会的git小技巧",
-        "url": "/zh/docs/community/dev-tips/git101"
+        "url": "/zh/docs/learn/cs/dev-tips/git101"
       },
       {
         "id": "u68pjetu592c9zvs3f5xa82j",
@@ -1924,7 +1880,7 @@
       {
         "id": "eej2awin6irhbdgcy8vvs3xb",
         "title": "Perplexity Comet 浏览器：能当私人管家的自动化浏览器",
-        "url": "/zh/docs/community/tools/perplexity-comet"
+        "url": "/zh/docs/learn/ai/tools/perplexity-comet"
       },
       {
         "id": "g6wucmr69lamd9xyxm7uunnd",
@@ -1954,7 +1910,7 @@
       {
         "id": "mgb41edhi9cz1kxzae074an0",
         "title": "学生邮箱能免费领的AI提效工具系列",
-        "url": "/zh/docs/community/tools"
+        "url": "/zh/docs/learn/ai/tools"
       },
       {
         "id": "nuojcaq1s6r5nggul0uq3r3j",
@@ -1996,32 +1952,22 @@
       {
         "id": "i0xmpskau105p83vq35wnxls",
         "title": "用闲置树莓派搭建一个Minecraft服务器",
-        "url": "/zh/docs/community/dev-tips/raspberry-guide"
+        "url": "/zh/docs/learn/cs/dev-tips/raspberry-guide"
       },
       {
         "id": "jee9yt8n8tmo8yclqujerw2x",
         "title": "技术分享",
-        "url": "/zh/docs/community/dev-tips"
+        "url": "/zh/docs/learn/cs/dev-tips"
       },
       {
         "id": "khcrztruqdku9fntd3dwzvwe",
         "title": "数学公式语法",
-        "url": "/zh/docs/community/dev-tips/Katex/Seb2"
-      },
-      {
-        "id": "q8d1j9bii2ve2p7pp4xtok79",
-        "title": "程序员 Burnout 自救指南",
-        "url": "/zh/docs/community/mental-health/burnout-guide"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex/Seb2"
       },
       {
         "id": "r0inttjcby48tly602p410vo",
         "title": "个人常用字符",
-        "url": "/zh/docs/community/dev-tips/Katex/Seb1"
-      },
-      {
-        "id": "rxyvvumcvfl2oh3hky8urkfn",
-        "title": "心理健康",
-        "url": "/zh/docs/community/mental-health"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex/Seb1"
       },
       {
         "id": "s8w3d2p5k9m4h7z1x0c2a8r6",
@@ -2029,19 +1975,14 @@
         "url": "/zh/docs/career/events/event-takeway"
       },
       {
-        "id": "sfzt30mtx0jsuv6esnpm3w8y",
-        "title": "群友分享",
-        "url": "/zh/docs/community"
-      },
-      {
         "id": "xqz5iiv3p52h6d9g3c0w2baf",
         "title": "常用Markdown语法",
-        "url": "/zh/docs/community/dev-tips/CommonUsedMarkdown"
+        "url": "/zh/docs/learn/cs/dev-tips/CommonUsedMarkdown"
       },
       {
         "id": "yxd2qpfl2li6092bjx8bz7vb",
         "title": "常用Katex语法",
-        "url": "/zh/docs/community/dev-tips/Katex"
+        "url": "/zh/docs/learn/cs/dev-tips/Katex"
       }
     ],
     "dailyCounts": {
@@ -2225,7 +2166,7 @@
       {
         "id": "e6udpzrorhvgeeda6xpy1e0s",
         "title": "如何部署你自己的Github图床-PictureCDN",
-        "url": "/zh/docs/community/dev-tips/picturecdn"
+        "url": "/zh/docs/learn/cs/dev-tips/picturecdn"
       },
       {
         "id": "zywri1bs64awfi9utfjy14ll",
@@ -2304,12 +2245,12 @@
       {
         "id": "boo70qqm8nos8b0q9h7zjrki",
         "title": "LeWorldModel",
-        "url": "/zh/docs/community/papers/leworldmodel"
+        "url": "/zh/docs/learn/ai/papers/leworldmodel"
       },
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/zh/docs/community/papers/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/zh/docs/learn/ai/papers/prompt-repetition-improves-non-reasoning-llms"
       }
     ],
     "dailyCounts": {
@@ -2344,12 +2285,7 @@
       {
         "id": "gj4bn01un0s0841berfvwrn5",
         "title": "使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床",
-        "url": "/zh/docs/community/dev-tips/cloudflare-r2-sharex-free-image-hosting"
-      },
-      {
-        "id": "sfzt30mtx0jsuv6esnpm3w8y",
-        "title": "群友分享",
-        "url": "/zh/docs/community"
+        "url": "/zh/docs/learn/cs/dev-tips/cloudflare-r2-sharex-free-image-hosting"
       }
     ],
     "dailyCounts": {
@@ -2384,7 +2320,7 @@
       {
         "id": "tksz80mfqqyzwzzer5p3uxtg",
         "title": "Git入门操作指南-程序员必会的git小技巧",
-        "url": "/zh/docs/community/dev-tips/git101"
+        "url": "/zh/docs/learn/cs/dev-tips/git101"
       }
     ],
     "dailyCounts": {
@@ -2414,13 +2350,7 @@
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/95595902",
-    "contributedDocs": [
-      {
-        "id": "q8d1j9bii2ve2p7pp4xtok79",
-        "title": "程序员 Burnout 自救指南",
-        "url": "/zh/docs/community/mental-health/burnout-guide"
-      }
-    ],
+    "contributedDocs": [],
     "dailyCounts": {
       "2025-09-26": 1
     }
@@ -2435,7 +2365,7 @@
       {
         "id": "l6eepr5ctjgrhdgupy3twr1t",
         "title": "Prompt Repetition Improves Non-Reasoning LLMs",
-        "url": "/zh/docs/community/papers/prompt-repetition-improves-non-reasoning-llms"
+        "url": "/zh/docs/learn/ai/papers/prompt-repetition-improves-non-reasoning-llms"
       }
     ],
     "dailyCounts": {
@@ -2448,13 +2378,7 @@
     "points": 10,
     "commits": 1,
     "avatarUrl": "https://avatars.githubusercontent.com/u/147322547",
-    "contributedDocs": [
-      {
-        "id": "q8d1j9bii2ve2p7pp4xtok79",
-        "title": "程序员 Burnout 自救指南",
-        "url": "/zh/docs/community/mental-health/burnout-guide"
-      }
-    ],
+    "contributedDocs": [],
     "dailyCounts": {
       "2025-10-14": 1
     }
