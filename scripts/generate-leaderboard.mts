@@ -460,8 +460,27 @@ async function main() {
     );
   }
 
+  // 排除机器人账号：CI / 依赖更新 / 翻译机器人的自动化 commit 不该上贡献榜。
+  // 按 GitHub 约定的 [bot] 后缀识别，外加已知 bot id 兜底（万一 login 没解析出来）。
+  const BOT_GITHUB_IDS = new Set([
+    "41898282", // github-actions[bot]
+    "49699333", // dependabot[bot]
+    "161369871", // google-labs-jules[bot]
+  ]);
+  const humanLeaderboard = leaderboard.filter(
+    (u) => !BOT_GITHUB_IDS.has(u.id) && !u.name.endsWith("[bot]"),
+  );
+  const botCount = leaderboard.length - humanLeaderboard.length;
+  if (botCount > 0) {
+    console.log(`[generate-leaderboard] 过滤掉 ${botCount} 个机器人账号`);
+  }
+
   await ensureParentDir(outputAbs);
-  await fs.writeFile(outputAbs, JSON.stringify(leaderboard, null, 2), "utf8");
+  await fs.writeFile(
+    outputAbs,
+    JSON.stringify(humanLeaderboard, null, 2),
+    "utf8",
+  );
 
   console.log(
     `[generate-leaderboard] 排行榜数据已成功写入至 ${OUTPUT} | Successfully wrote leaderboard to ${OUTPUT}`,
