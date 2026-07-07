@@ -46,7 +46,7 @@ async function resolveDocPath(
       {
         redirect: "manual",
         signal: controller.signal,
-        cache: "no-store",
+        next: { revalidate: 300 }, // 缓存 5 分钟，防止 bot 扫描频繁触发冷启动与后端查询
         // 显式 UA：Vercel SSR 默认出口 UA 可能被 CF bot filter 拦（对齐 feed/page fetchLinks）
         headers: {
           accept: "application/json",

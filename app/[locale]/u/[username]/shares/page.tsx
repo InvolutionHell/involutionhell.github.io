@@ -103,6 +103,7 @@ export default function SharesPage({ params }: PageProps) {
           <p>这是 {username} 的私有分享列表，只有本人登录后可见。</p>
           <Link
             href="/feed"
+            prefetch={false}
             className="mt-4 inline-block text-primary underline underline-offset-4"
           >
             浏览公共分享墙 →
