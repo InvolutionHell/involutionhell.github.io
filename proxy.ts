@@ -54,6 +54,8 @@ const BOT_PATH_PATTERNS = [
   // 常见 admin / debug panels 探测路径（本站 admin 在 /[locale]/admin，
   // 这些是其他平台特有路径，扫到必是 bot）
   /\/(phpmyadmin|adminer|pma|dbadmin|mysqladmin)(?:$|[/?#])/i,
+  // Tomcat/Spring/Java/Nacos 常见框架扫描与探测路径（无点路径）
+  /\/(actuator|druid|nacos|tomcat|manager\/html|web-inf|solr|invoker)(?:$|[/?#])/i,
 ];
 
 function isBotScanPath(pathname: string): boolean {

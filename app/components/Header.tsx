@@ -53,6 +53,7 @@ export async function Header() {
             </Link>
             <Link
               href="/feed"
+              prefetch={false}
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
               data-umami-event-region="header"

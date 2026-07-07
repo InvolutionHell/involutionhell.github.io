@@ -245,6 +245,7 @@ export default async function FeedPage({ searchParams }: FeedPageProps) {
               {tab === "links" ? (
                 <Link
                   href="/feed/submit"
+                  prefetch={false}
                   className="shrink-0 inline-block px-6 py-2.5 border border-[var(--foreground)] font-sans text-xs uppercase tracking-widest font-bold text-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all duration-200"
                 >
                   + 丢个链接
@@ -252,6 +253,7 @@ export default async function FeedPage({ searchParams }: FeedPageProps) {
               ) : (
                 <Link
                   href="/editor"
+                  prefetch={false}
                   className="shrink-0 inline-block px-6 py-2.5 border border-[var(--foreground)] font-sans text-xs uppercase tracking-widest font-bold text-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all duration-200"
                 >
                   + 写篇文章
@@ -292,6 +294,7 @@ export default async function FeedPage({ searchParams }: FeedPageProps) {
                 </p>
                 <Link
                   href="/editor"
+                  prefetch={false}
                   className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-[var(--foreground)] hover:text-[#CC0000] transition-colors"
                 >
                   开始写 →

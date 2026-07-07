@@ -147,6 +147,7 @@ function ShareInner() {
           </Button>
           <Link
             href="/feed"
+            prefetch={false}
             className="inline-flex items-center justify-center px-6 py-2 rounded-none border border-[var(--foreground)] font-mono uppercase tracking-widest text-xs hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors"
           >
             去看看大家分享了啥 →
@@ -226,6 +227,7 @@ function ShareInner() {
       <div className="text-center">
         <Link
           href="/feed"
+          prefetch={false}
           className="font-mono text-[10px] uppercase tracking-widest text-neutral-500 hover:text-[var(--foreground)]"
         >
           跳过，去看看大家分享了啥 →

@@ -102,6 +102,7 @@ export default function UserPostsPage({ params }: PageProps) {
               <p>还没有发布过文章，写第一篇让大家看到你。</p>
               <Link
                 href="/editor"
+                prefetch={false}
                 className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-[var(--foreground)] hover:text-[#CC0000] transition-colors"
               >
                 去写 →

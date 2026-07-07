@@ -64,6 +64,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/docs/learn/ai"
+                    prefetch={false}
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"
@@ -75,6 +76,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/docs/learn/cs"
+                    prefetch={false}
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"
@@ -86,6 +88,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/docs/community"
+                    prefetch={false}
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"
@@ -97,6 +100,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/docs/career"
+                    prefetch={false}
                     className="hover:text-[#CC0000] transition-colors"
                     data-umami-event="navigation_click"
                     data-umami-event-region="footer"
