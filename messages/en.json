@@ -44,6 +44,12 @@
     "a11y": {
       "github": "GitHub",
       "discord": "Discord"
+    },
+    "community": {
+      "title": "Community",
+      "monitor": "Server Status",
+      "mc": "Minecraft Server",
+      "invest": "openInvest"
     }
   },
   "notFound": {
