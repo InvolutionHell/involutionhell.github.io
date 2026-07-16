@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import ZoteroFeedLazy from "@/app/components/ZoteroFeedLazy";
+import { CommunityNetwork } from "@/app/components/CommunityNetwork";
 import { Contribute } from "@/app/components/Contribute";
 import { ShareLink } from "@/app/components/ShareLink";
 import Image from "next/image";
@@ -38,6 +39,31 @@ export async function Hero() {
       title: t("categories.community.title"),
       desc: t("categories.community.desc"),
       href: "/feed?tab=posts",
+    },
+  ];
+
+  const communitySites = [
+    {
+      key: "monitor",
+      callsign: "Live Ops",
+      title: t("community.monitor.title"),
+      desc: t("community.monitor.desc"),
+      href: "https://monitor.involutionhell.com/",
+      live: true,
+    },
+    {
+      key: "mc",
+      callsign: "Game Node",
+      title: t("community.mc.title"),
+      desc: t("community.mc.desc"),
+      href: "https://mc.involutionhell.com/",
+    },
+    {
+      key: "invest",
+      callsign: "AI Lab",
+      title: t("community.invest.title"),
+      desc: t("community.invest.desc"),
+      href: "https://openinvest.involutionhell.com/",
     },
   ];
 
@@ -119,6 +145,12 @@ export async function Hero() {
             </div>
           </div>
         </div>
+
+        {/* Community Network - IH 生态站点（滚动揭示 + 反色 wipe，见 CommunityNetwork） */}
+        <CommunityNetwork
+          label={t("community.label")}
+          outposts={communitySites}
+        />
 
         {/* Top-level directories - Grid with shared borders */}
         <div className="mt-16 border-t-4 border-[var(--foreground)] transition-colors duration-300">

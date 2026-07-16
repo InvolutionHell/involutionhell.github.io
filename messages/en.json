@@ -37,6 +37,21 @@
         "title": "Community Posts",
         "desc": "Articles written by community members — published instantly, no PR review needed. Topics range from dev notes to technical deep-dives."
       }
+    },
+    "community": {
+      "label": "Community Network · Our Ecosystem",
+      "monitor": {
+        "title": "Server Status",
+        "desc": "Live health, load & cert monitoring for every service — guarded by Ailumao."
+      },
+      "mc": {
+        "title": "Minecraft Server",
+        "desc": "Our self-hosted MC survival server. Hop in and build together."
+      },
+      "invest": {
+        "title": "openInvest",
+        "desc": "Open-source experiment — a multi-asset AI committee for research. Not investment advice."
+      }
     }
   },
   "footer": {
