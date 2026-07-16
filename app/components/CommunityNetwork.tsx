@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
@@ -18,7 +17,7 @@ type Outpost = {
 /**
  * 首页"社区网络"版块：三个生态前哨（monitor / mc / openInvest）做成全宽波段，
  * 滚动进入视口时错峰升起，hover 时墨色从左漫过整条（反色 wipe）。
- * SSR/无 JS/reduced-motion 时直接渲染可见状态（mounted 门控），不把内容藏死。
+ * reduced-motion 时跳过入场动画，直接渲染最终可见状态。
  */
 export function CommunityNetwork({
   label,
@@ -28,9 +27,7 @@ export function CommunityNetwork({
   outposts: Outpost[];
 }) {
   const reduce = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  const animate = mounted && !reduce;
+  const animate = !reduce;
 
   return (
     <div className="mt-16 border-t-4 border-[var(--foreground)] transition-colors duration-300">
