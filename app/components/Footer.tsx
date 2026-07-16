@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Github, MessageCircle } from "lucide-react";
 import { BrandMark } from "./BrandMark";
@@ -56,7 +55,7 @@ export async function Footer() {
           </div>
 
           {/* Navigation */}
-          <div className="md:col-span-7 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="md:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
             <div>
               <h3 className="font-sans text-xs font-bold uppercase tracking-widest mb-6 border-b border-[var(--foreground)] pb-2 text-[var(--foreground)]">
                 Archives
@@ -110,47 +109,6 @@ export async function Footer() {
                     Career Prep
                   </Link>
                 </li>
-              </ul>
-            </div>
-
-            {/* 社区 Community — IH 生态站点 */}
-            <div>
-              <h3 className="font-sans text-xs font-bold uppercase tracking-widest mb-6 border-b border-[var(--foreground)] pb-2 text-[var(--foreground)] flex items-center gap-2">
-                <Image
-                  src="/friends/ailumao.png"
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="[image-rendering:pixelated]"
-                />
-                {t("community.title")}
-              </h3>
-              <ul className="space-y-3 font-body text-sm text-[var(--foreground)]">
-                {[
-                  {
-                    key: "monitor",
-                    href: "https://monitor.involutionhell.com/",
-                  },
-                  { key: "mc", href: "https://mc.involutionhell.com/" },
-                  {
-                    key: "invest",
-                    href: "https://openinvest.involutionhell.com/",
-                  },
-                ].map(({ key, href }) => (
-                  <li key={key}>
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-[#CC0000] transition-colors"
-                      data-umami-event="community_click"
-                      data-umami-event-target={key}
-                      data-umami-event-location="footer"
-                    >
-                      {t(`community.${key}`)}
-                    </a>
-                  </li>
-                ))}
               </ul>
             </div>
 

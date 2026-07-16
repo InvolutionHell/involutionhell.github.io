@@ -37,6 +37,21 @@
         "title": "群友创作",
         "desc": "群友随手写的文章，不用等 PR review，发完即在。选题自由，从踩坑记录到技术思考都有。"
       }
+    },
+    "community": {
+      "label": "社区网络 · 我们的生态",
+      "monitor": {
+        "title": "服务器状态",
+        "desc": "实时监控全部服务健康、负载与证书，由艾露猫看守。"
+      },
+      "mc": {
+        "title": "Minecraft 服务器",
+        "desc": "内卷地狱自建 MC 生存服，加入一起联机开荒。"
+      },
+      "invest": {
+        "title": "openInvest",
+        "desc": "多资产 AI 投资委员会，4 角色辩论给出决策。"
+      }
     }
   },
   "footer": {
@@ -44,12 +59,6 @@
     "a11y": {
       "github": "访问 GitHub",
       "discord": "加入 Discord 社区"
-    },
-    "community": {
-      "title": "社区",
-      "monitor": "服务器状态",
-      "mc": "Minecraft 服务器",
-      "invest": "openInvest 投资"
     }
   },
   "notFound": {

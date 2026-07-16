@@ -41,6 +41,32 @@ export async function Hero() {
     },
   ];
 
+  const communitySites: {
+    key: string;
+    title: string;
+    desc: string;
+    href: string;
+  }[] = [
+    {
+      key: "monitor",
+      title: t("community.monitor.title"),
+      desc: t("community.monitor.desc"),
+      href: "https://monitor.involutionhell.com/",
+    },
+    {
+      key: "mc",
+      title: t("community.mc.title"),
+      desc: t("community.mc.desc"),
+      href: "https://mc.involutionhell.com/",
+    },
+    {
+      key: "invest",
+      title: t("community.invest.title"),
+      desc: t("community.invest.desc"),
+      href: "https://openinvest.involutionhell.com/",
+    },
+  ];
+
   return (
     <section className="relative pt-32 pb-16 newsprint-texture transition-colors duration-300">
       <div className="container relative mx-auto px-6">
@@ -118,6 +144,54 @@ export async function Hero() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Community Network - IH 生态站点 */}
+        <div className="mt-16 border-t-4 border-[var(--foreground)] transition-colors duration-300">
+          <div className="flex items-center gap-2 py-4 font-mono text-xs uppercase tracking-widest border-b border-[var(--foreground)] text-[var(--foreground)]">
+            <Image
+              src="/friends/ailumao.png"
+              alt=""
+              width={22}
+              height={22}
+              className="[image-rendering:pixelated]"
+            />
+            {t("community.label")}
+          </div>
+          <ul className="grid grid-cols-1 md:grid-cols-3">
+            {communitySites.map((s, idx) => (
+              <li
+                key={s.title}
+                className={cn(
+                  "group border-b border-[var(--foreground)] md:border-r last:border-r-0 h-full",
+                  idx === 2 && "md:border-r-0",
+                )}
+              >
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-8 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors h-full flex flex-col hard-shadow-hover"
+                  data-umami-event="community_click"
+                  data-umami-event-target={s.key}
+                  data-umami-event-location="hero"
+                >
+                  <div className="font-mono text-[10px] text-neutral-400 mb-4">
+                    NET-0{idx + 1}
+                  </div>
+                  <div className="text-2xl font-serif font-bold mb-2 uppercase text-[var(--foreground)]">
+                    {s.title}
+                  </div>
+                  <p className="text-sm font-body text-neutral-600 dark:text-neutral-400 flex-1 leading-relaxed">
+                    {s.desc}
+                  </p>
+                  <div className="mt-6 font-sans text-[10px] uppercase tracking-widest font-bold text-[var(--foreground)] group-hover:text-[#CC0000]">
+                    Visit &rarr;
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Top-level directories - Grid with shared borders */}
