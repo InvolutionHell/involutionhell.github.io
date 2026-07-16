@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import ZoteroFeedLazy from "@/app/components/ZoteroFeedLazy";
+import { CommunityNetwork } from "@/app/components/CommunityNetwork";
 import { Contribute } from "@/app/components/Contribute";
 import { ShareLink } from "@/app/components/ShareLink";
 import Image from "next/image";
@@ -42,26 +42,25 @@ export async function Hero() {
     },
   ];
 
-  const communitySites: {
-    key: string;
-    title: string;
-    desc: string;
-    href: string;
-  }[] = [
+  const communitySites = [
     {
       key: "monitor",
+      callsign: "Live Ops",
       title: t("community.monitor.title"),
       desc: t("community.monitor.desc"),
       href: "https://monitor.involutionhell.com/",
+      live: true,
     },
     {
       key: "mc",
+      callsign: "Game Node",
       title: t("community.mc.title"),
       desc: t("community.mc.desc"),
       href: "https://mc.involutionhell.com/",
     },
     {
       key: "invest",
+      callsign: "AI Desk",
       title: t("community.invest.title"),
       desc: t("community.invest.desc"),
       href: "https://openinvest.involutionhell.com/",
@@ -147,55 +146,11 @@ export async function Hero() {
           </div>
         </div>
 
-        {/* Community Network - IH 生态站点 */}
-        <div className="mt-16 border-t-4 border-[var(--foreground)] transition-colors duration-300">
-          <div className="flex items-center gap-2 py-4 font-mono text-xs uppercase tracking-widest border-b border-[var(--foreground)] text-[var(--foreground)]">
-            <Image
-              src="/friends/ailumao.png"
-              alt=""
-              width={22}
-              height={22}
-              className="[image-rendering:pixelated]"
-            />
-            {t("community.label")}
-          </div>
-          <ul className="grid grid-cols-1 md:grid-cols-3">
-            {communitySites.map((s, idx) => (
-              <li
-                key={s.title}
-                className={cn(
-                  "group border-b border-[var(--foreground)] md:border-r last:border-r-0",
-                  idx === 2 && "md:border-r-0",
-                )}
-              >
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-baseline gap-4 p-6 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors hard-shadow-hover"
-                  data-umami-event="community_click"
-                  data-umami-event-target={s.key}
-                  data-umami-event-location="hero"
-                >
-                  <span className="font-mono text-[10px] text-neutral-400 pt-1 shrink-0">
-                    NET-0{idx + 1}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="flex items-center gap-2 mb-1.5">
-                      <span className="text-xl font-serif font-bold uppercase text-[var(--foreground)]">
-                        {s.title}
-                      </span>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-neutral-400 group-hover:translate-x-1 group-hover:text-[#CC0000] transition-all" />
-                    </span>
-                    <span className="block text-sm font-body text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                      {s.desc}
-                    </span>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {/* Community Network - IH 生态站点（滚动揭示 + 反色 wipe，见 CommunityNetwork） */}
+        <CommunityNetwork
+          label={t("community.label")}
+          outposts={communitySites}
+        />
 
         {/* Top-level directories - Grid with shared borders */}
         <div className="mt-16 border-t-4 border-[var(--foreground)] transition-colors duration-300">
