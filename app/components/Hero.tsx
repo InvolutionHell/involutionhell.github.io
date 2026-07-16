@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import ZoteroFeedLazy from "@/app/components/ZoteroFeedLazy";
 import { Contribute } from "@/app/components/Contribute";
@@ -163,7 +164,7 @@ export async function Hero() {
               <li
                 key={s.title}
                 className={cn(
-                  "group border-b border-[var(--foreground)] md:border-r last:border-r-0 h-full",
+                  "group border-b border-[var(--foreground)] md:border-r last:border-r-0",
                   idx === 2 && "md:border-r-0",
                 )}
               >
@@ -171,23 +172,25 @@ export async function Hero() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-8 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors h-full flex flex-col hard-shadow-hover"
+                  className="flex items-baseline gap-4 p-6 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors hard-shadow-hover"
                   data-umami-event="community_click"
                   data-umami-event-target={s.key}
                   data-umami-event-location="hero"
                 >
-                  <div className="font-mono text-[10px] text-neutral-400 mb-4">
+                  <span className="font-mono text-[10px] text-neutral-400 pt-1 shrink-0">
                     NET-0{idx + 1}
-                  </div>
-                  <div className="text-2xl font-serif font-bold mb-2 uppercase text-[var(--foreground)]">
-                    {s.title}
-                  </div>
-                  <p className="text-sm font-body text-neutral-600 dark:text-neutral-400 flex-1 leading-relaxed">
-                    {s.desc}
-                  </p>
-                  <div className="mt-6 font-sans text-[10px] uppercase tracking-widest font-bold text-[var(--foreground)] group-hover:text-[#CC0000]">
-                    Visit &rarr;
-                  </div>
+                  </span>
+                  <span className="min-w-0">
+                    <span className="flex items-center gap-2 mb-1.5">
+                      <span className="text-xl font-serif font-bold uppercase text-[var(--foreground)]">
+                        {s.title}
+                      </span>
+                      <ArrowRight className="h-4 w-4 shrink-0 text-neutral-400 group-hover:translate-x-1 group-hover:text-[#CC0000] transition-all" />
+                    </span>
+                    <span className="block text-sm font-body text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                      {s.desc}
+                    </span>
+                  </span>
                 </a>
               </li>
             ))}
