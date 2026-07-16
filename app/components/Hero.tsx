@@ -60,7 +60,7 @@ export async function Hero() {
     },
     {
       key: "invest",
-      callsign: "AI Desk",
+      callsign: "AI Lab",
       title: t("community.invest.title"),
       desc: t("community.invest.desc"),
       href: "https://openinvest.involutionhell.com/",
