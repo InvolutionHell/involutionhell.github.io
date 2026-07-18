@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import leetcodeSlugMap from "@/generated/leetcode-slug-map.json";
 import { routing } from "@/i18n/routing";
+import { isPoisonedDocsPath } from "@/lib/poisoned-docs-path";
 
 /**
  * Edge proxy（Next.js 16 旧称 middleware）。
@@ -121,20 +122,31 @@ function redirectLeetcodeIfNeeded(req: NextRequest): NextResponse | null {
   return NextResponse.redirect(url, 301);
 }
 
+// 裸 404，no-store 避免攻击者拿 200 当命中信号、也避免 CDN 缓存垃圾响应。
+function bare404(): NextResponse {
+  return new NextResponse(null, {
+    status: 404,
+    headers: { "cache-control": "no-store" },
+  });
+}
+
 export function proxy(req: NextRequest) {
-  // Scanner 路径 0 函数调用直接 404，no-store 避免攻击者拿 200 当命中信号。
+  // Scanner 路径 0 函数调用直接 404。
   if (isBotScanPath(req.nextUrl.pathname)) {
-    return new NextResponse(null, {
-      status: 404,
-      headers: { "cache-control": "no-store" },
-    });
+    return bare404();
   }
 
-  // 1. Leetcode 中文 slug 优先做 301
+  // 1. Leetcode 中文 slug 优先做 301（必须在 poisoned 检查之前，
+  //    否则合法的中文旧 URL 会被 404 而不是重定向到拼音页）
   const leetcodeRedirect = redirectLeetcodeIfNeeded(req);
   if (leetcodeRedirect) return leetcodeRedirect;
 
-  // 2. 其它请求交给 next-intl 处理 locale routing
+  // 2. 未命中 slug-map 的非 ASCII docs 路径：edge 404，不进 Fluid
+  if (isPoisonedDocsPath(req.nextUrl.pathname)) {
+    return bare404();
+  }
+
+  // 3. 其它请求交给 next-intl 处理 locale routing
   return intlMiddleware(req);
 }
 
@@ -146,10 +158,15 @@ export const config = {
   //   rewrite source（/oauth/:path*）不匹配带 locale 的版本（/en/oauth/...），
   //   落到 [locale]/oauth/... 404。所以必须排除掉，让请求直接走 rewrite。
   // - _next / _vercel：Next.js 内部
-  // - (?!.*[Ll]eetcode).*\..*：带 . 的路径（静态资源 / sitemap.xml 等）一律排除，
-  //   但 leetcode 例外——GSC 旧 URL 里有大量带点的中文题名（"46.全排列"、
-  //   "1234. 替换…"），不放进来就触不到上面的 slug-map 301，只能硬 404。
-  //   leetcode 目录下不存在带点的静态资源，开这个口子安全。
+  // - (?!.*[Ll]eetcode|(?:zh/|en/)?docs/).*\..*：带 . 的路径（静态资源 /
+  //   sitemap.xml 等）一律排除，两个例外：
+  //   1. leetcode——GSC 旧 URL 里有大量带点的中文题名（"46.全排列"、
+  //      "1234. 替换…"），不放进来就触不到上面的 slug-map 301，只能硬 404。
+  //      leetcode 目录下不存在带点的静态资源，开这个口子安全。
+  //   2. docs——爬虫会构造带点又带中文的垃圾 docs 路径（如 ".../你的图片.jpg
+  //      \"悬停名\""），必须进 middleware 让 isPoisonedDocsPath 拦下，否则
+  //      直达 [...slug] lambda 触发 x-next-cache-tags 500。
+  //      /docs/ URL 下没有真实静态资源（public/ 无 docs 子目录），同样安全。
   matcher:
-    "/((?!api|trpc|auth|oauth|analytics|_next|_vercel|(?!.*[Ll]eetcode).*\\..*).*)",
+    "/((?!api|trpc|auth|oauth|analytics|_next|_vercel|(?!.*[Ll]eetcode|(?:zh/|en/)?docs/).*\\..*).*)",
 };
