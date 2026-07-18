@@ -248,6 +248,10 @@
   },
   "profile": {
     "dossier": "User Dossier",
+    "unregistered": {
+      "note": "This contributor hasn't joined the site yet — the stats below come from the repository history.",
+      "cta": "Is this you? Sign in with GitHub to claim this page →"
+    },
     "volumeIssue": "Vol. 1 Issue {id}",
     "fullRank": "Full Rank →",
     "editProfile": "Edit Profile →",

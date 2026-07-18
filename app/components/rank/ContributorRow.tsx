@@ -12,6 +12,9 @@ type Contributor = {
   commits: number;
   avatarUrl: string;
   contributedDocs?: { id: string; title: string; url: string }[];
+  // build 时探测的"是否注册过本站"（generate-leaderboard.mts）。
+  // 缺省视为 false：宁可少显示 VIEW DOSSIER，也不渲染 404 死链。
+  hasProfile?: boolean;
 };
 
 export function ContributorRow({
@@ -104,14 +107,17 @@ export function ContributorRow({
 
                   {/* 本站个人主页 + GitHub 主页两个入口 */}
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                    <Link
-                      href={`/u/${user.id}`}
-                      className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-[var(--foreground)] hover:text-[#CC0000] transition-colors w-max font-bold"
-                      data-umami-event="click_site_profile"
-                      data-umami-event-user={user.name}
-                    >
-                      VIEW DOSSIER →
-                    </Link>
+                    {/* 只有注册过本站的贡献者才有 /u/{id} 主页；未注册的只留 GitHub 外链 */}
+                    {user.hasProfile && (
+                      <Link
+                        href={`/u/${user.id}`}
+                        className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-[var(--foreground)] hover:text-[#CC0000] transition-colors w-max font-bold"
+                        data-umami-event="click_site_profile"
+                        data-umami-event-user={user.name}
+                      >
+                        VIEW DOSSIER →
+                      </Link>
+                    )}
                     <a
                       href={`https://github.com/${user.name}`}
                       target="_blank"

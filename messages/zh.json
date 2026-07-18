@@ -248,6 +248,10 @@
   },
   "profile": {
     "dossier": "User Dossier",
+    "unregistered": {
+      "note": "这位贡献者还没有入驻本站，以下数据来自代码仓库的贡献统计。",
+      "cta": "是你本人？用 GitHub 登录即可认领主页 →"
+    },
     "volumeIssue": "Vol. 1 Issue {id}",
     "fullRank": "总排行榜 →",
     "editProfile": "编辑主页 →",
