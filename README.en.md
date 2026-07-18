@@ -125,11 +125,20 @@ Thanks to Shanghai AI Lab for providing computing support!
 
 ## 📜 License & Copyright
 
-The project code is released under the [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](LICENSE) license.
+This project is **dual-licensed** — code and content are licensed separately.
 
-### Codebase
+| Part                                                                                   | License                            | File                                 |
+| -------------------------------------------------------------------------------------- | ---------------------------------- | ------------------------------------ |
+| **Code** (the software powering the site: `app/`, `lib/`, components, scripts, config) | [Apache License 2.0](LICENSE)      | [`LICENSE`](LICENSE)                 |
+| **Content** (articles/docs under `content/docs/`)                                      | [CC BY-NC-SA 4.0](LICENSE-CONTENT) | [`LICENSE-CONTENT`](LICENSE-CONTENT) |
 
-The **code** (i.e., the software powering this site) is licensed under CC BY-NC-SA 4.0: you may share and adapt it for non-commercial purposes, must provide attribution, and need to distribute derivative works under the same license. See [LICENSE](LICENSE) for details.
+### Codebase (Apache-2.0)
+
+The **software** that builds and runs this site is open source under the [Apache License 2.0](LICENSE) — use, modify, and redistribute freely (including commercially), keeping the copyright and NOTICE.
+
+### Documentation content (CC BY-NC-SA 4.0)
+
+The **articles and docs** under `content/docs/` are licensed under [CC BY-NC-SA 4.0](LICENSE-CONTENT): share and adapt for **non-commercial** purposes with attribution, distributing derivatives under the same license. **Commercial use requires separate permission.**
 
 ### Shared Content
 
