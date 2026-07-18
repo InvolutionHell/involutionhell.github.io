@@ -12,7 +12,7 @@ type Contributor = {
   commits: number;
   avatarUrl: string;
   contributedDocs?: { id: string; title: string; url: string }[];
-  // build 时探测的"是否注册过本站"（generate-leaderboard.mts，#372）。
+  // build 时探测的"是否注册过本站"（generate-leaderboard.mts）。
   // 缺省视为 false：宁可少显示 VIEW DOSSIER，也不渲染 404 死链。
   hasProfile?: boolean;
 };
@@ -107,7 +107,7 @@ export function ContributorRow({
 
                   {/* 本站个人主页 + GitHub 主页两个入口 */}
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                    {/* 只有注册过本站的贡献者才有 /u/{id} 主页；未注册的只留 GitHub 外链（#372） */}
+                    {/* 只有注册过本站的贡献者才有 /u/{id} 主页；未注册的只留 GitHub 外链 */}
                     {user.hasProfile && (
                       <Link
                         href={`/u/${user.id}`}

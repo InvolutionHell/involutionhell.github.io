@@ -475,7 +475,7 @@ async function main() {
     console.log(`[generate-leaderboard] 过滤掉 ${botCount} 个机器人账号`);
   }
 
-  // hasProfile（#372）：标记谁注册过本站（user_accounts.github_id 有对应行）。
+  // hasProfile：标记谁注册过本站（user_accounts.github_id 有对应行）。
   // 前端用它决定是否渲染 VIEW DOSSIER 链接、sitemap 是否收录 /u/{id}，
   // 避免给从未登录过的 git 贡献者生成 404 死链。
   // 走 profile 接口逐人探测而非直连 DB（DB 已收回内网，见文件头历史注释）；
@@ -517,6 +517,13 @@ async function main() {
   console.log(
     `[generate-leaderboard] hasProfile 探测：${profileCount}/${humanLeaderboard.length} 位贡献者已注册本站`,
   );
+  if (humanLeaderboard.length > 0 && profileCount === 0) {
+    // 全员 false 大概率是探测本身挂了（后端不可达/接口变更），不是真的没人注册。
+    // 不中断 build（降级方向安全：少显示入口而非产生死链），但必须留下响亮的痕迹。
+    console.warn(
+      "[generate-leaderboard] ⚠️ hasProfile 全为 false——疑似 profile 接口探测失败，请检查 BACKEND_URL 与后端状态",
+    );
+  }
 
   await ensureParentDir(outputAbs);
   await fs.writeFile(

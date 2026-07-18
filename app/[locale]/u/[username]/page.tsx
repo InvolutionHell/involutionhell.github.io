@@ -256,7 +256,7 @@ type LeaderboardRow = {
 const leaderboardRows = leaderboard as unknown as LeaderboardRow[];
 
 /**
- * 兜底页（#372）用：URL 里的 identifier（"150361711" 或 "github_150361711"）
+ * 兜底页用：URL 里的 identifier（"150361711" 或 "github_150361711"）
  * → leaderboard 行。只有纯数字 githubId 才可能命中。
  */
 function findLeaderboardRow(identifier: string): LeaderboardRow | undefined {
@@ -285,7 +285,7 @@ function findContributions(githubId: number | null | undefined) {
 }
 
 /**
- * 未注册贡献者的兜底页（#372）：git 有贡献但没登录过本站的人，点进 /u/{id}
+ * 未注册贡献者的兜底页：git 有贡献但没登录过本站的人，点进 /u/{id}
  * 以前会掉进通用 404，现在展示仓库贡献统计 + GitHub 外链 + 登录认领 CTA。
  * 数据全部来自 build-time 的 leaderboard JSON，不打后端。
  */
@@ -420,7 +420,7 @@ export default async function UserProfilePage({ params }: Param) {
   const data = await fetchProfile(username);
   if (!data) {
     // 后端查无此人 ≠ 死路：如果是 leaderboard 上的 git 贡献者（未注册本站），
-    // 渲染"尚未入驻"兜底页而不是通用 404（#372）。
+    // 渲染"尚未入驻"兜底页而不是通用 404。
     const row = findLeaderboardRow(username);
     if (!row) notFound();
     return <UnregisteredContributor row={row} />;
