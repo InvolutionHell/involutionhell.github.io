@@ -242,6 +242,29 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+type LeaderboardRow = {
+  id: string;
+  name: string;
+  points?: number;
+  commits?: number;
+  avatarUrl?: string;
+  contributedDocs?: Array<{ id: string; title: string; url: string }>;
+  dailyCounts?: Record<string, number>;
+};
+// 先经 unknown 再转 Row[]：JSON 的字面量类型（每条 dailyCounts 都是独立的 literal）和 Row 的
+// Record<string, number> 索引签名不兼容，tsc --noEmit 会报 TS2352。先走 unknown 绕开。
+const leaderboardRows = leaderboard as unknown as LeaderboardRow[];
+
+/**
+ * 兜底页（#372）用：URL 里的 identifier（"150361711" 或 "github_150361711"）
+ * → leaderboard 行。只有纯数字 githubId 才可能命中。
+ */
+function findLeaderboardRow(identifier: string): LeaderboardRow | undefined {
+  const gid = identifier.replace(/^github_/, "");
+  if (!/^\d+$/.test(gid)) return undefined;
+  return leaderboardRows.find((r) => r.id === gid);
+}
+
 /**
  * 从 leaderboard JSON 按 githubId 匹配贡献记录。
  * 之前按 name 字符串匹配会踩坑（leaderboard.name = "longsizhuo"，user_accounts.username = "github_114939201"），
@@ -250,20 +273,8 @@ function sleep(ms: number): Promise<void> {
 function findContributions(githubId: number | null | undefined) {
   if (githubId == null)
     return { docs: [], points: 0, commits: 0, dailyCounts: {} };
-  type Row = {
-    id: string;
-    name: string;
-    points?: number;
-    commits?: number;
-    avatarUrl?: string;
-    contributedDocs?: Array<{ id: string; title: string; url: string }>;
-    dailyCounts?: Record<string, number>;
-  };
-  // 先经 unknown 再转 Row[]：JSON 的字面量类型（每条 dailyCounts 都是独立的 literal）和 Row 的
-  // Record<string, number> 索引签名不兼容，tsc --noEmit 会报 TS2352。先走 unknown 绕开。
-  const rows = leaderboard as unknown as Row[];
   const idStr = String(githubId);
-  const match = rows.find((r) => r.id === idStr);
+  const match = leaderboardRows.find((r) => r.id === idStr);
   if (!match) return { docs: [], points: 0, commits: 0, dailyCounts: {} };
   return {
     docs: match.contributedDocs ?? [],
@@ -273,6 +284,95 @@ function findContributions(githubId: number | null | undefined) {
   };
 }
 
+/**
+ * 未注册贡献者的兜底页（#372）：git 有贡献但没登录过本站的人，点进 /u/{id}
+ * 以前会掉进通用 404，现在展示仓库贡献统计 + GitHub 外链 + 登录认领 CTA。
+ * 数据全部来自 build-time 的 leaderboard JSON，不打后端。
+ */
+async function UnregisteredContributor({ row }: { row: LeaderboardRow }) {
+  const t = await getTranslations("profile");
+  const docs = row.contributedDocs ?? [];
+  return (
+    <>
+      <Header />
+      <main className="pt-32 pb-16 bg-[var(--background)] min-h-screen">
+        <div className="max-w-3xl mx-auto px-6 lg:px-8">
+          <header className="border-t-4 border-[var(--foreground)] pt-6 mb-12">
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-neutral-500">
+              {t("dossier")}
+            </div>
+            <h2 className="font-serif text-4xl md:text-5xl font-black uppercase mt-2 tracking-tight text-[var(--foreground)]">
+              {row.name}
+            </h2>
+          </header>
+
+          <div className="flex items-start gap-6 flex-wrap mb-12">
+            {row.avatarUrl && (
+              <div className="w-24 h-24 border border-[var(--foreground)] overflow-hidden shrink-0">
+                <Image
+                  src={row.avatarUrl}
+                  alt={row.name}
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <div className="flex flex-col gap-4 min-w-0 flex-1">
+              <p className="text-muted-foreground">{t("unregistered.note")}</p>
+              <div className="flex gap-6 font-mono text-sm text-[var(--foreground)]">
+                <span>
+                  <strong>{row.points ?? 0}</strong> {t("stats.points")}
+                </span>
+                <span>
+                  <strong>{row.commits ?? 0}</strong> {t("stats.commits")}
+                </span>
+              </div>
+              <div className="flex items-center gap-x-4 gap-y-1 flex-wrap">
+                <a
+                  href={`https://github.com/${row.name}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-[var(--foreground)] hover:text-[#CC0000] transition-colors font-bold"
+                >
+                  GITHUB →
+                </a>
+                <Link
+                  href="/login"
+                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-[var(--foreground)]/70 hover:text-[#CC0000] transition-colors"
+                >
+                  {t("unregistered.cta")}
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {docs.length > 0 && (
+            <section>
+              <h3 className="font-mono text-xs uppercase tracking-widest text-neutral-500 border-b border-[var(--foreground)] pb-2 mb-4">
+                {t("docs.heading")}
+              </h3>
+              <ul className="space-y-2">
+                {docs.map((doc) => (
+                  <li key={doc.id}>
+                    <Link
+                      href={doc.url}
+                      className="text-[var(--foreground)] hover:text-[#CC0000] transition-colors underline-offset-4 hover:underline"
+                    >
+                      {doc.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+}
+
 interface Param {
   params: Promise<{ username: string }>;
 }
@@ -280,7 +380,13 @@ interface Param {
 export async function generateMetadata({ params }: Param): Promise<Metadata> {
   const { username } = await params;
   const data = await fetchProfile(username);
-  if (!data) return { title: `@${username}`, robots: { index: false } };
+  if (!data) {
+    // 未注册的 git 贡献者：兜底页有内容但很薄，noindex 防止吃 SEO 权重
+    const row = findLeaderboardRow(username);
+    if (row)
+      return { title: `${row.name} · Contributor`, robots: { index: false } };
+    return { title: `@${username}`, robots: { index: false } };
+  }
   const displayName = data.user.displayName || data.user.username;
   const description =
     data.preferences?.bio ||
@@ -312,7 +418,13 @@ export async function generateMetadata({ params }: Param): Promise<Metadata> {
 export default async function UserProfilePage({ params }: Param) {
   const { username } = await params;
   const data = await fetchProfile(username);
-  if (!data) notFound();
+  if (!data) {
+    // 后端查无此人 ≠ 死路：如果是 leaderboard 上的 git 贡献者（未注册本站），
+    // 渲染"尚未入驻"兜底页而不是通用 404（#372）。
+    const row = findLeaderboardRow(username);
+    if (!row) notFound();
+    return <UnregisteredContributor row={row} />;
+  }
 
   const t = await getTranslations("profile");
   const tDocs = await getTranslations("profile.docs");

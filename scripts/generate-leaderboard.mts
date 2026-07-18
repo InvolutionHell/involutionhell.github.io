@@ -475,6 +475,49 @@ async function main() {
     console.log(`[generate-leaderboard] 过滤掉 ${botCount} 个机器人账号`);
   }
 
+  // hasProfile（#372）：标记谁注册过本站（user_accounts.github_id 有对应行）。
+  // 前端用它决定是否渲染 VIEW DOSSIER 链接、sitemap 是否收录 /u/{id}，
+  // 避免给从未登录过的 git 贡献者生成 404 死链。
+  // 走 profile 接口逐人探测而非直连 DB（DB 已收回内网，见文件头历史注释）；
+  // 20 人级别的 N+1 与上面 GitHub API 兜底同模式。探测失败降级 false：
+  // 宁可暂时少显示一个入口，也不生成死链。
+  const PROFILE_API_BASE =
+    process.env.BACKEND_URL || "https://api.involutionhell.com";
+  async function checkHasProfile(githubId) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const res = await fetch(
+        `${PROFILE_API_BASE}/api/user-center/profile/${githubId}`,
+        {
+          headers: {
+            accept: "application/json",
+            "user-agent":
+              "InvolutionHell-SSR/1.0 (build; generate-leaderboard.mjs; " +
+              "+https://involutionhell.com)",
+          },
+          signal: controller.signal,
+        },
+      );
+      if (!res.ok) return false;
+      const json = await res.json();
+      return json?.success === true && json?.data != null;
+    } catch {
+      return false;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+  await Promise.all(
+    humanLeaderboard.map(async (u) => {
+      u.hasProfile = await checkHasProfile(u.id);
+    }),
+  );
+  const profileCount = humanLeaderboard.filter((u) => u.hasProfile).length;
+  console.log(
+    `[generate-leaderboard] hasProfile 探测：${profileCount}/${humanLeaderboard.length} 位贡献者已注册本站`,
+  );
+
   await ensureParentDir(outputAbs);
   await fs.writeFile(
     outputAbs,

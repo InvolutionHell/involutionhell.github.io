@@ -87,10 +87,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // 3. 个人主页 /u/[githubId]：从 build-time leaderboard JSON 枚举所有贡献者。
   // 非贡献者 / 新注册用户的 profile 不入 sitemap（爬虫进去也是空白，浪费 crawl budget）。
-  type LeaderboardRow = { id?: string };
+  // hasProfile=false 的（git 贡献者但未注册本站，#372）也排除——他们的 /u/{id}
+  // 只是兜底页且 robots noindex，进 sitemap 纯属邀请爬虫来爬死链。
+  type LeaderboardRow = { id?: string; hasProfile?: boolean };
   for (const locale of routing.locales) {
     for (const row of leaderboard as LeaderboardRow[]) {
       if (typeof row.id !== "string" || !/^\d+$/.test(row.id)) continue;
+      if (row.hasProfile !== true) continue;
       entries.push(
         buildLocaleEntry({
           pathname: `/u/${row.id}`,
