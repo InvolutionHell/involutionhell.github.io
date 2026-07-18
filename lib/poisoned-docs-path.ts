@@ -12,7 +12,7 @@
 export function isPoisonedDocsPath(pathname: string): boolean {
   const stripped = pathname.replace(/^\/(zh|en)(?=\/)/, "");
   if (!stripped.startsWith("/docs/")) return false;
-  let decoded = stripped;
+  let decoded: string;
   try {
     decoded = decodeURIComponent(stripped); // 防二次编码，对齐 redirectLeetcodeIfNeeded
   } catch {
