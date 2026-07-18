@@ -1,5 +1,5 @@
 /**
- * #370：非 ASCII 的未知 docs 路径必须在 edge 被 404 短路，否则会进
+ * 非 ASCII 的未知 docs 路径必须在 edge 被 404 短路，否则会进
  * [...slug] lambda，Vercel 运行时把中文写进 x-next-cache-tags 响应头
  * 触发 500（vercel/next.js#92145，上游未修）。
  *

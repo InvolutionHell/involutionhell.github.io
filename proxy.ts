@@ -165,7 +165,7 @@ export const config = {
   //      leetcode 目录下不存在带点的静态资源，开这个口子安全。
   //   2. docs——爬虫会构造带点又带中文的垃圾 docs 路径（如 ".../你的图片.jpg
   //      \"悬停名\""），必须进 middleware 让 isPoisonedDocsPath 拦下，否则
-  //      直达 [...slug] lambda 触发 x-next-cache-tags 500（#370）。
+  //      直达 [...slug] lambda 触发 x-next-cache-tags 500。
   //      /docs/ URL 下没有真实静态资源（public/ 无 docs 子目录），同样安全。
   matcher:
     "/((?!api|trpc|auth|oauth|analytics|_next|_vercel|(?!.*[Ll]eetcode|(?:zh/|en/)?docs/).*\\..*).*)",
