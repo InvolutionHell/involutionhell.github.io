@@ -68,7 +68,9 @@
   },
   "login": {
     "heading": "Sign In",
-    "subheading": "Sign in to access protected pages"
+    "subheading": "Sign in to access protected pages",
+    "github": "Sign in with GitHub",
+    "discord": "Sign in with Discord"
   },
   "settings": {
     "theme": {
@@ -93,6 +95,14 @@
       "saveSuccess": "Preferences saved",
       "saveFail": "Save failed — try again later",
       "fetchFail": "Failed to fetch preferences"
+    },
+    "linked": {
+      "label": "Sign-in methods",
+      "unbind": "Unlink",
+      "empty": "No linked sign-in methods",
+      "loadFail": "Failed to load sign-in methods",
+      "unbindFail": "Unlink failed",
+      "lastHint": "This is your only sign-in method and can't be unlinked"
     }
   },
   "signIn": {
