@@ -1,11 +1,35 @@
 const MAX_BODY_BYTES = 1024 * 1024;
 
+export const MCP_CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Expose-Headers": "WWW-Authenticate",
+};
+
 type ParsedMcpHandler = (
   request: Request,
   body: unknown,
 ) => Response | Promise<Response>;
 
 class BodyTooLargeError extends Error {}
+
+type McpRouteHandler = (request: Request) => Response | Promise<Response>;
+
+export function withMcpCors(
+  handler: McpRouteHandler,
+): (request: Request) => Promise<Response> {
+  return async (request) => {
+    const response = await handler(request);
+    const headers = new Headers(response.headers);
+    for (const [name, value] of Object.entries(MCP_CORS_HEADERS)) {
+      headers.set(name, value);
+    }
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
+  };
+}
 
 function jsonRpcError(status: number, code: number, message: string): Response {
   return Response.json(
