@@ -12,7 +12,7 @@
   "mcpConnect": {
     "eyebrow": "Model Context Protocol · Setup",
     "title": "MCP Connect",
-    "intro": "Connect Involution Hell to your preferred AI client. Search the knowledge base anonymously, or add your signed-in credentials to publish. Pick a client and copy the verified command or config in one click.",
+    "intro": "Connect Involution Hell to your preferred AI client. Search the knowledge base anonymously, or add your signed-in credentials to publish. Pick a client and copy the verified command or config in one click. Both CLI-command and config-file installation methods are provided — either one works.",
     "privacy": "Your satoken is read only from this browser's local storage and inserted on this page. It is never sent to analytics or another endpoint.",
     "mode": {
       "label": "Connection mode",
