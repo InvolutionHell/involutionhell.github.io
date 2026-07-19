@@ -22,6 +22,7 @@ export function McpConnectClient({ locale }: McpConnectClientProps) {
   const [mode, setMode] = useState<McpConnectMode>("publish");
   const [clientId, setClientId] = useState<McpClientId>("claude-code");
   const [token, setToken] = useState<string | null>(null);
+  const [serverUrl, setServerUrl] = useState<string>();
   const [copyStatus, setCopyStatus] = useState<{
     id: string;
     state: "copied" | "failed";
@@ -29,13 +30,18 @@ export function McpConnectClient({ locale }: McpConnectClientProps) {
 
   useEffect(() => {
     const storedToken = getStoredToken();
-    Promise.resolve().then(() => setToken(storedToken));
+    const currentServerUrl = new URL("/api/mcp", window.location.origin).href;
+    Promise.resolve().then(() => {
+      setToken(storedToken);
+      setServerUrl(currentServerUrl);
+    });
   }, []);
 
   const blocks = buildMcpClientSnippets(clientId, {
     token,
     mode,
     locale,
+    serverUrl,
   });
 
   async function copy(value: string, id: string) {
@@ -244,7 +250,7 @@ export function McpConnectClient({ locale }: McpConnectClientProps) {
                       : "border-[var(--foreground)]"
                   }`}
                 >
-                  {t(`messages.${block.messageKey}`)}
+                  {t(`messages.${block.messageKey}`, block.values)}
                 </p>
               );
             })}

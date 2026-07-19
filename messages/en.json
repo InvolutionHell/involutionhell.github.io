@@ -50,8 +50,8 @@
       "skill": "Companion skill"
     },
     "messages": {
-      "claudeAiSteps": "Settings → Connectors → Add custom connector → paste https://involutionhell.com/api/mcp.",
-      "chatgptSteps": "Enable Developer mode → Settings → Connectors → Create → enter https://involutionhell.com/api/mcp.",
+      "claudeAiSteps": "Settings → Connectors → Add custom connector → paste {url}.",
+      "chatgptSteps": "Enable Developer mode → Settings → Connectors → Create → enter {url}.",
       "webSearchOnly": "The web client currently supports only OAuth or unauthenticated connections, so it can search anonymously but cannot publish until OAuth is available.",
       "vscodePrompt": "VS Code prompts for the token when the server first starts. Copy “Copy my satoken” above and paste it into that prompt.",
       "piNoMcp": "Pi does not support MCP by design. Use the companion Involution Hell skill and CLI instead.",

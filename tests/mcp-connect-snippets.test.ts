@@ -77,6 +77,38 @@ describe("MCP connect snippet builders", () => {
     expect(server.headers.Authorization).toBe("Bearer gemini-token");
   });
 
+  it("uses the current deployment endpoint when one is provided", () => {
+    const serverUrl = "http://localhost:3000/api/mcp";
+    const endpointClients: McpClientId[] = [
+      "claude-code",
+      "codex",
+      "opencode",
+      "gemini",
+      "cursor",
+      "vscode",
+      "claude-ai",
+      "chatgpt",
+    ];
+
+    for (const clientId of endpointClients) {
+      const rendered = JSON.stringify(
+        buildMcpClientSnippets(clientId, {
+          token: null,
+          mode: "search",
+          locale: "en",
+          serverUrl,
+        }),
+      );
+      expect(rendered).toContain(serverUrl);
+      expect(rendered).not.toContain("https://involutionhell.com/api/mcp");
+    }
+
+    expect(
+      codeBlock("codex", { token: null, mode: "search", serverUrl }, "cli")
+        .content,
+    ).toBe(`codex mcp add involutionhell --url ${serverUrl}`);
+  });
+
   it("uses VS Code inputs and a top-level servers key", () => {
     const block = codeBlock(
       "vscode",

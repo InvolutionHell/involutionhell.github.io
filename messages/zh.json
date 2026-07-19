@@ -50,8 +50,8 @@
       "skill": "配套 Skill"
     },
     "messages": {
-      "claudeAiSteps": "设置 → Connectors → Add custom connector → 粘贴 https://involutionhell.com/api/mcp。",
-      "chatgptSteps": "开启 Developer mode → Settings → Connectors → Create → 填入 https://involutionhell.com/api/mcp。",
+      "claudeAiSteps": "设置 → Connectors → Add custom connector → 粘贴 {url}。",
+      "chatgptSteps": "开启 Developer mode → Settings → Connectors → Create → 填入 {url}。",
       "webSearchOnly": "网页端仅支持 OAuth/无鉴权，当前只能匿名搜索；发布功能需等待 OAuth 上线。",
       "vscodePrompt": "VS Code 首次启动连接时会提示输入 token；请复制上方“复制我的 satoken”一行并粘贴。",
       "piNoMcp": "Pi 官方不做 MCP（by design）。请改用 Involution Hell 配套的 Skill 与 CLI。",

@@ -120,7 +120,7 @@ sa-token 当前有效期是 30 天。网页端暂时没有安全的 OAuth 授权
 
 ## 本地开发
 
-面向用户时，推荐直接访问站内 `/mcp` 页面获取各客户端的安装命令与配置。页面会在浏览器挂载后读取当前登录用户的 satoken，并自动填入可发布版本；未登录时只显示占位符和登录提示。
+面向用户时，推荐直接访问站内 `/mcp` 页面获取各客户端的安装命令与配置。页面会在浏览器挂载后读取当前站点的 origin 作为 MCP endpoint，因此本地开发和 Vercel Preview 会分别生成各自可用的 `/api/mcp` URL，生产站仍生成 `https://involutionhell.com/api/mcp`。页面同时读取当前登录用户的 satoken，并自动填入可发布版本；未登录时只显示占位符和登录提示。
 
 开发者仍可用下面的命令手动连接：
 
@@ -145,7 +145,7 @@ claude mcp add --transport http involutionhell https://involutionhell.com/api/mc
   --header "Authorization: Bearer ${INVOLUTIONHELL_SATOKEN}"
 ```
 
-本地 endpoint 可替换为 `http://localhost:3000/api/mcp`。
+手写命令时，本地 endpoint 可替换为 `http://localhost:3000/api/mcp`；从本地 `/mcp` 页面复制时会自动使用该地址。
 
 ## 已知限制
 

@@ -1,4 +1,4 @@
-const MCP_URL = "https://involutionhell.com/api/mcp";
+const DEFAULT_MCP_URL = "https://involutionhell.com/api/mcp";
 const CODEX_TOKEN_ENV = "INVOLUTIONHELL_TOKEN";
 const PI_TOKEN_ENV = "INVOLUTIONHELL_SATOKEN";
 
@@ -37,6 +37,7 @@ export type McpSnippetBlock =
       kind: "message";
       messageKey: McpSnippetMessageKey;
       tone?: "notice";
+      values?: Record<string, string>;
     }
   | {
       id: string;
@@ -50,6 +51,7 @@ export interface McpSnippetOptions {
   token: string | null;
   mode: McpConnectMode;
   locale?: McpConnectLocale;
+  serverUrl?: string;
 }
 
 export interface McpClientSnippets {
@@ -78,7 +80,7 @@ function claudeCodeBlocks(
   const publish = options.mode === "publish";
   const server = {
     type: "http",
-    url: MCP_URL,
+    url: options.serverUrl,
     ...(publish ? { headers: { Authorization: `Bearer ${token}` } } : {}),
   };
 
@@ -87,7 +89,7 @@ function claudeCodeBlocks(
       id: "cli",
       kind: "code",
       title: "cli",
-      content: `claude mcp add --transport http involutionhell ${MCP_URL}${
+      content: `claude mcp add --transport http involutionhell ${options.serverUrl}${
         publish ? ` --header "Authorization: Bearer ${token}"` : ""
       }`,
     },
@@ -104,12 +106,12 @@ function claudeCodeBlocks(
 function codexBlocks(options: Required<McpSnippetOptions>): McpSnippetBlock[] {
   const publish = options.mode === "publish";
   const token = resolvedToken(options);
-  const command = `codex mcp add involutionhell --url ${MCP_URL}${
+  const command = `codex mcp add involutionhell --url ${options.serverUrl}${
     publish ? ` --bearer-token-env-var ${CODEX_TOKEN_ENV}` : ""
   }`;
   const config = [
     "[mcp_servers.involutionhell]",
-    `url = "${MCP_URL}"`,
+    `url = "${options.serverUrl}"`,
     ...(publish ? [`bearer_token_env_var = "${CODEX_TOKEN_ENV}"`] : []),
   ].join("\n");
 
@@ -139,7 +141,7 @@ function openCodeBlocks(
   const token = resolvedToken(options);
   const server = {
     type: "remote",
-    url: MCP_URL,
+    url: options.serverUrl,
     enabled: true,
     ...(publish ? { headers: { Authorization: `Bearer ${token}` } } : {}),
   };
@@ -162,7 +164,7 @@ function geminiBlocks(options: Required<McpSnippetOptions>): McpSnippetBlock[] {
   const publish = options.mode === "publish";
   const token = resolvedToken(options);
   const server = {
-    httpUrl: MCP_URL,
+    httpUrl: options.serverUrl,
     ...(publish ? { headers: { Authorization: `Bearer ${token}` } } : {}),
   };
 
@@ -171,7 +173,7 @@ function geminiBlocks(options: Required<McpSnippetOptions>): McpSnippetBlock[] {
       id: "cli",
       kind: "code",
       title: "cli",
-      content: `gemini mcp add --transport http involutionhell ${MCP_URL}${
+      content: `gemini mcp add --transport http involutionhell ${options.serverUrl}${
         publish ? ` --header "Authorization: Bearer ${token}"` : ""
       }`,
     },
@@ -207,7 +209,7 @@ function cursorBlocks(options: Required<McpSnippetOptions>): McpSnippetBlock[] {
     content: json({
       mcpServers: {
         involutionhell: {
-          url: MCP_URL,
+          url: options.serverUrl,
           ...(publish
             ? {
                 headers: {
@@ -227,7 +229,7 @@ function vscodeBlocks(options: Required<McpSnippetOptions>): McpSnippetBlock[] {
   const publish = options.mode === "publish";
   const server = {
     type: "http",
-    url: MCP_URL,
+    url: options.serverUrl,
     ...(publish
       ? { headers: { Authorization: "Bearer ${input:ih-token}" } }
       : {}),
@@ -267,12 +269,16 @@ function vscodeBlocks(options: Required<McpSnippetOptions>): McpSnippetBlock[] {
   ];
 }
 
-function webBlocks(client: "claude-ai" | "chatgpt"): McpSnippetBlock[] {
+function webBlocks(
+  client: "claude-ai" | "chatgpt",
+  options: Required<McpSnippetOptions>,
+): McpSnippetBlock[] {
   return [
     {
       id: "steps",
       kind: "message",
       messageKey: client === "claude-ai" ? "claudeAiSteps" : "chatgptSteps",
+      values: { url: options.serverUrl },
     },
     {
       id: "search-only",
@@ -321,15 +327,19 @@ export const MCP_CLIENT_REGISTRY: readonly McpClientDefinition[] = [
   { id: "gemini", build: geminiBlocks },
   { id: "cursor", build: cursorBlocks },
   { id: "vscode", build: vscodeBlocks },
-  { id: "claude-ai", build: () => webBlocks("claude-ai") },
-  { id: "chatgpt", build: () => webBlocks("chatgpt") },
+  { id: "claude-ai", build: (options) => webBlocks("claude-ai", options) },
+  { id: "chatgpt", build: (options) => webBlocks("chatgpt", options) },
   { id: "pi", build: piBlocks },
 ];
 
 function normalizeOptions(
   options: McpSnippetOptions,
 ): Required<McpSnippetOptions> {
-  return { ...options, locale: options.locale ?? "en" };
+  return {
+    ...options,
+    locale: options.locale ?? "en",
+    serverUrl: options.serverUrl ?? DEFAULT_MCP_URL,
+  };
 }
 
 export function buildMcpClientSnippets(
