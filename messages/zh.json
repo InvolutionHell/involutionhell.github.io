@@ -3,9 +3,59 @@
     "nav": {
       "docs": "文档",
       "rank": "排行榜",
+      "mcp": "MCP",
       "community": "社区",
       "feed": "分享墙",
       "contact": "联系"
+    }
+  },
+  "mcpConnect": {
+    "eyebrow": "Model Context Protocol · Setup",
+    "title": "MCP 连接",
+    "intro": "把 Involution Hell 接入你常用的 AI 客户端：匿名搜索站内知识，或带上登录凭证直接发布内容。选择客户端后即可一键复制经过验证的命令与配置。",
+    "privacy": "satoken 只从当前浏览器的本地存储读取并填入页面，不会被发送到分析服务或其他端点。",
+    "mode": {
+      "label": "连接模式",
+      "search": "仅搜索（匿名）",
+      "publish": "可发布（带 token）"
+    },
+    "auth": {
+      "tokenReady": "已使用当前登录账号的 satoken 填充配置",
+      "copyToken": "复制我的 satoken",
+      "loginHint": "当前未读取到登录凭证，发布配置会使用下方占位符。请先登录，再回来复制完整配置。",
+      "loginLink": "前往登录"
+    },
+    "copy": {
+      "copy": "复制",
+      "copied": "已复制",
+      "failed": "复制失败"
+    },
+    "clients": {
+      "label": "选择客户端",
+      "claude-code": "Claude Code",
+      "codex": "Codex CLI",
+      "opencode": "OpenCode",
+      "gemini": "Gemini CLI",
+      "cursor": "Cursor",
+      "vscode": "VS Code (Copilot)",
+      "claude-ai": "claude.ai（网页）",
+      "chatgpt": "ChatGPT（网页，developer mode）",
+      "pi": "Pi"
+    },
+    "blocks": {
+      "cli": "CLI 命令",
+      "config": "配置文件",
+      "environment": "环境变量",
+      "command": "配套 CLI",
+      "skill": "配套 Skill"
+    },
+    "messages": {
+      "claudeAiSteps": "设置 → Connectors → Add custom connector → 粘贴 https://involutionhell.com/api/mcp。",
+      "chatgptSteps": "开启 Developer mode → Settings → Connectors → Create → 填入 https://involutionhell.com/api/mcp。",
+      "webSearchOnly": "网页端仅支持 OAuth/无鉴权，当前只能匿名搜索；发布功能需等待 OAuth 上线。",
+      "vscodePrompt": "VS Code 首次启动连接时会提示输入 token；请复制上方“复制我的 satoken”一行并粘贴。",
+      "piNoMcp": "Pi 官方不做 MCP（by design）。请改用 Involution Hell 配套的 Skill 与 CLI。",
+      "piSkill": "从 InvolutionHell/involutionhell-agent-tools 安装配套 Skill"
     }
   },
   "hero": {

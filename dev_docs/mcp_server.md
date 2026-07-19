@@ -120,6 +120,10 @@ sa-token 当前有效期是 30 天。网页端暂时没有安全的 OAuth 授权
 
 ## 本地开发
 
+面向用户时，推荐直接访问站内 `/mcp` 页面获取各客户端的安装命令与配置。页面会在浏览器挂载后读取当前登录用户的 satoken，并自动填入可发布版本；未登录时只显示占位符和登录提示。
+
+开发者仍可用下面的命令手动连接：
+
 ```bash
 corepack pnpm check:pnpm-version
 BACKEND_URL=http://localhost:8080 corepack pnpm dev

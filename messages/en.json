@@ -3,9 +3,59 @@
     "nav": {
       "docs": "Docs",
       "rank": "Rank",
+      "mcp": "MCP",
       "community": "Community",
       "feed": "Feed",
       "contact": "Contact"
+    }
+  },
+  "mcpConnect": {
+    "eyebrow": "Model Context Protocol · Setup",
+    "title": "MCP Connect",
+    "intro": "Connect Involution Hell to your preferred AI client. Search the knowledge base anonymously, or add your signed-in credentials to publish. Pick a client and copy the verified command or config in one click.",
+    "privacy": "Your satoken is read only from this browser's local storage and inserted on this page. It is never sent to analytics or another endpoint.",
+    "mode": {
+      "label": "Connection mode",
+      "search": "Search only (anonymous)",
+      "publish": "Publish enabled (with token)"
+    },
+    "auth": {
+      "tokenReady": "Configs are filled with the satoken for your signed-in account",
+      "copyToken": "Copy my satoken",
+      "loginHint": "No signed-in credential was found, so publish configs use the placeholder shown below. Sign in first, then return to copy a complete config.",
+      "loginLink": "Sign in"
+    },
+    "copy": {
+      "copy": "Copy",
+      "copied": "Copied",
+      "failed": "Copy failed"
+    },
+    "clients": {
+      "label": "Choose a client",
+      "claude-code": "Claude Code",
+      "codex": "Codex CLI",
+      "opencode": "OpenCode",
+      "gemini": "Gemini CLI",
+      "cursor": "Cursor",
+      "vscode": "VS Code (Copilot)",
+      "claude-ai": "claude.ai (Web)",
+      "chatgpt": "ChatGPT (Web, developer mode)",
+      "pi": "Pi"
+    },
+    "blocks": {
+      "cli": "CLI command",
+      "config": "Config file",
+      "environment": "Environment variable",
+      "command": "Companion CLI",
+      "skill": "Companion skill"
+    },
+    "messages": {
+      "claudeAiSteps": "Settings → Connectors → Add custom connector → paste https://involutionhell.com/api/mcp.",
+      "chatgptSteps": "Enable Developer mode → Settings → Connectors → Create → enter https://involutionhell.com/api/mcp.",
+      "webSearchOnly": "The web client currently supports only OAuth or unauthenticated connections, so it can search anonymously but cannot publish until OAuth is available.",
+      "vscodePrompt": "VS Code prompts for the token when the server first starts. Copy “Copy my satoken” above and paste it into that prompt.",
+      "piNoMcp": "Pi does not support MCP by design. Use the companion Involution Hell skill and CLI instead.",
+      "piSkill": "Install the companion skill from InvolutionHell/involutionhell-agent-tools"
     }
   },
   "hero": {

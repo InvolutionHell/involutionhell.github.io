@@ -9,6 +9,12 @@ MCP 的公开 `search` 不需要登录，`publish` 使用 `Authorization: Bearer
 
 工具层不判断 token 类型，只使用鉴权层给出的已验证身份和 backend headers。因此 satoken 与 OAuth 可以并行，迁移时不改 MCP tool schema。
 
+## 近期可选优化：sa-token 滑动续期
+
+sa-token 支持在配置层启用基于活动的自动续期（sliding expiration）。如果启用，任意 API 使用都会继续延长当前 30 天窗口，可在 OAuth 上线前大幅减少 MCP 用户重复复制 token 的麻烦。
+
+纯滑动续期的安全代价是：一枚泄露但持续活跃的 token 可能无限期有效，因此建议同时设置绝对最长生命周期。是否启用属于后端配置决策；若采用，必须按 `SECURITY.md` 的安全文化补充成对测试，分别证明正常续期与超过绝对生命周期后拒绝。
+
 ## 路线 A：Spring Boot 在 sa-token 上实现 OAuth 2.1
 
 这条路线由现有后端同时承担 Authorization Server 与 Resource Server。用户登录、账号关联、权限判断继续复用当前 sa-token 数据。
