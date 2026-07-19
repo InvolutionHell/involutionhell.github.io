@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { SettingsForm } from "./SettingsForm";
+import { LinkedAccounts } from "./LinkedAccounts";
 
 // SEO: 设置页仅登录用户相关，不参与搜索索引
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function SettingsPage() {
             </p>
           </div>
           <SettingsForm />
+          <LinkedAccounts />
         </div>
       </main>
       <Footer />

@@ -30,8 +30,9 @@ export default async function LoginPage({ params }: Props) {
           <h1 className="text-3xl font-bold">{t("heading")}</h1>
           <p className="text-muted-foreground">{t("subheading")}</p>
         </div>
-        <div className="flex justify-center">
-          <SignInButton />
+        <div className="flex flex-col items-center gap-3">
+          <SignInButton provider="github" label={t("github")} />
+          <SignInButton provider="discord" label={t("discord")} />
         </div>
       </div>
     </div>

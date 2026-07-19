@@ -357,10 +357,11 @@ const config = {
     const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8080";
     return [
       {
-        // GitHub OAuth 回调：GitHub → localhost:3000/api/auth/callback/github → 后端
-        // 路径与 GitHub OAuth App 注册的 callback URL 保持一致，无需改 GitHub App 设置
-        source: "/api/auth/callback/github",
-        destination: `${backendUrl}/api/auth/callback/github`,
+        // OAuth 回调代理到后端。:provider 覆盖 github / discord / …，路径与各家
+        // OAuth App 注册的 callback URL 保持一致（后端按 {provider} 分发）。
+        // 之前硬编码只有 github，Discord 回调 /api/auth/callback/discord 会漏代理 → 404。
+        source: "/api/auth/callback/:provider",
+        destination: `${backendUrl}/api/auth/callback/:provider`,
       },
       {
         // 认证 API（/auth/me, /auth/logout 等）走 Next.js 代理，避免浏览器跨域 CORS 问题

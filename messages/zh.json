@@ -68,7 +68,9 @@
   },
   "login": {
     "heading": "登录",
-    "subheading": "请登录以访问受保护的页面"
+    "subheading": "请登录以访问受保护的页面",
+    "github": "用 GitHub 登录",
+    "discord": "用 Discord 登录"
   },
   "settings": {
     "theme": {
@@ -93,6 +95,14 @@
       "saveSuccess": "偏好设置已保存",
       "saveFail": "保存失败，请稍后重试",
       "fetchFail": "获取偏好失败"
+    },
+    "linked": {
+      "label": "登录方式",
+      "unbind": "解绑",
+      "empty": "暂无绑定的第三方登录",
+      "loadFail": "加载登录方式失败",
+      "unbindFail": "解绑失败",
+      "lastHint": "这是你唯一的登录方式，不能解绑"
     }
   },
   "signIn": {

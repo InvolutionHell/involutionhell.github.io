@@ -4,16 +4,21 @@ import { Button } from "@/app/components/ui/button";
 
 interface SignInButtonProps {
   className?: string;
+  // 默认 github（header 处无 props 调用不变）；登录页可传 discord。
+  provider?: "github" | "discord";
+  label?: string;
 }
 
-export function SignInButton({ className }: SignInButtonProps) {
-  // 同源跳到 /oauth/render/github，经 next.config.mjs 的 rewrite 代理到后端。
-  // 好处：开发环境后端端口改来改去（8080 / 8081）都不用改前端；302 由 Next.js 透传给浏览器，
-  // 最终由浏览器跳到 GitHub 授权页。
-  // 注意：GitHub OAuth app 注册的 callback URL 决定最终返回的前端端口
-  // （当前注册为 localhost:3000/api/auth/callback/github），换端口跑本地时需在 GitHub OAuth app 里补一个。
+export function SignInButton({
+  className,
+  provider = "github",
+  label = "SignIn",
+}: SignInButtonProps) {
+  // 同源跳到 /oauth/render/{provider}，经 next.config.mjs 的 rewrite 代理到后端。
+  // 好处：开发环境后端端口改来改去都不用改前端；302 由 Next.js 透传给浏览器，
+  // 最终跳到 provider 授权页。各 provider 的 OAuth app 回调 URL 决定返回的前端地址。
   const handleSignIn = () => {
-    window.location.href = "/oauth/render/github";
+    window.location.href = `/oauth/render/${provider}`;
   };
 
   return (
@@ -25,8 +30,9 @@ export function SignInButton({ className }: SignInButtonProps) {
       data-umami-event="auth_click"
       data-umami-event-action="signin"
       data-umami-event-location="header"
+      data-umami-event-provider={provider}
     >
-      SignIn
+      {label}
     </Button>
   );
 }
