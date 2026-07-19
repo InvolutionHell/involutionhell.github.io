@@ -32,7 +32,9 @@ export default async function LoginPage({ params }: Props) {
         </div>
         <div className="flex flex-col items-center gap-3">
           <SignInButton provider="github" label={t("github")} />
-          <SignInButton provider="discord" label={t("discord")} />
+          {/* Discord 登录暂时下线：后端 provider 已就绪，但新用户"验证邮箱→建号"
+              流程（OTP wiring）还没做完，先不对外暴露以免分叉账号。做完后取消注释即可。 */}
+          {/* <SignInButton provider="discord" label={t("discord")} /> */}
         </div>
       </div>
     </div>
