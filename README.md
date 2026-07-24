@@ -124,6 +124,14 @@ pnpm dev
 
 ## 🙏 特别鸣谢
 
+感谢 **Claude**（[Claude for Open Source Program](https://claude.com/contact-sales/claude-for-oss)）为本项目的开发提供支持！
+
+<a href="https://claude.com">
+  <img src="./public/claude-logo.svg" width="64" alt="Claude" />
+</a>
+
+- [Claude](https://claude.com) · [Anthropic](https://www.anthropic.com)
+
 感谢上海 AI Lab 书生大模型对本项目的算力支持！
 
 ![](./public/shanghaiailab.png)
