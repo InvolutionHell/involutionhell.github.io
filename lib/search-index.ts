@@ -39,9 +39,9 @@ export async function pageToIndex(page: Page): Promise<AdvancedIndex> {
 
 /**
  * 判断一个 fumadocs 页面是否为英文翻译版。
- * 翻译版 frontmatter 会声明 `lang: "en"` 且通常 `translatedFrom: "zh"`。
+ * 兼容 frontmatter 语言标记和 Fumadocs 保留的原始 source path。
  */
-export function isEnglishPage(page: Page): boolean {
+export function isEnglishPage(page: { data: unknown; path: string }): boolean {
   const lang = (page.data as PageData).lang;
-  return lang === "en";
+  return lang === "en" || /\.en\.mdx?$/i.test(page.path);
 }

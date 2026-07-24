@@ -31,7 +31,7 @@ const AuthContext = createContext<AuthContextValue>({
 });
 
 // 从 localStorage 读取 satoken
-function getStoredToken(): string | null {
+export function getStoredToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem("satoken");
 }

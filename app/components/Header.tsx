@@ -43,6 +43,15 @@ export async function Header() {
               {t("nav.rank")}
             </Link>
             <Link
+              href="/mcp"
+              className="hover:text-[#CC0000] transition-colors"
+              data-umami-event="navigation_click"
+              data-umami-event-region="header"
+              data-umami-event-label="mcp"
+            >
+              {t("nav.mcp")}
+            </Link>
+            <Link
               href="/#community"
               className="hover:text-[#CC0000] transition-colors"
               data-umami-event="navigation_click"
