@@ -70,7 +70,9 @@
     "heading": "登录",
     "subheading": "请登录以访问受保护的页面",
     "github": "用 GitHub 登录",
-    "discord": "用 Discord 登录"
+    "discord": "用 Discord 登录",
+    "errorDiscordCanary": "Discord 登录正在灰度测试中，暂未对外开放，敬请期待～",
+    "errorGeneric": "登录未完成，请重试。"
   },
   "settings": {
     "theme": {

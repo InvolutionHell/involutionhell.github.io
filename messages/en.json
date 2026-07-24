@@ -70,7 +70,9 @@
     "heading": "Sign In",
     "subheading": "Sign in to access protected pages",
     "github": "Sign in with GitHub",
-    "discord": "Sign in with Discord"
+    "discord": "Sign in with Discord",
+    "errorDiscordCanary": "Discord sign-in is in limited testing and not open yet — stay tuned!",
+    "errorGeneric": "Sign-in didn't complete. Please try again."
   },
   "settings": {
     "theme": {
