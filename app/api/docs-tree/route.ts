@@ -89,6 +89,7 @@ async function buildTree(
 export async function GET() {
   const cwd = process.cwd();
   const candidates = [
+    path.join(cwd, "content", "docs"),
     path.join(cwd, "app", "docs"),
     path.join(cwd, "src", "app", "docs"),
   ];
