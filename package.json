@@ -102,7 +102,7 @@
     "husky": "^9.1.7",
     "katex": "^0.16.22",
     "lint-staged": "^16.1.6",
-    "postcss": "^8.5.11",
+    "postcss": "^8.5.18",
     "prettier": "3.6.2",
     "prisma": "^7.4.1",
     "rehype-katex": "^7.0.1",
