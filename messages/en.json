@@ -161,7 +161,6 @@
   },
   "editor": {
     "pageTitle": "Write an Article",
-    "heading": "Editor",
     "pageSubtitle": "Publish directly, then submit to the knowledge base with one click if you wish.",
     "backHome": "Back to Home",
     "contentHeading": "Article Content",
@@ -181,7 +180,7 @@
     "defaultMarkdown": "# Start writing...\n\nWrite your Markdown content here.\n\nYou can paste images!",
     "autoSlug": "After publication, the slug is generated automatically from the title.",
     "errors": {
-      "imageType": "Cannot determine the image type for {filename}. Save it as PNG, JPG, or WebP, then try again.",
+      "imageType": "Cannot determine the image type for {filename} (the browser did not provide a MIME type). Save it as PNG, JPG, or WebP, then try again.",
       "uploadLink": "Unable to get the upload URL.",
       "imageUpload": "Image upload failed: {statusText}",
       "titleRequired": "Please enter an article title.",
