@@ -33,18 +33,10 @@ export default async function LoginPage({ params }: Props) {
           <p className="text-muted-foreground">{t("subheading")}</p>
         </div>
         <Suspense fallback={null}>
-          <LoginErrorNotice
-            messages={{
-              discord_canary: t("errorDiscordCanary"),
-              generic: t("errorGeneric"),
-            }}
-          />
+          <LoginErrorNotice />
         </Suspense>
         <div className="flex flex-col items-center gap-3">
           <SignInButton provider="github" label={t("github")} />
-          {/* Discord 登录灰度中：后端按 Discord id 白名单放行（auth.discord.allowlist），
-              名单外的人点了会被回调弹回 /login?error=discord_canary。GA（OTP wiring 完成、
-              清空白名单）后此按钮即对所有人开放。 */}
           <SignInButton provider="discord" label={t("discord")} />
         </div>
       </div>
