@@ -23,6 +23,7 @@ import "@milkdown/crepe/theme/frame.css";
 
 interface MarkdownEditorProps {
   onImagesChange?: (count: number) => void;
+  defaultMarkdown: string;
 }
 
 export interface MarkdownEditorHandle {
@@ -42,11 +43,12 @@ export interface MarkdownEditorHandle {
 export const MarkdownEditor = forwardRef<
   MarkdownEditorHandle,
   MarkdownEditorProps
->(function MarkdownEditor({ onImagesChange }, ref) {
+>(function MarkdownEditor({ onImagesChange, defaultMarkdown }, ref) {
   const editorRef = useRef<HTMLDivElement>(null);
   const crepeInstanceRef = useRef<Crepe | null>(null);
   const isLoadingRef = useRef(false);
   const markdownRef = useRef(useEditorStore.getState().markdown);
+  const lastDefaultMarkdownRef = useRef<string | null>(null);
   const { markdown, setMarkdown } = useEditorStore();
   const { appendFile, cleanupUnreferenced, clearAll, getSnapshot } =
     useImageBuffer(onImagesChange);
@@ -110,11 +112,19 @@ export const MarkdownEditor = forwardRef<
           return nodes;
         };
 
+        // 默认示例也会同步到 store。切换语言时，只有内容仍等于上次注入的
+        // 默认示例才替换为新语言；用户修改过的草稿必须保留。
+        const shouldUseDefault =
+          !markdownRef.current ||
+          markdownRef.current === lastDefaultMarkdownRef.current;
+        const initialMarkdown = shouldUseDefault
+          ? defaultMarkdown
+          : markdownRef.current;
+        lastDefaultMarkdownRef.current = initialMarkdown;
+
         const crepe = new Crepe({
           root: editorRef.current!,
-          defaultValue:
-            markdownRef.current ||
-            "# 开始写作...\n\n在这里输入你的 Markdown 内容。\n\n支持粘贴图片！",
+          defaultValue: initialMarkdown,
           featureConfigs: {
             [Crepe.Feature.ImageBlock]: imageBlockConfig,
           },
@@ -179,7 +189,7 @@ export const MarkdownEditor = forwardRef<
 
       clearAll();
     };
-  }, [appendFile, cleanupUnreferenced, clearAll, setMarkdown]);
+  }, [appendFile, cleanupUnreferenced, clearAll, defaultMarkdown, setMarkdown]);
 
   return (
     <div className="rounded-lg border border-border bg-card shadow-sm overflow-visible">

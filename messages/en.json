@@ -162,8 +162,38 @@
     }
   },
   "editor": {
-    "pageTitle": "Article Editor",
-    "heading": "Editor"
+    "pageTitle": "Write an Article",
+    "pageSubtitle": "Publish directly, then submit to the knowledge base with one click if you wish.",
+    "backHome": "Back to Home",
+    "contentHeading": "Article Content",
+    "stats": "{characters} characters · {images} images",
+    "titleRequired": "Please enter a title",
+    "publishTo": "Will be published at",
+    "clearConfirm": "Are you sure you want to clear all content?",
+    "clear": "Clear",
+    "publishing": "Publishing...",
+    "publish": "Publish Article",
+    "directPublish": "Publish Directly",
+    "tips": {
+      "imageUpload": "Pasted images are uploaded to the CDN automatically; no extra work is needed when publishing.",
+      "publishImmediately": "Published articles are visible immediately and can be shared directly without review.",
+      "promoteToDocs": "Want to add it to the knowledge base? Submit it after publishing with one click."
+    },
+    "defaultMarkdown": "# Start writing...\n\nWrite your Markdown content here.\n\nYou can paste images!",
+    "autoSlug": "After publication, the slug is generated automatically from the title.",
+    "errors": {
+      "imageType": "Cannot determine the image type for {filename} (the browser did not provide a MIME type). Save it as PNG, JPG, or WebP, then try again.",
+      "uploadLink": "Unable to get the upload URL.",
+      "imageUpload": "Image upload failed: {statusText}",
+      "titleRequired": "Please enter an article title.",
+      "invalidFilename": "The filename may contain only letters, numbers, hyphens, or underscores, and must start with a letter or number. Spaces and special characters have been cleaned automatically.",
+      "editorNotReady": "The editor is not ready, so images cannot be uploaded.",
+      "loginRequired": "Please sign in before publishing.",
+      "publishFailedHttp": "Publishing failed (HTTP {status}).",
+      "publishFailedRetry": "Publishing failed. Please try again.",
+      "publishFailed": "Publishing failed: {message}",
+      "unknownError": "Unknown error"
+    }
   },
   "contribute": {
     "button": "Submit Contribution",

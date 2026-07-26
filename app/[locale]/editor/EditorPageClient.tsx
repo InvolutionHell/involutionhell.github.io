@@ -10,6 +10,7 @@ import { Button } from "@/app/components/ui/button";
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { UserView } from "@/lib/use-auth";
 import type { PostRequest, ApiResponse, PostView } from "@/app/types/post";
 import {
@@ -38,6 +39,7 @@ function titleToSlug(title: string): string {
 
 export function EditorPageClient({ user }: EditorPageClientProps) {
   const router = useRouter();
+  const t = useTranslations("editor");
   const [isPublishing, setIsPublishing] = useState(false);
   const [imageCount, setImageCount] = useState(0);
   const editorRef = useRef<MarkdownEditorHandle | null>(null);
@@ -61,9 +63,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
     // 否则 R2 返 403 SignatureDoesNotMatch。
     const primaryMime = file.type.split(";")[0]!.trim().toLowerCase();
     if (!primaryMime) {
-      throw new Error(
-        `无法识别图片类型：${file.name}（浏览器未给出 MIME），请另存为 PNG/JPG/WebP 后重试`,
-      );
+      throw new Error(t("errors.imageType", { filename: file.name }));
     }
 
     const token = localStorage.getItem("satoken") ?? "";
@@ -83,7 +83,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || "获取上传链接失败");
+      throw new Error(error.error || t("errors.uploadLink"));
     }
 
     const { uploadUrl, publicUrl } = await response.json();
@@ -96,7 +96,9 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
     });
 
     if (!uploadResponse.ok) {
-      throw new Error(`上传图片失败: ${uploadResponse.statusText}`);
+      throw new Error(
+        t("errors.imageUpload", { statusText: uploadResponse.statusText }),
+      );
     }
 
     return { blobUrl, publicUrl };
@@ -107,7 +109,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
 
     try {
       if (!title.trim()) {
-        alert("请输入文章标题");
+        alert(t("errors.titleRequired"));
         return;
       }
 
@@ -117,9 +119,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         : titleToSlug(title);
 
       if (rawSlug && !FILENAME_PATTERN.test(rawSlug)) {
-        alert(
-          "文件名仅支持字母、数字、连字符或下划线，并需以字母或数字开头（已自动清洗空格和特殊符号）。",
-        );
+        alert(t("errors.invalidFilename"));
         return;
       }
 
@@ -133,7 +133,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
 
       const editorHandle = editorRef.current;
       if (!editorHandle) {
-        throw new Error("编辑器尚未就绪，无法上传图片");
+        throw new Error(t("errors.editorNotReady"));
       }
 
       // 清理编辑器中未被 Markdown 正文引用的孤儿图片
@@ -158,7 +158,7 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
 
       const token = localStorage.getItem("satoken") ?? "";
       if (!token) {
-        throw new Error("请先登录后再发布");
+        throw new Error(t("errors.loginRequired"));
       }
 
       const postRequest: PostRequest = {
@@ -186,20 +186,25 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         const body = await res.json().catch(() => ({}));
         throw new Error(
           (body as { message?: string }).message ??
-            `发布失败（HTTP ${res.status}）`,
+            t("errors.publishFailedHttp", { status: res.status }),
         );
       }
 
       const body = (await res.json()) as ApiResponse<PostView>;
       if (!body.success || !body.data) {
-        throw new Error(body.message ?? "发布失败，请重试");
+        throw new Error(body.message ?? t("errors.publishFailedRetry"));
       }
 
       const { slug: finalSlug, authorUsername } = body.data;
       router.push(`/u/${authorUsername}/posts/${finalSlug}`);
     } catch (error) {
       console.error("发布失败:", error);
-      alert(`发布失败：${error instanceof Error ? error.message : "未知错误"}`);
+      alert(
+        t("errors.publishFailed", {
+          message:
+            error instanceof Error ? error.message : t("errors.unknownError"),
+        }),
+      );
     } finally {
       setIsPublishing(false);
     }
@@ -212,13 +217,11 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
       {/* 头部 */}
       <header className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">写篇文章</h1>
-          <p className="text-muted-foreground mt-1">
-            写完直接发布，想进知识库再一键投稿。
-          </p>
+          <h1 className="text-3xl font-bold">{t("pageTitle")}</h1>
+          <p className="text-muted-foreground mt-1">{t("pageSubtitle")}</p>
         </div>
         <Link href="/">
-          <Button variant="outline">返回首页</Button>
+          <Button variant="outline">{t("backHome")}</Button>
         </Link>
       </header>
 
@@ -230,14 +233,15 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         {/* Markdown 编辑器 */}
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">文章内容</h2>
+            <h2 className="text-lg font-semibold">{t("contentHeading")}</h2>
             <div className="text-sm text-muted-foreground">
-              {markdown.length} 字符 · {imageCount} 张图片
+              {t("stats", { characters: markdown.length, images: imageCount })}
             </div>
           </div>
           <MarkdownEditor
             ref={editorRef}
             onImagesChange={handleImageCountChange}
+            defaultMarkdown={t("defaultMarkdown")}
           />
         </div>
 
@@ -245,16 +249,16 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
         <div className="flex items-center justify-between rounded-lg border border-border bg-card p-4">
           <div className="text-sm text-muted-foreground">
             {!title.trim() ? (
-              <span className="text-destructive">请填写标题</span>
+              <span className="text-destructive">{t("titleRequired")}</span>
             ) : previewSlug ? (
               <span>
-                将发布到{" "}
+                {t("publishTo")}{" "}
                 <code className="font-mono text-foreground">
                   /u/{user.username}/posts/{previewSlug}
                 </code>
               </span>
             ) : (
-              <span>发布后 slug 由标题自动生成</span>
+              <span>{t("autoSlug")}</span>
             )}
           </div>
 
@@ -262,28 +266,28 @@ export function EditorPageClient({ user }: EditorPageClientProps) {
             <Button
               variant="outline"
               onClick={() => {
-                if (confirm("确定要清空所有内容吗？")) {
+                if (confirm(t("clearConfirm"))) {
                   useEditorStore.getState().reset();
                   window.location.reload();
                 }
               }}
             >
-              清空
+              {t("clear")}
             </Button>
 
             <Button onClick={handlePublish} disabled={!canPublish}>
-              {isPublishing ? "发布中..." : "发布文章"}
+              {isPublishing ? t("publishing") : t("publish")}
             </Button>
           </div>
         </div>
 
         {/* 流程提示 */}
         <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm dark:border-green-900 dark:bg-green-950">
-          <h3 className="font-medium mb-2">写完直接发</h3>
+          <h3 className="font-medium mb-2">{t("directPublish")}</h3>
           <ul className="space-y-1 text-muted-foreground list-disc list-inside">
-            <li>图片粘贴后自动上传到 CDN，发布时无需额外处理</li>
-            <li>发布即可见，链接可直接分享，不等 review</li>
-            <li>想进知识库？发布后点「收录进知识库」一键投稿</li>
+            <li>{t("tips.imageUpload")}</li>
+            <li>{t("tips.publishImmediately")}</li>
+            <li>{t("tips.promoteToDocs")}</li>
           </ul>
         </div>
       </div>

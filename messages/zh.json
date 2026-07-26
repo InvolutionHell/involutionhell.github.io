@@ -162,8 +162,38 @@
     }
   },
   "editor": {
-    "pageTitle": "文章编辑器",
-    "heading": "编辑器"
+    "pageTitle": "写篇文章",
+    "pageSubtitle": "写完直接发布，想进知识库再一键投稿。",
+    "backHome": "返回首页",
+    "contentHeading": "文章内容",
+    "stats": "{characters} 字符 · {images} 张图片",
+    "titleRequired": "请填写标题",
+    "publishTo": "将发布到",
+    "clearConfirm": "确定要清空所有内容吗？",
+    "clear": "清空",
+    "publishing": "发布中...",
+    "publish": "发布文章",
+    "directPublish": "写完直接发",
+    "tips": {
+      "imageUpload": "图片粘贴后自动上传到 CDN，发布时无需额外处理",
+      "publishImmediately": "发布即可见，链接可直接分享，不等 review",
+      "promoteToDocs": "想进知识库？发布后点「收录进知识库」一键投稿"
+    },
+    "defaultMarkdown": "# 开始写作...\n\n在这里输入你的 Markdown 内容。\n\n支持粘贴图片！",
+    "autoSlug": "发布后 slug 由标题自动生成",
+    "errors": {
+      "imageType": "无法识别图片类型：{filename}（浏览器未给出 MIME），请另存为 PNG/JPG/WebP 后重试",
+      "uploadLink": "获取上传链接失败",
+      "imageUpload": "上传图片失败：{statusText}",
+      "titleRequired": "请输入文章标题",
+      "invalidFilename": "文件名仅支持字母、数字、连字符或下划线，并需以字母或数字开头（已自动清洗空格和特殊符号）。",
+      "editorNotReady": "编辑器尚未就绪，无法上传图片",
+      "loginRequired": "请先登录后再发布",
+      "publishFailedHttp": "发布失败（HTTP {status}）",
+      "publishFailedRetry": "发布失败，请重试",
+      "publishFailed": "发布失败：{message}",
+      "unknownError": "未知错误"
+    }
   },
   "contribute": {
     "button": "投稿",
