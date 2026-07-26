@@ -2,6 +2,7 @@
 // 登录态由客户端 SettingsForm 内部的 useAuth 处理：token 存在 localStorage，服务端无法读取，
 // 所以这里不做服务端鉴权，仅负责渲染页面壳。未登录 → 客户端 router.replace 到 /login?redirect=/settings。
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { SettingsForm } from "./SettingsForm";
@@ -30,7 +31,11 @@ export default function SettingsPage() {
             </p>
           </div>
           <SettingsForm />
-          <LinkedAccounts />
+          {/* LinkedAccounts 用 useSearchParams 读绑定回调结果（?bind=ok / ?bind_error=），
+              必须有 Suspense 边界，否则整页会被拖成动态渲染 */}
+          <Suspense fallback={null}>
+            <LinkedAccounts />
+          </Suspense>
         </div>
       </main>
       <Footer />
