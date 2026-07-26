@@ -72,7 +72,9 @@
     "github": "Sign in with GitHub",
     "discord": "Sign in with Discord",
     "errorDiscordCanary": "Discord sign-in is in limited testing and not open yet — stay tuned!",
-    "errorGeneric": "Sign-in didn't complete. Please try again."
+    "errorGeneric": "Sign-in didn't complete. Please try again.",
+    "errorOauthState": "Your sign-in session expired (took too long on the provider's page, or cookies were blocked). Please start the sign-in again.",
+    "errorOauthProvider": "This sign-in method isn't configured on the server — retrying won't help. Please contact an admin."
   },
   "settings": {
     "theme": {
