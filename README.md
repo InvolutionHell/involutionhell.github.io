@@ -21,8 +21,13 @@
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
   <img alt="Vercel" src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
   <a href="https://github.com/InvolutionHell/involutionhell/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/InvolutionHell/involutionhell?style=for-the-badge" />
+  </a>
   <a href="https://involutionhell.com/?utm_source=github&utm_medium=readme&utm_campaign=badge">
-    <img src="https://img.shields.io/badge/Website-involutionhell.com-blue?style=for-the-badge" alt="Official Website">
+    <img alt="Website" src="https://img.shields.io/badge/Website-involutionhell.com-blue?style=for-the-badge" />
+  </a>
+  <a href="https://motion.dev/">
+    <img alt="Motion Score" src="https://api.motion.dev/score/badge?url=involutionhell.com" />
   </a>
 </p>
 
@@ -129,8 +134,6 @@ pnpm dev
 <a href="https://claude.com">
   <img src="./public/claude-logo.svg" width="64" alt="Claude" />
 </a>
-
-- [Claude](https://claude.com) · [Anthropic](https://www.anthropic.com)
 
 感谢上海 AI Lab 书生大模型对本项目的算力支持！
 
