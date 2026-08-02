@@ -24,13 +24,22 @@ describe("robots", () => {
     expect(wildcard.disallow).toContain("/*/editor/");
   });
 
+  // 列全当前策略里的每一个训练型 UA：少列几个的话，从 app/robots.ts 删掉
+  // 没列到的那些测试照样绿，等于白守。新增不用同步（放宽是安全方向）。
   it("训练型爬虫整站 disallow", () => {
     for (const ua of [
       "GPTBot",
       "ClaudeBot",
+      "anthropic-ai",
       "Google-Extended",
-      "CCBot",
+      "Applebot-Extended",
+      "meta-externalagent",
+      "FacebookBot",
       "Bytespider",
+      "Amazonbot",
+      "CCBot",
+      "Omgilibot",
+      "DataForSeoBot",
     ]) {
       expect(blockedAgents).toContain(ua);
     }

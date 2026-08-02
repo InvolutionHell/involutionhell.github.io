@@ -3,17 +3,11 @@
 /**
  * @file lib/llms-txt.ts
  * @description
- * `/llms.txt` 正文生成器（llmstxt.org 约定）。
+ * `/llms.txt` 正文生成器（llmstxt.org 约定）。只出索引不出全文 —— 三百多篇
+ * 正文拼进去是几 MB，会挤爆它本来要省的上下文。
  *
- * 干什么用：AI 引擎（ChatGPT / Perplexity / Claude 等）抓站时先看这个文件，
- * 拿到一份无导航噪音的全站索引，再决定深入读哪几篇。sitemap.xml 只有 URL，
- * 模型得逐个抓才知道讲什么；llms.txt 一次给全 标题 + 描述 + 链接。
- *
- * 只做索引不做全文：站内 152 篇中文 + 152 篇英文，全文拼进去是几 MB，
- * 反而挤爆上下文。约定本身也是「索引 + 链接」。
- *
- * 纯函数，不 import `@/lib/source`（那条链会拖进 fumadocs-mdx 管线，
- * vitest 起不来）。枚举文档的活儿在 `app/llms.txt/route.ts` 里干。
+ * 不 import `@/lib/source`：那条链会拖进 fumadocs-mdx 管线，vitest 起不来。
+ * 枚举文档在 `app/llms.txt/route.ts`，这里保持纯函数。
  */
 
 export interface LlmsTxtEntry {

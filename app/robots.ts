@@ -19,20 +19,8 @@
  * sitemap 指向 app/sitemap.ts 产出的 /sitemap.xml，hostname 复用同一份
  * NEXT_PUBLIC_SITE_URL。
  *
- * AI 爬虫策略（2026-08）：按用途分开，不是一刀切。
- *
- * - **引用型**（OAI-SearchBot、ChatGPT-User、Claude-User、PerplexityBot…）：
- *   用户实时提问时才来抓，抓完在回答里附出处链接。本站要的就是被引用，
- *   所以放行 —— 走上面的 `*` 组即可，**不单独开组**。robots.txt 里 UA 专属
- *   组会整体覆盖 `*` 而不是叠加，给它们开组就得把 admin/editor 那串 disallow
- *   再抄一遍，抄漏一条就等于把后台开放给它们。少写一组反而更安全。
- *
- * - **训练型**（见 AI_TRAINING_CRAWLERS）：把正文收进训练语料，不产生任何
- *   回链。内容是 CC BY-NC-SA，整站 disallow。
- *
- * 这份策略取代了 public/robots.txt —— 那份手写文件把两类一起屏蔽，而且
- * 早就不生效了：App Router 下 app/robots.ts 才是线上实际服务的 /robots.txt，
- * 那份文件被静默遮蔽，读代码的人却会以为 AI 爬虫已经被挡住了。已删除。
+ * AI 爬虫按用途分：引用型（实时取用并附出处链接）放行，训练型（收进语料、
+ * 不给回链）整站 disallow —— 内容是 CC BY-NC-SA。
  *
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/robots
  */
@@ -55,10 +43,12 @@ const PRIVATE_PATHS = [
 ];
 
 /**
- * 训练语料型爬虫：只取内容不给回链，整站 disallow。
+ * 训练语料型爬虫，整站 disallow。
  *
- * 刻意不含 ChatGPT-User / Claude-User / OAI-SearchBot / PerplexityBot ——
- * 那几个是用户提问时实时取用并产生引用的，属于放行的一侧（见文件头）。
+ * 刻意不含 OAI-SearchBot / ChatGPT-User / Claude-User / PerplexityBot：
+ * 它们靠 `*` 组放行就够了。**不要**为它们再开一个 Allow 组 —— robots.txt 里
+ * UA 专属组整体覆盖 `*` 而不是叠加，开了就得把 PRIVATE_PATHS 再抄一遍，
+ * 抄漏一条等于把后台放给它们。
  */
 const AI_TRAINING_CRAWLERS = [
   "GPTBot", // OpenAI 训练语料

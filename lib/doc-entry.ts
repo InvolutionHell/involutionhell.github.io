@@ -3,16 +3,11 @@
 /**
  * @file lib/doc-entry.ts
  * @description
- * 文档页 → URL / 可见性的共享判定。
- *
- * 原来这两个函数是 `app/sitemap.ts` 的私有函数。`app/llms.txt/route.ts`
- * 要枚举同一批文档，如果各写一份，早晚会出现「sitemap 过滤了 draft、
- * llms.txt 没过滤」这种单边漂移 —— 草稿泄漏给 AI 引擎和泄漏给搜索引擎
- * 一样糟。抽到这里，两边共用一份，理由同 `lib/site-url.ts` 文件头。
+ * sitemap 与 llms.txt 共用的文档过滤 / URL 编码，两边必须同进同退：
+ * 只有一边过滤 draft 的话，草稿会静默泄漏给另一边的抓取方。
  *
  * 刻意不 import `@/lib/source`：那条链会把整个 fumadocs-mdx 管线拖进来，
- * vitest 没配 MDX 插件会直接 parse 失败。入参用结构化的宽类型，
- * 让本文件保持纯函数、可单测。
+ * vitest 没配 MDX 插件会直接 parse 失败。入参因此用结构化宽类型。
  */
 
 import type { PageData } from "@/app/types/doc";

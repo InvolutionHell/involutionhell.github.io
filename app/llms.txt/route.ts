@@ -3,14 +3,10 @@
 /**
  * @file app/llms.txt/route.ts
  * @description
- * `/llms.txt` 路由（llmstxt.org 约定）。AI 引擎抓站时先读它拿全站索引。
+ * `/llms.txt` 路由（llmstxt.org 约定）。
  *
- * 为什么是 route handler 而不是 public/llms.txt：文档是 MDX，会增删改，
- * 手维护一份静态索引必然过期。这里从 `source` 现枚举，和 sitemap 同源。
- *
- * force-static：内容全部来自构建期的 MDX，没有请求相关的东西，
- * 构建时产出一次即可，别让它变成每次请求现算的 dynamic 路由
- * （i18n/routing.ts 文件头记着上次全站 dynamic 把 Vercel CPU 打爆的事）。
+ * force-static 是必需的，不是优化：内容只依赖构建期的 MDX，漏了它这条路由
+ * 会退化成每次请求现枚举全站文档的 dynamic 路由。
  *
  * @see https://llmstxt.org
  */
