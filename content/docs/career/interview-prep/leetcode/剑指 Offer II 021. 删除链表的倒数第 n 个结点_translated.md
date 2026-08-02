@@ -1,5 +1,5 @@
 ---
-title: Sword finger Offer II 021. Delete the countdown of the linked list n Node.md
+title: "剑指 Offer II 021. 删除链表的倒数第 n 个结点"
 description: "LeetCode 剑指 Offer II 021. 删除链表的倒数第 n 个结点 题解 — 使用双指针（滑动窗口）与虚拟头节点技巧，快指针先走 n 步，再与慢指针同步移动直至快指针到达链表末尾，从而定位并删除倒数第 n 个结点。适合正在刷链表题型、准备算法面试或需要掌握双指针与虚拟头节点用法的读者。"
 date: "2024.01.01 0:00"
 tags:

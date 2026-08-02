@@ -1,5 +1,5 @@
 ---
-title: 146.LRU cache
+title: "146. LRU 缓存"
 description: "LeetCode 146. LRU 缓存 题解 — 使用哈希表 + 双向链表实现 O(1) 时间复杂度的 get 和 put 操作，核心技巧是维护最近最少使用顺序。适合准备面试、需要掌握 LRU 缓存机制与链表操作的算法学习者。"
 date: "2024.01.01 0:00"
 tags:

@@ -1,5 +1,5 @@
 ---
-title: 1333.Restaurant filter
+title: "1333. 餐厅过滤器"
 description: "LeetCode 1333. 餐厅过滤器 题解 — 使用列表推导式与排序优化过滤逻辑，关键技巧包括利用 sorted 与 lambda 实现多级排序（先按评分降序、再按 id 降序），适合准备算法面试、希望提升 Python 代码效率的 LeetCode 刷题者阅读。"
 date: "2024.01.01 0:00"
 tags:
