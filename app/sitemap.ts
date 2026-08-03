@@ -22,6 +22,8 @@ import leaderboard from "@/generated/site-leaderboard.json";
 import { SITE_URL } from "@/lib/site-url";
 import { routing, type Locale } from "@/i18n/routing";
 import { type PageData, type DateLike } from "@/app/types/doc";
+// 和 app/llms.txt/route.ts 共用，避免两边对 draft 过滤 / slug 编码各写一份
+import { docPathname, isDraftOrHidden } from "@/lib/doc-entry";
 
 type SourcePage = ReturnType<typeof source.getPages>[number];
 
@@ -155,8 +157,7 @@ function buildDocsEntry(
   page: SourcePage,
   locale: Locale,
 ): MetadataRoute.Sitemap[number] {
-  const slugPath = sanitizeSlugPath(page.slugs);
-  const pathname = slugPath ? `/docs/${slugPath}` : "/docs";
+  const pathname = docPathname(page.slugs);
   const fmDate = extractDateFromPage(page);
   return buildLocaleEntry({
     pathname,
@@ -193,21 +194,4 @@ function normalizeDate(value: DateLike): Date | undefined {
   }
   const d = new Date(value);
   return isNaN(d.getTime()) ? undefined : d;
-}
-
-function sanitizeSlugPath(slugs: string[]): string {
-  return slugs
-    .filter(Boolean)
-    .map((s) => encodeURIComponent(s))
-    .join("/");
-}
-
-function isDraftOrHidden(page: SourcePage): boolean {
-  const d = (page.data ?? {}) as PageData;
-  return !!(
-    d.draft ||
-    d.hidden ||
-    d.frontmatter?.draft ||
-    d.frontmatter?.hidden
-  );
 }
