@@ -1,5 +1,5 @@
 ---
-title: brief_alternate Assignment
+title: "brief_alternate 作业帮忙"
 description: 'LeetCode 题解 — 基于 pandas 的数据处理与求职面试实战题解。讲解如何使用 df["Name"] 直接提取列、idxmax() 与 max() 获取最大值索引与数值，以及 .loc 函数进行行列定位与筛选。适合正在刷 LeetCode 数据科学题、准备 AI/数据分析岗位面试的求职者与自学者。'
 date: "2024.01.01 0:00"
 tags:
